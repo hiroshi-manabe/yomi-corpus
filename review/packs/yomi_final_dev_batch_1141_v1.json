@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 6,
-      "strong_pending": 4
+      "complete": 10
     },
     "unresolved_item_count": 12,
     "unresolved_target_count": 20,
@@ -30,12 +29,12 @@
       "source_line_no": 1577182,
       "preview": "粉の違いによって、呼び名が違います。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-17T02:55:40Z",
+      "state_updated_at": "2026-09-17T03:21:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 15,
@@ -108,12 +107,12 @@
       "source_line_no": 1110933,
       "preview": "💡本能寺は、当初は「本応寺」という寺号で、応永22年（1415年）、京都油小路高辻と五条坊門の間に、日隆によって創建されたものである。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-17T02:55:40Z",
+      "state_updated_at": "2026-09-17T03:21:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -186,12 +185,12 @@
       "source_line_no": 1576938,
       "preview": "おかずとしてたべてもいいかなと。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-17T02:55:40Z",
+      "state_updated_at": "2026-09-17T03:21:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 83,
@@ -264,12 +263,12 @@
       "source_line_no": 1823442,
       "preview": "姿勢変化や体格差に合わせて調節可能なメカニズムを搭載。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-17T02:55:40Z",
+      "state_updated_at": "2026-09-17T03:21:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -33741,7 +33740,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 632,
+              "historical_count": 633,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -64921,7 +64920,7 @@
               "label": "Dictionary",
               "reading": "ぽ",
               "accepted": false,
-              "historical_count": 35,
+              "historical_count": 37,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -82537,6 +82536,25 @@
               ]
             },
             {
+              "id": "dictionary:6",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "しも",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "下",
+                  "reading": "しも"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -82569,24 +82587,6 @@
                   "type": "ruby",
                   "text": "下",
                   "reading": "くだ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "しも",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "下",
-                  "reading": "しも"
                 }
               ]
             },
@@ -83662,6 +83662,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -83694,25 +83713,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -84574,6 +84574,37 @@
               "historical_count": 0
             },
             {
+              "id": "dictionary:6",
+              "candidate_ids": [
+                "dictionary:6"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "しもがっ",
+              "tokens": [
+                [
+                  "下がっ",
+                  "シモガッ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "下",
+                  "reading": "しも"
+                },
+                {
+                  "type": "text",
+                  "text": "がっ"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -84625,36 +84656,6 @@
                   "type": "ruby",
                   "text": "下",
                   "reading": "くだ"
-                },
-                {
-                  "type": "text",
-                  "text": "がっ"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:6",
-              "candidate_ids": [
-                "dictionary:6"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "しもがっ",
-              "tokens": [
-                [
-                  "下がっ",
-                  "シモガッ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "下",
-                  "reading": "しも"
                 },
                 {
                   "type": "text",
@@ -86029,6 +86030,34 @@
               "historical_count": 238
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3",
+                "learned_repair:2"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "tokens": [
+                [
+                  "上",
+                  "カミ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ],
+              "historical_count": 2
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -86079,34 +86108,6 @@
                 }
               ],
               "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3",
-                "learned_repair:2"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "tokens": [
-                [
-                  "上",
-                  "カミ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
-                }
-              ],
-              "historical_count": 1
             },
             {
               "id": "dictionary:4",
@@ -87127,6 +87128,25 @@
               ]
             },
             {
+              "id": "dictionary:6",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "しも",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "下",
+                  "reading": "しも"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -87159,24 +87179,6 @@
                   "type": "ruby",
                   "text": "下",
                   "reading": "くだ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "しも",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "下",
-                  "reading": "しも"
                 }
               ]
             },
@@ -87886,6 +87888,37 @@
               "historical_count": 0
             },
             {
+              "id": "dictionary:6",
+              "candidate_ids": [
+                "dictionary:6"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "しもがれ",
+              "tokens": [
+                [
+                  "下がれ",
+                  "シモガレ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "下",
+                  "reading": "しも"
+                },
+                {
+                  "type": "text",
+                  "text": "がれ"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -87937,36 +87970,6 @@
                   "type": "ruby",
                   "text": "下",
                   "reading": "くだ"
-                },
-                {
-                  "type": "text",
-                  "text": "がれ"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:6",
-              "candidate_ids": [
-                "dictionary:6"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "しもがれ",
-              "tokens": [
-                [
-                  "下がれ",
-                  "シモガレ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "下",
-                  "reading": "しも"
                 },
                 {
                   "type": "text",
@@ -119984,6 +119987,25 @@
               ]
             },
             {
+              "id": "dictionary:2",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "でら",
+              "accepted": false,
+              "historical_count": 13,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "寺",
+                  "reading": "でら"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -119999,25 +120021,6 @@
                   "type": "ruby",
                   "text": "寺",
                   "reading": "じ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "でら",
-              "accepted": false,
-              "historical_count": 12,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "寺",
-                  "reading": "でら"
                 }
               ]
             },
@@ -123235,38 +123238,10 @@
               ]
             },
             {
-              "id": "dictionary:0",
-              "candidate_ids": [
-                "dictionary:0",
-                "learned_repair:0"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "じ",
-              "tokens": [
-                [
-                  "寺",
-                  "ジ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "寺",
-                  "reading": "じ"
-                }
-              ],
-              "historical_count": 12
-            },
-            {
               "id": "dictionary:2",
               "candidate_ids": [
                 "dictionary:2",
-                "learned_repair:1"
+                "learned_repair:0"
               ],
               "source": "dictionary",
               "sources": [
@@ -123286,6 +123261,34 @@
                   "type": "ruby",
                   "text": "寺",
                   "reading": "でら"
+                }
+              ],
+              "historical_count": 13
+            },
+            {
+              "id": "dictionary:0",
+              "candidate_ids": [
+                "dictionary:0",
+                "learned_repair:1"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "じ",
+              "tokens": [
+                [
+                  "寺",
+                  "ジ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "寺",
+                  "reading": "じ"
                 }
               ],
               "historical_count": 12
@@ -145321,7 +145324,7 @@
               "label": "Dictionary",
               "reading": "み",
               "accepted": false,
-              "historical_count": 3,
+              "historical_count": 4,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -146543,7 +146546,7 @@
                   "reading": "み"
                 }
               ],
-              "historical_count": 3
+              "historical_count": 4
             },
             {
               "id": "dictionary:1",
@@ -150432,7 +150435,7 @@
               "label": "Dictionary",
               "reading": "み",
               "accepted": false,
-              "historical_count": 3,
+              "historical_count": 4,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -151089,7 +151092,7 @@
                   "reading": "み"
                 }
               ],
-              "historical_count": 3
+              "historical_count": 4
             },
             {
               "id": "dictionary:1",
@@ -152902,7 +152905,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 632,
+              "historical_count": 633,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -154807,7 +154810,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 632
+              "historical_count": 633
             },
             {
               "id": "dictionary:5",
@@ -158007,7 +158010,7 @@
               "label": "Dictionary",
               "reading": "み",
               "accepted": false,
-              "historical_count": 3,
+              "historical_count": 4,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -159229,7 +159232,7 @@
                   "reading": "み"
                 }
               ],
-              "historical_count": 3
+              "historical_count": 4
             },
             {
               "id": "dictionary:1",
@@ -163114,6 +163117,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -163146,25 +163168,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -194579,6 +194582,25 @@
               ]
             },
             {
+              "id": "dictionary:6",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "しも",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "下",
+                  "reading": "しも"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -194611,24 +194633,6 @@
                   "type": "ruby",
                   "text": "下",
                   "reading": "くだ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "しも",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "下",
-                  "reading": "しも"
                 }
               ]
             },
@@ -195601,6 +195605,37 @@
               "historical_count": 0
             },
             {
+              "id": "dictionary:6",
+              "candidate_ids": [
+                "dictionary:6"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "しもがっ",
+              "tokens": [
+                [
+                  "下がっ",
+                  "シモガッ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "下",
+                  "reading": "しも"
+                },
+                {
+                  "type": "text",
+                  "text": "がっ"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -195652,36 +195687,6 @@
                   "type": "ruby",
                   "text": "下",
                   "reading": "くだ"
-                },
-                {
-                  "type": "text",
-                  "text": "がっ"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:6",
-              "candidate_ids": [
-                "dictionary:6"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "しもがっ",
-              "tokens": [
-                [
-                  "下がっ",
-                  "シモガッ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "下",
-                  "reading": "しも"
                 },
                 {
                   "type": "text",
@@ -203829,6 +203834,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -203861,25 +203885,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -204458,6 +204463,41 @@
               "historical_count": 0
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "できかみがり",
+              "tokens": [
+                [
+                  "でき上がり",
+                  "デキカミガリ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "でき"
+                },
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                },
+                {
+                  "type": "text",
+                  "text": "がり"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -204517,41 +204557,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                },
-                {
-                  "type": "text",
-                  "text": "がり"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "できかみがり",
-              "tokens": [
-                [
-                  "でき上がり",
-                  "デキカミガリ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "でき"
-                },
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 },
                 {
                   "type": "text",
@@ -212829,6 +212834,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -212861,25 +212885,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -213590,6 +213595,34 @@
               "historical_count": 238
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3",
+                "learned_repair:2"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "tokens": [
+                [
+                  "上",
+                  "カミ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ],
+              "historical_count": 2
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -213640,34 +213673,6 @@
                 }
               ],
               "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3",
-                "learned_repair:2"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "tokens": [
-                [
-                  "上",
-                  "カミ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
-                }
-              ],
-              "historical_count": 1
             },
             {
               "id": "dictionary:4",
@@ -247667,6 +247672,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -247699,25 +247723,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -248296,6 +248301,41 @@
               "historical_count": 0
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "できかみがり",
+              "tokens": [
+                [
+                  "でき上がり",
+                  "デキカミガリ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "でき"
+                },
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                },
+                {
+                  "type": "text",
+                  "text": "がり"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -248355,41 +248395,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                },
-                {
-                  "type": "text",
-                  "text": "がり"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "できかみがり",
-              "tokens": [
-                [
-                  "でき上がり",
-                  "デキカミガリ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "でき"
-                },
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 },
                 {
                   "type": "text",
@@ -265598,6 +265603,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -265630,25 +265654,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -266604,6 +266609,34 @@
               "historical_count": 238
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3",
+                "learned_repair:2"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "tokens": [
+                [
+                  "上",
+                  "カミ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ],
+              "historical_count": 2
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -266654,34 +266687,6 @@
                 }
               ],
               "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3",
-                "learned_repair:2"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "tokens": [
-                [
-                  "上",
-                  "カミ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
-                }
-              ],
-              "historical_count": 1
             },
             {
               "id": "dictionary:4",
@@ -280545,6 +280550,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -280577,25 +280601,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -281766,6 +281771,41 @@
               "historical_count": 0
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "できかみがり",
+              "tokens": [
+                [
+                  "でき上がり",
+                  "デキカミガリ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "でき"
+                },
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                },
+                {
+                  "type": "text",
+                  "text": "がり"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -281825,41 +281865,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                },
-                {
-                  "type": "text",
-                  "text": "がり"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "できかみがり",
-              "tokens": [
-                [
-                  "でき上がり",
-                  "デキカミガリ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "でき"
-                },
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 },
                 {
                   "type": "text",
@@ -285025,6 +285030,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -285057,25 +285081,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -285893,6 +285898,41 @@
               "historical_count": 0
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "できかみがり",
+              "tokens": [
+                [
+                  "でき上がり",
+                  "デキカミガリ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "でき"
+                },
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                },
+                {
+                  "type": "text",
+                  "text": "がり"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -285952,41 +285992,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                },
-                {
-                  "type": "text",
-                  "text": "がり"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "できかみがり",
-              "tokens": [
-                [
-                  "でき上がり",
-                  "デキカミガリ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "でき"
-                },
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 },
                 {
                   "type": "text",
@@ -326946,6 +326951,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "ぷん",
+              "accepted": false,
+              "historical_count": 296,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "分",
+                  "reading": "ぷん"
+                }
+              ]
+            },
+            {
               "id": "dictionary:2",
               "source": "dictionary",
               "sources": [
@@ -326961,25 +326985,6 @@
                   "type": "ruby",
                   "text": "分",
                   "reading": "ぶん"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "ぷん",
-              "accepted": false,
-              "historical_count": 295,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "分",
-                  "reading": "ぷん"
                 }
               ]
             },
@@ -327439,6 +327444,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "corpus_frequency",
               "source": "corpus_frequency",
               "sources": [
@@ -327489,25 +327513,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -328206,34 +328211,6 @@
               ]
             },
             {
-              "id": "dictionary:2",
-              "candidate_ids": [
-                "dictionary:2",
-                "learned_repair:3"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "ぶん",
-              "tokens": [
-                [
-                  "分",
-                  "ブン"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "分",
-                  "reading": "ぶん"
-                }
-              ],
-              "historical_count": 295
-            },
-            {
               "id": "dictionary:3",
               "candidate_ids": [
                 "dictionary:3",
@@ -328257,6 +328234,34 @@
                   "type": "ruby",
                   "text": "分",
                   "reading": "ぷん"
+                }
+              ],
+              "historical_count": 296
+            },
+            {
+              "id": "dictionary:2",
+              "candidate_ids": [
+                "dictionary:2",
+                "learned_repair:3"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "ぶん",
+              "tokens": [
+                [
+                  "分",
+                  "ブン"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "分",
+                  "reading": "ぶん"
                 }
               ],
               "historical_count": 295
@@ -329975,7 +329980,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 632,
+              "historical_count": 633,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -330672,7 +330677,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 632
+              "historical_count": 633
             },
             {
               "id": "dictionary:5",
@@ -339717,6 +339722,25 @@
               ]
             },
             {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -339749,25 +339773,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "うわ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
                 }
               ]
             },
@@ -340569,6 +340574,34 @@
               "historical_count": 238
             },
             {
+              "id": "dictionary:3",
+              "candidate_ids": [
+                "dictionary:3",
+                "learned_repair:2"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "かみ",
+              "tokens": [
+                [
+                  "上",
+                  "カミ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "かみ"
+                }
+              ],
+              "historical_count": 2
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -340619,34 +340652,6 @@
                 }
               ],
               "historical_count": 0
-            },
-            {
-              "id": "dictionary:3",
-              "candidate_ids": [
-                "dictionary:3",
-                "learned_repair:2"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary",
-                "learned_repair"
-              ],
-              "label": "Dictionary",
-              "reading": "かみ",
-              "tokens": [
-                [
-                  "上",
-                  "カミ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "かみ"
-                }
-              ],
-              "historical_count": 1
             },
             {
               "id": "dictionary:4",
@@ -354535,7 +354540,7 @@
               "label": "Dictionary",
               "reading": "ぽん",
               "accepted": false,
-              "historical_count": 117,
+              "historical_count": 118,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -359570,7 +359575,7 @@
                   "reading": "ぽん"
                 }
               ],
-              "historical_count": 117
+              "historical_count": 118
             },
             {
               "id": "dictionary:3",
