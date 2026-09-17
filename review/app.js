@@ -2247,10 +2247,41 @@ function expandedKanaSpelling(surface) {
 }
 
 function validKanaSpellingReading(surface, reading) {
+  if (!/^[ァ-ヺー]+$/u.test(reading) || /[\r\n]/u.test(reading)) return false;
   const expanded = expandedKanaSpelling(surface);
-  if (expanded === null) return false;
-  const pattern = [...expanded].map((char) => ({ "ヰ": "[ヰイ]", "ヱ": "[ヱエ]", "ヲ": "[ヲオ]" }[char] || char)).join("");
+  let pattern;
+  if (expanded === null) {
+    const patterns = [];
+    let kanaSeen = false;
+    for (const part of surface.split(/([^ぁ-ゖァ-ヺーゝゞヽヾ〜～]+)/u).filter(Boolean)) {
+      const kana = expandedKanaSpelling(part);
+      if (kana !== null) {
+        patterns.push(kanaReadingPattern(kana));
+        kanaSeen = true;
+      } else if (/^[\p{P}\p{S}\p{Z}]+$/u.test(part)) {
+        patterns.push(".*");
+      } else return false;
+    }
+    if (!kanaSeen) return false;
+    pattern = patterns.join("");
+  } else pattern = kanaReadingPattern(expanded);
   return new RegExp(`^(?:${pattern})$`, "u").test(reading) && !/[\r\n]/u.test(reading);
+}
+
+function kanaReadingPattern(expanded) {
+  const equivalents = { "ヰ": "[ヰイィ]", "ヱ": "[ヱエェ]", "ヲ": "[ヲオォ]", "ヴ": "[ヴブ]" };
+  for (const pair of ["ァア", "ィイ", "ゥウ", "ェエ", "ォオ", "ャヤ", "ュユ", "ョヨ", "ッツ", "ヵカ", "ヶケ"]) {
+    for (const char of pair) equivalents[char] = `[${pair}]`;
+  }
+  let pattern = "";
+  for (let i = 0; i < expanded.length; i++) {
+    const char = expanded[i];
+    const voiced = { "ァ": "バ", "ア": "バ", "ィ": "ビ", "イ": "ビ", "ェ": "ベ", "エ": "ベ", "ォ": "ボ", "オ": "ボ" }[expanded[i + 1]];
+    if (char === "ヴ" && voiced) {
+      pattern += `(?:ヴ${equivalents[expanded[++i]]}|${voiced})`;
+    } else pattern += equivalents[char] || char;
+  }
+  return pattern;
 }
 
 function defaultNonlexicalReading(surface) {
