@@ -1,0 +1,5280 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1151_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1151",
+  "created_at_epoch": 1789698204,
+  "created_at": "2026-09-18T02:23:24Z",
+  "item_count": 9,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 9,
+    "queued_repair_row_count": 9,
+    "result_row_count": 9,
+    "reviewable_repair_row_count": 9,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000722345",
+      "doc_seq": 1,
+      "track_doc_seq": 2981,
+      "unit_count": 2,
+      "source_file": "ja/ja_cc/level2/0074.jsonl.gz",
+      "source_line_no": 722345,
+      "preview": "最後の お客さん 帰りました〜本日の売上 ざっと 700万くらいかな月2億位なので本日は平均売上かな さぁーこれから このチャットのどうでも良い ウンチクを拝見しながら 飯でも食うかな…←これが一番どうでもいい『漢字源』によると、「柿」は9画、「こけら」は8画の漢字。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 2,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000541530",
+      "doc_seq": 2,
+      "track_doc_seq": 2982,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0059.jsonl.gz",
+      "source_line_no": 541530,
+      "preview": "どんだけ、寝相が悪いのでしょうか。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000057989",
+      "doc_seq": 3,
+      "track_doc_seq": 2983,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0006.jsonl.gz",
+      "source_line_no": 57989,
+      "preview": "1キロって少ないわねえ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000233791",
+      "doc_seq": 4,
+      "track_doc_seq": 2984,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0024.jsonl.gz",
+      "source_line_no": 233791,
+      "preview": "舟足上昇した山田[4]が得意のカドからスタート決めてまくり差す。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001594557",
+      "doc_seq": 5,
+      "track_doc_seq": 2985,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0198.jsonl.gz",
+      "source_line_no": 1594557,
+      "preview": "四季折々に様々な表情があり、春には桜、菜の花が咲き、初夏には新緑が輝き、アジサイも楽しめます。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002367687",
+      "doc_seq": 6,
+      "track_doc_seq": 2986,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0349.jsonl.gz",
+      "source_line_no": 2367687,
+      "preview": "キレイめにすることもできるのでアレンジも楽しいですよね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001900773",
+      "doc_seq": 7,
+      "track_doc_seq": 2987,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0244.jsonl.gz",
+      "source_line_no": 1900773,
+      "preview": "アメッコ市にお越しの際はぜひ大館駅前まで！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_count": 48,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "preview": "7/21、大阪樟蔭女子大付属幼稚園に行ってきました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 7,
+      "region_count": 7,
+      "unresolved_count": 7,
+      "from_seq": 2,
+      "to_seq": 8,
+      "reviewed_unit_count": 48,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 7
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001473710",
+      "doc_seq": 9,
+      "track_doc_seq": 2989,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0176.jsonl.gz",
+      "source_line_no": 1473710,
+      "preview": "第27回日経ニューオフィス賞の応募は、締切りました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002148171",
+      "doc_seq": 10,
+      "track_doc_seq": 2990,
+      "unit_count": 54,
+      "source_file": "ja/ja_cc/level2/0296.jsonl.gz",
+      "source_line_no": 2148171,
+      "preview": "あけましておめでとうございます。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-16T07:20:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 9,
+      "to_seq": 9,
+      "reviewed_unit_count": 54,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001594557",
+      "doc_seq": 5,
+      "track_doc_seq": 2985,
+      "unit_id": "ja_cc_level2_corrected_v1:0001594557:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0198.jsonl.gz",
+      "source_line_no": 1594557,
+      "text": "日本三大荒海の一つである日向灘で生まれ育ったアカムツ(のどぐろ)などを詰め合わせた高級魚のセットです。",
+      "rendered_yomi_before": "日本/ニホン 三/サン 大荒/タイコウ 海/カイ の/ノ 一/ヒト つ/ツ で/デ ある/アル 日向灘/ヒュウガナダ で/デ 生まれ育っ/ウマレソダッ た/タ アカ/アカ ムツ/ムツ (/( のどぐろ/ノドグロ )/) など/ナド を/ヲ 詰め合わせ/ツメアワセ た/タ 高級/コウキュウ 魚/ギョ の/ノ セット/セット です/デス 。/。",
+      "rendered_yomi_after": "日本/ニホン 三/サン 大/ダイ 荒海/アラウミ の/ノ 一/ヒト つ/ツ で/デ ある/アル 日向灘/ヒュウガナダ で/デ 生まれ育っ/ウマレソダッ た/タ アカ/アカ ムツ/ムツ (/( のどぐろ/ノドグロ )/) など/ナド を/ヲ 詰め合わせ/ツメアワセ た/タ 高級/コウキュウ 魚/ギョ の/ノ セット/セット です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "日本",
+          "ニホン"
+        ],
+        [
+          "三",
+          "サン"
+        ],
+        [
+          "大",
+          "ダイ"
+        ],
+        [
+          "荒海",
+          "アラウミ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "一",
+          "ヒト"
+        ],
+        [
+          "つ",
+          "ツ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "日向灘",
+          "ヒュウガナダ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "生まれ育っ",
+          "ウマレソダッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "アカ",
+          "アカ"
+        ],
+        [
+          "ムツ",
+          "ムツ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "のどぐろ",
+          "ノドグロ"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "詰め合わせ",
+          "ツメアワセ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "高級",
+          "コウキュウ"
+        ],
+        [
+          "魚",
+          "ギョ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "セット",
+          "セット"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "日本",
+          "reading": "ニホン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本",
+              "reading": "にほん"
+            }
+          ]
+        },
+        {
+          "surface": "三",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三",
+              "reading": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "大",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "荒海",
+          "reading": "アラウミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "荒海",
+              "reading": "あらうみ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "一",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "つ",
+          "reading": "ツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "日向灘",
+          "reading": "ヒュウガナダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日向灘",
+              "reading": "ひゅうがなだ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "生まれ育っ",
+          "reading": "ウマレソダッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "生",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "まれ"
+            },
+            {
+              "type": "ruby",
+              "text": "育",
+              "reading": "そだ"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "アカ",
+          "reading": "アカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アカ"
+            }
+          ]
+        },
+        {
+          "surface": "ムツ",
+          "reading": "ムツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ムツ"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "のどぐろ",
+          "reading": "ノドグロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "のどぐろ"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "詰め合わせ",
+          "reading": "ツメアワセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "詰",
+              "reading": "つ"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            },
+            {
+              "type": "ruby",
+              "text": "合",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "わせ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "高級",
+          "reading": "コウキュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高級",
+              "reading": "こうきゅう"
+            }
+          ]
+        },
+        {
+          "surface": "魚",
+          "reading": "ギョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "魚",
+              "reading": "ぎょ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "セット",
+          "reading": "セット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "セット"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001594557:u0006",
+          "text": "日本三大荒海の一つである日向灘で生まれ育ったアカムツ(のどぐろ)などを詰め合わせた高級魚のセットです。",
+          "rendered_yomi_before": "日本/ニホン 三/サン 大荒/タイコウ 海/カイ の/ノ 一/ヒト つ/ツ で/デ ある/アル 日向灘/ヒュウガナダ で/デ 生まれ育っ/ウマレソダッ た/タ アカ/アカ ムツ/ムツ (/( のどぐろ/ノドグロ )/) など/ナド を/ヲ 詰め合わせ/ツメアワセ た/タ 高級/コウキュウ 魚/ギョ の/ノ セット/セット です/デス 。/。",
+          "rendered_yomi_after": "日本/ニホン 三/サン 大/ダイ 荒海/アラウミ の/ノ 一/ヒト つ/ツ で/デ ある/アル 日向灘/ヒュウガナダ で/デ 生まれ育っ/ウマレソダッ た/タ アカ/アカ ムツ/ムツ (/( のどぐろ/ノドグロ )/) など/ナド を/ヲ 詰め合わせ/ツメアワセ た/タ 高級/コウキュウ 魚/ギョ の/ノ セット/セット です/デス 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 4,
+            "char_start": 3,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大荒",
+              "token_surface": "大荒",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たいこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大荒",
+                  "reading": "たいこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "海",
+              "token_surface": "海",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "海",
+                  "reading": "かい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大荒",
+              "token_surface": "大荒",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たいこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大荒",
+                  "reading": "たいこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "海",
+              "token_surface": "海",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "海",
+                  "reading": "かい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "大荒海",
+          "reading_candidates": {
+            "大": [
+              "おお",
+              "だい",
+              "おおき",
+              "しん",
+              "たい",
+              "たけし",
+              "だ",
+              "とも",
+              "はじめ",
+              "ひろ",
+              "ひろし",
+              "ふとし",
+              "まさる",
+              "ゆたか"
+            ],
+            "大荒": [
+              "おおあら",
+              "たいこう"
+            ],
+            "荒": [
+              "あら",
+              "あれ",
+              "こう"
+            ],
+            "荒海": [
+              "あらうみ"
+            ],
+            "海": [
+              "うみ",
+              "かい"
+            ]
+          },
+          "reading_hints": {
+            "大": "おお",
+            "大荒": "おおあら",
+            "荒": "あら",
+            "荒海": "あらうみ",
+            "海": "うみ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "大荒",
+              "reading": "たいこう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "海",
+              "reading": "かい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"大\",\n    \"reading\": \"ダイ\",\n    \"used_web_search\": true,\n    \"comment\": \"「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"荒海\",\n    \"reading\": \"アラウミ\",\n    \"used_web_search\": true,\n    \"comment\": \"辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))",
+              "reading": "ダイ",
+              "surface": "大",
+              "used_web_search": true
+            },
+            {
+              "comment": "辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))",
+              "reading": "アラウミ",
+              "surface": "荒海",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))",
+            "辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "大荒海",
+            "replacement": [
+              {
+                "surface": "大",
+                "reading": "ダイ"
+              },
+              {
+                "surface": "荒海",
+                "reading": "アラウミ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+                "surface": "大荒海",
+                "comment": "「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+                "surface": "大荒海",
+                "comment": "辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "大荒海",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006:s0004-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "大荒",
+          "token_surface": "大荒",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "たいこう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "大荒",
+              "reading": "たいこう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "海",
+          "token_surface": "海",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "海",
+              "reading": "かい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "大荒",
+          "reading": "たいこう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "海",
+          "reading": "かい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "大": [
+          "おお",
+          "だい",
+          "おおき",
+          "しん",
+          "たい",
+          "たけし",
+          "だ",
+          "とも",
+          "はじめ",
+          "ひろ",
+          "ひろし",
+          "ふとし",
+          "まさる",
+          "ゆたか"
+        ],
+        "大荒": [
+          "おおあら",
+          "たいこう"
+        ],
+        "荒": [
+          "あら",
+          "あれ",
+          "こう"
+        ],
+        "荒海": [
+          "あらうみ"
+        ],
+        "海": [
+          "うみ",
+          "かい"
+        ]
+      },
+      "reading_hints": {
+        "大": "おお",
+        "大荒": "おおあら",
+        "荒": "あら",
+        "荒海": "あらうみ",
+        "海": "うみ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))",
+          "reading": "ダイ",
+          "surface": "大",
+          "used_web_search": true
+        },
+        {
+          "comment": "辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))",
+          "reading": "アラウミ",
+          "surface": "荒海",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"大\",\n    \"reading\": \"ダイ\",\n    \"used_web_search\": true,\n    \"comment\": \"「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"荒海\",\n    \"reading\": \"アラウミ\",\n    \"used_web_search\": true,\n    \"comment\": \"辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))\"\n  }\n]",
+      "llm_comments": [
+        "「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))",
+        "辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "大荒海",
+        "replacement": [
+          {
+            "surface": "大",
+            "reading": "ダイ"
+          },
+          {
+            "surface": "荒海",
+            "reading": "アラウミ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+            "surface": "大荒海",
+            "comment": "「三大」の「大」は接頭的に「ダイ」と読むのが自然で、後ろの「荒海」と分ける。([freshbrand.jp](https://www.freshbrand.jp/brands/miyazakikinfugu/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001594557:u0006::target_group:1",
+            "surface": "大荒海",
+            "comment": "辞書見出しで「荒海」は「あらうみ」と確認できるため。([kotobank.jp](https://kotobank.jp/word/%E8%8D%92%E6%B5%B7-427803?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0015",
+      "unit_seq": 15,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "text": "目砂掛けをお願いしてきました。",
+      "rendered_yomi_before": "目/メ 砂/スナ 掛け/カケ を/ヲ お/オ 願い/ネガイ し/シ て/テ き/キ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "目砂/メスナ 掛け/カケ を/ヲ お/オ 願い/ネガイ し/シ て/テ き/キ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "目砂",
+          "メスナ"
+        ],
+        [
+          "掛け",
+          "カケ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "願い",
+          "ネガイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "き",
+          "キ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "目砂",
+          "reading": "メスナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目砂",
+              "reading": "めすな"
+            }
+          ]
+        },
+        {
+          "surface": "掛け",
+          "reading": "カケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "掛",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "け"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "願い",
+          "reading": "ネガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "願",
+              "reading": "ねが"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "き",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001319229:u0015::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0015",
+          "text": "目砂掛けをお願いしてきました。",
+          "rendered_yomi_before": "目/メ 砂/スナ 掛け/カケ を/ヲ お/オ 願い/ネガイ し/シ て/テ き/キ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "目砂/メスナ 掛け/カケ を/ヲ お/オ 願い/ネガイ し/シ て/テ き/キ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "目砂",
+          "reading_candidates": {
+            "目": [
+              "め",
+              "もく",
+              "さがん",
+              "さっか"
+            ],
+            "砂": [
+              "ずな",
+              "いさご",
+              "さ",
+              "しゃ",
+              "すな"
+            ]
+          },
+          "reading_hints": {
+            "目": "め",
+            "砂": "ずな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":true,\"comment\":\"芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))",
+              "reading": "メスナ",
+              "surface": "目砂",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015::target_group:1",
+            "status": "applied",
+            "rejected_span": "目砂",
+            "replacement": [
+              {
+                "surface": "目砂",
+                "reading": "メスナ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0015::target_group:1",
+                "surface": "目砂",
+                "comment": "芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "目砂",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "目",
+          "token_surface": "目",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "め",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "砂",
+          "token_surface": "砂",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "目",
+          "reading": "め",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "砂",
+          "reading": "すな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "目": [
+          "め",
+          "もく",
+          "さがん",
+          "さっか"
+        ],
+        "砂": [
+          "ずな",
+          "いさご",
+          "さ",
+          "しゃ",
+          "すな"
+        ]
+      },
+      "reading_hints": {
+        "目": "め",
+        "砂": "ずな"
+      },
+      "llm_parsed": [
+        {
+          "comment": "芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))",
+          "reading": "メスナ",
+          "surface": "目砂",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":true,\"comment\":\"芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001319229:u0015::target_group:1",
+        "status": "applied",
+        "rejected_span": "目砂",
+        "replacement": [
+          {
+            "surface": "目砂",
+            "reading": "メスナ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0015::target_group:1",
+            "surface": "目砂",
+            "comment": "芝生管理の用語では「目砂（めすな）」と表記されるため、ここは一語で「めすな」と読むのが自然です。([grworks.co.jp](https://grworks.co.jp/qa/post-13553/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0024",
+      "unit_seq": 24,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "text": "投てき板前のようすです。",
+      "rendered_yomi_before": "投てき/トウテキ 板前/イタマエ の/ノ ようす/ヨウス です/デス 。/。",
+      "rendered_yomi_after": "投てき板/トウテキバン 前/マエ の/ノ ようす/ヨウス です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "投てき板",
+          "トウテキバン"
+        ],
+        [
+          "前",
+          "マエ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ようす",
+          "ヨウス"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "投てき板",
+          "reading": "トウテキバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投",
+              "reading": "とう"
+            },
+            {
+              "type": "text",
+              "text": "てき"
+            },
+            {
+              "type": "ruby",
+              "text": "板",
+              "reading": "ばん"
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ようす",
+          "reading": "ヨウス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ようす"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0024",
+          "text": "投てき板前のようすです。",
+          "rendered_yomi_before": "投てき/トウテキ 板前/イタマエ の/ノ ようす/ヨウス です/デス 。/。",
+          "rendered_yomi_after": "投てき板/トウテキバン 前/マエ の/ノ ようす/ヨウス です/デス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 5,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024:s0001-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "投てき",
+              "token_surface": "投てき",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうてき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "投てき",
+                  "reading": "とうてき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "板前",
+              "token_surface": "板前",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いたまえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "板前",
+                  "reading": "いたまえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024:s0001-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "投てき",
+              "token_surface": "投てき",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうてき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "投てき",
+                  "reading": "とうてき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "板前",
+              "token_surface": "板前",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いたまえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "板前",
+                  "reading": "いたまえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "投てき板前",
+          "reading_candidates": {
+            "投": [
+              "とう",
+              "なげ"
+            ],
+            "投てき": [
+              "とうてき"
+            ],
+            "板": [
+              "ばん",
+              "いた",
+              "はん"
+            ],
+            "板前": [
+              "いたまえ"
+            ],
+            "前": [
+              "まえ",
+              "ぜん"
+            ]
+          },
+          "reading_hints": {
+            "投": "とう",
+            "投てき": "とうてき",
+            "板": "ばん",
+            "板前": "いたまえ",
+            "前": "まえ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "投てき",
+              "reading": "とうてき",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "板前",
+              "reading": "いたまえ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"投てき板\",\n    \"reading\": \"とうてきばん\",\n    \"used_web_search\": true,\n    \"comment\": \"学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。\"\n  },\n  {\n    \"surface\": \"前\",\n    \"reading\": \"まえ\",\n    \"used_web_search\": true,\n    \"comment\": \"場所を表す後続語なので「まえ」と読むのが自然です。\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。",
+              "reading": "とうてきばん",
+              "surface": "投てき板",
+              "used_web_search": true
+            },
+            {
+              "comment": "場所を表す後続語なので「まえ」と読むのが自然です。",
+              "reading": "まえ",
+              "surface": "前",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。",
+            "場所を表す後続語なので「まえ」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+            "status": "applied",
+            "rejected_span": "投てき板前",
+            "replacement": [
+              {
+                "surface": "投てき板",
+                "reading": "トウテキバン"
+              },
+              {
+                "surface": "前",
+                "reading": "マエ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+                "surface": "投てき板前",
+                "comment": "学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+                "surface": "投てき板前",
+                "comment": "場所を表す後続語なので「まえ」と読むのが自然です。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "投てき板前",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024:s0001-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "投てき",
+          "token_surface": "投てき",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とうてき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "投てき",
+              "reading": "とうてき",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024:s0004-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "板前",
+          "token_surface": "板前",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いたまえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "板前",
+              "reading": "いたまえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "投てき",
+          "reading": "とうてき",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "板前",
+          "reading": "いたまえ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "投": [
+          "とう",
+          "なげ"
+        ],
+        "投てき": [
+          "とうてき"
+        ],
+        "板": [
+          "ばん",
+          "いた",
+          "はん"
+        ],
+        "板前": [
+          "いたまえ"
+        ],
+        "前": [
+          "まえ",
+          "ぜん"
+        ]
+      },
+      "reading_hints": {
+        "投": "とう",
+        "投てき": "とうてき",
+        "板": "ばん",
+        "板前": "いたまえ",
+        "前": "まえ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。",
+          "reading": "とうてきばん",
+          "surface": "投てき板",
+          "used_web_search": true
+        },
+        {
+          "comment": "場所を表す後続語なので「まえ」と読むのが自然です。",
+          "reading": "まえ",
+          "surface": "前",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"投てき板\",\n    \"reading\": \"とうてきばん\",\n    \"used_web_search\": true,\n    \"comment\": \"学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。\"\n  },\n  {\n    \"surface\": \"前\",\n    \"reading\": \"まえ\",\n    \"used_web_search\": true,\n    \"comment\": \"場所を表す後続語なので「まえ」と読むのが自然です。\"\n  }\n]",
+      "llm_comments": [
+        "学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。",
+        "場所を表す後続語なので「まえ」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+        "status": "applied",
+        "rejected_span": "投てき板前",
+        "replacement": [
+          {
+            "surface": "投てき板",
+            "reading": "トウテキバン"
+          },
+          {
+            "surface": "前",
+            "reading": "マエ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+            "surface": "投てき板前",
+            "comment": "学校文書で「投てき板前」が集合場所として使われており、ここは「投てき板」を一語で読むのが自然です。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0024::target_group:1",
+            "surface": "投てき板前",
+            "comment": "場所を表す後続語なので「まえ」と読むのが自然です。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0027",
+      "unit_seq": 27,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "text": "7/3、港島小学校でコアリングに続き、目砂作業を行いました。",
+      "rendered_yomi_before": "7/ /// 3/ 、/、 港島/ミナトジマ 小学校/ショウガッコウ で/デ コア/コア リング/リング に/ニ 続き/ツヅキ 、/、 目/メ 砂/スナ 作業/サギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "7/ \\//\\/ 3/ 、/、 港島/ミナトジマ 小学校/ショウガッコウ で/デ コア/コア リング/リング に/ニ 続き/ツヅキ 、/、 目砂/メスナ 作業/サギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "7",
+          ""
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "港島",
+          "ミナトジマ"
+        ],
+        [
+          "小学校",
+          "ショウガッコウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "コア",
+          "コア"
+        ],
+        [
+          "リング",
+          "リング"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "続き",
+          "ツヅキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "目砂",
+          "メスナ"
+        ],
+        [
+          "作業",
+          "サギョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "行い",
+          "オコナイ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "7",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "7"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "港島",
+          "reading": "ミナトジマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "港島",
+              "reading": "みなとじま"
+            }
+          ]
+        },
+        {
+          "surface": "小学校",
+          "reading": "ショウガッコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小学校",
+              "reading": "しょうがっこう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "コア",
+          "reading": "コア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コア"
+            }
+          ]
+        },
+        {
+          "surface": "リング",
+          "reading": "リング",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "リング"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "続き",
+          "reading": "ツヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続",
+              "reading": "つづ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "目砂",
+          "reading": "メスナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目砂",
+              "reading": "めすな"
+            }
+          ]
+        },
+        {
+          "surface": "作業",
+          "reading": "サギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作業",
+              "reading": "さぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "行い",
+          "reading": "オコナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001319229:u0027::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0027",
+          "text": "7/3、港島小学校でコアリングに続き、目砂作業を行いました。",
+          "rendered_yomi_before": "7/ /// 3/ 、/、 港島/ミナトジマ 小学校/ショウガッコウ で/デ コア/コア リング/リング に/ニ 続き/ツヅキ 、/、 目/メ 砂/スナ 作業/サギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "7/ \\//\\/ 3/ 、/、 港島/ミナトジマ 小学校/ショウガッコウ で/デ コア/コア リング/リング に/ニ 続き/ツヅキ 、/、 目砂/メスナ 作業/サギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 12,
+            "end": 13,
+            "char_start": 19,
+            "char_end": 21,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "目砂",
+          "reading_candidates": {
+            "目": [
+              "め",
+              "もく",
+              "さがん",
+              "さっか"
+            ],
+            "砂": [
+              "ずな",
+              "いさご",
+              "さ",
+              "しゃ",
+              "すな"
+            ]
+          },
+          "reading_hints": {
+            "目": "め",
+            "砂": "ずな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"めすな\",\"used_web_search\":false,\"comment\":\"芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。",
+              "reading": "めすな",
+              "surface": "目砂",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027::target_group:1",
+            "status": "applied",
+            "rejected_span": "目砂",
+            "replacement": [
+              {
+                "surface": "目砂",
+                "reading": "メスナ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0027::target_group:1",
+                "surface": "目砂",
+                "comment": "芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "目砂",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027:s0020-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "目",
+          "token_surface": "目",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "め",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "砂",
+          "token_surface": "砂",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "目",
+          "reading": "め",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "砂",
+          "reading": "すな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "目": [
+          "め",
+          "もく",
+          "さがん",
+          "さっか"
+        ],
+        "砂": [
+          "ずな",
+          "いさご",
+          "さ",
+          "しゃ",
+          "すな"
+        ]
+      },
+      "reading_hints": {
+        "目": "め",
+        "砂": "ずな"
+      },
+      "llm_parsed": [
+        {
+          "comment": "芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。",
+          "reading": "めすな",
+          "surface": "目砂",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"めすな\",\"used_web_search\":false,\"comment\":\"芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。\"}]",
+      "llm_comments": [
+        "芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001319229:u0027::target_group:1",
+        "status": "applied",
+        "rejected_span": "目砂",
+        "replacement": [
+          {
+            "surface": "目砂",
+            "reading": "メスナ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0027::target_group:1",
+            "surface": "目砂",
+            "comment": "芝生やグラウンド整備で使う用語で、通常は「めすな」と一語で読むため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0028",
+      "unit_seq": 28,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "text": "目砂作業は２年ぶりになります。",
+      "rendered_yomi_before": "目/メ 砂/スナ 作業/サギョウ は/ハ ２/ 年/ネン ぶり/ブリ に/ニ なり/ナリ ます/マス 。/。",
+      "rendered_yomi_after": "目砂/メズナ 作業/サギョウ は/ハ ２/ 年/ネン ぶり/ブリ に/ニ なり/ナリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "目砂",
+          "メズナ"
+        ],
+        [
+          "作業",
+          "サギョウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "２",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "ぶり",
+          "ブリ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なり",
+          "ナリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "目砂",
+          "reading": "メズナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目砂",
+              "reading": "めずな"
+            }
+          ]
+        },
+        {
+          "surface": "作業",
+          "reading": "サギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作業",
+              "reading": "さぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "２",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "ぶり",
+          "reading": "ブリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ぶり"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なり",
+          "reading": "ナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001319229:u0028::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0028",
+          "text": "目砂作業は２年ぶりになります。",
+          "rendered_yomi_before": "目/メ 砂/スナ 作業/サギョウ は/ハ ２/ 年/ネン ぶり/ブリ に/ニ なり/ナリ ます/マス 。/。",
+          "rendered_yomi_after": "目砂/メズナ 作業/サギョウ は/ハ ２/ 年/ネン ぶり/ブリ に/ニ なり/ナリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "目砂",
+          "reading_candidates": {
+            "目": [
+              "め",
+              "もく",
+              "さがん",
+              "さっか"
+            ],
+            "砂": [
+              "ずな",
+              "いさご",
+              "さ",
+              "しゃ",
+              "すな"
+            ]
+          },
+          "reading_hints": {
+            "目": "め",
+            "砂": "ずな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メズナ\",\"used_web_search\":true,\"comment\":\"造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))",
+              "reading": "メズナ",
+              "surface": "目砂",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028::target_group:1",
+            "status": "applied",
+            "rejected_span": "目砂",
+            "replacement": [
+              {
+                "surface": "目砂",
+                "reading": "メズナ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0028::target_group:1",
+                "surface": "目砂",
+                "comment": "造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "目砂",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "目",
+          "token_surface": "目",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "め",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "砂",
+          "token_surface": "砂",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "目",
+          "reading": "め",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "砂",
+          "reading": "すな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "目": [
+          "め",
+          "もく",
+          "さがん",
+          "さっか"
+        ],
+        "砂": [
+          "ずな",
+          "いさご",
+          "さ",
+          "しゃ",
+          "すな"
+        ]
+      },
+      "reading_hints": {
+        "目": "め",
+        "砂": "ずな"
+      },
+      "llm_parsed": [
+        {
+          "comment": "造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))",
+          "reading": "メズナ",
+          "surface": "目砂",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メズナ\",\"used_web_search\":true,\"comment\":\"造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))\"}]",
+      "llm_comments": [
+        "造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001319229:u0028::target_group:1",
+        "status": "applied",
+        "rejected_span": "目砂",
+        "replacement": [
+          {
+            "surface": "目砂",
+            "reading": "メズナ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0028::target_group:1",
+            "surface": "目砂",
+            "comment": "造園用語集で「目砂」は「めずな」と読まれており、芝生管理の「目砂作業」という文脈にも合うため、1語として扱いました。 ([fuzita.org](https://fuzita.org/cod/cplant.html))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 6,
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0030",
+      "unit_seq": 30,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "text": "その部分を厚めに目砂撒布することにしました。",
+      "rendered_yomi_before": "その/ソノ 部分/ブブン を/ヲ 厚め/アツメ に/ニ 目/メ 砂/スナ 撒布/サンプ する/スル こと/コト に/ニ し/シ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "その/ソノ 部分/ブブン を/ヲ 厚め/アツメ に/ニ 目砂/メスナ 撒布/サンプ する/スル こと/コト に/ニ し/シ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "部分",
+          "ブブン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "厚め",
+          "アツメ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "目砂",
+          "メスナ"
+        ],
+        [
+          "撒布",
+          "サンプ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "部分",
+          "reading": "ブブン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "部分",
+              "reading": "ぶぶん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "厚め",
+          "reading": "アツメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "厚",
+              "reading": "あつ"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "目砂",
+          "reading": "メスナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目砂",
+              "reading": "めすな"
+            }
+          ]
+        },
+        {
+          "surface": "撒布",
+          "reading": "サンプ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "撒布",
+              "reading": "さんぷ"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001319229:u0030::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0030",
+          "text": "その部分を厚めに目砂撒布することにしました。",
+          "rendered_yomi_before": "その/ソノ 部分/ブブン を/ヲ 厚め/アツメ に/ニ 目/メ 砂/スナ 撒布/サンプ する/スル こと/コト に/ニ し/シ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "その/ソノ 部分/ブブン を/ヲ 厚め/アツメ に/ニ 目砂/メスナ 撒布/サンプ する/スル こと/コト に/ニ し/シ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 5,
+            "end": 6,
+            "char_start": 8,
+            "char_end": 10,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "目砂",
+          "reading_candidates": {
+            "目": [
+              "め",
+              "もく",
+              "さがん",
+              "さっか"
+            ],
+            "砂": [
+              "ずな",
+              "いさご",
+              "さ",
+              "しゃ",
+              "すな"
+            ]
+          },
+          "reading_hints": {
+            "目": "め",
+            "砂": "ずな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":false,\"comment\":\"芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。",
+              "reading": "メスナ",
+              "surface": "目砂",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030::target_group:1",
+            "status": "applied",
+            "rejected_span": "目砂",
+            "replacement": [
+              {
+                "surface": "目砂",
+                "reading": "メスナ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0030::target_group:1",
+                "surface": "目砂",
+                "comment": "芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "目砂",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "目",
+          "token_surface": "目",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "め",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "砂",
+          "token_surface": "砂",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "目",
+          "reading": "め",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "砂",
+          "reading": "すな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "目": [
+          "め",
+          "もく",
+          "さがん",
+          "さっか"
+        ],
+        "砂": [
+          "ずな",
+          "いさご",
+          "さ",
+          "しゃ",
+          "すな"
+        ]
+      },
+      "reading_hints": {
+        "目": "め",
+        "砂": "ずな"
+      },
+      "llm_parsed": [
+        {
+          "comment": "芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。",
+          "reading": "メスナ",
+          "surface": "目砂",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":false,\"comment\":\"芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。\"}]",
+      "llm_comments": [
+        "芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001319229:u0030::target_group:1",
+        "status": "applied",
+        "rejected_span": "目砂",
+        "replacement": [
+          {
+            "surface": "目砂",
+            "reading": "メスナ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0030::target_group:1",
+            "surface": "目砂",
+            "comment": "芝生・土木で使う用語で、「目砂」は一語の複合名詞として「めすな」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 7,
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0032",
+      "unit_seq": 32,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "text": "目砂散布作業の様子です。",
+      "rendered_yomi_before": "目/メ 砂/スナ 散布/サンプ 作業/サギョウ の/ノ 様子/ヨウス です/デス 。/。",
+      "rendered_yomi_after": "目砂/メスナ 散布/サンプ 作業/サギョウ の/ノ 様子/ヨウス です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "目砂",
+          "メスナ"
+        ],
+        [
+          "散布",
+          "サンプ"
+        ],
+        [
+          "作業",
+          "サギョウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "様子",
+          "ヨウス"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "目砂",
+          "reading": "メスナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目砂",
+              "reading": "めすな"
+            }
+          ]
+        },
+        {
+          "surface": "散布",
+          "reading": "サンプ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "散布",
+              "reading": "さんぷ"
+            }
+          ]
+        },
+        {
+          "surface": "作業",
+          "reading": "サギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作業",
+              "reading": "さぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "様子",
+          "reading": "ヨウス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様子",
+              "reading": "ようす"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001319229:u0032::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0032",
+          "text": "目砂散布作業の様子です。",
+          "rendered_yomi_before": "目/メ 砂/スナ 散布/サンプ 作業/サギョウ の/ノ 様子/ヨウス です/デス 。/。",
+          "rendered_yomi_after": "目砂/メスナ 散布/サンプ 作業/サギョウ の/ノ 様子/ヨウス です/デス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "目砂",
+          "reading_candidates": {
+            "目": [
+              "め",
+              "もく",
+              "さがん",
+              "さっか"
+            ],
+            "砂": [
+              "ずな",
+              "いさご",
+              "さ",
+              "しゃ",
+              "すな"
+            ]
+          },
+          "reading_hints": {
+            "目": "め",
+            "砂": "ずな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":false,\"comment\":\"芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。",
+              "reading": "メスナ",
+              "surface": "目砂",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032::target_group:1",
+            "status": "applied",
+            "rejected_span": "目砂",
+            "replacement": [
+              {
+                "surface": "目砂",
+                "reading": "メスナ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0032::target_group:1",
+                "surface": "目砂",
+                "comment": "芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "目砂",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "目",
+          "token_surface": "目",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "め",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "砂",
+          "token_surface": "砂",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "目",
+          "reading": "め",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "砂",
+          "reading": "すな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "目": [
+          "め",
+          "もく",
+          "さがん",
+          "さっか"
+        ],
+        "砂": [
+          "ずな",
+          "いさご",
+          "さ",
+          "しゃ",
+          "すな"
+        ]
+      },
+      "reading_hints": {
+        "目": "め",
+        "砂": "ずな"
+      },
+      "llm_parsed": [
+        {
+          "comment": "芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。",
+          "reading": "メスナ",
+          "surface": "目砂",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":false,\"comment\":\"芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001319229:u0032::target_group:1",
+        "status": "applied",
+        "rejected_span": "目砂",
+        "replacement": [
+          {
+            "surface": "目砂",
+            "reading": "メスナ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0032::target_group:1",
+            "surface": "目砂",
+            "comment": "芝の目土に使う用語で、この文脈では「目砂」を一語として「メスナ」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 8,
+      "doc_id": "ja_cc_level2_corrected_v1:0001319229",
+      "doc_seq": 8,
+      "track_doc_seq": 2988,
+      "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0033",
+      "unit_seq": 33,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1319229,
+      "text": "遊具の足元にも目砂入れを行いました。",
+      "rendered_yomi_before": "遊具/ユウグ の/ノ 足元/アシモト に/ニ も/モ 目/メ 砂/スナ 入れ/イレ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "遊具/ユウグ の/ノ 足元/アシモト に/ニ も/モ 目砂/メスナ 入れ/イレ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "遊具",
+          "ユウグ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "足元",
+          "アシモト"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "目砂",
+          "メスナ"
+        ],
+        [
+          "入れ",
+          "イレ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "行い",
+          "オコナイ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "遊具",
+          "reading": "ユウグ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遊具",
+              "reading": "ゆうぐ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "足元",
+          "reading": "アシモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "足元",
+              "reading": "あしもと"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "目砂",
+          "reading": "メスナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目砂",
+              "reading": "めすな"
+            }
+          ]
+        },
+        {
+          "surface": "入れ",
+          "reading": "イレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "行い",
+          "reading": "オコナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001319229:u0033::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001319229:u0033",
+          "text": "遊具の足元にも目砂入れを行いました。",
+          "rendered_yomi_before": "遊具/ユウグ の/ノ 足元/アシモト に/ニ も/モ 目/メ 砂/スナ 入れ/イレ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "遊具/ユウグ の/ノ 足元/アシモト に/ニ も/モ 目砂/メスナ 入れ/イレ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 5,
+            "end": 6,
+            "char_start": 7,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "目",
+              "token_surface": "目",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "め",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "目",
+                  "reading": "め",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂",
+              "token_surface": "砂",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂",
+                  "reading": "すな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "目砂",
+          "reading_candidates": {
+            "目": [
+              "め",
+              "もく",
+              "さがん",
+              "さっか"
+            ],
+            "砂": [
+              "ずな",
+              "いさご",
+              "さ",
+              "しゃ",
+              "すな"
+            ]
+          },
+          "reading_hints": {
+            "目": "め",
+            "砂": "ずな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":false,\"comment\":\"「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。",
+              "reading": "メスナ",
+              "surface": "目砂",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033::target_group:1",
+            "status": "applied",
+            "rejected_span": "目砂",
+            "replacement": [
+              {
+                "surface": "目砂",
+                "reading": "メスナ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001319229:u0033::target_group:1",
+                "surface": "目砂",
+                "comment": "「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "目砂",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033:s0008-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "目",
+          "token_surface": "目",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "め",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "目",
+              "reading": "め",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "砂",
+          "token_surface": "砂",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "砂",
+              "reading": "すな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "目",
+          "reading": "め",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "砂",
+          "reading": "すな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "目": [
+          "め",
+          "もく",
+          "さがん",
+          "さっか"
+        ],
+        "砂": [
+          "ずな",
+          "いさご",
+          "さ",
+          "しゃ",
+          "すな"
+        ]
+      },
+      "reading_hints": {
+        "目": "め",
+        "砂": "ずな"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。",
+          "reading": "メスナ",
+          "surface": "目砂",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"目砂\",\"reading\":\"メスナ\",\"used_web_search\":false,\"comment\":\"「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。\"}]",
+      "llm_comments": [
+        "「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001319229:u0033::target_group:1",
+        "status": "applied",
+        "rejected_span": "目砂",
+        "replacement": [
+          {
+            "surface": "目砂",
+            "reading": "メスナ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001319229:u0033::target_group:1",
+            "surface": "目砂",
+            "comment": "「目砂入れ」で一まとまりの語として読むのが自然なので、読みは「めすな」と判断。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 9,
+      "doc_id": "ja_cc_level2_corrected_v1:0002148171",
+      "doc_seq": 10,
+      "track_doc_seq": 2990,
+      "unit_id": "ja_cc_level2_corrected_v1:0002148171:u0047",
+      "unit_seq": 47,
+      "source_file": "ja/ja_cc/level2/0296.jsonl.gz",
+      "source_line_no": 2148171,
+      "text": "雨で歩くのも面倒になったので、近くの無隣庵に避難。",
+      "rendered_yomi_before": "雨/アメ で/デ 歩く/アルク の/ノ も/モ 面倒/メンドウ に/ニ なっ/ナッ た/タ の/ノ で/デ 、/、 近く/チカク の/ノ 無/ム 隣/トナリ 庵/アン に/ニ 避難/ヒナン 。/。",
+      "rendered_yomi_after": "雨/アメ で/デ 歩く/アルク の/ノ も/モ 面倒/メンドウ に/ニ なっ/ナッ た/タ の/ノ で/デ 、/、 近く/チカク の/ノ 無隣/ムリン 庵/アン に/ニ 避難/ヒナン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "雨",
+          "アメ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "歩く",
+          "アルク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "面倒",
+          "メンドウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "近く",
+          "チカク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "無隣",
+          "ムリン"
+        ],
+        [
+          "庵",
+          "アン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "避難",
+          "ヒナン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "雨",
+          "reading": "アメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "雨",
+              "reading": "あめ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "歩く",
+          "reading": "アルク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歩",
+              "reading": "ある"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "面倒",
+          "reading": "メンドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "面倒",
+              "reading": "めんどう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "近く",
+          "reading": "チカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "近",
+              "reading": "ちか"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "無隣",
+          "reading": "ムリン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "無隣",
+              "reading": "むりん"
+            }
+          ]
+        },
+        {
+          "surface": "庵",
+          "reading": "アン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "庵",
+              "reading": "あん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "避難",
+          "reading": "ヒナン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "避難",
+              "reading": "ひなん"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002148171:u0047",
+          "text": "雨で歩くのも面倒になったので、近くの無隣庵に避難。",
+          "rendered_yomi_before": "雨/アメ で/デ 歩く/アルク の/ノ も/モ 面倒/メンドウ に/ニ なっ/ナッ た/タ の/ノ で/デ 、/、 近く/チカク の/ノ 無/ム 隣/トナリ 庵/アン に/ニ 避難/ヒナン 。/。",
+          "rendered_yomi_after": "雨/アメ で/デ 歩く/アルク の/ノ も/モ 面倒/メンドウ に/ニ なっ/ナッ た/タ の/ノ で/デ 、/、 近く/チカク の/ノ 無隣/ムリン 庵/アン に/ニ 避難/ヒナン 。/。",
+          "display_mapping": {
+            "start": 14,
+            "end": 16,
+            "char_start": 18,
+            "char_end": 21,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "無",
+              "token_surface": "無",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": "む",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "無",
+                  "reading": "む",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "隣",
+              "token_surface": "隣",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "となり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "隣",
+                  "reading": "となり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "庵",
+              "token_surface": "庵",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "庵",
+                  "reading": "あん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "無",
+              "token_surface": "無",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": "む",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "無",
+                  "reading": "む",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "隣",
+              "token_surface": "隣",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "となり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "隣",
+                  "reading": "となり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "庵",
+              "token_surface": "庵",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "庵",
+                  "reading": "あん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "無隣庵",
+          "reading_candidates": {
+            "無": [
+              "なし",
+              "な",
+              "ぶ",
+              "む"
+            ],
+            "隣": [
+              "ちかし",
+              "となり",
+              "りん"
+            ],
+            "庵": [
+              "あん",
+              "いお",
+              "いおり"
+            ]
+          },
+          "reading_hints": {
+            "無": "なし",
+            "隣": "ちかし",
+            "庵": "あん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "無",
+              "reading": "む",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "隣",
+              "reading": "となり",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "庵",
+              "reading": "あん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"無隣\",\"reading\":\"ムリン\",\"used_web_search\":false,\"comment\":\"京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。\"},{\"surface\":\"庵\",\"reading\":\"アン\",\"used_web_search\":false,\"comment\":\"地名・施設名での語尾として分け、「あん」と読ませます。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。",
+              "reading": "ムリン",
+              "surface": "無隣",
+              "used_web_search": false
+            },
+            {
+              "comment": "地名・施設名での語尾として分け、「あん」と読ませます。",
+              "reading": "アン",
+              "surface": "庵",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。",
+            "地名・施設名での語尾として分け、「あん」と読ませます。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+            "status": "applied",
+            "rejected_span": "無隣庵",
+            "replacement": [
+              {
+                "surface": "無隣",
+                "reading": "ムリン"
+              },
+              {
+                "surface": "庵",
+                "reading": "アン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+                "surface": "無隣庵",
+                "comment": "京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+                "surface": "無隣庵",
+                "comment": "地名・施設名での語尾として分け、「あん」と読ませます。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "無隣庵",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "無",
+          "token_surface": "無",
+          "token_index": 14,
+          "chunk_index": 0,
+          "current_reading_hiragana": "む",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "無",
+              "reading": "む",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0020-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "隣",
+          "token_surface": "隣",
+          "token_index": 15,
+          "chunk_index": 0,
+          "current_reading_hiragana": "となり",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "隣",
+              "reading": "となり",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "庵",
+          "token_surface": "庵",
+          "token_index": 16,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "庵",
+              "reading": "あん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "無",
+          "reading": "む",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "隣",
+          "reading": "となり",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "庵",
+          "reading": "あん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "無": [
+          "なし",
+          "な",
+          "ぶ",
+          "む"
+        ],
+        "隣": [
+          "ちかし",
+          "となり",
+          "りん"
+        ],
+        "庵": [
+          "あん",
+          "いお",
+          "いおり"
+        ]
+      },
+      "reading_hints": {
+        "無": "なし",
+        "隣": "ちかし",
+        "庵": "あん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。",
+          "reading": "ムリン",
+          "surface": "無隣",
+          "used_web_search": false
+        },
+        {
+          "comment": "地名・施設名での語尾として分け、「あん」と読ませます。",
+          "reading": "アン",
+          "surface": "庵",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"無隣\",\"reading\":\"ムリン\",\"used_web_search\":false,\"comment\":\"京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。\"},{\"surface\":\"庵\",\"reading\":\"アン\",\"used_web_search\":false,\"comment\":\"地名・施設名での語尾として分け、「あん」と読ませます。\"}]",
+      "llm_comments": [
+        "京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。",
+        "地名・施設名での語尾として分け、「あん」と読ませます。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+        "status": "applied",
+        "rejected_span": "無隣庵",
+        "replacement": [
+          {
+            "surface": "無隣",
+            "reading": "ムリン"
+          },
+          {
+            "surface": "庵",
+            "reading": "アン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+            "surface": "無隣庵",
+            "comment": "京都の旧山荘・庭園名「無隣庵」の前半で、「むりん」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002148171:u0047::target_group:1",
+            "surface": "無隣庵",
+            "comment": "地名・施設名での語尾として分け、「あん」と読ませます。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
