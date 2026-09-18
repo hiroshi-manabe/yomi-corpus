@@ -10,10 +10,9 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 4,
@@ -57,12 +56,12 @@
       "source_line_no": 1621114,
       "preview": "刀、鎧、火縄銃、大戦までの兵器などに関してだ。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T03:56:40Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:10:24Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -135,12 +134,12 @@
       "source_line_no": 2549780,
       "preview": "「逍」は、辵部に属する漢字のひとつ。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T03:56:40Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:10:24Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +160,12 @@
       "source_line_no": 1346249,
       "preview": "新年に向けて新しくする手帳やノートのカバーを、セミオーダーで作ってみませんか。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T03:56:40Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:10:24Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -2264,8 +2263,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_1148_v1__2026-09-18T04:08:48.789Z",
+            "generated_at_epoch": 1789704528
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_1148_v1__2026-09-18T04:08:48.789Z",
+        "generated_at_epoch": 1789704528
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
@@ -2435,7 +2447,7 @@
       "source_line_no": 1346249,
       "text": "主な素材はしなやかな山羊革や子牛革。",
       "rendered_yomi_before": "主な/オモナ 素材/ソザイ は/ハ しなやか/シナヤカ な/ナ 山/ヤマ 羊革/ヒツジカワ や/ヤ 子牛/コウシ 革/ガワ 。/。",
-      "rendered_yomi_after": "主な/オモナ 素材/ソザイ は/ハ しなやか/シナヤカ な/ナ 山羊革/ヤギガワ や/ヤ 子牛/コウシ 革/ガワ 。/。",
+      "rendered_yomi_after": "主な/オモナ 素材/ソザイ は/ハ しなやか/シナヤカ な/ナ 山羊/ヤギ 革/ガワ や/ヤ 子牛/コウシ 革/ガワ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "主な",
@@ -2458,8 +2470,12 @@
           "ナ"
         ],
         [
-          "山羊革",
-          "ヤギガワ"
+          "山羊",
+          "ヤギ"
+        ],
+        [
+          "革",
+          "ガワ"
         ],
         [
           "や",
@@ -2538,13 +2554,24 @@
           ]
         },
         {
-          "surface": "山羊革",
-          "reading": "ヤギガワ",
+          "surface": "山羊",
+          "reading": "ヤギ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "山羊革",
-              "reading": "やぎがわ"
+              "text": "山羊",
+              "reading": "やぎ"
+            }
+          ]
+        },
+        {
+          "surface": "革",
+          "reading": "ガワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "革",
+              "reading": "がわ"
             }
           ]
         },
@@ -2604,14 +2631,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001346249:u0009",
           "text": "主な素材はしなやかな山羊革や子牛革。",
           "rendered_yomi_before": "主な/オモナ 素材/ソザイ は/ハ しなやか/シナヤカ な/ナ 山/ヤマ 羊革/ヒツジカワ や/ヤ 子牛/コウシ 革/ガワ 。/。",
-          "rendered_yomi_after": "主な/オモナ 素材/ソザイ は/ハ しなやか/シナヤカ な/ナ 山羊革/ヤギガワ や/ヤ 子牛/コウシ 革/ガワ 。/。",
+          "rendered_yomi_after": "主な/オモナ 素材/ソザイ は/ハ しなやか/シナヤカ な/ナ 山羊/ヤギ 革/ガワ や/ヤ 子牛/コウシ 革/ガワ 。/。",
           "display_mapping": {
             "start": 5,
-            "end": 6,
+            "end": 7,
             "char_start": 10,
             "char_end": 13,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
