@@ -10,10 +10,9 @@
   "item_count": 18,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_pending": 1
+      "complete": 10
     },
     "repaired_item_count": 18,
     "queued_repair_row_count": 18,
@@ -239,12 +238,12 @@
       "source_line_no": 64426,
       "preview": "でも、その先にこんなご褒美が待ってる！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T00:19:07Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T01:01:37Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 18,
@@ -2366,15 +2365,11 @@
       "source_line_no": 64426,
       "text": "魁當真・・・●4勝3敗。",
       "rendered_yomi_before": "魁/サキガケ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 3/ 敗/ハイ 。/。",
-      "rendered_yomi_after": "魁/カイ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 3/ 敗/ハイ 。/。",
+      "rendered_yomi_after": "魁當真/カイトウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 3/ 敗/ハイ 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "魁",
-          "カイ"
-        ],
-        [
-          "當真",
-          "トウマ"
+          "魁當真",
+          "カイトウマ"
         ],
         [
           "・",
@@ -2417,24 +2412,13 @@
       "reading_warning_acknowledgements": [],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "魁",
-          "reading": "カイ",
+          "surface": "魁當真",
+          "reading": "カイトウマ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "魁",
-              "reading": "かい"
-            }
-          ]
-        },
-        {
-          "surface": "當真",
-          "reading": "トウマ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "當真",
-              "reading": "とうま"
+              "text": "魁當真",
+              "reading": "かいとうま"
             }
           ]
         },
@@ -2544,14 +2528,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000064426:u0011",
           "text": "魁當真・・・●4勝3敗。",
           "rendered_yomi_before": "魁/サキガケ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 3/ 敗/ハイ 。/。",
-          "rendered_yomi_after": "魁/カイ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 3/ 敗/ハイ 。/。",
+          "rendered_yomi_after": "魁當真/カイトウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 3/ 敗/ハイ 。/。",
           "display_mapping": {
             "start": 0,
-            "end": 2,
+            "end": 1,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
@@ -4455,15 +4439,11 @@
       "source_line_no": 64426,
       "text": "魁當真・・・●4勝2敗。",
       "rendered_yomi_before": "魁/サキガケ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 2/ 敗/ハイ 。/。",
-      "rendered_yomi_after": "魁/カイ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 2/ 敗/ハイ 。/。",
+      "rendered_yomi_after": "魁當真/カイトウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 2/ 敗/ハイ 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "魁",
-          "カイ"
-        ],
-        [
-          "當真",
-          "トウマ"
+          "魁當真",
+          "カイトウマ"
         ],
         [
           "・",
@@ -4506,24 +4486,13 @@
       "reading_warning_acknowledgements": [],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "魁",
-          "reading": "カイ",
+          "surface": "魁當真",
+          "reading": "カイトウマ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "魁",
-              "reading": "かい"
-            }
-          ]
-        },
-        {
-          "surface": "當真",
-          "reading": "トウマ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "當真",
-              "reading": "とうま"
+              "text": "魁當真",
+              "reading": "かいとうま"
             }
           ]
         },
@@ -4633,14 +4602,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000064426:u0026",
           "text": "魁當真・・・●4勝2敗。",
           "rendered_yomi_before": "魁/サキガケ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 2/ 敗/ハイ 。/。",
-          "rendered_yomi_after": "魁/カイ 當真/トウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 2/ 敗/ハイ 。/。",
+          "rendered_yomi_after": "魁當真/カイトウマ ・/・ ・/・ ・/・ ●/● 4/ 勝/ショウ 2/ 敗/ハイ 。/。",
           "display_mapping": {
             "start": 0,
-            "end": 2,
+            "end": 1,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
@@ -6547,15 +6516,11 @@
       "source_line_no": 64426,
       "text": "魁清城・・・●3勝2敗。",
       "rendered_yomi_before": "魁/サキガケ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 2/ 敗/ハイ 。/。",
-      "rendered_yomi_after": "魁/カイ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 2/ 敗/ハイ 。/。",
+      "rendered_yomi_after": "魁清城/カイセイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 2/ 敗/ハイ 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "魁",
-          "カイ"
-        ],
-        [
-          "清城",
-          "セイジョウ"
+          "魁清城",
+          "カイセイジョウ"
         ],
         [
           "・",
@@ -6598,24 +6563,13 @@
       "reading_warning_acknowledgements": [],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "魁",
-          "reading": "カイ",
+          "surface": "魁清城",
+          "reading": "カイセイジョウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "魁",
-              "reading": "かい"
-            }
-          ]
-        },
-        {
-          "surface": "清城",
-          "reading": "セイジョウ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "清城",
-              "reading": "せいじょう"
+              "text": "魁清城",
+              "reading": "かいせいじょう"
             }
           ]
         },
@@ -6725,14 +6679,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000064426:u0033",
           "text": "魁清城・・・●3勝2敗。",
           "rendered_yomi_before": "魁/サキガケ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 2/ 敗/ハイ 。/。",
-          "rendered_yomi_after": "魁/カイ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 2/ 敗/ハイ 。/。",
+          "rendered_yomi_after": "魁清城/カイセイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 2/ 敗/ハイ 。/。",
           "display_mapping": {
             "start": 0,
-            "end": 2,
+            "end": 1,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
@@ -8556,15 +8510,11 @@
       "source_line_no": 64426,
       "text": "魁清城・・・●3勝1敗。",
       "rendered_yomi_before": "魁/サキガケ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 1/ 敗/パイ 。/。",
-      "rendered_yomi_after": "魁/カイ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 1/ 敗/パイ 。/。",
+      "rendered_yomi_after": "魁清城/カイセイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 1/ 敗/パイ 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "魁",
-          "カイ"
-        ],
-        [
-          "清城",
-          "セイジョウ"
+          "魁清城",
+          "カイセイジョウ"
         ],
         [
           "・",
@@ -8607,24 +8557,13 @@
       "reading_warning_acknowledgements": [],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "魁",
-          "reading": "カイ",
+          "surface": "魁清城",
+          "reading": "カイセイジョウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "魁",
-              "reading": "かい"
-            }
-          ]
-        },
-        {
-          "surface": "清城",
-          "reading": "セイジョウ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "清城",
-              "reading": "せいじょう"
+              "text": "魁清城",
+              "reading": "かいせいじょう"
             }
           ]
         },
@@ -8734,14 +8673,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000064426:u0042",
           "text": "魁清城・・・●3勝1敗。",
           "rendered_yomi_before": "魁/サキガケ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 1/ 敗/パイ 。/。",
-          "rendered_yomi_after": "魁/カイ 清城/セイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 1/ 敗/パイ 。/。",
+          "rendered_yomi_after": "魁清城/カイセイジョウ ・/・ ・/・ ・/・ ●/● 3/ 勝/ショウ 1/ 敗/パイ 。/。",
           "display_mapping": {
             "start": 0,
-            "end": 2,
+            "end": 1,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },

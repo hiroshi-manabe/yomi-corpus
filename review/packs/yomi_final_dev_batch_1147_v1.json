@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_pending": 1
+      "complete": 10
     },
     "unresolved_item_count": 33,
     "unresolved_target_count": 45,
@@ -238,12 +237,12 @@
       "source_line_no": 64426,
       "preview": "でも、その先にこんなご褒美が待ってる！",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T00:19:07Z",
+      "state_updated_at": "2026-09-18T01:01:37Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 44,
@@ -73208,7 +73207,7 @@
               "label": "Dictionary",
               "reading": "ちゅう",
               "accepted": false,
-              "historical_count": 427,
+              "historical_count": 428,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -73705,7 +73704,7 @@
                   "reading": "ちゅう"
                 }
               ],
-              "historical_count": 427
+              "historical_count": 428
             },
             {
               "id": "dictionary:3",
@@ -75018,7 +75017,7 @@
               "label": "Dictionary",
               "reading": "ふう",
               "accepted": false,
-              "historical_count": 81,
+              "historical_count": 82,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -76201,7 +76200,7 @@
                   "reading": "ふう"
                 }
               ],
-              "historical_count": 81
+              "historical_count": 82
             },
             {
               "id": "dictionary:0",
@@ -93526,7 +93525,7 @@
               "label": "Dictionary",
               "reading": "ちゅう",
               "accepted": false,
-              "historical_count": 427,
+              "historical_count": 428,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -95244,7 +95243,7 @@
                   "reading": "ちゅう"
                 }
               ],
-              "historical_count": 427
+              "historical_count": 428
             },
             {
               "id": "dictionary:3",
@@ -103231,7 +103230,7 @@
               "label": "Dictionary",
               "reading": "ちゅう",
               "accepted": false,
-              "historical_count": 427,
+              "historical_count": 428,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -105311,7 +105310,7 @@
                   "reading": "ちゅう"
                 }
               ],
-              "historical_count": 427
+              "historical_count": 428
             },
             {
               "id": "dictionary:3",
@@ -191536,7 +191535,7 @@
           "token_pos": "名詞,固有名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -191627,7 +191626,8 @@
               "llm_reading": "にほんこく",
               "current_reading_hiragana": "にほんこく"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001468623:u0003:r0004c01",
@@ -193252,7 +193252,7 @@
           "token_pos": "名詞,普通名詞,副詞可能,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_local_stable_span"
           ],
@@ -193357,7 +193357,8 @@
               "source_corpus_version": "dev:20260915T115411Z",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T115411Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001468623:u0003:r0029c01",
@@ -194612,7 +194613,7 @@
           "current_reading_hiragana": "にほんこく",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "にほんこく",
@@ -194727,7 +194728,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T115411Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001468623:u0003:s0007-0009",
@@ -196311,7 +196313,7 @@
           "current_reading_hiragana": "うち",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "うち",
@@ -196440,7 +196442,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T115411Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001468623:u0003:s0048-0049",
@@ -345713,7 +345716,7 @@
               "label": "Dictionary",
               "reading": "ふう",
               "accepted": false,
-              "historical_count": 81,
+              "historical_count": 82,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -346112,7 +346115,7 @@
                   "reading": "ふう"
                 }
               ],
-              "historical_count": 81
+              "historical_count": 82
             },
             {
               "id": "dictionary:0",
@@ -350614,7 +350617,7 @@
                   "text": "い"
                 }
               ],
-              "historical_count": 22
+              "historical_count": 23
             },
             {
               "id": "dictionary:4",
@@ -427702,7 +427705,7 @@
               "label": "Dictionary",
               "reading": "ふう",
               "accepted": false,
-              "historical_count": 81,
+              "historical_count": 82,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -428246,7 +428249,7 @@
                   "reading": "ふう"
                 }
               ],
-              "historical_count": 81
+              "historical_count": 82
             },
             {
               "id": "dictionary:0",
