@@ -2537,7 +2537,7 @@ function isNumericOnlySurface(surface) {
   if (!/^[〇○零一二三四五六七八九]+$/u.test(value)) {
     return true;
   }
-  return [...value].length >= 2 || value === "〇" || value === "○";
+  return [...value].length >= 2 || value === "〇";
 }
 
 function allowsOptionalJapaneseNumeralReading(surface) {
