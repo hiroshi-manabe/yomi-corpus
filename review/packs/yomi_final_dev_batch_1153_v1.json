@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 6,
-      "strong_pending": 4
+      "complete": 10
     },
     "unresolved_item_count": 45,
     "unresolved_target_count": 64,
@@ -134,12 +133,12 @@
       "source_line_no": 358401,
       "preview": "飯田橋駅から、神田川の北側の町：文京区後楽・春日・小日向をぶらついて江戸川橋駅まで、1万1千歩、8kmの散歩です。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T06:35:52Z",
+      "state_updated_at": "2026-09-18T07:10:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 57,
@@ -212,12 +211,12 @@
       "source_line_no": 142610,
       "preview": "白壁、瓦屋根、虫籠窓と江戸から昭和初期の建物が並ぶ富田林寺内町で、歴史を感じながらまち歩きをします。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T06:35:52Z",
+      "state_updated_at": "2026-09-18T07:10:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 14,
@@ -238,12 +237,12 @@
       "source_line_no": 638108,
       "preview": "今回は令和の『大嘗祭』に関連して、もうひとつ御朱印をいただきました台東区にある『小野照崎神社（おのてるさきじんじゃ）』についてお伝えして行きたいと思います。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T06:35:52Z",
+      "state_updated_at": "2026-09-18T07:10:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -264,12 +263,12 @@
       "source_line_no": 1426182,
       "preview": "身体を温めたいので、マルシマ　オリゴしょうが湯　飲みながらブログ更新しています。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T06:35:52Z",
+      "state_updated_at": "2026-09-18T07:10:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 33,
@@ -112602,7 +112601,7 @@
               "label": "Dictionary",
               "reading": "ふつ",
               "accepted": false,
-              "historical_count": 41,
+              "historical_count": 42,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -114498,7 +114497,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
-                "learned_repair:2",
+                "learned_repair:3",
                 "dictionary:5"
               ],
               "source": "current",
@@ -114527,7 +114526,7 @@
               "id": "dictionary:1",
               "candidate_ids": [
                 "dictionary:1",
-                "learned_repair:1"
+                "learned_repair:2"
               ],
               "source": "dictionary",
               "sources": [
@@ -114555,7 +114554,7 @@
               "id": "dictionary:6",
               "candidate_ids": [
                 "dictionary:6",
-                "learned_repair:3"
+                "learned_repair:0"
               ],
               "source": "dictionary",
               "sources": [
@@ -114577,13 +114576,13 @@
                   "reading": "ふつ"
                 }
               ],
-              "historical_count": 41
+              "historical_count": 42
             },
             {
               "id": "dictionary:8",
               "candidate_ids": [
                 "dictionary:8",
-                "learned_repair:0"
+                "learned_repair:1"
               ],
               "source": "dictionary",
               "sources": [
@@ -244448,12 +244447,13 @@
               "id": "dictionary:4",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
               "accepted": false,
-              "historical_count": 312,
+              "historical_count": 313,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -245706,11 +245706,13 @@
             {
               "id": "dictionary:4",
               "candidate_ids": [
-                "dictionary:4"
+                "dictionary:4",
+                "learned_repair:4"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
@@ -245727,7 +245729,7 @@
                   "reading": "ひ"
                 }
               ],
-              "historical_count": 312
+              "historical_count": 313
             },
             {
               "id": "dictionary:1",
@@ -410452,12 +410454,13 @@
               "id": "dictionary:4",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
               "accepted": false,
-              "historical_count": 312,
+              "historical_count": 313,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -411966,11 +411969,13 @@
             {
               "id": "dictionary:4",
               "candidate_ids": [
-                "dictionary:4"
+                "dictionary:4",
+                "learned_repair:4"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
@@ -411987,7 +411992,7 @@
                   "reading": "ひ"
                 }
               ],
-              "historical_count": 312
+              "historical_count": 313
             },
             {
               "id": "dictionary:1",
@@ -528611,12 +528616,13 @@
               "id": "dictionary:4",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
               "accepted": false,
-              "historical_count": 312,
+              "historical_count": 313,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -529454,11 +529460,13 @@
             {
               "id": "dictionary:4",
               "candidate_ids": [
-                "dictionary:4"
+                "dictionary:4",
+                "learned_repair:4"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
@@ -529475,7 +529483,7 @@
                   "reading": "ひ"
                 }
               ],
-              "historical_count": 312
+              "historical_count": 313
             },
             {
               "id": "dictionary:5",
@@ -545013,12 +545021,13 @@
               "id": "dictionary:4",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
               "accepted": false,
-              "historical_count": 312,
+              "historical_count": 313,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -546302,11 +546311,13 @@
             {
               "id": "dictionary:4",
               "candidate_ids": [
-                "dictionary:4"
+                "dictionary:4",
+                "learned_repair:4"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ひ",
@@ -546323,7 +546334,7 @@
                   "reading": "ひ"
                 }
               ],
-              "historical_count": 312
+              "historical_count": 313
             },
             {
               "id": "dictionary:1",
