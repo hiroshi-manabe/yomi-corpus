@@ -4,26 +4,10 @@
   "tracks": {
     "dev": {
       "track_name": "dev",
-      "document_count": 3023,
+      "document_count": 3028,
       "finalized_track_doc_seq_ranges": [
         [
           1,
-          2921
-        ],
-        [
-          2923,
-          2927
-        ],
-        [
-          2929,
-          2931
-        ],
-        [
-          2934,
-          2937
-        ],
-        [
-          2939,
           2948
         ],
         [
@@ -148,7 +132,7 @@
         ]
       ],
       "manual_correction_required_count": 0,
-      "reading_warning_count": 159,
+      "reading_warning_count": 96,
       "shard_size": 1,
       "shards": [
         {
@@ -26441,6 +26425,15 @@
           ]
         },
         {
+          "path": "./archive/dev/docs_002922_002922.json",
+          "start_track_doc_seq": 2922,
+          "end_track_doc_seq": 2922,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1145"
+          ]
+        },
+        {
           "path": "./archive/dev/docs_002923_002923.json",
           "start_track_doc_seq": 2923,
           "end_track_doc_seq": 2923,
@@ -26486,6 +26479,15 @@
           ]
         },
         {
+          "path": "./archive/dev/docs_002928_002928.json",
+          "start_track_doc_seq": 2928,
+          "end_track_doc_seq": 2928,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1145"
+          ]
+        },
+        {
           "path": "./archive/dev/docs_002929_002929.json",
           "start_track_doc_seq": 2929,
           "end_track_doc_seq": 2929,
@@ -26507,6 +26509,24 @@
           "path": "./archive/dev/docs_002931_002931.json",
           "start_track_doc_seq": 2931,
           "end_track_doc_seq": 2931,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1146"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002932_002932.json",
+          "start_track_doc_seq": 2932,
+          "end_track_doc_seq": 2932,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1146"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002933_002933.json",
+          "start_track_doc_seq": 2933,
+          "end_track_doc_seq": 2933,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1146"
@@ -26543,6 +26563,15 @@
           "path": "./archive/dev/docs_002937_002937.json",
           "start_track_doc_seq": 2937,
           "end_track_doc_seq": 2937,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1146"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002938_002938.json",
+          "start_track_doc_seq": 2938,
+          "end_track_doc_seq": 2938,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1146"
@@ -27486,18 +27515,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000007",
           "batch_name": "dev_batch_1001",
           "unit_count": 10,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "皆さん自粛中に身体は動かしていましたか？",
-          "archive_revision": "d4ecdccdd3edd938",
+          "archive_revision": "b391a7088cc343aa",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0002_v1__2026-06-29T04:17:21.455Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1001__1789691259465744197"
+          ],
           "shard_path": "./archive/dev/docs_000007_000007.json"
         },
         {
@@ -27649,14 +27680,14 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000014",
           "batch_name": "dev_batch_1001",
           "unit_count": 29,
-          "finalized_correction_count": 1,
-          "finalized_correction_sentence_count": 2,
+          "finalized_correction_count": 2,
+          "finalized_correction_sentence_count": 3,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 1,
           "skipped_unit_count": 3,
           "excluded_unit_count": 0,
           "text_preview": "第２回　楽しく経済が学べる！",
-          "archive_revision": "b4bf0ae424f6c6bb",
+          "archive_revision": "611d598c03b1a4ef",
           "applied_review_submission_ids": [
             "skipped_hybrid_yomi_v1:ja_cc_level2:0000000015:u0022",
             "skipped_hybrid_yomi_v1:ja_cc_level2:0000000015:u0025",
@@ -27664,6 +27695,7 @@
             "yomi_final_dev_batch_0002_v1__2026-06-29T04:17:21.455Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1001__1789691259465744197",
             "finalized_correction__manual_numeric__dev_15__3c7a82ed65f244ce8d508c756f4fbe83"
           ],
           "shard_path": "./archive/dev/docs_000014_000014.json"
@@ -28489,18 +28521,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000052",
           "batch_name": "dev_batch_1001",
           "unit_count": 25,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "暑気払い飲み会の幹事はそれほど難しいものではないですが、ポイントを押さえて司会進行をつとめると、「デキる男」として見てもらえます(笑)また、会社の方に楽しんでくれますよ^^ここでは暑気払いの「メールでの連絡」「流れ」「挨拶」についてご紹介し",
-          "archive_revision": "202b4eeda901b38d",
+          "archive_revision": "347c1e478947ce19",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0008_v1__2026-07-17T06:01:23.174Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1001__1789691259465744197"
+          ],
           "shard_path": "./archive/dev/docs_000052_000052.json"
         },
         {
@@ -28615,19 +28649,21 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000058",
           "batch_name": "dev_batch_1001",
           "unit_count": 21,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "上司にでも、主張します。",
-          "archive_revision": "4b08490c0b8575cb",
+          "archive_revision": "60507ae9ec01219b",
           "applied_review_submission_ids": [
             "skipped_hybrid_yomi_v1:ja_cc_level2:0000000059:u0010",
             "yomi_final_dev_batch_0009_v1__2026-07-17T06:56:23.063Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1001__1789691259465744197"
+          ],
           "shard_path": "./archive/dev/docs_000058_000058.json"
         },
         {
@@ -28816,18 +28852,19 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000067",
           "batch_name": "dev_batch_1001",
           "unit_count": 7,
-          "finalized_correction_count": 1,
-          "finalized_correction_sentence_count": 1,
+          "finalized_correction_count": 2,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "今日お仕事を進めながら気づいたことですが、SNSの機能の中で、つい去年の６月くらいまでは普通に使われてた機能が、今では仕様変更しててすでに使われなくなってるものがあってびっくりしました。",
-          "archive_revision": "e108a775ace8a088",
+          "archive_revision": "b38588a4615b5e33",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0010_v1__2026-07-17T07:11:33.116Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1001__1789691259465744197",
             "finalized_correction__manual_laughter__dev_68__1784868771"
           ],
           "shard_path": "./archive/dev/docs_000067_000067.json"
@@ -30220,19 +30257,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000133",
           "batch_name": "dev_batch_1002",
           "unit_count": 99,
-          "finalized_correction_count": 1,
-          "finalized_correction_sentence_count": 1,
+          "finalized_correction_count": 2,
+          "finalized_correction_sentence_count": 3,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "映画の見方がわからない人が感想を書いています。",
-          "archive_revision": "049568129b1188f2",
+          "archive_revision": "cd7335cb9deaa5c6",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0017_v1__2026-07-22T04:47:34.296Z",
             "yomi_final_dev_recovery_home_tag_v1_v1__2026-09-01T09:15:09.254Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1002__1789691263050365068",
             "finalized_correction__client__dev_134__f339d734be77494e99208a1349f50f03"
           ],
           "shard_path": "./archive/dev/docs_000133_000133.json"
@@ -31480,18 +31518,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000194",
           "batch_name": "dev_batch_1002",
           "unit_count": 49,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 1,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "タクシーと言えば、フェンダーミラーの黒のクラウンセダンが定番だと思ってた。",
-          "archive_revision": "7ed2258059ee80aa",
+          "archive_revision": "a3d8ab1721023903",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0023_v1__2026-07-28T04:40:12.120Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1002__1789691263050365068"
+          ],
           "shard_path": "./archive/dev/docs_000194_000194.json"
         },
         {
@@ -32394,18 +32434,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000239",
           "batch_name": "dev_batch_1003",
           "unit_count": 19,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "虚数の情緒も今日で読み終わりそうである。",
-          "archive_revision": "0269670c7a7c85e8",
+          "archive_revision": "8e27243c7ccf9507",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0027_v1__2026-07-29T01:21:02.064Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1003__1789691265890149284"
+          ],
           "shard_path": "./archive/dev/docs_000239_000239.json"
         },
         {
@@ -32951,18 +32993,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000266",
           "batch_name": "dev_batch_1003",
           "unit_count": 27,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "赤い流れ星★彡です、こんばんは。",
-          "archive_revision": "1787fa717832cf3a",
+          "archive_revision": "fbf504d37edea33e",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0030_v1__2026-07-29T04:49:33.781Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1003__1789691265890149284"
+          ],
           "shard_path": "./archive/dev/docs_000266_000266.json"
         },
         {
@@ -33396,18 +33440,19 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000288",
           "batch_name": "dev_batch_1003",
           "unit_count": 45,
-          "finalized_correction_count": 2,
-          "finalized_correction_sentence_count": 2,
+          "finalized_correction_count": 3,
+          "finalized_correction_sentence_count": 4,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "ホタルイカやイベントなんかで富山県に行ったついでにガサったり釣りしたりしてきています。",
-          "archive_revision": "c5c4564aa0df0c3d",
+          "archive_revision": "26aac1c6b9d41930",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0032_v1__2026-07-29T07:22:45.927Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1003__1789691265890149284",
             "finalized_correction__client__dev_290__be81ede75a214223b9c87c8a29a69b4d",
             "finalized_rendaku_review_20260824T064533Z__dev_batch_0032"
           ],
@@ -33882,18 +33927,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000312",
           "batch_name": "dev_batch_1004",
           "unit_count": 21,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "現在、通学とオンラインのハイブリッド型にて授業の実施をしております。",
-          "archive_revision": "55c1d327479dcdfd",
+          "archive_revision": "807bd239e30f4acd",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0035_v1__2026-07-30T04:17:41.170Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1004__1789691268724882817"
+          ],
           "shard_path": "./archive/dev/docs_000312_000312.json"
         },
         {
@@ -34127,18 +34174,19 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000324",
           "batch_name": "dev_batch_1004",
           "unit_count": 29,
-          "finalized_correction_count": 1,
-          "finalized_correction_sentence_count": 1,
+          "finalized_correction_count": 2,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "みなさんトライエイジ鉄血の1弾プレイされていますか？",
-          "archive_revision": "a11ffefd83de13ef",
+          "archive_revision": "996323c32825565e",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0036_v1__2026-07-30T04:26:46.927Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1004__1789691268724882817",
             "finalized_rendaku_review_20260824T064533Z__dev_batch_0036"
           ],
           "shard_path": "./archive/dev/docs_000324_000324.json"
@@ -34229,18 +34277,19 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000329",
           "batch_name": "dev_batch_1004",
           "unit_count": 98,
-          "finalized_correction_count": 1,
-          "finalized_correction_sentence_count": 1,
+          "finalized_correction_count": 2,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "そもそも結構飽きっぽい性格ですし、フツーのサラリーマン人生からすると結構ジェットコースターに乗ってるような人生なのでそんなに続かないんじゃないかと思ってました。",
-          "archive_revision": "6e007e024bdead72",
+          "archive_revision": "abdff0e905034a13",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0036_v1__2026-07-30T04:26:46.927Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1004__1789691268724882817",
             "finalized_correction__stable_surface_cleanup_v1__dev_batch_0036"
           ],
           "shard_path": "./archive/dev/docs_000329_000329.json"
@@ -36355,19 +36404,21 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000434",
           "batch_name": "dev_batch_1005",
           "unit_count": 25,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "小川淳司ヘッドコーチが監督代行、来季から荒木大輔監督！",
-          "archive_revision": "89f88b3638c650df",
+          "archive_revision": "d921560bef728bf7",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0047_v1__2026-08-10T02:17:39.284Z",
             "yomi_final_dev_recovery_home_tag_v1_v1__2026-09-01T09:15:09.254Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1005__1789691271664807220"
+          ],
           "shard_path": "./archive/dev/docs_000434_000434.json"
         },
         {
@@ -39438,18 +39489,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000585",
           "batch_name": "dev_batch_1006",
           "unit_count": 25,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "女優の宮﨑あおいさんと、V6の岡田准一さんとの間に第1子を授かったことが報道されました。",
-          "archive_revision": "b148042032e31ef3",
+          "archive_revision": "d119cef368a94b9e",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0062_v1__2026-08-17T04:22:19.651Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1006__1789691275088459911"
+          ],
           "shard_path": "./archive/dev/docs_000585_000585.json"
         },
         {
@@ -43399,18 +43452,19 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000779",
           "batch_name": "dev_batch_1008",
           "unit_count": 49,
-          "finalized_correction_count": 1,
-          "finalized_correction_sentence_count": 1,
+          "finalized_correction_count": 2,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "「漫画村」がある時に読んでおけばよかった。",
-          "archive_revision": "7932ea1431467c8b",
+          "archive_revision": "7559387c08e18f98",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0081_v1__2026-08-19T04:37:52.342Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1008__1789691279770058586",
             "finalized_rendaku_review_20260824T064533Z__dev_batch_0081"
           ],
           "shard_path": "./archive/dev/docs_000779_000779.json"
@@ -44637,18 +44691,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000839",
           "batch_name": "dev_batch_1009",
           "unit_count": 88,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 2,
           "excluded_unit_count": 0,
           "text_preview": "純一さんは６年前と全然お変わりなく、いやむしろかえって若々しくなられましたよ。",
-          "archive_revision": "dc54a300f9d94a53",
+          "archive_revision": "af470418941462c1",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0087_v1__2026-08-19T07:22:51.193Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1009__1789691282899779247"
+          ],
           "shard_path": "./archive/dev/docs_000839_000839.json"
         },
         {
@@ -45248,18 +45304,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000869",
           "batch_name": "dev_batch_1009",
           "unit_count": 52,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 1,
           "excluded_unit_count": 0,
           "text_preview": "ある日、私のところにレッスンのお願いがありました。",
-          "archive_revision": "423f3b83f2bd77e1",
+          "archive_revision": "f2fd4595ad8270da",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0090_v1__2026-08-20T01:02:05.754Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1009__1789691282899779247"
+          ],
           "shard_path": "./archive/dev/docs_000869_000869.json"
         },
         {
@@ -47394,18 +47452,19 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000000975",
           "batch_name": "dev_batch_1010",
           "unit_count": 36,
-          "finalized_correction_count": 1,
-          "finalized_correction_sentence_count": 1,
+          "finalized_correction_count": 2,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "ロス・インカスのホルヘ・ミルチベルグも亡くなってしまった。",
-          "archive_revision": "366ea4b79c096e6b",
+          "archive_revision": "cb3cb8d0b9a96e8f",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0101_v1__2026-08-21T04:50:32.330Z"
           ],
           "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1010__1789691286024829400",
             "finalized_correction__client__dev_977__7424bb06d1694aaeb75fcbb15f3b8a78"
           ],
           "shard_path": "./archive/dev/docs_000975_000975.json"
@@ -48337,18 +48396,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001021",
           "batch_name": "dev_batch_1011",
           "unit_count": 59,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "中津川駅前に2021年10月4日OPENした『Panel Cafe 中津川店(パネルカフェ)』が前から気になっていたので行ってきました！",
-          "archive_revision": "c4dc04d85baaae3e",
+          "archive_revision": "834b35099384bcf1",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0105_v1__2026-08-24T01:44:50.014Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1011__1789691289692092102"
+          ],
           "shard_path": "./archive/dev/docs_001021_001021.json"
         },
         {
@@ -50094,18 +50155,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001108",
           "batch_name": "dev_batch_1012",
           "unit_count": 18,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "例えば、「留学したいな」と思ったり、「海外のマスタークラスに参加してみたいな」と思ったり、音楽をやっていればそう考える事は誰にでもあると思います。",
-          "archive_revision": "89858b9ca2610ba3",
+          "archive_revision": "719a6b26fde7331a",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0115_v1__2026-08-25T00:25:27.906Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1012__1789691293611462174"
+          ],
           "shard_path": "./archive/dev/docs_001108_001108.json"
         },
         {
@@ -51742,18 +51805,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001190",
           "batch_name": "dev_batch_1012",
           "unit_count": 20,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "2021年2月末時点での我が輩の資産総額をお知らせしちゃうぞ〜。",
-          "archive_revision": "1985d3a5e443b776",
+          "archive_revision": "b115a7fef57ce464",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0123_v1__2026-08-25T04:25:45.973Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1012__1789691293611462174"
+          ],
           "shard_path": "./archive/dev/docs_001190_001190.json"
         },
         {
@@ -52164,18 +52229,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001211",
           "batch_name": "dev_batch_1013",
           "unit_count": 5,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "とても素敵に弾きたいように弾いています。",
-          "archive_revision": "9e81f9c07111801b",
+          "archive_revision": "cc1b511d69ac33e2",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0125_v1__2026-08-25T04:50:51.270Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1013__1789691297725523951"
+          ],
           "shard_path": "./archive/dev/docs_001211_001211.json"
         },
         {
@@ -52788,18 +52855,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001242",
           "batch_name": "dev_batch_1013",
           "unit_count": 63,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 1,
           "excluded_unit_count": 0,
           "text_preview": "ファスティング(断食)してみるだとか、テレビもスマホも一切見ないで情報を一度絶って(断って)みるだとか、1時間ぐらいかけて歯や頭、体を洗ってみるだとか、学生時代のように徹夜でゲームするだとか、スーパーの品物の名前を端から全部言っていくだとか",
-          "archive_revision": "050244cb985a0441",
+          "archive_revision": "e479658563604db0",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0128_v1__2026-08-25T06:44:27.025Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1013__1789691297725523951"
+          ],
           "shard_path": "./archive/dev/docs_001242_001242.json"
         },
         {
@@ -54317,18 +54386,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001318",
           "batch_name": "dev_batch_1014",
           "unit_count": 45,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "公演中の瞬間最大風速は『岸くんによるリコーダー演奏』を含む「てぃーてぃーてぃーてれっててれてぃてぃてぃ~だれのケツ~」でした…。",
-          "archive_revision": "d9c65b824f9567b1",
+          "archive_revision": "7e26d7e476e14be9",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0136_v1__2026-08-26T00:34:30.847Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1014__1789691301916889805"
+          ],
           "shard_path": "./archive/dev/docs_001318_001318.json"
         },
         {
@@ -55844,18 +55915,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001394",
           "batch_name": "dev_batch_1014",
           "unit_count": 12,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "夏の使用頻度が高く、人も多い。",
-          "archive_revision": "23aa83ab30a0f069",
+          "archive_revision": "c27b876830d1f7cc",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0143_v1__2026-08-26T04:23:19.892Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1014__1789691301916889805"
+          ],
           "shard_path": "./archive/dev/docs_001394_001394.json"
         },
         {
@@ -56405,18 +56478,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001422",
           "batch_name": "dev_batch_1015",
           "unit_count": 32,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "今までやってこなかった仕事に1日向き合い、疲労困憊な今日。",
-          "archive_revision": "1a083383d405c19a",
+          "archive_revision": "072888fbd8ee8ccc",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0146_v1__2026-08-26T07:02:05.318Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1015__1789691306190675154"
+          ],
           "shard_path": "./archive/dev/docs_001422_001422.json"
         },
         {
@@ -56670,18 +56745,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001435",
           "batch_name": "dev_batch_1015",
           "unit_count": 31,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 1,
           "excluded_unit_count": 0,
           "text_preview": "ここんところ、コメント欄に変な書き込みが続いてます。",
-          "archive_revision": "2a6aec6063f78c2b",
+          "archive_revision": "0027a91e06150404",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0147_v1__2026-08-26T07:15:40.336Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1015__1789691306190675154"
+          ],
           "shard_path": "./archive/dev/docs_001435_001435.json"
         },
         {
@@ -59342,18 +59419,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001568",
           "batch_name": "dev_batch_1016",
           "unit_count": 15,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "お隣の国、韓国にも焼酎があります。",
-          "archive_revision": "880a6b1f9d7a8d30",
+          "archive_revision": "6e61a9ee2c2908e3",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_0161_v1__2026-08-31T06:09:54.145Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1016__1789691309717178466"
+          ],
           "shard_path": "./archive/dev/docs_001568_001568.json"
         },
         {
@@ -63610,18 +63689,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001781",
           "batch_name": "dev_batch_1031",
           "unit_count": 14,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "明けましておめでとうございます、大和田熊吉です!!本日から2022年の営業がスタートしました！",
-          "archive_revision": "c006b3421afcae08",
+          "archive_revision": "a33efce885bc97ab",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1031_v1__2026-09-07T01:46:41.058Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1031__1789691320389141280"
+          ],
           "shard_path": "./archive/dev/docs_001781_001781.json"
         },
         {
@@ -63770,18 +63851,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001789",
           "batch_name": "dev_batch_1031",
           "unit_count": 62,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "秋葉原のラーメン店『JAPANESE FISH NOODLE ウミのチカラ』の真鯛そば。",
-          "archive_revision": "c8c6e9e66af4d242",
+          "archive_revision": "95a0eb0a6cef3754",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1031_v1__2026-09-07T01:46:41.058Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1031__1789691320389141280"
+          ],
           "shard_path": "./archive/dev/docs_001789_001789.json"
         },
         {
@@ -63990,18 +64073,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001800",
           "batch_name": "dev_batch_1032",
           "unit_count": 7,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "もとい美しい山を望むファームに囲まれた大きなおうち。",
-          "archive_revision": "fd510c60f2fa67cd",
+          "archive_revision": "035d7630f01e3d6d",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1032_v1__2026-09-07T01:55:17.677Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1032__1789691321159134613"
+          ],
           "shard_path": "./archive/dev/docs_001800_001800.json"
         },
         {
@@ -64412,18 +64497,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001821",
           "batch_name": "dev_batch_1035",
           "unit_count": 50,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "「けちょんけちょん」という日本語がありますよね。",
-          "archive_revision": "ef6db0beb1d44fcd",
+          "archive_revision": "2a0ac209cdc34874",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1035_v1__2026-09-07T04:17:24.021Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1035__1789691322367280156"
+          ],
           "shard_path": "./archive/dev/docs_001821_001821.json"
         },
         {
@@ -65212,18 +65299,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001861",
           "batch_name": "dev_batch_1039",
           "unit_count": 24,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "茨城県石岡市にある「つくばねオートキャンプ場」に行ってきました。",
-          "archive_revision": "36a10bd650bfb4ec",
+          "archive_revision": "3e00d0dfe8cc981a",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1039_v1__2026-09-07T04:53:20.322Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1039__1789691323732928816"
+          ],
           "shard_path": "./archive/dev/docs_001861_001861.json"
         },
         {
@@ -67332,18 +67421,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001967",
           "batch_name": "dev_batch_1049",
           "unit_count": 49,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 3,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 3,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "・ユーレイデコ#1 さて、これはどんなアニメなんだろうか。",
-          "archive_revision": "80b75469b071f2cc",
+          "archive_revision": "253856dd522fe6dd",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1049_v1__2026-09-07T07:10:50.369Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1049__1789691325688220324"
+          ],
           "shard_path": "./archive/dev/docs_001967_001967.json"
         },
         {
@@ -67612,18 +67703,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001981",
           "batch_name": "dev_batch_1051",
           "unit_count": 48,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 1,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "アジは、年間通して美味しく食べられる魚ですが、一番脂が乗って美味しく食べられる時期は、５月〜８月です。",
-          "archive_revision": "37c6bbc356d32530",
+          "archive_revision": "a830012a0d3ae074",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1051_v1__2026-09-08T00:22:55.606Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1051__1789691326332470939"
+          ],
           "shard_path": "./archive/dev/docs_001981_001981.json"
         },
         {
@@ -69678,18 +69771,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0002016067",
           "batch_name": "dev_batch_1061",
           "unit_count": 40,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 3,
           "excluded_unit_count": 0,
           "text_preview": "ついに茨城ベスト16が出揃いました！",
-          "archive_revision": "835a3dbc6a398a82",
+          "archive_revision": "102dcb80a683e5a2",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1061_v1__2026-09-08T05:40:14.812Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1061__1789691328287714778"
+          ],
           "shard_path": "./archive/dev/docs_002084_002084.json"
         },
         {
@@ -78815,18 +78910,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000996331",
           "batch_name": "dev_batch_1106",
           "unit_count": 143,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 1,
           "excluded_unit_count": 0,
           "text_preview": "この付近には例年小さな群れは入るそうですが今回のような数万羽の群れは初めてとのことです。",
-          "archive_revision": "e37e4047826cbfcb",
+          "archive_revision": "32a517e14bd019fa",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1106_v1__2026-09-14T05:58:29.093Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1106__1789691337197524901"
+          ],
           "shard_path": "./archive/dev/docs_002540_002540.json"
         },
         {
@@ -79077,18 +79174,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0002152820",
           "batch_name": "dev_batch_1108",
           "unit_count": 95,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 1,
           "excluded_unit_count": 0,
           "text_preview": "何だかなあ～、とても上手なんですがそれ以上でもそれ以下でもない感じでした。",
-          "archive_revision": "7aec7a9a8358968f",
+          "archive_revision": "c2c277d6a41fb65f",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1108_v1__2026-09-14T06:47:03.455Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1108__1789691338006109550"
+          ],
           "shard_path": "./archive/dev/docs_002553_002553.json"
         },
         {
@@ -79697,18 +79796,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0002536969",
           "batch_name": "dev_batch_1111",
           "unit_count": 40,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "【脱臭機レビュー】部屋が臭い！",
-          "archive_revision": "a8d601982241faea",
+          "archive_revision": "c18aeac76a361890",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1111_v1__2026-09-14T07:21:45.320Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1111__1789691338892345875"
+          ],
           "shard_path": "./archive/dev/docs_002584_002584.json"
         },
         {
@@ -80440,18 +80541,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0001110964",
           "batch_name": "dev_batch_1115",
           "unit_count": 15,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "先週の日曜日、スーパーに買い物に行ったら父の日と言う事で、お父さんの喜びそうな食材がたくさんありました。",
-          "archive_revision": "5e695ae949a14736",
+          "archive_revision": "38974244ff2b9c18",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1115_v1__2026-09-15T01:29:47.006Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1115__1789691340234678310"
+          ],
           "shard_path": "./archive/dev/docs_002621_002621.json"
         },
         {
@@ -81140,18 +81243,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0002343387",
           "batch_name": "dev_batch_1118",
           "unit_count": 8,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 1,
           "excluded_unit_count": 0,
           "text_preview": "いや、１回目は見てなかったけど確かに腹毛が焦げてた。",
-          "archive_revision": "2a0826e005414fc4",
+          "archive_revision": "19674e69b1b54d33",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1118_v1__2026-09-15T01:51:46.122Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1118__1789691342090439622"
+          ],
           "shard_path": "./archive/dev/docs_002656_002656.json"
         },
         {
@@ -82040,18 +82145,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000267428",
           "batch_name": "dev_batch_1123",
           "unit_count": 12,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 2,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "皆さんも是非一度、草津へ遊びに行ってみて下さい。",
-          "archive_revision": "af1a8597d88c1d6a",
+          "archive_revision": "4830c3a7e635aca6",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1123__1789691343149867184"
+          ],
           "shard_path": "./archive/dev/docs_002701_002701.json"
         },
         {
@@ -82120,18 +82227,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000177550",
           "batch_name": "dev_batch_1123",
           "unit_count": 18,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 3,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 3,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "貰い物で、３年近く使ってましたからね〜。",
-          "archive_revision": "bde36d64f5f1e097",
+          "archive_revision": "c021ce550e5b771d",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1123__1789691343149867184"
+          ],
           "shard_path": "./archive/dev/docs_002705_002705.json"
         },
         {
@@ -82380,18 +82489,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000694044",
           "batch_name": "dev_batch_1124",
           "unit_count": 127,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "（１月２日）　ミニサイズ（凶悪）大魔王エルさんと、ずっと一緒の出勤で机を並べているので。",
-          "archive_revision": "b5caac5718d61b1f",
+          "archive_revision": "417c741890594ec3",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1124_v1__2026-09-15T05:35:11.563Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1124__1789691343574577489"
+          ],
           "shard_path": "./archive/dev/docs_002718_002718.json"
         },
         {
@@ -83762,18 +83873,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000675387",
           "batch_name": "dev_batch_1131",
           "unit_count": 89,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "面倒くさくてそんなの出来ないよね。",
-          "archive_revision": "ce8a8bd9241217ba",
+          "archive_revision": "a6fce7b4f1b9248a",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1131_v1__2026-09-15T06:40:25.367Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1131__1789691345634987398"
+          ],
           "shard_path": "./archive/dev/docs_002787_002787.json"
         },
         {
@@ -84462,18 +84575,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000798044",
           "batch_name": "dev_batch_1135",
           "unit_count": 22,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "絶賛自粛中のbocaです。",
-          "archive_revision": "c8b1641883258938",
+          "archive_revision": "fb774509391197bd",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1135_v1__2026-09-15T07:14:31.680Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1135__1789691347516714002"
+          ],
           "shard_path": "./archive/dev/docs_002822_002822.json"
         },
         {
@@ -86462,6 +86577,26 @@
         },
         {
           "track_name": "dev",
+          "track_doc_seq": 2922,
+          "doc_id": "ja_cc_level2_corrected_v1:0000494934",
+          "batch_name": "dev_batch_1145",
+          "unit_count": 4,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "○本学教員と学生が、当該地域で開催されている「愛宕祭」に毎年参加し、地域住民と協力しながら祭り中で作成される立山（たてやま・愛宕神への供え物）の制作を行っている。",
+          "archive_revision": "9523cf8ef3e92a94",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1145_v1__2026-09-16T04:32:53.750Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002922_002922.json"
+        },
+        {
+          "track_name": "dev",
           "track_doc_seq": 2923,
           "doc_id": "ja_cc_level2_corrected_v1:0001270892",
           "batch_name": "dev_batch_1145",
@@ -86546,19 +86681,41 @@
           "doc_id": "ja_cc_level2_corrected_v1:0002105722",
           "batch_name": "dev_batch_1145",
           "unit_count": 10,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "千葉県サイクリング協会から「南房総菜の花サイクリング」の案内が届きました。",
-          "archive_revision": "807ee42043ad6544",
+          "archive_revision": "745419f62d18f86c",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1145_v1__2026-09-16T04:32:53.750Z"
+          ],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1145__1789691350878698975"
+          ],
+          "shard_path": "./archive/dev/docs_002927_002927.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2928,
+          "doc_id": "ja_cc_level2_corrected_v1:0000502438",
+          "batch_name": "dev_batch_1145",
+          "unit_count": 41,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 2,
+          "excluded_unit_count": 0,
+          "text_preview": "（以下の文章は2014年3月9日、福岡県筑紫野市生涯学習センターで開催された「夢野久作と杉山3代研究会」の第2回研究会での講演録をベースに、大幅に訂正、加筆、修正したものであります）22歳の若き杉山と45歳の元老黒田清隆のスピーチの決闘勝負",
+          "archive_revision": "bbe69aa94211b1eb",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1145_v1__2026-09-16T04:32:53.750Z"
           ],
           "applied_finalized_correction_submission_ids": [],
-          "shard_path": "./archive/dev/docs_002927_002927.json"
+          "shard_path": "./archive/dev/docs_002928_002928.json"
         },
         {
           "track_name": "dev",
@@ -86619,6 +86776,46 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_002931_002931.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2932,
+          "doc_id": "ja_cc_level2_corrected_v1:0000889314",
+          "batch_name": "dev_batch_1146",
+          "unit_count": 21,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "経済界倶楽部札幌11月例会でアパホテル社長の元谷芙美子氏の講演を聞く。",
+          "archive_revision": "7cfaba8dc59c152f",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1146_v1__2026-09-16T04:38:54.626Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002932_002932.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2933,
+          "doc_id": "ja_cc_level2_corrected_v1:0001872473",
+          "batch_name": "dev_batch_1146",
+          "unit_count": 4,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "皆さんは、もやしに調味料を混ぜるとき、ハシでやってます？",
+          "archive_revision": "4f413630a0ab9965",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1146_v1__2026-09-16T04:38:54.626Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002933_002933.json"
         },
         {
           "track_name": "dev",
@@ -86702,6 +86899,26 @@
         },
         {
           "track_name": "dev",
+          "track_doc_seq": 2938,
+          "doc_id": "ja_cc_level2_corrected_v1:0002221787",
+          "batch_name": "dev_batch_1146",
+          "unit_count": 87,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "プラドのボス展の前にエスコリアルに行こうと思ったのは、初日朝の「要人の挨拶」とか「マスコミのフラッシュ」とか、いろいろ煩わしいことがあるかもしれないという懸念と、ボスやパティニールの愛好家でありながら冷厳な権力者であったフェリペ2世という理",
+          "archive_revision": "83d0df61e487e3ac",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1146_v1__2026-09-16T04:38:54.626Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002938_002938.json"
+        },
+        {
+          "track_name": "dev",
           "track_doc_seq": 2939,
           "doc_id": "ja_cc_level2_corrected_v1:0001782065",
           "batch_name": "dev_batch_1146",
@@ -86766,18 +86983,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000915579",
           "batch_name": "dev_batch_1147",
           "unit_count": 12,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "フェイクカットイン発生率はいずれも1/9。",
-          "archive_revision": "f0a67f2c6203db4d",
+          "archive_revision": "405e1383b28e4508",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1147_v1__2026-09-16T05:33:04.377Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1147__1789691351307780108"
+          ],
           "shard_path": "./archive/dev/docs_002942_002942.json"
         },
         {
@@ -86926,18 +87145,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000116031",
           "batch_name": "dev_batch_1148",
           "unit_count": 17,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "しばらくマイ自転車に乗っていない私ですが！",
-          "archive_revision": "891f3719cbdb7e72",
+          "archive_revision": "2b3f32a91b2e5eec",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1148_v1__2026-09-16T05:43:24.195Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1148__1789691351611365619"
+          ],
           "shard_path": "./archive/dev/docs_002951_002951.json"
         },
         {
@@ -87186,18 +87407,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0001114011",
           "batch_name": "dev_batch_1149",
           "unit_count": 27,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 1,
+          "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "ハイ、グイッとグイッとイッキに！",
-          "archive_revision": "ec39382256eaaeb9",
+          "archive_revision": "c59f2aca6dda80a4",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1149_v1__2026-09-16T05:59:01.436Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__attached_wave_readings_v1__dev_batch_1149__1789691351949609824"
+          ],
           "shard_path": "./archive/dev/docs_002968_002968.json"
         },
         {

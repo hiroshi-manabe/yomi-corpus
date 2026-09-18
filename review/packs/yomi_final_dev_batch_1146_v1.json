@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "unresolved_item_count": 20,
     "unresolved_target_count": 26,
@@ -56,12 +55,12 @@
       "source_line_no": 889314,
       "preview": "経済界倶楽部札幌11月例会でアパホテル社長の元谷芙美子氏の講演を聞く。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T00:19:00Z",
+      "state_updated_at": "2026-09-18T00:34:21Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 21,
@@ -82,12 +81,12 @@
       "source_line_no": 1872473,
       "preview": "皆さんは、もやしに調味料を混ぜるとき、ハシでやってます？",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T00:19:00Z",
+      "state_updated_at": "2026-09-18T00:34:22Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -212,12 +211,12 @@
       "source_line_no": 2221787,
       "preview": "プラドのボス展の前にエスコリアルに行こうと思ったのは、初日朝の「要人の挨拶」とか「マスコミのフラッシュ」とか、いろいろ煩わしいことがあるかもしれないという懸念と、ボスやパティニールの愛好家でありながら冷厳な権力者であったフェリペ2世という理解しにくい人格に少しでも触れてみたいと思ったからである。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-18T00:19:00Z",
+      "state_updated_at": "2026-09-18T00:34:22Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 87,
@@ -493069,7 +493068,7 @@
           "token_pos": "接尾辞,名詞的,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -493160,7 +493159,8 @@
               "llm_reading": "ない",
               "current_reading_hiragana": "ない"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001489893:u0007:r0005c01",
@@ -494257,7 +494257,7 @@
           "current_reading_hiragana": "ない",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "ない",
@@ -494372,7 +494372,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T071845Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001489893:u0007:s0006-0008",
