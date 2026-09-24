@@ -2287,6 +2287,7 @@ function reviewWarningPairs(item, override, strong) {
 
 function refreshReviewReadingWarnings() {
   for (const host of document.querySelectorAll("[data-reading-warning-item]")) {
+    if (host.dataset.composing === "true") continue;
     const item = state.currentPack?.items?.find((i) => i.item_id === host.dataset.readingWarningItem);
     if (!item) continue;
     host.replaceChildren();
@@ -4460,7 +4461,9 @@ function renderStrongRepairSpanEditor(item, region, override, editable) {
     input.type = "text";
     input.value = segment.reading || "";
     input.placeholder = "読み";
-    input.addEventListener("input", () => {
+    listenForCommittedInput(input, () => {
+      const warningHost = wrapper.closest(".strong-repair-card")?.querySelector("[data-reading-warning-item]");
+      if (warningHost) delete warningHost.dataset.composing;
       const current = ensureStrongRepairRegionOverride(item.item_id, region.region_id || region.item_id);
       const currentSegments = current.manual_segments?.length
         ? current.manual_segments
@@ -4478,6 +4481,12 @@ function renderStrongRepairSpanEditor(item, region, override, editable) {
         ...renderStrongRepairSegmentRuby(item, region, previewSegments, editable),
       );
       renderSubmissionPreview();
+    }, () => {
+      const warningHost = wrapper.closest(".strong-repair-card")?.querySelector("[data-reading-warning-item]");
+      if (warningHost) {
+        warningHost.dataset.composing = "true";
+        warningHost.replaceChildren();
+      }
     });
     label.append(surface, input);
     fields.append(label);
@@ -4485,6 +4494,30 @@ function renderStrongRepairSpanEditor(item, region, override, editable) {
   editor.append(fields);
   wrapper.append(editor);
   return wrapper;
+}
+
+function listenForCommittedInput(input, commit, onCompositionStart = () => {}) {
+  let composing = false;
+  let committedCompositionValue = null;
+  input.addEventListener("compositionstart", () => {
+    composing = true;
+    committedCompositionValue = null;
+    onCompositionStart();
+  });
+  input.addEventListener("compositionend", () => {
+    composing = false;
+    committedCompositionValue = input.value;
+    commit();
+  });
+  input.addEventListener("input", (event) => {
+    if (composing || event.isComposing) return;
+    if (committedCompositionValue !== null && input.value === committedCompositionValue) {
+      committedCompositionValue = null;
+      return;
+    }
+    committedCompositionValue = null;
+    commit();
+  });
 }
 
 function strongRepairRegionOverride(override, region) {
