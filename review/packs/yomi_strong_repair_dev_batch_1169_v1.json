@@ -1,0 +1,3380 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1169_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1169",
+  "created_at_epoch": 1790234126,
+  "created_at": "2026-09-24T07:15:26Z",
+  "item_count": 4,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 4,
+    "queued_repair_row_count": 4,
+    "result_row_count": 4,
+    "reviewable_repair_row_count": 4,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001077008",
+      "doc_seq": 1,
+      "track_doc_seq": 3161,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0116.jsonl.gz",
+      "source_line_no": 1077008,
+      "preview": "めちゃくちゃ元氣になっちゃいますよ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:37:58Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000086090",
+      "doc_seq": 2,
+      "track_doc_seq": 3162,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0008.jsonl.gz",
+      "source_line_no": 86090,
+      "preview": "中国・春秋時代の思想家、哲学者、儒家の始祖。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:37:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001855668",
+      "doc_seq": 3,
+      "track_doc_seq": 3163,
+      "unit_count": 61,
+      "source_file": "ja/ja_cc/level2/0233.jsonl.gz",
+      "source_line_no": 1855668,
+      "preview": "ちゃちゃたんの里親様を募集します。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-18T04:37:58Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 61,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000423127",
+      "doc_seq": 4,
+      "track_doc_seq": 3164,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0046.jsonl.gz",
+      "source_line_no": 423127,
+      "preview": "ラブ運をアップしたいあなたにぴったりのパワースポットをご紹介します。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-18T04:37:58Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001064883",
+      "doc_seq": 5,
+      "track_doc_seq": 3165,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0115.jsonl.gz",
+      "source_line_no": 1064883,
+      "preview": "ミュージカル『サムシング・ロッテン！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:37:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002216857",
+      "doc_seq": 6,
+      "track_doc_seq": 3166,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0314.jsonl.gz",
+      "source_line_no": 2216857,
+      "preview": "親子会社を含めたグループ企業において、グループガバナンス（グループ統治）という言葉を一体どれだけの人が理解しているのだろうか。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:37:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000951112",
+      "doc_seq": 7,
+      "track_doc_seq": 3167,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0098.jsonl.gz",
+      "source_line_no": 951112,
+      "preview": "年を重ねるに従って、子供の頃、当たり前のように信じていたことが、実は裏があり、全ての物事に対し、斜めに考える習性がつくようになっていったのですが、情報化社会で真偽の大量の情報が流出するなか、きちっと自分のスタンス及び考え方を持たないようにしないとダメだなと、最近、つくづく思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:37:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000780062",
+      "doc_seq": 8,
+      "track_doc_seq": 3168,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0080.jsonl.gz",
+      "source_line_no": 780062,
+      "preview": "こんばんは、アキラです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:37:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002140759",
+      "doc_seq": 9,
+      "track_doc_seq": 3169,
+      "unit_count": 72,
+      "source_file": "ja/ja_cc/level2/0293.jsonl.gz",
+      "source_line_no": 2140759,
+      "preview": "11月21日 渋谷 dots. で開催された「第5回 プログラマのための数学勉強会」のレポート記事です！",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-18T04:37:58Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 3,
+      "to_seq": 4,
+      "reviewed_unit_count": 72,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000729166",
+      "doc_seq": 10,
+      "track_doc_seq": 3170,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0075.jsonl.gz",
+      "source_line_no": 729166,
+      "preview": "遂に新米到着～うれしい～！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-18T04:37:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001855668",
+      "doc_seq": 3,
+      "track_doc_seq": 3163,
+      "unit_id": "ja_cc_level2_corrected_v1:0001855668:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0233.jsonl.gz",
+      "source_line_no": 1855668,
+      "text": "その後、目の手術したりお世話かけっぱなしでした。",
+      "rendered_yomi_before": "その/ソノ 後/アト 、/、 目/メ の/ノ 手術/シュジュツ し/シ たり/タリ お/オ 世/ヨ 話かけ/ハナシカケ っぱなし/ッパナシ でし/デシ た/タ 。/。",
+      "rendered_yomi_after": "その/ソノ 後/アト 、/、 目/メ の/ノ 手術/シュジュツ し/シ たり/タリ お/オ 世話/セワ かけ/カケ っぱなし/ッパナシ でし/デシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "後",
+          "アト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "目",
+          "メ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "手術",
+          "シュジュツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "たり",
+          "タリ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "世話",
+          "セワ"
+        ],
+        [
+          "かけ",
+          "カケ"
+        ],
+        [
+          "っぱなし",
+          "ッパナシ"
+        ],
+        [
+          "でし",
+          "デシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "後",
+          "reading": "アト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "あと"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "目",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目",
+              "reading": "め"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "手術",
+          "reading": "シュジュツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手術",
+              "reading": "しゅじゅつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "たり",
+          "reading": "タリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たり"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "世話",
+          "reading": "セワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "世話",
+              "reading": "せわ"
+            }
+          ]
+        },
+        {
+          "surface": "かけ",
+          "reading": "カケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かけ"
+            }
+          ]
+        },
+        {
+          "surface": "っぱなし",
+          "reading": "ッパナシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "っぱなし"
+            }
+          ]
+        },
+        {
+          "surface": "でし",
+          "reading": "デシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001855668:u0026",
+          "text": "その後、目の手術したりお世話かけっぱなしでした。",
+          "rendered_yomi_before": "その/ソノ 後/アト 、/、 目/メ の/ノ 手術/シュジュツ し/シ たり/タリ お/オ 世/ヨ 話かけ/ハナシカケ っぱなし/ッパナシ でし/デシ た/タ 。/。",
+          "rendered_yomi_after": "その/ソノ 後/アト 、/、 目/メ の/ノ 手術/シュジュツ し/シ たり/タリ お/オ 世話/セワ かけ/カケ っぱなし/ッパナシ でし/デシ た/タ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 11,
+            "char_start": 12,
+            "char_end": 16,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "世",
+              "token_surface": "世",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "世",
+                  "reading": "よ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026:s0014-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "話かけ",
+              "token_surface": "話かけ",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はなしかけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "話かけ",
+                  "reading": "はなしかけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "世",
+              "token_surface": "世",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "世",
+                  "reading": "よ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026:s0014-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "話かけ",
+              "token_surface": "話かけ",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はなしかけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "話かけ",
+                  "reading": "はなしかけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "世話かけ",
+          "reading_candidates": {
+            "世": [
+              "せ",
+              "せい",
+              "ぜ",
+              "よ"
+            ],
+            "世話": [
+              "せわ",
+              "ぜわ"
+            ],
+            "話": [
+              "はなし",
+              "わ",
+              "ばなし"
+            ],
+            "話かけ": [
+              "はなしかけ"
+            ]
+          },
+          "reading_hints": {
+            "世": "せ",
+            "世話": "せわ",
+            "話": "はなし",
+            "話かけ": "はなしかけ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "世",
+              "reading": "よ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "話かけ",
+              "reading": "はなしかけ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"世話\",\"reading\":\"せわ\",\"used_web_search\":false,\"comment\":\"「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。\"},{\"surface\":\"かけ\",\"reading\":\"かけ\",\"used_web_search\":false,\"comment\":\"動詞「かける」の連用形として分けるのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。",
+              "reading": "せわ",
+              "surface": "世話",
+              "used_web_search": false
+            },
+            {
+              "comment": "動詞「かける」の連用形として分けるのが自然。",
+              "reading": "かけ",
+              "surface": "かけ",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。",
+            "動詞「かける」の連用形として分けるのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "世話かけ",
+            "replacement": [
+              {
+                "surface": "世話",
+                "reading": "セワ"
+              },
+              {
+                "surface": "かけ",
+                "reading": "カケ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+                "surface": "世話かけ",
+                "comment": "「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+                "surface": "世話かけ",
+                "comment": "動詞「かける」の連用形として分けるのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "世話かけ",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "世",
+          "token_surface": "世",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "よ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "世",
+              "reading": "よ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026:s0014-0016",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "話かけ",
+          "token_surface": "話かけ",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "はなしかけ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "話かけ",
+              "reading": "はなしかけ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "世",
+          "reading": "よ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "話かけ",
+          "reading": "はなしかけ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "世": [
+          "せ",
+          "せい",
+          "ぜ",
+          "よ"
+        ],
+        "世話": [
+          "せわ",
+          "ぜわ"
+        ],
+        "話": [
+          "はなし",
+          "わ",
+          "ばなし"
+        ],
+        "話かけ": [
+          "はなしかけ"
+        ]
+      },
+      "reading_hints": {
+        "世": "せ",
+        "世話": "せわ",
+        "話": "はなし",
+        "話かけ": "はなしかけ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。",
+          "reading": "せわ",
+          "surface": "世話",
+          "used_web_search": false
+        },
+        {
+          "comment": "動詞「かける」の連用形として分けるのが自然。",
+          "reading": "かけ",
+          "surface": "かけ",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"世話\",\"reading\":\"せわ\",\"used_web_search\":false,\"comment\":\"「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。\"},{\"surface\":\"かけ\",\"reading\":\"かけ\",\"used_web_search\":false,\"comment\":\"動詞「かける」の連用形として分けるのが自然。\"}]",
+      "llm_comments": [
+        "「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。",
+        "動詞「かける」の連用形として分けるのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "世話かけ",
+        "replacement": [
+          {
+            "surface": "世話",
+            "reading": "セワ"
+          },
+          {
+            "surface": "かけ",
+            "reading": "カケ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+            "surface": "世話かけ",
+            "comment": "「世話」はここでは「せわ」。前後から「お世話かけっぱなし」の形で自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001855668:u0026::target_group:1",
+            "surface": "世話かけ",
+            "comment": "動詞「かける」の連用形として分けるのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000423127",
+      "doc_seq": 4,
+      "track_doc_seq": 3164,
+      "unit_id": "ja_cc_level2_corrected_v1:0000423127:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0046.jsonl.gz",
+      "source_line_no": 423127,
+      "text": "頭がよくなるパワースポットといえば、頭之宮四方神社！",
+      "rendered_yomi_before": "頭/アタマ が/ガ よく/ヨク なる/ナル パワー/パワー スポット/スポット と/ト いえ/イエ ば/バ 、/、 頭/アタマ 之/ノ 宮/ミヤ 四方/シホウ 神社/ジンジャ ！/！",
+      "rendered_yomi_after": "頭/アタマ が/ガ よく/ヨク なる/ナル パワー/パワー スポット/スポット と/ト いえ/イエ ば/バ 、/、 頭之宮/コウベノミヤ 四方/ヨモウ 神社/ジンジャ ！/！",
+      "rendered_yomi_after_tokens": [
+        [
+          "頭",
+          "アタマ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "よく",
+          "ヨク"
+        ],
+        [
+          "なる",
+          "ナル"
+        ],
+        [
+          "パワー",
+          "パワー"
+        ],
+        [
+          "スポット",
+          "スポット"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いえ",
+          "イエ"
+        ],
+        [
+          "ば",
+          "バ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "頭之宮",
+          "コウベノミヤ"
+        ],
+        [
+          "四方",
+          "ヨモウ"
+        ],
+        [
+          "神社",
+          "ジンジャ"
+        ],
+        [
+          "！",
+          "！"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "頭",
+          "reading": "アタマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頭",
+              "reading": "あたま"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "よく",
+          "reading": "ヨク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よく"
+            }
+          ]
+        },
+        {
+          "surface": "なる",
+          "reading": "ナル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なる"
+            }
+          ]
+        },
+        {
+          "surface": "パワー",
+          "reading": "パワー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パワー"
+            }
+          ]
+        },
+        {
+          "surface": "スポット",
+          "reading": "スポット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スポット"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いえ",
+          "reading": "イエ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いえ"
+            }
+          ]
+        },
+        {
+          "surface": "ば",
+          "reading": "バ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "頭之宮",
+          "reading": "コウベノミヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頭之宮",
+              "reading": "こうべのみや"
+            }
+          ]
+        },
+        {
+          "surface": "四方",
+          "reading": "ヨモウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "四方",
+              "reading": "よもう"
+            }
+          ]
+        },
+        {
+          "surface": "神社",
+          "reading": "ジンジャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神社",
+              "reading": "じんじゃ"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000423127:u0007",
+          "text": "頭がよくなるパワースポットといえば、頭之宮四方神社！",
+          "rendered_yomi_before": "頭/アタマ が/ガ よく/ヨク なる/ナル パワー/パワー スポット/スポット と/ト いえ/イエ ば/バ 、/、 頭/アタマ 之/ノ 宮/ミヤ 四方/シホウ 神社/ジンジャ ！/！",
+          "rendered_yomi_after": "頭/アタマ が/ガ よく/ヨク なる/ナル パワー/パワー スポット/スポット と/ト いえ/イエ ば/バ 、/、 頭之宮/コウベノミヤ 四方/ヨモウ 神社/ジンジャ ！/！",
+          "display_mapping": {
+            "start": 10,
+            "end": 12,
+            "char_start": 18,
+            "char_end": 23,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "頭",
+              "token_surface": "頭",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あたま",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "頭",
+                  "reading": "あたま",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "之",
+              "token_surface": "之",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "の",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "之",
+                  "reading": "の",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宮",
+              "token_surface": "宮",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みや",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宮",
+                  "reading": "みや",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "四方",
+              "token_surface": "四方",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しほう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "四方",
+                  "reading": "しほう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "頭",
+              "token_surface": "頭",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あたま",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "頭",
+                  "reading": "あたま",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "之",
+              "token_surface": "之",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "の",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "之",
+                  "reading": "の",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宮",
+              "token_surface": "宮",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みや",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宮",
+                  "reading": "みや",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "四方",
+              "token_surface": "四方",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しほう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "四方",
+                  "reading": "しほう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "頭之宮四方",
+          "reading_candidates": {
+            "頭": [
+              "あたま",
+              "かしら",
+              "かぶり",
+              "かみ",
+              "がしら",
+              "こうべ",
+              "ず",
+              "つぶり",
+              "つむり",
+              "とう",
+              "へっど"
+            ],
+            "之": [
+              "これ",
+              "すすむ",
+              "の",
+              "ゆき"
+            ],
+            "宮": [
+              "きゅう",
+              "ぐう",
+              "みや"
+            ],
+            "四": [
+              "し",
+              "よ",
+              "よっ",
+              "しい",
+              "よう",
+              "よん"
+            ],
+            "四方": [
+              "しかた",
+              "しほう",
+              "よかた",
+              "よも"
+            ],
+            "方": [
+              "かた",
+              "ほう",
+              "がた",
+              "ぽう"
+            ]
+          },
+          "reading_hints": {
+            "頭": "あたま",
+            "之": "これ",
+            "宮": "きゅう",
+            "四": "し",
+            "四方": "しかた",
+            "方": "かた"
+          },
+          "rejected_readings": [
+            {
+              "surface": "頭",
+              "reading": "あたま",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "之",
+              "reading": "の",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "宮",
+              "reading": "みや",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "四方",
+              "reading": "しほう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"頭之宮\",\n    \"reading\": \"こうべのみや\",\n    \"used_web_search\": true,\n    \"comment\": \"公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))\"\n  },\n  {\n    \"surface\": \"四方\",\n    \"reading\": \"よもう\",\n    \"used_web_search\": true,\n    \"comment\": \"社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))",
+              "reading": "こうべのみや",
+              "surface": "頭之宮",
+              "used_web_search": true
+            },
+            {
+              "comment": "社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))",
+              "reading": "よもう",
+              "surface": "四方",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))",
+            "社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "頭之宮四方",
+            "replacement": [
+              {
+                "surface": "頭之宮",
+                "reading": "コウベノミヤ"
+              },
+              {
+                "surface": "四方",
+                "reading": "ヨモウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+                "surface": "頭之宮四方",
+                "comment": "公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+                "surface": "頭之宮四方",
+                "comment": "社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "頭之宮四方",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "頭",
+          "token_surface": "頭",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あたま",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "頭",
+              "reading": "あたま",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0020-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "之",
+          "token_surface": "之",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "の",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "之",
+              "reading": "の",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宮",
+          "token_surface": "宮",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みや",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宮",
+              "reading": "みや",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007:s0022-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "四方",
+          "token_surface": "四方",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しほう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "四方",
+              "reading": "しほう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "頭",
+          "reading": "あたま",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "之",
+          "reading": "の",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "宮",
+          "reading": "みや",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "四方",
+          "reading": "しほう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "頭": [
+          "あたま",
+          "かしら",
+          "かぶり",
+          "かみ",
+          "がしら",
+          "こうべ",
+          "ず",
+          "つぶり",
+          "つむり",
+          "とう",
+          "へっど"
+        ],
+        "之": [
+          "これ",
+          "すすむ",
+          "の",
+          "ゆき"
+        ],
+        "宮": [
+          "きゅう",
+          "ぐう",
+          "みや"
+        ],
+        "四": [
+          "し",
+          "よ",
+          "よっ",
+          "しい",
+          "よう",
+          "よん"
+        ],
+        "四方": [
+          "しかた",
+          "しほう",
+          "よかた",
+          "よも"
+        ],
+        "方": [
+          "かた",
+          "ほう",
+          "がた",
+          "ぽう"
+        ]
+      },
+      "reading_hints": {
+        "頭": "あたま",
+        "之": "これ",
+        "宮": "きゅう",
+        "四": "し",
+        "四方": "しかた",
+        "方": "かた"
+      },
+      "llm_parsed": [
+        {
+          "comment": "公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))",
+          "reading": "こうべのみや",
+          "surface": "頭之宮",
+          "used_web_search": true
+        },
+        {
+          "comment": "社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))",
+          "reading": "よもう",
+          "surface": "四方",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"頭之宮\",\n    \"reading\": \"こうべのみや\",\n    \"used_web_search\": true,\n    \"comment\": \"公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))\"\n  },\n  {\n    \"surface\": \"四方\",\n    \"reading\": \"よもう\",\n    \"used_web_search\": true,\n    \"comment\": \"社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))\"\n  }\n]",
+      "llm_comments": [
+        "公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))",
+        "社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "頭之宮四方",
+        "replacement": [
+          {
+            "surface": "頭之宮",
+            "reading": "コウベノミヤ"
+          },
+          {
+            "surface": "四方",
+            "reading": "ヨモウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+            "surface": "頭之宮四方",
+            "comment": "公式の読み「こうべのみやよもうじんじゃ」に合わせ、頭之宮は一まとまりの固有名として読む。 ([iseshima-kanko.jp](https://www.iseshima-kanko.jp/spot/1655))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000423127:u0007::target_group:1",
+            "surface": "頭之宮四方",
+            "comment": "社名説明で「四方」は「四方（よもう）」と明示されているため。 ([koubenomiya.or.jp](https://koubenomiya.or.jp/about/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0002140759",
+      "doc_seq": 9,
+      "track_doc_seq": 3169,
+      "unit_id": "ja_cc_level2_corrected_v1:0002140759:u0037",
+      "unit_seq": 37,
+      "source_file": "ja/ja_cc/level2/0293.jsonl.gz",
+      "source_line_no": 2140759,
+      "text": "Excel を使って黄金進法・フィボナッチ記数法で書く方法を説明し、最後には独自で考案したという「物智数」も紹介してくれました。",
+      "rendered_yomi_before": "Excel/エクセル  / を/ヲ 使っ/ツカッ て/テ 黄金/オウゴン 進/シン 法/ホウ ・/・ フィボナッチ/フィボナッチ 記数法/キスウホウ で/デ 書く/カク 方法/ホウホウ を/ヲ 説明/セツメイ し/シ 、/、 最後/サイゴ に/ニ は/ハ 独自/ドクジ で/デ 考案/コウアン し/シ た/タ と/ト いう/イウ 「/「 物/モノ 智数/トモカズ 」/」 も/モ 紹介/ショウカイ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "Excel/エクセル \\s/ を/ヲ 使っ/ツカッ て/テ 黄金/オウゴン 進/シン 法/ホウ ・/・ フィボナッチ/フィボナッチ 記数法/キスウホウ で/デ 書く/カク 方法/ホウホウ を/ヲ 説明/セツメイ し/シ 、/、 最後/サイゴ に/ニ は/ハ 独自/ドクジ で/デ 考案/コウアン し/シ た/タ と/ト いう/イウ 「/「 物智/ブッチ 数/スウ 」/」 も/モ 紹介/ショウカイ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "Excel",
+          "エクセル"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "使っ",
+          "ツカッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "黄金",
+          "オウゴン"
+        ],
+        [
+          "進",
+          "シン"
+        ],
+        [
+          "法",
+          "ホウ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "フィボナッチ",
+          "フィボナッチ"
+        ],
+        [
+          "記数法",
+          "キスウホウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "書く",
+          "カク"
+        ],
+        [
+          "方法",
+          "ホウホウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "説明",
+          "セツメイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "最後",
+          "サイゴ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "独自",
+          "ドクジ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "考案",
+          "コウアン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "物智",
+          "ブッチ"
+        ],
+        [
+          "数",
+          "スウ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "紹介",
+          "ショウカイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "くれ",
+          "クレ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "Excel",
+          "reading": "エクセル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Excel",
+              "reading": "えくせる"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "使っ",
+          "reading": "ツカッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "使",
+              "reading": "つか"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "黄金",
+          "reading": "オウゴン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "黄金",
+              "reading": "おうごん"
+            }
+          ]
+        },
+        {
+          "surface": "進",
+          "reading": "シン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "進",
+              "reading": "しん"
+            }
+          ]
+        },
+        {
+          "surface": "法",
+          "reading": "ホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法",
+              "reading": "ほう"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "フィボナッチ",
+          "reading": "フィボナッチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "フィボナッチ"
+            }
+          ]
+        },
+        {
+          "surface": "記数法",
+          "reading": "キスウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "記数法",
+              "reading": "きすうほう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "書く",
+          "reading": "カク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "書",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "方法",
+          "reading": "ホウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "方法",
+              "reading": "ほうほう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "説明",
+          "reading": "セツメイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "説明",
+              "reading": "せつめい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "最後",
+          "reading": "サイゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最後",
+              "reading": "さいご"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "独自",
+          "reading": "ドクジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "独自",
+              "reading": "どくじ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "考案",
+          "reading": "コウアン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "考案",
+              "reading": "こうあん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "物智",
+          "reading": "ブッチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "物智",
+              "reading": "ぶっち"
+            }
+          ]
+        },
+        {
+          "surface": "数",
+          "reading": "スウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "数",
+              "reading": "すう"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "紹介",
+          "reading": "ショウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "紹介",
+              "reading": "しょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "くれ",
+          "reading": "クレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "くれ"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002140759:u0037",
+          "text": "Excel を使って黄金進法・フィボナッチ記数法で書く方法を説明し、最後には独自で考案したという「物智数」も紹介してくれました。",
+          "rendered_yomi_before": "Excel/エクセル  / を/ヲ 使っ/ツカッ て/テ 黄金/オウゴン 進/シン 法/ホウ ・/・ フィボナッチ/フィボナッチ 記数法/キスウホウ で/デ 書く/カク 方法/ホウホウ を/ヲ 説明/セツメイ し/シ 、/、 最後/サイゴ に/ニ は/ハ 独自/ドクジ で/デ 考案/コウアン し/シ た/タ と/ト いう/イウ 「/「 物/モノ 智数/トモカズ 」/」 も/モ 紹介/ショウカイ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "Excel/エクセル \\s/ を/ヲ 使っ/ツカッ て/テ 黄金/オウゴン 進/シン 法/ホウ ・/・ フィボナッチ/フィボナッチ 記数法/キスウホウ で/デ 書く/カク 方法/ホウホウ を/ヲ 説明/セツメイ し/シ 、/、 最後/サイゴ に/ニ は/ハ 独自/ドクジ で/デ 考案/コウアン し/シ た/タ と/ト いう/イウ 「/「 物智/ブッチ 数/スウ 」/」 も/モ 紹介/ショウカイ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 29,
+            "end": 31,
+            "char_start": 49,
+            "char_end": 52,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037:s0050-0050",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "物",
+              "token_surface": "物",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もの",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "物",
+                  "reading": "もの",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037:s0051-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "智数",
+              "token_surface": "智数",
+              "token_index": 30,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ともかず",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "智数",
+                  "reading": "ともかず",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037:s0050-0050",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "物",
+              "token_surface": "物",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もの",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "物",
+                  "reading": "もの",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037:s0051-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "智数",
+              "token_surface": "智数",
+              "token_index": 30,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ともかず",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "智数",
+                  "reading": "ともかず",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "物智数",
+          "reading_candidates": {
+            "物": [
+              "もの",
+              "ぶつ",
+              "もつ",
+              "もん"
+            ],
+            "智": [
+              "あきら",
+              "さとし",
+              "さとる",
+              "ち",
+              "ちい",
+              "とみ",
+              "とも"
+            ],
+            "智数": [
+              "ともかず"
+            ],
+            "数": [
+              "かず",
+              "すう",
+              "かずえ",
+              "かずさ"
+            ]
+          },
+          "reading_hints": {
+            "物": "もの",
+            "智": "あきら",
+            "智数": "ともかず",
+            "数": "かず"
+          },
+          "rejected_readings": [
+            {
+              "surface": "物",
+              "reading": "もの",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "智数",
+              "reading": "ともかず",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"物智\",\n    \"reading\": \"ブッチ\",\n    \"used_web_search\": true,\n    \"comment\": \"公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))\"\n  },\n  {\n    \"surface\": \"数\",\n    \"reading\": \"スウ\",\n    \"used_web_search\": true,\n    \"comment\": \"記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+              "reading": "ブッチ",
+              "surface": "物智",
+              "used_web_search": true
+            },
+            {
+              "comment": "記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+              "reading": "スウ",
+              "surface": "数",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+            "記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+            "status": "applied",
+            "rejected_span": "物智数",
+            "replacement": [
+              {
+                "surface": "物智",
+                "reading": "ブッチ"
+              },
+              {
+                "surface": "数",
+                "reading": "スウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+                "surface": "物智数",
+                "comment": "公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+                "surface": "物智数",
+                "comment": "記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "物智数",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037:s0050-0050",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "物",
+          "token_surface": "物",
+          "token_index": 29,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もの",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "物",
+              "reading": "もの",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037:s0051-0052",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "智数",
+          "token_surface": "智数",
+          "token_index": 30,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ともかず",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "智数",
+              "reading": "ともかず",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "物",
+          "reading": "もの",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "智数",
+          "reading": "ともかず",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "物": [
+          "もの",
+          "ぶつ",
+          "もつ",
+          "もん"
+        ],
+        "智": [
+          "あきら",
+          "さとし",
+          "さとる",
+          "ち",
+          "ちい",
+          "とみ",
+          "とも"
+        ],
+        "智数": [
+          "ともかず"
+        ],
+        "数": [
+          "かず",
+          "すう",
+          "かずえ",
+          "かずさ"
+        ]
+      },
+      "reading_hints": {
+        "物": "もの",
+        "智": "あきら",
+        "智数": "ともかず",
+        "数": "かず"
+      },
+      "llm_parsed": [
+        {
+          "comment": "公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+          "reading": "ブッチ",
+          "surface": "物智",
+          "used_web_search": true
+        },
+        {
+          "comment": "記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+          "reading": "スウ",
+          "surface": "数",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"物智\",\n    \"reading\": \"ブッチ\",\n    \"used_web_search\": true,\n    \"comment\": \"公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))\"\n  },\n  {\n    \"surface\": \"数\",\n    \"reading\": \"スウ\",\n    \"used_web_search\": true,\n    \"comment\": \"記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))\"\n  }\n]",
+      "llm_comments": [
+        "公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+        "記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+        "status": "applied",
+        "rejected_span": "物智数",
+        "replacement": [
+          {
+            "surface": "物智",
+            "reading": "ブッチ"
+          },
+          {
+            "surface": "数",
+            "reading": "スウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+            "surface": "物智数",
+            "comment": "公式ブログや解説で「物智数」が Butchi number／「物智(butchi)数」と示されており、この部分は固有の呼び名として「ぶっち」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002140759:u0037::target_group:1",
+            "surface": "物智数",
+            "comment": "記数法・数体系を表す後部要素なので「すう」と読むのが自然です。 ([qiita.com](https://qiita.com/butchi_y/items/006eef2074cc62db754d))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0002140759",
+      "doc_seq": 9,
+      "track_doc_seq": 3169,
+      "unit_id": "ja_cc_level2_corrected_v1:0002140759:u0053",
+      "unit_seq": 53,
+      "source_file": "ja/ja_cc/level2/0293.jsonl.gz",
+      "source_line_no": 2140759,
+      "text": "正多面体の頂点・辺・面の数を数えていくと、そこに共通の法則がある。",
+      "rendered_yomi_before": "正多/ショウタ 面体/メンタイ の/ノ 頂点/チョウテン ・/・ 辺/ヘン ・/・ 面/メン の/ノ 数/カズ を/ヲ 数え/カゾエ て/テ いく/イク と/ト 、/、 そこ/ソコ に/ニ 共通/キョウツウ の/ノ 法則/ホウソク が/ガ ある/アル 。/。",
+      "rendered_yomi_after": "正/セイ 多面体/タメンタイ の/ノ 頂点/チョウテン ・/・ 辺/ヘン ・/・ 面/メン の/ノ 数/カズ を/ヲ 数え/カゾエ て/テ いく/イク と/ト 、/、 そこ/ソコ に/ニ 共通/キョウツウ の/ノ 法則/ホウソク が/ガ ある/アル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "正",
+          "セイ"
+        ],
+        [
+          "多面体",
+          "タメンタイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "頂点",
+          "チョウテン"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "辺",
+          "ヘン"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "面",
+          "メン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "数",
+          "カズ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "数え",
+          "カゾエ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いく",
+          "イク"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "そこ",
+          "ソコ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "共通",
+          "キョウツウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "法則",
+          "ホウソク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "正",
+          "reading": "セイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "正",
+              "reading": "せい"
+            }
+          ]
+        },
+        {
+          "surface": "多面体",
+          "reading": "タメンタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多面体",
+              "reading": "ためんたい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "頂点",
+          "reading": "チョウテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頂点",
+              "reading": "ちょうてん"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "辺",
+          "reading": "ヘン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "辺",
+              "reading": "へん"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "面",
+          "reading": "メン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "面",
+              "reading": "めん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "数",
+          "reading": "カズ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "数",
+              "reading": "かず"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "数え",
+          "reading": "カゾエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "数",
+              "reading": "かぞ"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いく",
+          "reading": "イク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いく"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "そこ",
+          "reading": "ソコ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そこ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "共通",
+          "reading": "キョウツウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "共通",
+              "reading": "きょうつう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "法則",
+          "reading": "ホウソク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法則",
+              "reading": "ほうそく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002140759:u0053",
+          "text": "正多面体の頂点・辺・面の数を数えていくと、そこに共通の法則がある。",
+          "rendered_yomi_before": "正多/ショウタ 面体/メンタイ の/ノ 頂点/チョウテン ・/・ 辺/ヘン ・/・ 面/メン の/ノ 数/カズ を/ヲ 数え/カゾエ て/テ いく/イク と/ト 、/、 そこ/ソコ に/ニ 共通/キョウツウ の/ノ 法則/ホウソク が/ガ ある/アル 。/。",
+          "rendered_yomi_after": "正/セイ 多面体/タメンタイ の/ノ 頂点/チョウテン ・/・ 辺/ヘン ・/・ 面/メン の/ノ 数/カズ を/ヲ 数え/カゾエ て/テ いく/イク と/ト 、/、 そこ/ソコ に/ニ 共通/キョウツウ の/ノ 法則/ホウソク が/ガ ある/アル 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 4,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "正多",
+              "token_surface": "正多",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょうた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "正多",
+                  "reading": "しょうた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "面体",
+              "token_surface": "面体",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "めんたい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "面体",
+                  "reading": "めんたい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "正多",
+              "token_surface": "正多",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょうた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "正多",
+                  "reading": "しょうた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "面体",
+              "token_surface": "面体",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "めんたい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "面体",
+                  "reading": "めんたい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "正多面体",
+          "reading_candidates": {
+            "正": [
+              "せい",
+              "あきら",
+              "かみ",
+              "しょう",
+              "ただし",
+              "ただす",
+              "まあ",
+              "まさ",
+              "まさし"
+            ],
+            "正多": [
+              "しょうた",
+              "せいた",
+              "まさた"
+            ],
+            "多": [
+              "おお",
+              "おおの",
+              "さわ",
+              "た"
+            ],
+            "多面": [
+              "ためん"
+            ],
+            "多面体": [
+              "ためんたい"
+            ],
+            "面": [
+              "おも",
+              "おもて",
+              "つら",
+              "づら",
+              "めん"
+            ],
+            "面体": [
+              "めんたい",
+              "めんてい"
+            ],
+            "体": [
+              "たい",
+              "からだ",
+              "てい"
+            ]
+          },
+          "reading_hints": {
+            "正": "せい",
+            "正多": "しょうた",
+            "多": "おお",
+            "多面": "ためん",
+            "多面体": "ためんたい",
+            "面": "おも",
+            "面体": "めんたい",
+            "体": "たい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "正多",
+              "reading": "しょうた",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "面体",
+              "reading": "めんたい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"正\",\"reading\":\"セイ\",\"used_web_search\":false,\"comment\":\"「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。\"},{\"surface\":\"多面体\",\"reading\":\"タメンタイ\",\"used_web_search\":false,\"comment\":\"「多面体」は一般語で「タメンタイ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。",
+              "reading": "セイ",
+              "surface": "正",
+              "used_web_search": false
+            },
+            {
+              "comment": "「多面体」は一般語で「タメンタイ」と読む。",
+              "reading": "タメンタイ",
+              "surface": "多面体",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。",
+            "「多面体」は一般語で「タメンタイ」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+            "status": "applied",
+            "rejected_span": "正多面体",
+            "replacement": [
+              {
+                "surface": "正",
+                "reading": "セイ"
+              },
+              {
+                "surface": "多面体",
+                "reading": "タメンタイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+                "surface": "正多面体",
+                "comment": "「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+                "surface": "正多面体",
+                "comment": "「多面体」は一般語で「タメンタイ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "正多面体",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053:s0001-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "正多",
+          "token_surface": "正多",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しょうた",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "正多",
+              "reading": "しょうた",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053:s0003-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "面体",
+          "token_surface": "面体",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "めんたい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "面体",
+              "reading": "めんたい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "正多",
+          "reading": "しょうた",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "面体",
+          "reading": "めんたい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "正": [
+          "せい",
+          "あきら",
+          "かみ",
+          "しょう",
+          "ただし",
+          "ただす",
+          "まあ",
+          "まさ",
+          "まさし"
+        ],
+        "正多": [
+          "しょうた",
+          "せいた",
+          "まさた"
+        ],
+        "多": [
+          "おお",
+          "おおの",
+          "さわ",
+          "た"
+        ],
+        "多面": [
+          "ためん"
+        ],
+        "多面体": [
+          "ためんたい"
+        ],
+        "面": [
+          "おも",
+          "おもて",
+          "つら",
+          "づら",
+          "めん"
+        ],
+        "面体": [
+          "めんたい",
+          "めんてい"
+        ],
+        "体": [
+          "たい",
+          "からだ",
+          "てい"
+        ]
+      },
+      "reading_hints": {
+        "正": "せい",
+        "正多": "しょうた",
+        "多": "おお",
+        "多面": "ためん",
+        "多面体": "ためんたい",
+        "面": "おも",
+        "面体": "めんたい",
+        "体": "たい"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。",
+          "reading": "セイ",
+          "surface": "正",
+          "used_web_search": false
+        },
+        {
+          "comment": "「多面体」は一般語で「タメンタイ」と読む。",
+          "reading": "タメンタイ",
+          "surface": "多面体",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"正\",\"reading\":\"セイ\",\"used_web_search\":false,\"comment\":\"「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。\"},{\"surface\":\"多面体\",\"reading\":\"タメンタイ\",\"used_web_search\":false,\"comment\":\"「多面体」は一般語で「タメンタイ」と読む。\"}]",
+      "llm_comments": [
+        "「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。",
+        "「多面体」は一般語で「タメンタイ」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+        "status": "applied",
+        "rejected_span": "正多面体",
+        "replacement": [
+          {
+            "surface": "正",
+            "reading": "セイ"
+          },
+          {
+            "surface": "多面体",
+            "reading": "タメンタイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+            "surface": "正多面体",
+            "comment": "「正」は「正多面体」で「規則正しい」の意味の接頭的要素として読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002140759:u0053::target_group:1",
+            "surface": "正多面体",
+            "comment": "「多面体」は一般語で「タメンタイ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}

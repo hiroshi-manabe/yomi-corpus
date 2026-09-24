@@ -4,22 +4,10 @@
   "tracks": {
     "dev": {
       "track_name": "dev",
-      "document_count": 3179,
+      "document_count": 3182,
       "finalized_track_doc_seq_ranges": [
         [
           1,
-          3130
-        ],
-        [
-          3132,
-          3132
-        ],
-        [
-          3134,
-          3136
-        ],
-        [
-          3138,
           3143
         ],
         [
@@ -68,7 +56,7 @@
         ]
       ],
       "manual_correction_required_count": 0,
-      "reading_warning_count": 2,
+      "reading_warning_count": 1,
       "shard_size": 1,
       "shards": [
         {
@@ -28242,9 +28230,27 @@
           ]
         },
         {
+          "path": "./archive/dev/docs_003131_003131.json",
+          "start_track_doc_seq": 3131,
+          "end_track_doc_seq": 3131,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1166"
+          ]
+        },
+        {
           "path": "./archive/dev/docs_003132_003132.json",
           "start_track_doc_seq": 3132,
           "end_track_doc_seq": 3132,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1166"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_003133_003133.json",
+          "start_track_doc_seq": 3133,
+          "end_track_doc_seq": 3133,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1166"
@@ -28272,6 +28278,15 @@
           "path": "./archive/dev/docs_003136_003136.json",
           "start_track_doc_seq": 3136,
           "end_track_doc_seq": 3136,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1166"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_003137_003137.json",
+          "start_track_doc_seq": 3137,
+          "end_track_doc_seq": 3137,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1166"
@@ -91910,18 +91925,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000077997",
           "batch_name": "dev_batch_1164",
           "unit_count": 292,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
-          "reading_warning_count": 2,
+          "reading_warning_count": 1,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "毎夏の折り紙界最大のイベント。",
-          "archive_revision": "3700a8af35fd88bc",
+          "archive_revision": "ce272bdce456e815",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1164_v1__2026-09-18T01:18:25.046Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__client__dev_3115__5eb8736c32b04dc09070fddb7deca007"
+          ],
           "shard_path": "./archive/dev/docs_003115_003115.json"
         },
         {
@@ -92226,6 +92243,26 @@
         },
         {
           "track_name": "dev",
+          "track_doc_seq": 3131,
+          "doc_id": "ja_cc_level2_corrected_v1:0002471286",
+          "batch_name": "dev_batch_1166",
+          "unit_count": 9,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "今回訪ねるのは坂出市の岩黒島。",
+          "archive_revision": "72ca0fafae8c18c3",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1166_v1__2026-09-18T01:46:07.523Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_003131_003131.json"
+        },
+        {
+          "track_name": "dev",
           "track_doc_seq": 3132,
           "doc_id": "ja_cc_level2_corrected_v1:0000427204",
           "batch_name": "dev_batch_1166",
@@ -92243,6 +92280,26 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_003132_003132.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 3133,
+          "doc_id": "ja_cc_level2_corrected_v1:0000121460",
+          "batch_name": "dev_batch_1166",
+          "unit_count": 9,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 2,
+          "excluded_unit_count": 0,
+          "text_preview": "研磨面が透けて見えます！",
+          "archive_revision": "6085abacafefb4af",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1166_v1__2026-09-18T01:46:07.523Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_003133_003133.json"
         },
         {
           "track_name": "dev",
@@ -92303,6 +92360,26 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_003136_003136.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 3137,
+          "doc_id": "ja_cc_level2_corrected_v1:0000931967",
+          "batch_name": "dev_batch_1166",
+          "unit_count": 14,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "思川開発の検証作業は３年半ストップしていたのですが、昨年秋に再開され、推進のお墨付きを得ようと、一挙に動き出し、現在、検証素案へのパブリックコメントが行われています（５月11日まで）。",
+          "archive_revision": "9ef8b76e04c428f5",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1166_v1__2026-09-18T01:46:07.523Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_003137_003137.json"
         },
         {
           "track_name": "dev",
