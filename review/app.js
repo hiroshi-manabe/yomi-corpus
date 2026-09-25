@@ -2465,7 +2465,7 @@ function validateRenderedYomiReading(surface, reading) {
   if (isStandaloneLaughterW(surface) && !reading) {
     return { ok: true };
   }
-  if (/[\p{Script=Han}\p{Script=Cyrillic}々〆〻A-Za-zＡ-Ｚａ-ｚ]/u.test(surface) || ["㈱", "㊙"].includes(surface)) {
+  if (/[\p{Script=Han}\p{Script=Greek}\p{Script=Cyrillic}々〆〻A-Za-zＡ-Ｚａ-ｚ]/u.test(surface) || ["㈱", "㊙"].includes(surface)) {
     const hasKanji = /[\p{Script=Han}々〆〻]/u.test(surface);
     if (hasKanji && isMixedKanaReadingException(surface, reading)) return { ok: true };
     if (!reading) {
