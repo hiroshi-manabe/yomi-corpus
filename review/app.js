@@ -2207,10 +2207,7 @@ function validateRenderedYomiCorrection(unit, proposed) {
     if (baselineCount) {
       baselinePairCounts.set(baselineKey, baselineCount - 1);
     } else {
-      const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
-      if (!readingValidation.ok) {
-        warnings.push({surface: token.surface, reading: token.reading, message: readingValidation.error});
-      }
+      warnings.push(...readingWarningsForPairs([[token.surface, token.reading]]));
     }
     surfaceText.push(token.surface);
   }
