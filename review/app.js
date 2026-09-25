@@ -8346,9 +8346,17 @@ function completeCurrentTask() {
   }
   state.currentDraft.saved_tasks[record.task_id] = submittedRecord;
   clearActiveTaskState();
-  touchDraft();
+  let draftSaved = true;
+  try {
+    touchDraft();
+  } catch (error) {
+    if (error?.name !== "QuotaExceededError") throw error;
+    draftSaved = false;
+  }
   restoreUnifiedDashboardPack();
-  showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
+  showStatus(draftSaved
+    ? `${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`
+    : "提出履歴は保存されましたが、作業一覧を保存する容量が不足しています。再読み込み後も提出履歴から復元できます。", !draftSaved);
   render({ scrollToTop: true });
 }
 
@@ -8406,9 +8414,17 @@ function markSavedTaskSubmitted(taskId) {
   if (state.currentDraft.active_task_id === record.task_id) {
     clearActiveTaskState();
   }
-  touchDraft();
+  let draftSaved = true;
+  try {
+    touchDraft();
+  } catch (error) {
+    if (error?.name !== "QuotaExceededError") throw error;
+    draftSaved = false;
+  }
   restoreUnifiedDashboardPack();
-  showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
+  showStatus(draftSaved
+    ? `${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`
+    : "提出履歴は保存されましたが、作業一覧を保存する容量が不足しています。再読み込み後も提出履歴から復元できます。", !draftSaved);
   render();
 }
 
