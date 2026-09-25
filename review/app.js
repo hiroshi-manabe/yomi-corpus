@@ -2437,6 +2437,11 @@ function defaultNonlexicalReading(surface) {
 }
 
 function validateRenderedYomiReading(surface, reading) {
+  if (surface === "〇") {
+    return reading === surface || /^[ァ-ヺー]+$/u.test(reading)
+      ? { ok: true }
+      : { ok: false, error: "単独の〇にはそのままの記号かカタカナの読みが必要です。" };
+  }
   if (compatibilityUnitReading(surface)) {
     return reading && /^[ァ-ヺー]+$/u.test(reading)
       ? { ok: true }
@@ -2528,7 +2533,7 @@ function numericCompoundReadings(surface) {
 function isNumericOnlySurface(surface) {
   // ASCII Roman-looking strings such as "I" and "III" stay alphabetic because
   // they are ambiguous. Single Japanese numeral kanji stay lexical, while
-  // multi-character digit runs and circle zero belong to the numeric layer.
+  // multi-character digit runs belong to the numeric layer.
   const value = String(surface || "");
   if (/^[0-9０-９]+\/[0-9０-９]+$/u.test(value)) return true;
   // Keep decimal/grouping syntax aligned with FORMATTED_ARABIC_NUMBER_RE.
@@ -2541,7 +2546,7 @@ function isNumericOnlySurface(surface) {
   if (!/^[〇○零一二三四五六七八九]+$/u.test(value)) {
     return true;
   }
-  return [...value].length >= 2 || value === "〇";
+  return [...value].length >= 2;
 }
 
 function isStandaloneLaughterW(surface) {
