@@ -2492,7 +2492,7 @@ function validateRenderedYomiReading(surface, reading) {
 
 function isSymbolicKaomojiCorrectionSurface(surface) {
   return (
-    [...String(surface || "")].length >= 3 &&
+    [...String(surface || "")].length >= 2 &&
     !/^(?:\([ぁ-ゖァ-ヺ\p{Script=Han}々〆〻]+\)|（[ぁ-ゖァ-ヺ\p{Script=Han}々〆〻]+）)$/u.test(surface) &&
     /[^\p{L}\p{N}\s]/u.test(surface)
   );
