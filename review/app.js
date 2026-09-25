@@ -2342,7 +2342,10 @@ function hiraganaToKatakana(value) {
 
 function compatibilityUnitReading(surface) {
   return { "㎝": "センチ", "㎜": "ミリ", "㎞": "キロ", "㎏": "キロ",
-    "㎡": "ヘイホウメートル", "ℓ": "リットル" }[surface] || null;
+    "㌔": "キロ", "㌢": "センチ", "㍉": "ミリ", "㍍": "メートル",
+    "㌘": "グラム", "㍑": "リットル", "㌧": "トン", "㌫": "パーセント",
+    "㌶": "ヘクタール", "㌻": "ページ", "㎎": "ミリグラム", "㏌": "インチ",
+    "㎡": "ヘイホウメートル", "㎥": "リッポウメートル", "ℓ": "リットル" }[surface] || null;
 }
 
 function expandedKanaSpelling(surface) {
