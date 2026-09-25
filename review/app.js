@@ -2230,7 +2230,11 @@ function readingWarningsForPairs(pairs, acknowledgements = []) {
   const accepted = new Set(acknowledgements.map((pair) => JSON.stringify(pair)));
   return pairs.flatMap(([surface, reading]) => {
     const check = validateRenderedYomiReading(surface, reading);
-    return check.ok || accepted.has(JSON.stringify([surface, reading])) ? [] : [{surface, reading, message: check.error}];
+    if (accepted.has(JSON.stringify([surface, reading]))) return [];
+    if (!check.ok) return [{surface, reading, message: check.error}];
+    return isNumericOnlySurface(surface) && reading
+      ? [{surface, reading, message: "数字だけの表記に読みが付いています。意図した例外か確認してください。"}]
+      : [];
   });
 }
 
