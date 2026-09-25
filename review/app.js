@@ -2427,6 +2427,7 @@ function validMixedKanaSpellingReading(surface, reading) {
 function defaultNonlexicalReading(surface) {
   const unitReading = compatibilityUnitReading(surface);
   if (unitReading) return unitReading;
+  if ({ "㈱": "カブ", "㊙": "ヒ" }[surface]) return { "㈱": "カブ", "㊙": "ヒ" }[surface];
   const kana = expandedKanaSpelling(surface);
   if (kana !== null) return kana.replace(/ヰ/gu, "イ").replace(/ヱ/gu, "エ");
   const reading = hiraganaToKatakana(surface);
@@ -2446,12 +2447,9 @@ function validateRenderedYomiReading(surface, reading) {
       : { ok: true };
   }
   if (isNumericOnlySurface(surface)) {
-    if (allowsOptionalJapaneseNumeralReading(surface)) {
-      return !reading || /^[ァ-ヺー]+$/u.test(reading)
-        ? { ok: true }
-        : { ok: false, error: "漢数字列の読みは空またはカタカナにしてください。" };
-    }
-    return reading ? { ok: false, error: "数字のみの表記には読みを付けないでください。" } : { ok: true };
+    return !reading || /^[ァ-ヺー]+$/u.test(reading)
+      ? { ok: true }
+      : { ok: false, error: "数字のみの表記の読みはカタカナにしてください。" };
   }
   if (numericCompoundReadings(surface)) {
     return reading && /^[ァ-ヺー]+$/u.test(reading)
@@ -2466,7 +2464,7 @@ function validateRenderedYomiReading(surface, reading) {
   if (isStandaloneLaughterW(surface) && !reading) {
     return { ok: true };
   }
-  if (/[\p{Script=Han}々〆〻A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
+  if (/[\p{Script=Han}\p{Script=Cyrillic}々〆〻A-Za-zＡ-Ｚａ-ｚ]/u.test(surface) || ["㈱", "㊙"].includes(surface)) {
     const hasKanji = /[\p{Script=Han}々〆〻]/u.test(surface);
     if (hasKanji && isMixedKanaReadingException(surface, reading)) return { ok: true };
     if (!reading) {
@@ -2531,6 +2529,7 @@ function isNumericOnlySurface(surface) {
   // they are ambiguous. Single Japanese numeral kanji stay lexical, while
   // multi-character digit runs and circle zero belong to the numeric layer.
   const value = String(surface || "");
+  if (/^[0-9０-９]+\/[0-9０-９]+$/u.test(value)) return true;
   // Keep decimal/grouping syntax aligned with FORMATTED_ARABIC_NUMBER_RE.
   if (/^[+＋\-－−]?(?:[0-9０-９]{1,3}(?:[,，][0-9０-９]{3})+|[0-9０-９]+)(?:[.．][0-9０-９]+)?$/u.test(value)) {
     return true;
@@ -2542,11 +2541,6 @@ function isNumericOnlySurface(surface) {
     return true;
   }
   return [...value].length >= 2 || value === "〇";
-}
-
-function allowsOptionalJapaneseNumeralReading(surface) {
-  const value = String(surface || "");
-  return [...value].length >= 2 && /^[〇○零一二三四五六七八九]+$/u.test(value);
 }
 
 function isStandaloneLaughterW(surface) {
