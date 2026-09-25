@@ -3655,26 +3655,83 @@ function readSubmissionReceipt(docId, stage) {
   return raw ? JSON.parse(raw) : null;
 }
 
+function compactSubmissionReceiptStorage(retainKey = null) {
+  const storage = window.localStorage;
+  const referenced = new Set();
+  if (retainKey) referenced.add(retainKey);
+  const taskPrefix = submissionReceiptPrefix + "task:";
+  const keys = [];
+  for (let i = 0; i < storage.length; i += 1) {
+    const key = storage.key(i);
+    if (key?.startsWith(submissionReceiptPrefix)) keys.push(key);
+  }
+  const docs = state.currentPack ? buildDocumentTasks(state.currentPack) : [];
+  for (const key of keys) {
+    if (key.startsWith(taskPrefix)) continue;
+    let receipt;
+    try {
+      receipt = JSON.parse(storage.getItem(key));
+    } catch {
+      storage.removeItem(key);
+      continue;
+    }
+    let finalized = false;
+    if (receipt?.record_key) {
+      try {
+        const record = JSON.parse(storage.getItem(receipt.record_key));
+        const ref = record?.document_refs?.find((item) => String(item.doc_id) === String(receipt.doc_id));
+        finalized = Boolean(ref && finalizedArchiveContainsDocumentRef(ref));
+      } catch {
+        // Keep an uncertain receipt rather than losing a submitted task.
+      }
+    }
+    if (finalized || (docs.length && receipt?.doc_id && receipt?.review_stage &&
+        documentHasAdvancedBeyondTaskStage(receipt.doc_id, receipt.review_stage, docs))) {
+      storage.removeItem(key);
+      continue;
+    }
+    if (receipt?.record_key) referenced.add(receipt.record_key);
+  }
+  for (const key of keys) {
+    if (key.startsWith(taskPrefix) && !referenced.has(key)) storage.removeItem(key);
+  }
+}
+
+function writeReviewStorage(key, value, retainKey = null) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch (error) {
+    if (error?.name !== "QuotaExceededError") throw error;
+    compactSubmissionReceiptStorage(retainKey);
+    window.localStorage.setItem(key, value);
+  }
+}
+
 function saveTaskSubmissionReceipts(record, { reopen = false, migrate = false } = {}) {
   const stage = localTaskRecordStage(record);
   const recordKey = submissionReceiptPrefix + "task:" + JSON.stringify([
-    stage, record.task_id, taskDocIdsForStorageTask(record.task),
+    stage, record.task_uid || record.task_id, record.submitted_at_epoch || null,
   ]);
+  const docIds = taskDocIdsForStorageTask(record.task);
+  const pending = docIds.filter((taskDocId) => {
+    const previous = readSubmissionReceipt(baseDocIdFromTaskDocId(taskDocId), stage);
+    return !migrate || !previous?.local_status;
+  });
+  if (!pending.length) return;
   // Store edits once per task, not once per document in a potentially large task.
   if (!migrate || !window.localStorage.getItem(recordKey)) {
-    window.localStorage.setItem(recordKey, JSON.stringify(record));
+    writeReviewStorage(recordKey, JSON.stringify(record));
   }
-  for (const taskDocId of taskDocIdsForStorageTask(record.task)) {
+  for (const taskDocId of pending) {
     const docId = baseDocIdFromTaskDocId(taskDocId);
     const previous = readSubmissionReceipt(docId, stage) || {};
-    if (migrate && previous.local_status) continue;
     const receipt = {
       ...previous, doc_id: docId, review_stage: stage,
       local_status: reopen ? "reopened" : "submitted",
       submitted_at_epoch: record.submitted_at_epoch || Math.floor(Date.now() / 1000),
       record_key: recordKey,
     };
-    window.localStorage.setItem(submissionReceiptKey(docId, stage), JSON.stringify(receipt));
+    writeReviewStorage(submissionReceiptKey(docId, stage), JSON.stringify(receipt), recordKey);
   }
 }
 
@@ -3682,10 +3739,19 @@ function rememberServerSubmissionReceipts(payload) {
   for (const row of [...(payload?.receipt_history || []), ...(payload?.records || [])]) {
     for (const docId of row.doc_ids || []) {
       const previous = readSubmissionReceipt(docId, row.review_stage) || {};
-      window.localStorage.setItem(submissionReceiptKey(docId, row.review_stage), JSON.stringify({
-        ...previous, doc_id: docId, review_stage: row.review_stage,
-        server_acknowledgment: row,
-      }));
+      try {
+        writeReviewStorage(submissionReceiptKey(docId, row.review_stage), JSON.stringify({
+          ...previous, doc_id: docId, review_stage: row.review_stage,
+          server_acknowledgment: {
+            review_stage: row.review_stage, doc_ids: [docId],
+            issue_number: row.issue_number, submission_id: row.submission_id,
+            conflict: row.conflict === true,
+          },
+        }));
+      } catch (error) {
+        if (error?.name !== "QuotaExceededError") throw error;
+        // The current server payload still drives the UI; do not block it on local history.
+      }
     }
   }
 }
@@ -7507,6 +7573,7 @@ function syncLocalTaskRecordsForCurrentPack() {
   if (!state.currentPack || !state.currentDraft) {
     return;
   }
+  compactSubmissionReceiptStorage();
   const activeRecord = localTaskRecordFromActiveDraft(state.currentDraft);
   if (activeRecord) {
     const identity = persistentTaskIdentity(activeRecord, taskQueueStage(state.currentDraft.task));
@@ -7540,7 +7607,12 @@ function syncLocalTaskRecordsForCurrentPack() {
     let sourceChanged = false;
     for (const [taskId, rawRecord] of Object.entries(parsed?.saved_tasks || {})) {
       if (taskRecordStatus(rawRecord) === "submitted") {
-        saveTaskSubmissionReceipts({ ...rawRecord, queue_stage: localTaskRecordStage(rawRecord, sourceStage) }, { migrate: true });
+        try {
+          saveTaskSubmissionReceipts({ ...rawRecord, queue_stage: localTaskRecordStage(rawRecord, sourceStage) }, { migrate: true });
+        } catch (error) {
+          if (error?.name !== "QuotaExceededError") throw error;
+          showStatus("提出履歴をブラウザに保存できませんでした。保存容量を確認してください。", true);
+        }
       }
       const normalized = normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage);
       if (!normalized) {
@@ -8261,12 +8333,18 @@ function completeCurrentTask() {
     return;
   }
   const record = currentTaskDraftRecord();
-  state.currentDraft.saved_tasks[record.task_id] = {
+  const submittedRecord = {
     ...record,
     status: "submitted",
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
-  saveTaskSubmissionReceipts(state.currentDraft.saved_tasks[record.task_id]);
+  try {
+    saveTaskSubmissionReceipts(submittedRecord);
+  } catch (error) {
+    showStatus(`提出状態をブラウザに保存できませんでした。空き容量を確保して再試行してください: ${error.message}`, true);
+    return;
+  }
+  state.currentDraft.saved_tasks[record.task_id] = submittedRecord;
   clearActiveTaskState();
   touchDraft();
   restoreUnifiedDashboardPack();
@@ -8290,6 +8368,14 @@ async function resumeTaskDraft(taskId) {
     render();
     return;
   }
+  if (taskRecordStatus(record) === "submitted") {
+    try {
+      saveTaskSubmissionReceipts(record, { reopen: true });
+    } catch (error) {
+      showStatus(`再開状態をブラウザに保存できませんでした: ${error.message}`, true);
+      return;
+    }
+  }
   state.currentDraft.active_task_id = record.task_id;
   state.currentDraft.active_task_label = record.task_label || record.task_id;
   state.currentDraft.task = {
@@ -8297,7 +8383,6 @@ async function resumeTaskDraft(taskId) {
     started: true,
   };
   state.currentDraft.overrides = cloneJson(record.overrides || {});
-  if (taskRecordStatus(record) === "submitted") saveTaskSubmissionReceipts(record, { reopen: true });
   delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
   render({ scrollToTop: true });
@@ -8311,7 +8396,12 @@ function markSavedTaskSubmitted(taskId) {
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
   delete submittedRecord.awaiting_issue_confirmation;
-  saveTaskSubmissionReceipts(submittedRecord);
+  try {
+    saveTaskSubmissionReceipts(submittedRecord);
+  } catch (error) {
+    showStatus(`提出状態をブラウザに保存できませんでした。空き容量を確保して再試行してください: ${error.message}`, true);
+    return;
+  }
   state.currentDraft.saved_tasks[record.task_id] = submittedRecord;
   if (state.currentDraft.active_task_id === record.task_id) {
     clearActiveTaskState();
@@ -8354,14 +8444,20 @@ function loadDraft(pack) {
   if (!raw) {
     return createEmptyDraft(pack);
   }
+  let parsed;
   try {
-    const parsed = JSON.parse(raw);
-    const draft = normalizeReviewDraft(parsed, pack);
-    window.localStorage.setItem(key, JSON.stringify(draft));
-    return draft;
+    parsed = JSON.parse(raw);
   } catch {
     return createEmptyDraft(pack);
   }
+  const draft = normalizeReviewDraft(parsed, pack);
+  try {
+    writeReviewStorage(key, JSON.stringify(draft));
+  } catch (error) {
+    if (error?.name !== "QuotaExceededError") throw error;
+    showStatus("ブラウザの保存容量が不足しています。作業データは読み込めましたが、変更の保存には空き容量が必要です。", true);
+  }
+  return draft;
 }
 
 function normalizeReviewDraft(parsed, pack) {
@@ -8440,7 +8536,7 @@ function touchDraft() {
 
 function saveDraft() {
   const key = draftStorageKey(state.currentPack.review_stage, state.currentPack.pack_id);
-  window.localStorage.setItem(key, JSON.stringify(state.currentDraft));
+  writeReviewStorage(key, JSON.stringify(state.currentDraft));
 }
 
 function unfinishedEditorKey(stage, item) {
