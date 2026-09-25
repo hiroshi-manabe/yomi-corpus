@@ -10,10 +10,9 @@
   "item_count": 8,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 8,
     "queued_repair_row_count": 11,
@@ -31,12 +30,12 @@
       "source_line_no": 2425076,
       "preview": "で、ライブにいってきた。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T04:50:34Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-25T00:45:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +134,12 @@
       "source_line_no": 378761,
       "preview": "関西生コン関連労働組合連合会（生コン産労・全港湾大阪支部・近圧労組・建交労関西支部・ＵＡゼンセン・関生支部）は３月６日、協同会館アソシエで17春闘第１回集団交渉を開催。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T04:50:34Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-25T00:45:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -161,12 +160,12 @@
       "source_line_no": 2335206,
       "preview": "13時15分　(旧)東鳥取小学校体育館(3名対応)…桑畑地区→避難者8名　04時15分閉鎖13時20分　下荘小学校体育館(3名対応)…東和苑・鴻の台地区→避難者6名　04時00分閉鎖13時25分　鳥取東中学校体育館(2名対応)…山中渓地区→避難者5名　 00時00分閉鎖13時30分　桑畑地区：避難勧告　山中渓地区：避難勧告　東和苑・鴻の台地区：避難勧告※阪南市被害状況は、下出…床下浸水　1棟・1世帯・約2～3名（消防団、消防、災対本部対応）※現場の状況としては、平野橋が冠水したり、黒田でも一か所冠水、マンホールや下水などの対応、あと男里川・菟砥橋のパトロールや、南海電鉄の男里川橋梁確認、避難指示の広報（東和苑・鴻の台、箱の浦、田山、南山中）、山中川・箱作変電所などのパトロールなどなど、まだまだいっぱいあります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T04:50:34Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-25T00:45:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -749,7 +748,7 @@
       "source_line_no": 378761,
       "text": "労使双方が今春闘に臨む基本的態度を表明した。",
       "rendered_yomi_before": "労使/ロウシ 双方/ソウホウ が/ガ 今春/コンシュン 闘/ に/ニ 臨む/ノゾム 基本的/キホンテキ 態度/タイド を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
-      "rendered_yomi_after": "労使/ロウシ 双方/ソウホウ が/ガ 今春闘/コンシュントウ に/ニ 臨む/ノゾム 基本的/キホンテキ 態度/タイド を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
+      "rendered_yomi_after": "労使/ロウシ 双方/ソウホウ が/ガ 今/コン 春闘/シュントウ に/ニ 臨む/ノゾム 基本的/キホンテキ 態度/タイド を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "労使",
@@ -764,8 +763,12 @@
           "ガ"
         ],
         [
-          "今春闘",
-          "コンシュントウ"
+          "今",
+          "コン"
+        ],
+        [
+          "春闘",
+          "シュントウ"
         ],
         [
           "に",
@@ -840,13 +843,24 @@
           ]
         },
         {
-          "surface": "今春闘",
-          "reading": "コンシュントウ",
+          "surface": "今",
+          "reading": "コン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "今春闘",
-              "reading": "こんしゅんとう"
+              "text": "今",
+              "reading": "こん"
+            }
+          ]
+        },
+        {
+          "surface": "春闘",
+          "reading": "シュントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "春闘",
+              "reading": "しゅんとう"
             }
           ]
         },
@@ -962,14 +976,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000378761:u0002",
           "text": "労使双方が今春闘に臨む基本的態度を表明した。",
           "rendered_yomi_before": "労使/ロウシ 双方/ソウホウ が/ガ 今春/コンシュン 闘/ に/ニ 臨む/ノゾム 基本的/キホンテキ 態度/タイド を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
-          "rendered_yomi_after": "労使/ロウシ 双方/ソウホウ が/ガ 今春闘/コンシュントウ に/ニ 臨む/ノゾム 基本的/キホンテキ 態度/タイド を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
+          "rendered_yomi_after": "労使/ロウシ 双方/ソウホウ が/ガ 今/コン 春闘/シュントウ に/ニ 臨む/ノゾム 基本的/キホンテキ 態度/タイド を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
           "display_mapping": {
             "start": 3,
-            "end": 4,
+            "end": 5,
             "char_start": 5,
             "char_end": 8,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -1235,15 +1249,15 @@
       "source_line_no": 378761,
       "text": "今春闘ではこの闘いで生コン値上げを実現しよう。",
       "rendered_yomi_before": "今春/コンシュン 闘/ で/デ は/ハ この/コノ 闘い/タタカイ で/デ 生コン/ナマコン 値上げ/ネアゲ を/ヲ 実現/ジツゲン しよう/シヨウ 。/。",
-      "rendered_yomi_after": "今春/コンシュン 闘/トウ で/デ は/ハ この/コノ 闘い/タタカイ で/デ 生コン/ナマコン 値上げ/ネアゲ を/ヲ 実現/ジツゲン しよう/シヨウ 。/。",
+      "rendered_yomi_after": "今/コン 春闘/シュントウ で/デ は/ハ この/コノ 闘い/タタカイ で/デ 生コン/ナマコン 値上げ/ネアゲ を/ヲ 実現/ジツゲン しよう/シヨウ 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "今春",
-          "コンシュン"
+          "今",
+          "コン"
         ],
         [
-          "闘",
-          "トウ"
+          "春闘",
+          "シュントウ"
         ],
         [
           "で",
@@ -1294,24 +1308,24 @@
       "reading_warning_acknowledgements": [],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "今春",
-          "reading": "コンシュン",
+          "surface": "今",
+          "reading": "コン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "今春",
-              "reading": "こんしゅん"
+              "text": "今",
+              "reading": "こん"
             }
           ]
         },
         {
-          "surface": "闘",
-          "reading": "トウ",
+          "surface": "春闘",
+          "reading": "シュントウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "闘",
-              "reading": "とう"
+              "text": "春闘",
+              "reading": "しゅんとう"
             }
           ]
         },
@@ -1455,14 +1469,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000378761:u0005",
           "text": "今春闘ではこの闘いで生コン値上げを実現しよう。",
           "rendered_yomi_before": "今春/コンシュン 闘/ で/デ は/ハ この/コノ 闘い/タタカイ で/デ 生コン/ナマコン 値上げ/ネアゲ を/ヲ 実現/ジツゲン しよう/シヨウ 。/。",
-          "rendered_yomi_after": "今春/コンシュン 闘/トウ で/デ は/ハ この/コノ 闘い/タタカイ で/デ 生コン/ナマコン 値上げ/ネアゲ を/ヲ 実現/ジツゲン しよう/シヨウ 。/。",
+          "rendered_yomi_after": "今/コン 春闘/シュントウ で/デ は/ハ この/コノ 闘い/タタカイ で/デ 生コン/ナマコン 値上げ/ネアゲ を/ヲ 実現/ジツゲン しよう/シヨウ 。/。",
           "display_mapping": {
             "start": 0,
             "end": 2,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -1764,7 +1778,7 @@
       "source_line_no": 378761,
       "text": "値上げに「ただ乗り」している直系社の経営者会への加入と集交への参加が今春闘の「鍵」となる。",
       "rendered_yomi_before": "値上げ/ネアゲ に/ニ 「/「 ただ乗り/タダノリ 」/」 し/シ て/テ いる/イル 直系/チョッケイ 社/シャ の/ノ 経営者/ケイエイシャ 会/カイ へ/ヘ の/ノ 加入/カニュウ と/ト 集/シュウ 交/コウ へ/ヘ の/ノ 参加/サンカ が/ガ 今春/コンシュン 闘/ の/ノ 「/「 鍵/カギ 」/」 と/ト なる/ナル 。/。",
-      "rendered_yomi_after": "値上げ/ネアゲ に/ニ 「/「 ただ乗り/タダノリ 」/」 し/シ て/テ いる/イル 直系/チョッケイ 社/シャ の/ノ 経営者/ケイエイシャ 会/カイ へ/ヘ の/ノ 加入/カニュウ と/ト 集/シュウ 交/コウ へ/ヘ の/ノ 参加/サンカ が/ガ 今春闘/コンシュントウ の/ノ 「/「 鍵/カギ 」/」 と/ト なる/ナル 。/。",
+      "rendered_yomi_after": "値上げ/ネアゲ に/ニ 「/「 ただ乗り/タダノリ 」/」 し/シ て/テ いる/イル 直系/チョッケイ 社/シャ の/ノ 経営者/ケイエイシャ 会/カイ へ/ヘ の/ノ 加入/カニュウ と/ト 集/シュウ 交/コウ へ/ヘ の/ノ 参加/サンカ が/ガ 今/コン 春闘/シュントウ の/ノ 「/「 鍵/カギ 」/」 と/ト なる/ナル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "値上げ",
@@ -1859,8 +1873,12 @@
           "ガ"
         ],
         [
-          "今春闘",
-          "コンシュントウ"
+          "今",
+          "コン"
+        ],
+        [
+          "春闘",
+          "シュントウ"
         ],
         [
           "の",
@@ -2147,13 +2165,24 @@
           ]
         },
         {
-          "surface": "今春闘",
-          "reading": "コンシュントウ",
+          "surface": "今",
+          "reading": "コン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "今春闘",
-              "reading": "こんしゅんとう"
+              "text": "今",
+              "reading": "こん"
+            }
+          ]
+        },
+        {
+          "surface": "春闘",
+          "reading": "シュントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "春闘",
+              "reading": "しゅんとう"
             }
           ]
         },
@@ -2242,14 +2271,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000378761:u0008",
           "text": "値上げに「ただ乗り」している直系社の経営者会への加入と集交への参加が今春闘の「鍵」となる。",
           "rendered_yomi_before": "値上げ/ネアゲ に/ニ 「/「 ただ乗り/タダノリ 」/」 し/シ て/テ いる/イル 直系/チョッケイ 社/シャ の/ノ 経営者/ケイエイシャ 会/カイ へ/ヘ の/ノ 加入/カニュウ と/ト 集/シュウ 交/コウ へ/ヘ の/ノ 参加/サンカ が/ガ 今春/コンシュン 闘/ の/ノ 「/「 鍵/カギ 」/」 と/ト なる/ナル 。/。",
-          "rendered_yomi_after": "値上げ/ネアゲ に/ニ 「/「 ただ乗り/タダノリ 」/」 し/シ て/テ いる/イル 直系/チョッケイ 社/シャ の/ノ 経営者/ケイエイシャ 会/カイ へ/ヘ の/ノ 加入/カニュウ と/ト 集/シュウ 交/コウ へ/ヘ の/ノ 参加/サンカ が/ガ 今春闘/コンシュントウ の/ノ 「/「 鍵/カギ 」/」 と/ト なる/ナル 。/。",
+          "rendered_yomi_after": "値上げ/ネアゲ に/ニ 「/「 ただ乗り/タダノリ 」/」 し/シ て/テ いる/イル 直系/チョッケイ 社/シャ の/ノ 経営者/ケイエイシャ 会/カイ へ/ヘ の/ノ 加入/カニュウ と/ト 集/シュウ 交/コウ へ/ヘ の/ノ 参加/サンカ が/ガ 今/コン 春闘/シュントウ の/ノ 「/「 鍵/カギ 」/」 と/ト なる/ナル 。/。",
           "display_mapping": {
             "start": 23,
-            "end": 24,
+            "end": 25,
             "char_start": 34,
             "char_end": 37,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -2515,7 +2544,7 @@
       "source_line_no": 378761,
       "text": "「大幅賃上げ獲得」「非正規労働者の正社員化」など今春闘に臨む強い決意を表明した。",
       "rendered_yomi_before": "「/「 大幅/オオハバ 賃上げ/チンアゲ 獲得/カクトク 」/」 「/「 非正規/ヒセイキ 労働者/ロウドウシャ の/ノ 正社員/セイシャイン 化/カ 」/」 など/ナド 今春/コンシュン 闘/ に/ニ 臨む/ノゾム 強い/ツヨイ 決意/ケツイ を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
-      "rendered_yomi_after": "「/「 大幅/オオハバ 賃上げ/チンアゲ 獲得/カクトク 」/」 「/「 非正規/ヒセイキ 労働者/ロウドウシャ の/ノ 正社員/セイシャイン 化/カ 」/」 など/ナド 今春闘/コンシュントウ に/ニ 臨む/ノゾム 強い/ツヨイ 決意/ケツイ を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
+      "rendered_yomi_after": "「/「 大幅/オオハバ 賃上げ/チンアゲ 獲得/カクトク 」/」 「/「 非正規/ヒセイキ 労働者/ロウドウシャ の/ノ 正社員/セイシャイン 化/カ 」/」 など/ナド 今/コン 春闘/シュントウ に/ニ 臨む/ノゾム 強い/ツヨイ 決意/ケツイ を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "「",
@@ -2570,8 +2599,12 @@
           "ナド"
         ],
         [
-          "今春闘",
-          "コンシュントウ"
+          "今",
+          "コン"
+        ],
+        [
+          "春闘",
+          "シュントウ"
         ],
         [
           "に",
@@ -2755,13 +2788,24 @@
           ]
         },
         {
-          "surface": "今春闘",
-          "reading": "コンシュントウ",
+          "surface": "今",
+          "reading": "コン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "今春闘",
-              "reading": "こんしゅんとう"
+              "text": "今",
+              "reading": "こん"
+            }
+          ]
+        },
+        {
+          "surface": "春闘",
+          "reading": "シュントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "春闘",
+              "reading": "しゅんとう"
             }
           ]
         },
@@ -2881,14 +2925,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000378761:u0013",
           "text": "「大幅賃上げ獲得」「非正規労働者の正社員化」など今春闘に臨む強い決意を表明した。",
           "rendered_yomi_before": "「/「 大幅/オオハバ 賃上げ/チンアゲ 獲得/カクトク 」/」 「/「 非正規/ヒセイキ 労働者/ロウドウシャ の/ノ 正社員/セイシャイン 化/カ 」/」 など/ナド 今春/コンシュン 闘/ に/ニ 臨む/ノゾム 強い/ツヨイ 決意/ケツイ を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
-          "rendered_yomi_after": "「/「 大幅/オオハバ 賃上げ/チンアゲ 獲得/カクトク 」/」 「/「 非正規/ヒセイキ 労働者/ロウドウシャ の/ノ 正社員/セイシャイン 化/カ 」/」 など/ナド 今春闘/コンシュントウ に/ニ 臨む/ノゾム 強い/ツヨイ 決意/ケツイ を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
+          "rendered_yomi_after": "「/「 大幅/オオハバ 賃上げ/チンアゲ 獲得/カクトク 」/」 「/「 非正規/ヒセイキ 労働者/ロウドウシャ の/ノ 正社員/セイシャイン 化/カ 」/」 など/ナド 今/コン 春闘/シュントウ に/ニ 臨む/ノゾム 強い/ツヨイ 決意/ケツイ を/ヲ 表明/ヒョウメイ し/シ た/タ 。/。",
           "display_mapping": {
             "start": 13,
-            "end": 14,
+            "end": 15,
             "char_start": 24,
             "char_end": 27,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },

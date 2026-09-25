@@ -10,10 +10,9 @@
   "item_count": 2,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "repaired_item_count": 2,
     "queued_repair_row_count": 2,
@@ -31,12 +30,12 @@
       "source_line_no": 1715566,
       "preview": "沖縄県宮古島大使が主催する日本最大の沖縄三線教室「クイチャーパラダイス」復興応援キャラバンが開催されます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T04:50:44Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-25T00:46:48Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +108,12 @@
       "source_line_no": 2350317,
       "preview": "そろそろ終わりを告げようとしています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-18T04:50:44Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-25T00:46:48Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -993,7 +992,7 @@
       "source_line_no": 2350317,
       "text": "７人のサポーターが金屏風の前に立ち、参加者全員で合唱しました。",
       "rendered_yomi_before": "７/ 人/ニン の/ノ サポーター/サポーター が/ガ 金屏/キンビョウ 風/フウ の/ノ 前/マエ に/ニ 立ち/タチ 、/、 参加者/サンカシャ 全員/ゼンイン で/デ 合唱/ガッショウ し/シ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "７/ 人/ニン の/ノ サポーター/サポーター が/ガ 金屏風/キンビョウブ の/ノ 前/マエ に/ニ 立ち/タチ 、/、 参加者/サンカシャ 全員/ゼンイン で/デ 合唱/ガッショウ し/シ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "７/ 人/ニン の/ノ サポーター/サポーター が/ガ 金/キン 屏風/ビョウブ の/ノ 前/マエ に/ニ 立ち/タチ 、/、 参加者/サンカシャ 全員/ゼンイン で/デ 合唱/ガッショウ し/シ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "７",
@@ -1016,8 +1015,12 @@
           "ガ"
         ],
         [
-          "金屏風",
-          "キンビョウブ"
+          "金",
+          "キン"
+        ],
+        [
+          "屏風",
+          "ビョウブ"
         ],
         [
           "の",
@@ -1127,13 +1130,24 @@
           ]
         },
         {
-          "surface": "金屏風",
-          "reading": "キンビョウブ",
+          "surface": "金",
+          "reading": "キン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "金屏風",
-              "reading": "きんびょうぶ"
+              "text": "金",
+              "reading": "きん"
+            }
+          ]
+        },
+        {
+          "surface": "屏風",
+          "reading": "ビョウブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "屏風",
+              "reading": "びょうぶ"
             }
           ]
         },
@@ -1290,14 +1304,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002350317:u0058",
           "text": "７人のサポーターが金屏風の前に立ち、参加者全員で合唱しました。",
           "rendered_yomi_before": "７/ 人/ニン の/ノ サポーター/サポーター が/ガ 金屏/キンビョウ 風/フウ の/ノ 前/マエ に/ニ 立ち/タチ 、/、 参加者/サンカシャ 全員/ゼンイン で/デ 合唱/ガッショウ し/シ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "７/ 人/ニン の/ノ サポーター/サポーター が/ガ 金屏風/キンビョウブ の/ノ 前/マエ に/ニ 立ち/タチ 、/、 参加者/サンカシャ 全員/ゼンイン で/デ 合唱/ガッショウ し/シ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "７/ 人/ニン の/ノ サポーター/サポーター が/ガ 金/キン 屏風/ビョウブ の/ノ 前/マエ に/ニ 立ち/タチ 、/、 参加者/サンカシャ 全員/ゼンイン で/デ 合唱/ガッショウ し/シ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 5,
-            "end": 6,
+            "end": 7,
             "char_start": 9,
             "char_end": 12,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
