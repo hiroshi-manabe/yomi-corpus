@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 10341,
-  "generated_at": "2026-09-25T03:50:22Z",
-  "generated_at_epoch": 1790308222,
+  "state_revision": 10342,
+  "generated_at": "2026-09-25T04:00:46Z",
+  "generated_at_epoch": 1790308846,
   "last_successful_sync": "2026-09-25T00:47:55Z",
   "last_successful_sync_epoch": 1790297275,
   "status": "error",
   "schedule": {
-    "anchor_epoch": 1790305732,
+    "anchor_epoch": 1790308846,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1790306032
+    "next_expected_epoch": 1790309146
   },
   "state": {
     "current_batch_name": "dev_batch_1184",
@@ -37,9 +37,9 @@
   },
   "message": "YomiTokenError: legacy token 18 surface '\\u3000' does not match source at offset 24",
   "observed": {
-    "started_at_epoch": 1790308222,
-    "completed_at_epoch": 1790308222,
-    "drift_seconds": 90
+    "started_at_epoch": 1790308846,
+    "completed_at_epoch": 1790308846,
+    "drift_seconds": 114
   },
   "client_polling": {
     "normal_seconds": 60,
