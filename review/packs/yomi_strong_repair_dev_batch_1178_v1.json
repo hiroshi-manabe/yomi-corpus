@@ -10,10 +10,9 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -109,12 +108,12 @@
       "source_line_no": 1741726,
       "preview": "2015年、パリ行きの特急列車内で無差別テロ事件の犯人に立ち向かった3人の若者の姿を描いたクリント・イーストウッド監督の『15時17分、パリ行き』（3月1日公開）。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-28T00:32:21Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T01:50:02Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +134,12 @@
       "source_line_no": 931735,
       "preview": "７日（日）の『おしゃれイズム』に俳優の吉田鋼太郎さんが出演されました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-28T00:32:21Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T01:50:02Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +160,12 @@
       "source_line_no": 1680890,
       "preview": "日本でモーテルというイメージはラブホ同様に捉えられ、あまり良いイメージじゃないと思う。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-28T00:32:21Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T01:50:02Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -297,7 +296,7 @@
       "source_line_no": 1741726,
       "text": "その列車に乗り合わせていたのは、元米空軍上等空兵のスペンサー・ストーン、学生のアンソニー・サドラー、オレゴン州州兵のアレク・スカラトス。",
       "rendered_yomi_before": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上/ジョウ 等/トウ 空/クウ 兵/ヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
-      "rendered_yomi_after": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上等空兵/ジョウトウクウヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
+      "rendered_yomi_after": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上等/ジョウトウ 空兵/クウヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "その",
@@ -348,8 +347,12 @@
           "ベイクウグン"
         ],
         [
-          "上等空兵",
-          "ジョウトウクウヘイ"
+          "上等",
+          "ジョウトウ"
+        ],
+        [
+          "空兵",
+          "クウヘイ"
         ],
         [
           "の",
@@ -569,13 +572,24 @@
           ]
         },
         {
-          "surface": "上等空兵",
-          "reading": "ジョウトウクウヘイ",
+          "surface": "上等",
+          "reading": "ジョウトウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "上等空兵",
-              "reading": "じょうとうくうへい"
+              "text": "上等",
+              "reading": "じょうとう"
+            }
+          ]
+        },
+        {
+          "surface": "空兵",
+          "reading": "クウヘイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "空兵",
+              "reading": "くうへい"
             }
           ]
         },
@@ -790,14 +804,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001741726:u0008",
           "text": "その列車に乗り合わせていたのは、元米空軍上等空兵のスペンサー・ストーン、学生のアンソニー・サドラー、オレゴン州州兵のアレク・スカラトス。",
           "rendered_yomi_before": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上/ジョウ 等/トウ 空/クウ 兵/ヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
-          "rendered_yomi_after": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上等空兵/ジョウトウクウヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
+          "rendered_yomi_after": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上等/ジョウトウ 空兵/クウヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
           "display_mapping": {
             "start": 12,
-            "end": 13,
+            "end": 14,
             "char_start": 20,
             "char_end": 24,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -2231,7 +2245,7 @@
       "source_line_no": 1680890,
       "text": "タイだと500Bレベル。",
       "rendered_yomi_before": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
-      "rendered_yomi_after": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
+      "rendered_yomi_after": "タイ/タイ だ/ダ と/ト 500/ B/バーツ レベル/レベル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "タイ",
@@ -2251,7 +2265,7 @@
         ],
         [
           "B",
-          "ビー"
+          "バーツ"
         ],
         [
           "レベル",
@@ -2307,12 +2321,12 @@
         },
         {
           "surface": "B",
-          "reading": "ビー",
+          "reading": "バーツ",
           "nodes": [
             {
               "type": "ruby",
               "text": "B",
-              "reading": "びー"
+              "reading": "ばーつ"
             }
           ]
         },
@@ -2350,7 +2364,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001680890:u0008",
           "text": "タイだと500Bレベル。",
           "rendered_yomi_before": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
-          "rendered_yomi_after": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
+          "rendered_yomi_after": "タイ/タイ だ/ダ と/ト 500/ B/バーツ レベル/レベル 。/。",
           "display_mapping": {
             "start": 4,
             "end": 5,
