@@ -1358,6 +1358,7 @@ function renderCorpusMapTileGrid(docs) {
     const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
     const manualCorrectionCount = Number(doc.manual_correction_required_count || 0) + Number(doc.reading_warning_count || 0);
     const localCorrection = archiveCorrectionRecordForDoc(doc);
+    const correctionProcessing = archiveCorrectionIsProcessing(doc, localCorrection);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
     tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
     tile.classList.toggle("has-local-correction", localCorrection?.status === "draft");
@@ -1368,11 +1369,11 @@ function renderCorpusMapTileGrid(docs) {
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
       ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
       ${manualCorrectionCount ? `<em class="manual-correction-count-badge">${escapeHtml(manualCorrectionCount)}</em>` : ""}
-      ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "提出済" : "編集中"}</em>` : ""}
+      ${localCorrection ? `<em class="local-correction-badge ${correctionProcessing ? "processing" : escapeHtml(localCorrection.status)}">${correctionProcessing ? "処理中" : localCorrection.status === "submitted" ? "提出済" : "編集中"}</em>` : ""}
     `;
     tile.title = `${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-    }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
+    }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${correctionProcessing ? "サーバー処理中の提出済み修正" : localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
     tile.addEventListener("click", () => {
       openArchiveDocumentSummary(doc, {
         scrollToManualCorrection: manualCorrectionCount > 0,
@@ -1524,6 +1525,15 @@ function archiveCorrectionRecordForDoc(doc) {
   return store.records[key];
 }
 
+function archiveCorrectionIsProcessing(doc, record) {
+  if (record?.status !== "submitted" || !record.submission_id || !doc?.doc_id) return false;
+  const matches = (row) => row?.review_stage === "finalized_correction" &&
+    row.submission_id === record.submission_id && (row.doc_ids || []).includes(doc.doc_id);
+  if ([...(state.issueAcknowledgments?.records || []),
+    ...(state.issueAcknowledgments?.receipt_history || [])].some(matches)) return true;
+  return matches(readSubmissionReceipt(doc.doc_id, "finalized_correction")?.server_acknowledgment);
+}
+
 function persistArchiveCorrectionDraft(doc, parsedChanges = null) {
   const parsed = parsedChanges || collectArchiveCorrectionChanges(doc);
   const store = loadArchiveCorrectionStore();
@@ -1614,6 +1624,7 @@ function archiveCorrectionHasUnsavedEdits() {
 function openArchiveCorrectionEditor(doc, { scrollToManualCorrection = false } = {}) {
   const units = doc.units || [];
   const localCorrection = archiveCorrectionRecordForDoc(doc);
+  const correctionProcessing = archiveCorrectionIsProcessing(doc, localCorrection);
   el.workflowPreviewTitle.textContent = `文書 ${doc.track_doc_seq} を修正`;
   const correctionCount = Number(doc.finalized_correction_count || 0);
   const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
@@ -1630,9 +1641,11 @@ function openArchiveCorrectionEditor(doc, { scrollToManualCorrection = false } =
 
   if (localCorrection) {
     const localState = document.createElement("p");
-    localState.className = `archive-correction-local-state ${localCorrection.status}`;
+    localState.className = `archive-correction-local-state ${correctionProcessing ? "processing" : localCorrection.status}`;
     localState.textContent = localCorrection.status === "submitted"
-      ? "ローカルでは提出済みです。サーバーによるIssueの取り込みを待っています。再編集・再提出もできます。"
+      ? correctionProcessing
+        ? "Issueを確認しました。サーバー処理中です。再編集・再提出もできます。"
+        : "ローカルでは提出済みです。サーバーによるIssueの取り込みを待っています。再編集・再提出もできます。"
       : "このブラウザに保存された修正案を復元しました。";
     el.workflowPreviewBody.append(localState);
   }

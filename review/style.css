@@ -651,6 +651,10 @@ button:disabled {
   background: rgb(156, 79, 30);
 }
 
+.local-correction-badge.processing {
+  background: rgb(45, 91, 146);
+}
+
 .workflow-dashboard {
   display: grid;
   gap: 16px;
@@ -1025,6 +1029,11 @@ button:disabled {
 .archive-correction-local-state.submitted {
   background: rgba(156, 79, 30, 0.12);
   color: rgb(133, 65, 23);
+}
+
+.archive-correction-local-state.processing {
+  background: rgba(45, 91, 146, 0.12);
+  color: rgb(34, 71, 116);
 }
 
 .archive-correction-list {
