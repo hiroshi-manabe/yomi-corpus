@@ -1,0 +1,2544 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1178_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1178",
+  "created_at_epoch": 1790557091,
+  "created_at": "2026-09-28T00:58:11Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000264597",
+      "doc_seq": 1,
+      "track_doc_seq": 3251,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0027.jsonl.gz",
+      "source_line_no": 264597,
+      "preview": "チョン氏に会うなり頬を張るミン氏。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:32:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001140483",
+      "doc_seq": 2,
+      "track_doc_seq": 3252,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0125.jsonl.gz",
+      "source_line_no": 1140483,
+      "preview": "アールドア整体院は、慢性痛を根本から良くする専門院です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:32:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000589852",
+      "doc_seq": 3,
+      "track_doc_seq": 3253,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0062.jsonl.gz",
+      "source_line_no": 589852,
+      "preview": "プロ仕様の天然の本マグロを赤身、中トロのセットでお届けします！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:32:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001741726",
+      "doc_seq": 4,
+      "track_doc_seq": 3254,
+      "unit_count": 68,
+      "source_file": "ja/ja_cc/level2/0218.jsonl.gz",
+      "source_line_no": 1741726,
+      "preview": "2015年、パリ行きの特急列車内で無差別テロ事件の犯人に立ち向かった3人の若者の姿を描いたクリント・イーストウッド監督の『15時17分、パリ行き』（3月1日公開）。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-28T00:32:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 68,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000931735",
+      "doc_seq": 5,
+      "track_doc_seq": 3255,
+      "unit_count": 31,
+      "source_file": "ja/ja_cc/level2/0095.jsonl.gz",
+      "source_line_no": 931735,
+      "preview": "７日（日）の『おしゃれイズム』に俳優の吉田鋼太郎さんが出演されました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-28T00:32:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 31,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001680890",
+      "doc_seq": 6,
+      "track_doc_seq": 3256,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0206.jsonl.gz",
+      "source_line_no": 1680890,
+      "preview": "日本でモーテルというイメージはラブホ同様に捉えられ、あまり良いイメージじゃないと思う。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-28T00:32:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001896328",
+      "doc_seq": 7,
+      "track_doc_seq": 3257,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0243.jsonl.gz",
+      "source_line_no": 1896328,
+      "preview": "先日は、マルチブレンダーでお粥を作ろうとして失敗しました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:32:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000244249",
+      "doc_seq": 8,
+      "track_doc_seq": 3258,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0025.jsonl.gz",
+      "source_line_no": 244249,
+      "preview": "自遊空間菊水元町店のラシャが張り替えられました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:32:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000625443",
+      "doc_seq": 9,
+      "track_doc_seq": 3259,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0064.jsonl.gz",
+      "source_line_no": 625443,
+      "preview": "もっとも、２月は２８日（閏年だと２９日）までしかないので、いっそう「あっという間」感が大きい１か月ですよね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:32:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001839938",
+      "doc_seq": 10,
+      "track_doc_seq": 3260,
+      "unit_count": 24,
+      "source_file": "ja/ja_cc/level2/0231.jsonl.gz",
+      "source_line_no": 1839938,
+      "preview": "カーリーをアイプタシアXで駆除してみました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:32:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 24,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001741726",
+      "doc_seq": 4,
+      "track_doc_seq": 3254,
+      "unit_id": "ja_cc_level2_corrected_v1:0001741726:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0218.jsonl.gz",
+      "source_line_no": 1741726,
+      "text": "その列車に乗り合わせていたのは、元米空軍上等空兵のスペンサー・ストーン、学生のアンソニー・サドラー、オレゴン州州兵のアレク・スカラトス。",
+      "rendered_yomi_before": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上/ジョウ 等/トウ 空/クウ 兵/ヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
+      "rendered_yomi_after": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上等空兵/ジョウトウクウヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "列車",
+          "レッシャ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "乗り合わせ",
+          "ノリアワセ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "元",
+          "モト"
+        ],
+        [
+          "米空軍",
+          "ベイクウグン"
+        ],
+        [
+          "上等空兵",
+          "ジョウトウクウヘイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "スペンサー",
+          "スペンサー"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "ストーン",
+          "ストーン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "学生",
+          "ガクセイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "アンソニー",
+          "アンソニー"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "サドラー",
+          "サドラー"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "オレゴン州",
+          "オレゴンシュウ"
+        ],
+        [
+          "州兵",
+          "シュウヘイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "アレク",
+          "アレク"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "スカラ",
+          "スカラ"
+        ],
+        [
+          "トス",
+          "トス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "列車",
+          "reading": "レッシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "列車",
+              "reading": "れっしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "乗り合わせ",
+          "reading": "ノリアワセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "乗",
+              "reading": "の"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "合",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "わせ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "元",
+          "reading": "モト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "元",
+              "reading": "もと"
+            }
+          ]
+        },
+        {
+          "surface": "米空軍",
+          "reading": "ベイクウグン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "米空軍",
+              "reading": "べいくうぐん"
+            }
+          ]
+        },
+        {
+          "surface": "上等空兵",
+          "reading": "ジョウトウクウヘイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上等空兵",
+              "reading": "じょうとうくうへい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "スペンサー",
+          "reading": "スペンサー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スペンサー"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "ストーン",
+          "reading": "ストーン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ストーン"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "学生",
+          "reading": "ガクセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学生",
+              "reading": "がくせい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "アンソニー",
+          "reading": "アンソニー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アンソニー"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "サドラー",
+          "reading": "サドラー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "サドラー"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "オレゴン州",
+          "reading": "オレゴンシュウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オレゴン"
+            },
+            {
+              "type": "ruby",
+              "text": "州",
+              "reading": "しゅう"
+            }
+          ]
+        },
+        {
+          "surface": "州兵",
+          "reading": "シュウヘイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "州兵",
+              "reading": "しゅうへい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "アレク",
+          "reading": "アレク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アレク"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "スカラ",
+          "reading": "スカラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スカラ"
+            }
+          ]
+        },
+        {
+          "surface": "トス",
+          "reading": "トス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "トス"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001741726:u0008::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001741726:u0008",
+          "text": "その列車に乗り合わせていたのは、元米空軍上等空兵のスペンサー・ストーン、学生のアンソニー・サドラー、オレゴン州州兵のアレク・スカラトス。",
+          "rendered_yomi_before": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上/ジョウ 等/トウ 空/クウ 兵/ヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
+          "rendered_yomi_after": "その/ソノ 列車/レッシャ に/ニ 乗り合わせ/ノリアワセ て/テ い/イ た/タ の/ノ は/ハ 、/、 元/モト 米空軍/ベイクウグン 上等空兵/ジョウトウクウヘイ の/ノ スペンサー/スペンサー ・/・ ストーン/ストーン 、/、 学生/ガクセイ の/ノ アンソニー/アンソニー ・/・ サドラー/サドラー 、/、 オレゴン州/オレゴンシュウ 州兵/シュウヘイ の/ノ アレク/アレク ・/・ スカラ/スカラ トス/トス 。/。",
+          "display_mapping": {
+            "start": 12,
+            "end": 13,
+            "char_start": 20,
+            "char_end": 24,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "等",
+              "token_surface": "等",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "等",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0023-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "空",
+              "token_surface": "空",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": "くう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "空",
+                  "reading": "くう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "兵",
+              "token_surface": "兵",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "へい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "兵",
+                  "reading": "へい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "等",
+              "token_surface": "等",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "等",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0023-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "空",
+              "token_surface": "空",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": "くう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "空",
+                  "reading": "くう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "兵",
+              "token_surface": "兵",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "へい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "兵",
+                  "reading": "へい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "上等空兵",
+          "reading_candidates": {
+            "上": [
+              "じょう",
+              "うえ",
+              "かみ",
+              "あげ",
+              "うわ",
+              "かみの",
+              "かむら",
+              "たかし",
+              "たてまつ",
+              "のぼる"
+            ],
+            "上等": [
+              "じょうとう"
+            ],
+            "等": [
+              "とう",
+              "たち",
+              "ひとし",
+              "ら"
+            ],
+            "空": [
+              "から",
+              "あき",
+              "うつほ",
+              "うつろ",
+              "うろ",
+              "かすみ",
+              "くう",
+              "そら",
+              "ぞら",
+              "むなし"
+            ],
+            "兵": [
+              "つわもの",
+              "へい"
+            ]
+          },
+          "reading_hints": {
+            "上": "じょう",
+            "上等": "じょうとう",
+            "等": "とう",
+            "空": "から",
+            "兵": "つわもの"
+          },
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "等",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "空",
+              "reading": "くう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "兵",
+              "reading": "へい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"上等空兵\",\"reading\":\"じょうとうくうへい\",\"used_web_search\":false,\"comment\":\"米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。",
+              "reading": "じょうとうくうへい",
+              "surface": "上等空兵",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "上等空兵",
+            "replacement": [
+              {
+                "surface": "上等空兵",
+                "reading": "ジョウトウクウヘイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001741726:u0008::target_group:1",
+                "surface": "上等空兵",
+                "comment": "米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "上等空兵",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "上",
+          "token_surface": "上",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0022-0022",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "等",
+          "token_surface": "等",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "等",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0023-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "空",
+          "token_surface": "空",
+          "token_index": 14,
+          "chunk_index": 0,
+          "current_reading_hiragana": "くう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "空",
+              "reading": "くう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008:s0024-0024",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "兵",
+          "token_surface": "兵",
+          "token_index": 15,
+          "chunk_index": 0,
+          "current_reading_hiragana": "へい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "兵",
+              "reading": "へい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "上",
+          "reading": "じょう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "等",
+          "reading": "とう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "空",
+          "reading": "くう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "兵",
+          "reading": "へい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "上": [
+          "じょう",
+          "うえ",
+          "かみ",
+          "あげ",
+          "うわ",
+          "かみの",
+          "かむら",
+          "たかし",
+          "たてまつ",
+          "のぼる"
+        ],
+        "上等": [
+          "じょうとう"
+        ],
+        "等": [
+          "とう",
+          "たち",
+          "ひとし",
+          "ら"
+        ],
+        "空": [
+          "から",
+          "あき",
+          "うつほ",
+          "うつろ",
+          "うろ",
+          "かすみ",
+          "くう",
+          "そら",
+          "ぞら",
+          "むなし"
+        ],
+        "兵": [
+          "つわもの",
+          "へい"
+        ]
+      },
+      "reading_hints": {
+        "上": "じょう",
+        "上等": "じょうとう",
+        "等": "とう",
+        "空": "から",
+        "兵": "つわもの"
+      },
+      "llm_parsed": [
+        {
+          "comment": "米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。",
+          "reading": "じょうとうくうへい",
+          "surface": "上等空兵",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"上等空兵\",\"reading\":\"じょうとうくうへい\",\"used_web_search\":false,\"comment\":\"米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。\"}]",
+      "llm_comments": [
+        "米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001741726:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "上等空兵",
+        "replacement": [
+          {
+            "surface": "上等空兵",
+            "reading": "ジョウトウクウヘイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001741726:u0008::target_group:1",
+            "surface": "上等空兵",
+            "comment": "米空軍の階級名としてひとまとまりに読むため、分割せずにまとめる。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000931735",
+      "doc_seq": 5,
+      "track_doc_seq": 3255,
+      "unit_id": "ja_cc_level2_corrected_v1:0000931735:u0002",
+      "unit_seq": 2,
+      "source_file": "ja/ja_cc/level2/0095.jsonl.gz",
+      "source_line_no": 931735,
+      "text": "ＮＨＫの連続テレビ小説「花子とアン」に嘉納伝助役で出演し、「伝助萌え」という言葉が誕生したほど、大ブレークした吉田鋼太郎さん。",
+      "rendered_yomi_before": "ＮＨＫ/エヌエイチケー の/ノ 連続/レンゾク テレビ/テレビ 小説/ショウセツ 「/「 花子/ハナコ と/ト アン/アン 」/」 に/ニ 嘉納/カノウ 伝/デン 助役/ジョヤク で/デ 出演/シュツエン し/シ 、/、 「/「 伝助/デンスケ 萌え/モエ 」/」 と/ト いう/イウ 言葉/コトバ が/ガ 誕生/タンジョウ し/シ た/タ ほど/ホド 、/、 大/ダイ ブレーク/ブレーク し/シ た/タ 吉田/ヨシダ 鋼太郎/コウタロウ さん/サン 。/。",
+      "rendered_yomi_after": "ＮＨＫ/エヌエイチケー の/ノ 連続/レンゾク テレビ/テレビ 小説/ショウセツ 「/「 花子/ハナコ と/ト アン/アン 」/」 に/ニ 嘉納/カノウ 伝助/デンスケ 役/ヤク で/デ 出演/シュツエン し/シ 、/、 「/「 伝助/デンスケ 萌え/モエ 」/」 と/ト いう/イウ 言葉/コトバ が/ガ 誕生/タンジョウ し/シ た/タ ほど/ホド 、/、 大/ダイ ブレーク/ブレーク し/シ た/タ 吉田/ヨシダ 鋼太郎/コウタロウ さん/サン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ＮＨＫ",
+          "エヌエイチケー"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "連続",
+          "レンゾク"
+        ],
+        [
+          "テレビ",
+          "テレビ"
+        ],
+        [
+          "小説",
+          "ショウセツ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "花子",
+          "ハナコ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "アン",
+          "アン"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "嘉納",
+          "カノウ"
+        ],
+        [
+          "伝助",
+          "デンスケ"
+        ],
+        [
+          "役",
+          "ヤク"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "出演",
+          "シュツエン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "伝助",
+          "デンスケ"
+        ],
+        [
+          "萌え",
+          "モエ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "言葉",
+          "コトバ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "誕生",
+          "タンジョウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "ほど",
+          "ホド"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "大",
+          "ダイ"
+        ],
+        [
+          "ブレーク",
+          "ブレーク"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "吉田",
+          "ヨシダ"
+        ],
+        [
+          "鋼太郎",
+          "コウタロウ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ＮＨＫ",
+          "reading": "エヌエイチケー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ＮＨＫ",
+              "reading": "えぬえいちけー"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "連続",
+          "reading": "レンゾク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "連続",
+              "reading": "れんぞく"
+            }
+          ]
+        },
+        {
+          "surface": "テレビ",
+          "reading": "テレビ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "テレビ"
+            }
+          ]
+        },
+        {
+          "surface": "小説",
+          "reading": "ショウセツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小説",
+              "reading": "しょうせつ"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "花子",
+          "reading": "ハナコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "花子",
+              "reading": "はなこ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "アン",
+          "reading": "アン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アン"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "嘉納",
+          "reading": "カノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "嘉納",
+              "reading": "かのう"
+            }
+          ]
+        },
+        {
+          "surface": "伝助",
+          "reading": "デンスケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "伝助",
+              "reading": "でんすけ"
+            }
+          ]
+        },
+        {
+          "surface": "役",
+          "reading": "ヤク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "役",
+              "reading": "やく"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "出演",
+          "reading": "シュツエン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出演",
+              "reading": "しゅつえん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "伝助",
+          "reading": "デンスケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "伝助",
+              "reading": "でんすけ"
+            }
+          ]
+        },
+        {
+          "surface": "萌え",
+          "reading": "モエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "萌",
+              "reading": "も"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "言葉",
+          "reading": "コトバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "言葉",
+              "reading": "ことば"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "誕生",
+          "reading": "タンジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "誕生",
+              "reading": "たんじょう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "ほど",
+          "reading": "ホド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ほど"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "大",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "ブレーク",
+          "reading": "ブレーク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ブレーク"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "吉田",
+          "reading": "ヨシダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "吉田",
+              "reading": "よしだ"
+            }
+          ]
+        },
+        {
+          "surface": "鋼太郎",
+          "reading": "コウタロウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鋼太郎",
+              "reading": "こうたろう"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000931735:u0002",
+          "text": "ＮＨＫの連続テレビ小説「花子とアン」に嘉納伝助役で出演し、「伝助萌え」という言葉が誕生したほど、大ブレークした吉田鋼太郎さん。",
+          "rendered_yomi_before": "ＮＨＫ/エヌエイチケー の/ノ 連続/レンゾク テレビ/テレビ 小説/ショウセツ 「/「 花子/ハナコ と/ト アン/アン 」/」 に/ニ 嘉納/カノウ 伝/デン 助役/ジョヤク で/デ 出演/シュツエン し/シ 、/、 「/「 伝助/デンスケ 萌え/モエ 」/」 と/ト いう/イウ 言葉/コトバ が/ガ 誕生/タンジョウ し/シ た/タ ほど/ホド 、/、 大/ダイ ブレーク/ブレーク し/シ た/タ 吉田/ヨシダ 鋼太郎/コウタロウ さん/サン 。/。",
+          "rendered_yomi_after": "ＮＨＫ/エヌエイチケー の/ノ 連続/レンゾク テレビ/テレビ 小説/ショウセツ 「/「 花子/ハナコ と/ト アン/アン 」/」 に/ニ 嘉納/カノウ 伝助/デンスケ 役/ヤク で/デ 出演/シュツエン し/シ 、/、 「/「 伝助/デンスケ 萌え/モエ 」/」 と/ト いう/イウ 言葉/コトバ が/ガ 誕生/タンジョウ し/シ た/タ ほど/ホド 、/、 大/ダイ ブレーク/ブレーク し/シ た/タ 吉田/ヨシダ 鋼太郎/コウタロウ さん/サン 。/。",
+          "display_mapping": {
+            "start": 12,
+            "end": 14,
+            "char_start": 21,
+            "char_end": 24,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "伝",
+              "token_surface": "伝",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "でん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "伝",
+                  "reading": "でん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002:s0023-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "助役",
+              "token_surface": "助役",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょやく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "助役",
+                  "reading": "じょやく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "伝",
+              "token_surface": "伝",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "でん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "伝",
+                  "reading": "でん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002:s0023-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "助役",
+              "token_surface": "助役",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょやく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "助役",
+                  "reading": "じょやく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "伝助役",
+          "reading_candidates": {
+            "伝": [
+              "つたい",
+              "つたう",
+              "つて",
+              "つとう",
+              "でん"
+            ],
+            "伝助": [
+              "でんすけ"
+            ],
+            "助": [
+              "じょ",
+              "すけ",
+              "たすく"
+            ],
+            "助役": [
+              "じょやく"
+            ],
+            "役": [
+              "えき",
+              "やく"
+            ]
+          },
+          "reading_hints": {
+            "伝": "つたい",
+            "伝助": "でんすけ",
+            "助": "じょ",
+            "助役": "じょやく",
+            "役": "えき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "伝",
+              "reading": "でん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "助役",
+              "reading": "じょやく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"伝助\",\"reading\":\"デンスケ\",\"used_web_search\":false,\"comment\":\"登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。\"},{\"surface\":\"役\",\"reading\":\"ヤク\",\"used_web_search\":false,\"comment\":\"職名・役柄を表す接尾語で、「〜役」は「やく」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。",
+              "reading": "デンスケ",
+              "surface": "伝助",
+              "used_web_search": false
+            },
+            {
+              "comment": "職名・役柄を表す接尾語で、「〜役」は「やく」と読む。",
+              "reading": "ヤク",
+              "surface": "役",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。",
+            "職名・役柄を表す接尾語で、「〜役」は「やく」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+            "status": "applied",
+            "rejected_span": "伝助役",
+            "replacement": [
+              {
+                "surface": "伝助",
+                "reading": "デンスケ"
+              },
+              {
+                "surface": "役",
+                "reading": "ヤク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+                "surface": "伝助役",
+                "comment": "登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+                "surface": "伝助役",
+                "comment": "職名・役柄を表す接尾語で、「〜役」は「やく」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "伝助役",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002:s0022-0022",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "伝",
+          "token_surface": "伝",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "でん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "伝",
+              "reading": "でん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002:s0023-0024",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "助役",
+          "token_surface": "助役",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じょやく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "助役",
+              "reading": "じょやく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "伝",
+          "reading": "でん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "助役",
+          "reading": "じょやく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "伝": [
+          "つたい",
+          "つたう",
+          "つて",
+          "つとう",
+          "でん"
+        ],
+        "伝助": [
+          "でんすけ"
+        ],
+        "助": [
+          "じょ",
+          "すけ",
+          "たすく"
+        ],
+        "助役": [
+          "じょやく"
+        ],
+        "役": [
+          "えき",
+          "やく"
+        ]
+      },
+      "reading_hints": {
+        "伝": "つたい",
+        "伝助": "でんすけ",
+        "助": "じょ",
+        "助役": "じょやく",
+        "役": "えき"
+      },
+      "llm_parsed": [
+        {
+          "comment": "登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。",
+          "reading": "デンスケ",
+          "surface": "伝助",
+          "used_web_search": false
+        },
+        {
+          "comment": "職名・役柄を表す接尾語で、「〜役」は「やく」と読む。",
+          "reading": "ヤク",
+          "surface": "役",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"伝助\",\"reading\":\"デンスケ\",\"used_web_search\":false,\"comment\":\"登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。\"},{\"surface\":\"役\",\"reading\":\"ヤク\",\"used_web_search\":false,\"comment\":\"職名・役柄を表す接尾語で、「〜役」は「やく」と読む。\"}]",
+      "llm_comments": [
+        "登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。",
+        "職名・役柄を表す接尾語で、「〜役」は「やく」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+        "status": "applied",
+        "rejected_span": "伝助役",
+        "replacement": [
+          {
+            "surface": "伝助",
+            "reading": "デンスケ"
+          },
+          {
+            "surface": "役",
+            "reading": "ヤク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+            "surface": "伝助役",
+            "comment": "登場人物名の一部で、嘉納伝助の「伝助」は「でんすけ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000931735:u0002::target_group:1",
+            "surface": "伝助役",
+            "comment": "職名・役柄を表す接尾語で、「〜役」は「やく」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001680890:u0008::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0001680890",
+      "doc_seq": 6,
+      "track_doc_seq": 3256,
+      "unit_id": "ja_cc_level2_corrected_v1:0001680890:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0206.jsonl.gz",
+      "source_line_no": 1680890,
+      "text": "タイだと500Bレベル。",
+      "rendered_yomi_before": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
+      "rendered_yomi_after": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "タイ",
+          "タイ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "500",
+          ""
+        ],
+        [
+          "B",
+          "ビー"
+        ],
+        [
+          "レベル",
+          "レベル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "タイ",
+          "reading": "タイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タイ"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "500",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "500"
+            }
+          ]
+        },
+        {
+          "surface": "B",
+          "reading": "ビー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "B",
+              "reading": "びー"
+            }
+          ]
+        },
+        {
+          "surface": "レベル",
+          "reading": "レベル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レベル"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001680890:u0008::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001680890:u0008::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001680890:u0008",
+          "text": "タイだと500Bレベル。",
+          "rendered_yomi_before": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
+          "rendered_yomi_after": "タイ/タイ だ/ダ と/ト 500/ B/ビー レベル/レベル 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 7,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001680890:u0008:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "B",
+              "token_surface": "B",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "びー",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "B",
+                  "reading": "びー",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001680890:u0008:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "B",
+              "token_surface": "B",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "びー",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "B",
+                  "reading": "びー",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "B",
+          "reading_candidates": {
+            "B": [
+              "びー"
+            ]
+          },
+          "reading_hints": {
+            "B": "びー"
+          },
+          "rejected_readings": [
+            {
+              "surface": "B",
+              "reading": "びー",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"B\",\"reading\":\"ビー\",\"used_web_search\":false,\"comment\":\"数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。",
+              "reading": "ビー",
+              "surface": "B",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001680890:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "B",
+            "replacement": [
+              {
+                "surface": "B",
+                "reading": "ビー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001680890:u0008::target_group:1",
+                "surface": "B",
+                "comment": "数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "B",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001680890:u0008:s0008-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "B",
+          "token_surface": "B",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "びー",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "B",
+              "reading": "びー",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "B",
+          "reading": "びー",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "B": [
+          "びー"
+        ]
+      },
+      "reading_hints": {
+        "B": "びー"
+      },
+      "llm_parsed": [
+        {
+          "comment": "数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。",
+          "reading": "ビー",
+          "surface": "B",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"B\",\"reading\":\"ビー\",\"used_web_search\":false,\"comment\":\"数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。\"}]",
+      "llm_comments": [
+        "数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001680890:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "B",
+        "replacement": [
+          {
+            "surface": "B",
+            "reading": "ビー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001680890:u0008::target_group:1",
+            "surface": "B",
+            "comment": "数値の後ろの単位的な記号として、英字Bは日本語では通常「ビー」と読むため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1733 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1176_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1176",
+  "created_at_epoch": 1790557086,
+  "created_at": "2026-09-28T00:58:06Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 2,
+    "result_row_count": 2,
+    "reviewable_repair_row_count": 2,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000172927",
+      "doc_seq": 1,
+      "track_doc_seq": 3231,
+      "unit_count": 54,
+      "source_file": "ja/ja_cc/level2/0016.jsonl.gz",
+      "source_line_no": 172927,
+      "preview": "今年5月18日、JR熱海駅の東海道新幹線改札口付近で知人男性の顔をカッターナイフで切りつけ、傷害の疑いで現行犯逮捕された岩本和子容疑者（43歳）。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 54,
+      "skipped_unit_count": 13,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001923034",
+      "doc_seq": 2,
+      "track_doc_seq": 3232,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0247.jsonl.gz",
+      "source_line_no": 1923034,
+      "preview": "韓国ドラマ「トンイ」は、「チャングムの誓い」や「イ・サン」の製作を行った監督、イ・ビョンフンが監督を務めています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001110341",
+      "doc_seq": 3,
+      "track_doc_seq": 3233,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0121.jsonl.gz",
+      "source_line_no": 1110341,
+      "preview": "Fate/Zero 第23話って終盤の筈なのになんか色々いまいち展開･･･。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001965549",
+      "doc_seq": 4,
+      "track_doc_seq": 3234,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0253.jsonl.gz",
+      "source_line_no": 1965549,
+      "preview": "こんにちは、我孫子市議会議員の久野晋作です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001384989",
+      "doc_seq": 5,
+      "track_doc_seq": 3235,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0162.jsonl.gz",
+      "source_line_no": 1384989,
+      "preview": "観音院の仁王像は高さ4mを越す秩父札所の中で随一の大きさを誇る石像で、1868年に長野の名工「藤森吉弥一寿」の作といわれています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001468813",
+      "doc_seq": 6,
+      "track_doc_seq": 3236,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0174.jsonl.gz",
+      "source_line_no": 1468813,
+      "preview": "RT @Japangard: つまり、中国共産党がガッツリとからみついた日中共同出資会社の副会長の兄上様が、このたびは総理になられるかも知れない…ということですね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 2,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000757445",
+      "doc_seq": 7,
+      "track_doc_seq": 3237,
+      "unit_count": 26,
+      "source_file": "ja/ja_cc/level2/0078.jsonl.gz",
+      "source_line_no": 757445,
+      "preview": "昨日は強風下で、寒い一日でしたが、今日は打って変わって穏やかな暖かな一日となりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 26,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002145165",
+      "doc_seq": 8,
+      "track_doc_seq": 3238,
+      "unit_count": 65,
+      "source_file": "ja/ja_cc/level2/0295.jsonl.gz",
+      "source_line_no": 2145165,
+      "preview": "12/29(日)、2013年の最後を飾る釣行へ。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 65,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001508785",
+      "doc_seq": 9,
+      "track_doc_seq": 3239,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0185.jsonl.gz",
+      "source_line_no": 1508785,
+      "preview": "今回は独身寮の管理スタッフ募集。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001655441",
+      "doc_seq": 10,
+      "track_doc_seq": 3240,
+      "unit_count": 56,
+      "source_file": "ja/ja_cc/level2/0202.jsonl.gz",
+      "source_line_no": 1655441,
+      "preview": "ちょっと重たい話ばかりだけど、かなり面白かった作品だ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-28T00:16:17Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 56,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001110341",
+      "doc_seq": 3,
+      "track_doc_seq": 3233,
+      "unit_id": "ja_cc_level2_corrected_v1:0001110341:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0121.jsonl.gz",
+      "source_line_no": 1110341,
+      "text": "ついにその本性を顕にした言峰綺礼の罠に、敢えて真正面から立ち向かう衛宮切嗣。",
+      "rendered_yomi_before": "ついに/ツイニ その/ソノ 本性/ホンショウ を/ヲ 顕/アラワ に/ニ し/シ た/タ 言/ゲン 峰/ミネ 綺/キ 礼/レイ の/ノ 罠/ワナ に/ニ 、/、 敢えて/アエテ 真正面/マショウメン から/カラ 立ち向かう/タチムカウ 衛宮/エミヤ 切嗣/キリツグ 。/。",
+      "rendered_yomi_after": "ついに/ツイニ その/ソノ 本性/ホンショウ を/ヲ 顕/アラワ に/ニ し/シ た/タ 言峰/コトミネ 綺礼/キレイ の/ノ 罠/ワナ に/ニ 、/、 敢えて/アエテ 真正面/マショウメン から/カラ 立ち向かう/タチムカウ 衛宮/エミヤ 切嗣/キリツグ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ついに",
+          "ツイニ"
+        ],
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "本性",
+          "ホンショウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "顕",
+          "アラワ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "言峰",
+          "コトミネ"
+        ],
+        [
+          "綺礼",
+          "キレイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "罠",
+          "ワナ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "敢えて",
+          "アエテ"
+        ],
+        [
+          "真正面",
+          "マショウメン"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "立ち向かう",
+          "タチムカウ"
+        ],
+        [
+          "衛宮",
+          "エミヤ"
+        ],
+        [
+          "切嗣",
+          "キリツグ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ついに",
+          "reading": "ツイニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ついに"
+            }
+          ]
+        },
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "本性",
+          "reading": "ホンショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本性",
+              "reading": "ほんしょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "顕",
+          "reading": "アラワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "顕",
+              "reading": "あらわ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "言峰",
+          "reading": "コトミネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "言峰",
+              "reading": "ことみね"
+            }
+          ]
+        },
+        {
+          "surface": "綺礼",
+          "reading": "キレイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "綺礼",
+              "reading": "きれい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "罠",
+          "reading": "ワナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "罠",
+              "reading": "わな"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "敢えて",
+          "reading": "アエテ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "敢",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "えて"
+            }
+          ]
+        },
+        {
+          "surface": "真正面",
+          "reading": "マショウメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "真正面",
+              "reading": "ましょうめん"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "立ち向かう",
+          "reading": "タチムカウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "立",
+              "reading": "た"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            },
+            {
+              "type": "ruby",
+              "text": "向",
+              "reading": "む"
+            },
+            {
+              "type": "text",
+              "text": "かう"
+            }
+          ]
+        },
+        {
+          "surface": "衛宮",
+          "reading": "エミヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "衛宮",
+              "reading": "えみや"
+            }
+          ]
+        },
+        {
+          "surface": "切嗣",
+          "reading": "キリツグ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "切嗣",
+              "reading": "きりつぐ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001110341:u0007",
+          "text": "ついにその本性を顕にした言峰綺礼の罠に、敢えて真正面から立ち向かう衛宮切嗣。",
+          "rendered_yomi_before": "ついに/ツイニ その/ソノ 本性/ホンショウ を/ヲ 顕/アラワ に/ニ し/シ た/タ 言/ゲン 峰/ミネ 綺/キ 礼/レイ の/ノ 罠/ワナ に/ニ 、/、 敢えて/アエテ 真正面/マショウメン から/カラ 立ち向かう/タチムカウ 衛宮/エミヤ 切嗣/キリツグ 。/。",
+          "rendered_yomi_after": "ついに/ツイニ その/ソノ 本性/ホンショウ を/ヲ 顕/アラワ に/ニ し/シ た/タ 言峰/コトミネ 綺礼/キレイ の/ノ 罠/ワナ に/ニ 、/、 敢えて/アエテ 真正面/マショウメン から/カラ 立ち向かう/タチムカウ 衛宮/エミヤ 切嗣/キリツグ 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 10,
+            "char_start": 12,
+            "char_end": 16,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "言",
+              "token_surface": "言",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "げん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "言",
+                  "reading": "げん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "峰",
+              "token_surface": "峰",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みね",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "峰",
+                  "reading": "みね",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "綺",
+              "token_surface": "綺",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "綺",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "礼",
+              "token_surface": "礼",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "礼",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "言",
+              "token_surface": "言",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "げん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "言",
+                  "reading": "げん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "峰",
+              "token_surface": "峰",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みね",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "峰",
+                  "reading": "みね",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "綺",
+              "token_surface": "綺",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "綺",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "礼",
+              "token_surface": "礼",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "礼",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "言峰綺礼",
+          "reading_candidates": {
+            "言": [
+              "いい",
+              "げん",
+              "こと",
+              "ことば",
+              "ごと",
+              "ごん"
+            ],
+            "峰": [
+              "ほう",
+              "ぼう",
+              "ぼん",
+              "ぽう",
+              "みね"
+            ],
+            "綺": [
+              "あや",
+              "き"
+            ],
+            "礼": [
+              "あや",
+              "ひろし",
+              "みち",
+              "らい",
+              "れい"
+            ]
+          },
+          "reading_hints": {
+            "言": "いい",
+            "峰": "ほう",
+            "綺": "あや",
+            "礼": "あや"
+          },
+          "rejected_readings": [
+            {
+              "surface": "言",
+              "reading": "げん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "峰",
+              "reading": "みね",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "綺",
+              "reading": "き",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "礼",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"言峰\",\"reading\":\"コトミネ\",\"used_web_search\":false,\"comment\":\"姓としての読みは「ことみね」。\"},{\"surface\":\"綺礼\",\"reading\":\"キレイ\",\"used_web_search\":false,\"comment\":\"名としての読みは「きれい」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "姓としての読みは「ことみね」。",
+              "reading": "コトミネ",
+              "surface": "言峰",
+              "used_web_search": false
+            },
+            {
+              "comment": "名としての読みは「きれい」。",
+              "reading": "キレイ",
+              "surface": "綺礼",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "姓としての読みは「ことみね」。",
+            "名としての読みは「きれい」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "言峰綺礼",
+            "replacement": [
+              {
+                "surface": "言峰",
+                "reading": "コトミネ"
+              },
+              {
+                "surface": "綺礼",
+                "reading": "キレイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+                "surface": "言峰綺礼",
+                "comment": "姓としての読みは「ことみね」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+                "surface": "言峰綺礼",
+                "comment": "名としての読みは「きれい」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "言峰綺礼",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "言",
+          "token_surface": "言",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "げん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "言",
+              "reading": "げん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0014-0014",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "峰",
+          "token_surface": "峰",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みね",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "峰",
+              "reading": "みね",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0015-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "綺",
+          "token_surface": "綺",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "き",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "綺",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007:s0016-0016",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "礼",
+          "token_surface": "礼",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "れい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "礼",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "言",
+          "reading": "げん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "峰",
+          "reading": "みね",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "綺",
+          "reading": "き",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "礼",
+          "reading": "れい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "言": [
+          "いい",
+          "げん",
+          "こと",
+          "ことば",
+          "ごと",
+          "ごん"
+        ],
+        "峰": [
+          "ほう",
+          "ぼう",
+          "ぼん",
+          "ぽう",
+          "みね"
+        ],
+        "綺": [
+          "あや",
+          "き"
+        ],
+        "礼": [
+          "あや",
+          "ひろし",
+          "みち",
+          "らい",
+          "れい"
+        ]
+      },
+      "reading_hints": {
+        "言": "いい",
+        "峰": "ほう",
+        "綺": "あや",
+        "礼": "あや"
+      },
+      "llm_parsed": [
+        {
+          "comment": "姓としての読みは「ことみね」。",
+          "reading": "コトミネ",
+          "surface": "言峰",
+          "used_web_search": false
+        },
+        {
+          "comment": "名としての読みは「きれい」。",
+          "reading": "キレイ",
+          "surface": "綺礼",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"言峰\",\"reading\":\"コトミネ\",\"used_web_search\":false,\"comment\":\"姓としての読みは「ことみね」。\"},{\"surface\":\"綺礼\",\"reading\":\"キレイ\",\"used_web_search\":false,\"comment\":\"名としての読みは「きれい」。\"}]",
+      "llm_comments": [
+        "姓としての読みは「ことみね」。",
+        "名としての読みは「きれい」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "言峰綺礼",
+        "replacement": [
+          {
+            "surface": "言峰",
+            "reading": "コトミネ"
+          },
+          {
+            "surface": "綺礼",
+            "reading": "キレイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+            "surface": "言峰綺礼",
+            "comment": "姓としての読みは「ことみね」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001110341:u0007::target_group:1",
+            "surface": "言峰綺礼",
+            "comment": "名としての読みは「きれい」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0002145165",
+      "doc_seq": 8,
+      "track_doc_seq": 3238,
+      "unit_id": "ja_cc_level2_corrected_v1:0002145165:u0019",
+      "unit_seq": 19,
+      "source_file": "ja/ja_cc/level2/0295.jsonl.gz",
+      "source_line_no": 2145165,
+      "text": "ガキおやじの釣り人生でおそらく最も遅いスタートです。",
+      "rendered_yomi_before": "ガキ/ガキ おやじ/オヤジ の/ノ 釣り人/ツリビト 生/セイ で/デ おそらく/オソラク 最も/モットモ 遅い/オソイ スタート/スタート です/デス 。/。",
+      "rendered_yomi_after": "ガキ/ガキ おやじ/オヤジ の/ノ 釣り/ツリ 人生/ジンセイ で/デ おそらく/オソラク 最も/モットモ 遅い/オソイ スタート/スタート です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ガキ",
+          "ガキ"
+        ],
+        [
+          "おやじ",
+          "オヤジ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "釣り",
+          "ツリ"
+        ],
+        [
+          "人生",
+          "ジンセイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "おそらく",
+          "オソラク"
+        ],
+        [
+          "最も",
+          "モットモ"
+        ],
+        [
+          "遅い",
+          "オソイ"
+        ],
+        [
+          "スタート",
+          "スタート"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ガキ",
+          "reading": "ガキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガキ"
+            }
+          ]
+        },
+        {
+          "surface": "おやじ",
+          "reading": "オヤジ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おやじ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "釣り",
+          "reading": "ツリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "釣",
+              "reading": "つ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "人生",
+          "reading": "ジンセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人生",
+              "reading": "じんせい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "おそらく",
+          "reading": "オソラク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おそらく"
+            }
+          ]
+        },
+        {
+          "surface": "最も",
+          "reading": "モットモ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最",
+              "reading": "もっと"
+            },
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "遅い",
+          "reading": "オソイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遅",
+              "reading": "おそ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "スタート",
+          "reading": "スタート",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スタート"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002145165:u0019",
+          "text": "ガキおやじの釣り人生でおそらく最も遅いスタートです。",
+          "rendered_yomi_before": "ガキ/ガキ おやじ/オヤジ の/ノ 釣り人/ツリビト 生/セイ で/デ おそらく/オソラク 最も/モットモ 遅い/オソイ スタート/スタート です/デス 。/。",
+          "rendered_yomi_after": "ガキ/ガキ おやじ/オヤジ の/ノ 釣り/ツリ 人生/ジンセイ で/デ おそらく/オソラク 最も/モットモ 遅い/オソイ スタート/スタート です/デス 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 5,
+            "char_start": 6,
+            "char_end": 10,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019:s0007-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "釣り人",
+              "token_surface": "釣り人",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つりびと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "釣り人",
+                  "reading": "つりびと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "生",
+              "token_surface": "生",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "生",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019:s0007-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "釣り人",
+              "token_surface": "釣り人",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つりびと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "釣り人",
+                  "reading": "つりびと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "生",
+              "token_surface": "生",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "生",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "釣り人生",
+          "reading_candidates": {
+            "釣": [
+              "つり",
+              "づり",
+              "ひとし"
+            ],
+            "釣り": [
+              "つり",
+              "づり"
+            ],
+            "釣り人": [
+              "つりびと"
+            ],
+            "人": [
+              "びと",
+              "じん",
+              "にん",
+              "ひと",
+              "り"
+            ],
+            "人生": [
+              "じんせい"
+            ],
+            "生": [
+              "せい",
+              "なま",
+              "いき",
+              "いくる",
+              "うい",
+              "うま",
+              "うまれ",
+              "おい",
+              "おふ",
+              "き",
+              "しょう",
+              "なる",
+              "ふゆ"
+            ]
+          },
+          "reading_hints": {
+            "釣": "つり",
+            "釣り": "つり",
+            "釣り人": "つりびと",
+            "人": "びと",
+            "人生": "じんせい",
+            "生": "せい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "釣り人",
+              "reading": "つりびと",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "生",
+              "reading": "せい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"釣り\",\"reading\":\"ツリ\",\"used_web_search\":false,\"comment\":\"「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。\"},{\"surface\":\"人生\",\"reading\":\"ジンセイ\",\"used_web_search\":false,\"comment\":\"後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。",
+              "reading": "ツリ",
+              "surface": "釣り",
+              "used_web_search": false
+            },
+            {
+              "comment": "後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。",
+              "reading": "ジンセイ",
+              "surface": "人生",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。",
+            "後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "釣り人生",
+            "replacement": [
+              {
+                "surface": "釣り",
+                "reading": "ツリ"
+              },
+              {
+                "surface": "人生",
+                "reading": "ジンセイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+                "surface": "釣り人生",
+                "comment": "「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+                "surface": "釣り人生",
+                "comment": "後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "釣り人生",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019:s0007-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "釣り人",
+          "token_surface": "釣り人",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つりびと",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "釣り人",
+              "reading": "つりびと",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "生",
+          "token_surface": "生",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "せい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "生",
+              "reading": "せい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "釣り人",
+          "reading": "つりびと",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "生",
+          "reading": "せい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "釣": [
+          "つり",
+          "づり",
+          "ひとし"
+        ],
+        "釣り": [
+          "つり",
+          "づり"
+        ],
+        "釣り人": [
+          "つりびと"
+        ],
+        "人": [
+          "びと",
+          "じん",
+          "にん",
+          "ひと",
+          "り"
+        ],
+        "人生": [
+          "じんせい"
+        ],
+        "生": [
+          "せい",
+          "なま",
+          "いき",
+          "いくる",
+          "うい",
+          "うま",
+          "うまれ",
+          "おい",
+          "おふ",
+          "き",
+          "しょう",
+          "なる",
+          "ふゆ"
+        ]
+      },
+      "reading_hints": {
+        "釣": "つり",
+        "釣り": "つり",
+        "釣り人": "つりびと",
+        "人": "びと",
+        "人生": "じんせい",
+        "生": "せい"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。",
+          "reading": "ツリ",
+          "surface": "釣り",
+          "used_web_search": false
+        },
+        {
+          "comment": "後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。",
+          "reading": "ジンセイ",
+          "surface": "人生",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"釣り\",\"reading\":\"ツリ\",\"used_web_search\":false,\"comment\":\"「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。\"},{\"surface\":\"人生\",\"reading\":\"ジンセイ\",\"used_web_search\":false,\"comment\":\"後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。\"}]",
+      "llm_comments": [
+        "「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。",
+        "後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "釣り人生",
+        "replacement": [
+          {
+            "surface": "釣り",
+            "reading": "ツリ"
+          },
+          {
+            "surface": "人生",
+            "reading": "ジンセイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+            "surface": "釣り人生",
+            "comment": "「釣り〜人生」で「釣りをすること」の意味なので、ここは動詞由来の名詞として読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002145165:u0019::target_group:1",
+            "surface": "釣り人生",
+            "comment": "後続の「おそらく最も遅いスタートです」とつながる一般名詞で、そのまま「人生」です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
