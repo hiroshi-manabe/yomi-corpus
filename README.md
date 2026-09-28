@@ -12,7 +12,7 @@ The first design draft lives here:
 
 - [docs/PIPELINE_DESIGN.md](/panfs/panmt22/users/hmanabe/yomi-corpus/docs/PIPELINE_DESIGN.md)
 - [docs/WORKING_PIPELINE.md](/panfs/panmt22/users/hmanabe/yomi-corpus/docs/WORKING_PIPELINE.md)
-- Review UI (GitHub Pages, dev): https://hiroshi-manabe.github.io/yomi-corpus/review/?stage=yomi_final_review&track=dev&v=dev
+- Review UI (GitHub Pages, dev): https://hiroshi-manabe.github.io/yomi-corpus/review/?stage=unified_yomi_review&v=dev
 
 Initial project stance:
 
@@ -98,7 +98,7 @@ Review transport policy:
 - browser UI should persist local drafts and support partial range-based
   submissions
 - during active dev UI work, use a cache-busted GitHub Pages URL such as
-  `https://hiroshi-manabe.github.io/yomi-corpus/review/?stage=yomi_final_review&track=dev&v=dev`
+  `https://hiroshi-manabe.github.io/yomi-corpus/review/?stage=unified_yomi_review&v=dev`
   from documentation links; once the UI stabilizes, the cache-busting parameter
   can be removed
 - implement the intended `working` workflow in `dev` first: separate review
