@@ -1,0 +1,2609 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1192_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1192",
+  "created_at_epoch": 1790663166,
+  "created_at": "2026-09-29T06:26:06Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000803940",
+      "doc_seq": 1,
+      "track_doc_seq": 3391,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0082.jsonl.gz",
+      "source_line_no": 803940,
+      "preview": "そんなチクルンを抱き締めるモフルンの母性よ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001721507",
+      "doc_seq": 2,
+      "track_doc_seq": 3392,
+      "unit_count": 43,
+      "source_file": "ja/ja_cc/level2/0215.jsonl.gz",
+      "source_line_no": 1721507,
+      "preview": "6月あたりにちょっと病気をしていたのもあって、この夏はコーヒーを封印してアイスティーばかりのんでいた私です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 43,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000546958",
+      "doc_seq": 3,
+      "track_doc_seq": 3393,
+      "unit_count": 123,
+      "source_file": "ja/ja_cc/level2/0060.jsonl.gz",
+      "source_line_no": 546958,
+      "preview": "夜中に仕事が入ると、飛び起きて現場へ向かわなければならない。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 123,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001809633",
+      "doc_seq": 4,
+      "track_doc_seq": 3394,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0228.jsonl.gz",
+      "source_line_no": 1809633,
+      "preview": "往復はがきにて応募、11月2日(土)必着。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000945953",
+      "doc_seq": 5,
+      "track_doc_seq": 3395,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0097.jsonl.gz",
+      "source_line_no": 945953,
+      "preview": "明治30（1897）年に設立された日本医学図書館の歴史に関する論文を読みました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000430671",
+      "doc_seq": 6,
+      "track_doc_seq": 3396,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0047.jsonl.gz",
+      "source_line_no": 430671,
+      "preview": "母が死亡し、その法定相続人は娘である依頼者のみであった。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001706184",
+      "doc_seq": 7,
+      "track_doc_seq": 3397,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0213.jsonl.gz",
+      "source_line_no": 1706184,
+      "preview": "例年より１週間遅い・・・。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000445957",
+      "doc_seq": 8,
+      "track_doc_seq": 3398,
+      "unit_count": 22,
+      "source_file": "ja/ja_cc/level2/0049.jsonl.gz",
+      "source_line_no": 445957,
+      "preview": "これって、一日花なんだそうです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 22,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002367847",
+      "doc_seq": 9,
+      "track_doc_seq": 3399,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0349.jsonl.gz",
+      "source_line_no": 2367847,
+      "preview": "今日からさっそく修羅場期間に入った飼い主の瞳孔が開いておらんか、のぞきこむポメラギオンである。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000544770",
+      "doc_seq": 10,
+      "track_doc_seq": 3400,
+      "unit_count": 2,
+      "source_file": "ja/ja_cc/level2/0060.jsonl.gz",
+      "source_line_no": 544770,
+      "preview": "世界中から厳選した農薬不使用もしくは野生の厳選されたハーブの調和で、糖化ケアを叶えます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T06:09:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 2,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001721507",
+      "doc_seq": 2,
+      "track_doc_seq": 3392,
+      "unit_id": "ja_cc_level2_corrected_v1:0001721507:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0215.jsonl.gz",
+      "source_line_no": 1721507,
+      "text": "1リットルの冷水筒 （熱湯可のもの）。",
+      "rendered_yomi_before": "1/ リットル/リットル の/ノ 冷水/レイスイ 筒/トウ  / （/（ 熱湯/ネットウ 可/カ の/ノ もの/モノ ）/） 。/。",
+      "rendered_yomi_after": "1/ リットル/リットル の/ノ 冷水筒/レイスイトウ \\s/ （/（ 熱湯/ネットウ 可/カ の/ノ もの/モノ ）/） 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "1",
+          ""
+        ],
+        [
+          "リットル",
+          "リットル"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "冷水筒",
+          "レイスイトウ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "熱湯",
+          "ネットウ"
+        ],
+        [
+          "可",
+          "カ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "もの",
+          "モノ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1"
+            }
+          ]
+        },
+        {
+          "surface": "リットル",
+          "reading": "リットル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "リットル"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "冷水筒",
+          "reading": "レイスイトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "冷水筒",
+              "reading": "れいすいとう"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "熱湯",
+          "reading": "ネットウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "熱湯",
+              "reading": "ねっとう"
+            }
+          ]
+        },
+        {
+          "surface": "可",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "可",
+              "reading": "か"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "もの",
+          "reading": "モノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もの"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001721507:u0026::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001721507:u0026",
+          "text": "1リットルの冷水筒 （熱湯可のもの）。",
+          "rendered_yomi_before": "1/ リットル/リットル の/ノ 冷水/レイスイ 筒/トウ  / （/（ 熱湯/ネットウ 可/カ の/ノ もの/モノ ）/） 。/。",
+          "rendered_yomi_after": "1/ リットル/リットル の/ノ 冷水筒/レイスイトウ \\s/ （/（ 熱湯/ネットウ 可/カ の/ノ もの/モノ ）/） 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 4,
+            "char_start": 6,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "冷水",
+              "token_surface": "冷水",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れいすい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "冷水",
+                  "reading": "れいすい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "筒",
+              "token_surface": "筒",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "筒",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "冷水",
+              "token_surface": "冷水",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れいすい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "冷水",
+                  "reading": "れいすい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "筒",
+              "token_surface": "筒",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "筒",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "冷水筒",
+          "reading_candidates": {
+            "冷": [
+              "すずし",
+              "つべた",
+              "つめた",
+              "ひや",
+              "れい"
+            ],
+            "冷水": [
+              "しみず",
+              "ひやみず",
+              "れいすい"
+            ],
+            "水": [
+              "すい",
+              "みず",
+              "ずい"
+            ],
+            "水筒": [
+              "すいとう"
+            ],
+            "筒": [
+              "つつ",
+              "づつ",
+              "とう"
+            ]
+          },
+          "reading_hints": {
+            "冷": "すずし",
+            "冷水": "しみず",
+            "水": "すい",
+            "水筒": "すいとう",
+            "筒": "つつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "冷水",
+              "reading": "れいすい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "筒",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"冷水筒\",\"reading\":\"れいすいとう\",\"used_web_search\":false,\"comment\":\"家庭用品の語で、自然な読みは一語の「れいすいとう」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "家庭用品の語で、自然な読みは一語の「れいすいとう」。",
+              "reading": "れいすいとう",
+              "surface": "冷水筒",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "家庭用品の語で、自然な読みは一語の「れいすいとう」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "冷水筒",
+            "replacement": [
+              {
+                "surface": "冷水筒",
+                "reading": "レイスイトウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001721507:u0026::target_group:1",
+                "surface": "冷水筒",
+                "comment": "家庭用品の語で、自然な読みは一語の「れいすいとう」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "冷水筒",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "冷水",
+          "token_surface": "冷水",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "れいすい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "冷水",
+              "reading": "れいすい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "筒",
+          "token_surface": "筒",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "筒",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "冷水",
+          "reading": "れいすい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "筒",
+          "reading": "とう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "冷": [
+          "すずし",
+          "つべた",
+          "つめた",
+          "ひや",
+          "れい"
+        ],
+        "冷水": [
+          "しみず",
+          "ひやみず",
+          "れいすい"
+        ],
+        "水": [
+          "すい",
+          "みず",
+          "ずい"
+        ],
+        "水筒": [
+          "すいとう"
+        ],
+        "筒": [
+          "つつ",
+          "づつ",
+          "とう"
+        ]
+      },
+      "reading_hints": {
+        "冷": "すずし",
+        "冷水": "しみず",
+        "水": "すい",
+        "水筒": "すいとう",
+        "筒": "つつ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "家庭用品の語で、自然な読みは一語の「れいすいとう」。",
+          "reading": "れいすいとう",
+          "surface": "冷水筒",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"冷水筒\",\"reading\":\"れいすいとう\",\"used_web_search\":false,\"comment\":\"家庭用品の語で、自然な読みは一語の「れいすいとう」。\"}]",
+      "llm_comments": [
+        "家庭用品の語で、自然な読みは一語の「れいすいとう」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001721507:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "冷水筒",
+        "replacement": [
+          {
+            "surface": "冷水筒",
+            "reading": "レイスイトウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001721507:u0026::target_group:1",
+            "surface": "冷水筒",
+            "comment": "家庭用品の語で、自然な読みは一語の「れいすいとう」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000546958",
+      "doc_seq": 3,
+      "track_doc_seq": 3393,
+      "unit_id": "ja_cc_level2_corrected_v1:0000546958:u0109",
+      "unit_seq": 109,
+      "source_file": "ja/ja_cc/level2/0060.jsonl.gz",
+      "source_line_no": 546958,
+      "text": "溝口ハツ江様　享年84　死因：前立腺癌（肝臓に転移）　謹んでご冥福をお祈り致します。",
+      "rendered_yomi_before": "溝口/ミゾグチ ハツ/ハツ 江/エ 様/サマ 　/ 享年/キョウネン 84/ 　/ 死因/シイン ：/： 前立/ゼンリツ 腺癌/センガン （/（ 肝臓/カンゾウ に/ニ 転移/テンイ ）/） 　/ 謹ん/ツツシン で/デ ご/ゴ 冥福/メイフク を/ヲ お/オ 祈り/イノリ 致し/イタシ ます/マス 。/。",
+      "rendered_yomi_after": "溝口/ミゾグチ ハツ/ハツ 江/エ 様/サマ \\u3000/ 享年/キョウネン 84/ \\u3000/ 死因/シイン ：/： 前立腺/ゼンリツセン 癌/ガン （/（ 肝臓/カンゾウ に/ニ 転移/テンイ ）/） \\u3000/ 謹ん/ツツシン で/デ ご/ゴ 冥福/メイフク を/ヲ お/オ 祈り/イノリ 致し/イタシ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "溝口",
+          "ミゾグチ"
+        ],
+        [
+          "ハツ",
+          "ハツ"
+        ],
+        [
+          "江",
+          "エ"
+        ],
+        [
+          "様",
+          "サマ"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "享年",
+          "キョウネン"
+        ],
+        [
+          "84",
+          ""
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "死因",
+          "シイン"
+        ],
+        [
+          "：",
+          "："
+        ],
+        [
+          "前立腺",
+          "ゼンリツセン"
+        ],
+        [
+          "癌",
+          "ガン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "肝臓",
+          "カンゾウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "転移",
+          "テンイ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "謹ん",
+          "ツツシン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "ご",
+          "ゴ"
+        ],
+        [
+          "冥福",
+          "メイフク"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "祈り",
+          "イノリ"
+        ],
+        [
+          "致し",
+          "イタシ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "溝口",
+          "reading": "ミゾグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "溝口",
+              "reading": "みぞぐち"
+            }
+          ]
+        },
+        {
+          "surface": "ハツ",
+          "reading": "ハツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ハツ"
+            }
+          ]
+        },
+        {
+          "surface": "江",
+          "reading": "エ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "江",
+              "reading": "え"
+            }
+          ]
+        },
+        {
+          "surface": "様",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様",
+              "reading": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "享年",
+          "reading": "キョウネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "享年",
+              "reading": "きょうねん"
+            }
+          ]
+        },
+        {
+          "surface": "84",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "84"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "死因",
+          "reading": "シイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "死因",
+              "reading": "しいん"
+            }
+          ]
+        },
+        {
+          "surface": "：",
+          "reading": "：",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "："
+            }
+          ]
+        },
+        {
+          "surface": "前立腺",
+          "reading": "ゼンリツセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前立腺",
+              "reading": "ぜんりつせん"
+            }
+          ]
+        },
+        {
+          "surface": "癌",
+          "reading": "ガン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "癌",
+              "reading": "がん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "肝臓",
+          "reading": "カンゾウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "肝臓",
+              "reading": "かんぞう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "転移",
+          "reading": "テンイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "転移",
+              "reading": "てんい"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "謹ん",
+          "reading": "ツツシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "謹",
+              "reading": "つつし"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "ご",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "冥福",
+          "reading": "メイフク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "冥福",
+              "reading": "めいふく"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "祈り",
+          "reading": "イノリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祈",
+              "reading": "いの"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "致し",
+          "reading": "イタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "致",
+              "reading": "いた"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000546958:u0109",
+          "text": "溝口ハツ江様　享年84　死因：前立腺癌（肝臓に転移）　謹んでご冥福をお祈り致します。",
+          "rendered_yomi_before": "溝口/ミゾグチ ハツ/ハツ 江/エ 様/サマ 　/ 享年/キョウネン 84/ 　/ 死因/シイン ：/： 前立/ゼンリツ 腺癌/センガン （/（ 肝臓/カンゾウ に/ニ 転移/テンイ ）/） 　/ 謹ん/ツツシン で/デ ご/ゴ 冥福/メイフク を/ヲ お/オ 祈り/イノリ 致し/イタシ ます/マス 。/。",
+          "rendered_yomi_after": "溝口/ミゾグチ ハツ/ハツ 江/エ 様/サマ \\u3000/ 享年/キョウネン 84/ \\u3000/ 死因/シイン ：/： 前立腺/ゼンリツセン 癌/ガン （/（ 肝臓/カンゾウ に/ニ 転移/テンイ ）/） \\u3000/ 謹ん/ツツシン で/デ ご/ゴ 冥福/メイフク を/ヲ お/オ 祈り/イノリ 致し/イタシ ます/マス 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 12,
+            "char_start": 15,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109:s0016-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "前立",
+              "token_surface": "前立",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぜんりつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "前立",
+                  "reading": "ぜんりつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "腺癌",
+              "token_surface": "腺癌",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せんがん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "腺癌",
+                  "reading": "せんがん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109:s0016-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "前立",
+              "token_surface": "前立",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぜんりつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "前立",
+                  "reading": "ぜんりつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "腺癌",
+              "token_surface": "腺癌",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せんがん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "腺癌",
+                  "reading": "せんがん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "前立腺癌",
+          "reading_candidates": {
+            "前": [
+              "まえ",
+              "ぜん"
+            ],
+            "前立": [
+              "ぜんりつ",
+              "まえだて"
+            ],
+            "前立腺": [
+              "ぜんりつせん"
+            ],
+            "前立腺癌": [
+              "ぜんりつせんがん"
+            ],
+            "立": [
+              "たち",
+              "たつ",
+              "たつる",
+              "たて",
+              "だち",
+              "だて",
+              "りっ",
+              "りつ",
+              "りゅう"
+            ],
+            "腺": [
+              "せん"
+            ],
+            "腺癌": [
+              "せんがん"
+            ],
+            "癌": [
+              "がん"
+            ]
+          },
+          "reading_hints": {
+            "前": "まえ",
+            "前立": "ぜんりつ",
+            "前立腺": "ぜんりつせん",
+            "前立腺癌": "ぜんりつせんがん",
+            "立": "たち",
+            "腺": "せん",
+            "腺癌": "せんがん",
+            "癌": "がん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "前立",
+              "reading": "ぜんりつ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "腺癌",
+              "reading": "せんがん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"前立腺\",\"reading\":\"ゼンリツセン\",\"used_web_search\":false,\"comment\":\"医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。\"},{\"surface\":\"癌\",\"reading\":\"ガン\",\"used_web_search\":false,\"comment\":\"病名の後半で、一般的に「がん」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。",
+              "reading": "ゼンリツセン",
+              "surface": "前立腺",
+              "used_web_search": false
+            },
+            {
+              "comment": "病名の後半で、一般的に「がん」と読む。",
+              "reading": "ガン",
+              "surface": "癌",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。",
+            "病名の後半で、一般的に「がん」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+            "status": "applied",
+            "rejected_span": "前立腺癌",
+            "replacement": [
+              {
+                "surface": "前立腺",
+                "reading": "ゼンリツセン"
+              },
+              {
+                "surface": "癌",
+                "reading": "ガン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+                "surface": "前立腺癌",
+                "comment": "医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+                "surface": "前立腺癌",
+                "comment": "病名の後半で、一般的に「がん」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "前立腺癌",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109:s0016-0017",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "前立",
+          "token_surface": "前立",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぜんりつ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "前立",
+              "reading": "ぜんりつ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109:s0018-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "腺癌",
+          "token_surface": "腺癌",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "せんがん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "腺癌",
+              "reading": "せんがん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "前立",
+          "reading": "ぜんりつ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "腺癌",
+          "reading": "せんがん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "前": [
+          "まえ",
+          "ぜん"
+        ],
+        "前立": [
+          "ぜんりつ",
+          "まえだて"
+        ],
+        "前立腺": [
+          "ぜんりつせん"
+        ],
+        "前立腺癌": [
+          "ぜんりつせんがん"
+        ],
+        "立": [
+          "たち",
+          "たつ",
+          "たつる",
+          "たて",
+          "だち",
+          "だて",
+          "りっ",
+          "りつ",
+          "りゅう"
+        ],
+        "腺": [
+          "せん"
+        ],
+        "腺癌": [
+          "せんがん"
+        ],
+        "癌": [
+          "がん"
+        ]
+      },
+      "reading_hints": {
+        "前": "まえ",
+        "前立": "ぜんりつ",
+        "前立腺": "ぜんりつせん",
+        "前立腺癌": "ぜんりつせんがん",
+        "立": "たち",
+        "腺": "せん",
+        "腺癌": "せんがん",
+        "癌": "がん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。",
+          "reading": "ゼンリツセン",
+          "surface": "前立腺",
+          "used_web_search": false
+        },
+        {
+          "comment": "病名の後半で、一般的に「がん」と読む。",
+          "reading": "ガン",
+          "surface": "癌",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"前立腺\",\"reading\":\"ゼンリツセン\",\"used_web_search\":false,\"comment\":\"医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。\"},{\"surface\":\"癌\",\"reading\":\"ガン\",\"used_web_search\":false,\"comment\":\"病名の後半で、一般的に「がん」と読む。\"}]",
+      "llm_comments": [
+        "医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。",
+        "病名の後半で、一般的に「がん」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+        "status": "applied",
+        "rejected_span": "前立腺癌",
+        "replacement": [
+          {
+            "surface": "前立腺",
+            "reading": "ゼンリツセン"
+          },
+          {
+            "surface": "癌",
+            "reading": "ガン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+            "surface": "前立腺癌",
+            "comment": "医学用語の「前立腺」はひとまとまりで「ぜんりつせん」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000546958:u0109::target_group:1",
+            "surface": "前立腺癌",
+            "comment": "病名の後半で、一般的に「がん」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000945953",
+      "doc_seq": 5,
+      "track_doc_seq": 3395,
+      "unit_id": "ja_cc_level2_corrected_v1:0000945953:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0097.jsonl.gz",
+      "source_line_no": 945953,
+      "text": "その創始者は、神田衛生会のメンバーである遠山椿吉（東京顕微鏡院・院長）・川上元治郎（日本医事週報社・社主）・川上昌保（医学博士、キリスト教徒）らであった。",
+      "rendered_yomi_before": "その/ソノ 創始者/ソウシシャ は/ハ 、/、 神田/カンダ 衛生/エイセイ 会/カイ の/ノ メンバー/メンバー で/デ ある/アル 遠山/トオヤマ 椿/ツバキ 吉/キチ （/（ 東京/トウキョウ 顕微鏡/ケンビキョウ 院/イン ・/・ 院長/インチョウ ）/） ・/・ 川上/カワカミ 元治郎/モトジロウ （/（ 日本/ニホン 医事/イジ 週報/シュウホウ 社/シャ ・/・ 社主/シャシュ ）/） ・/・ 川上/カワカミ 昌保/マサヤス （/（ 医学/イガク 博士/ハカセ 、/、 キリスト教/キリストキョウ 徒/ト ）/） ら/ラ で/デ あっ/アッ た/タ 。/。",
+      "rendered_yomi_after": "その/ソノ 創始者/ソウシシャ は/ハ 、/、 神田/カンダ 衛生/エイセイ 会/カイ の/ノ メンバー/メンバー で/デ ある/アル 遠山/トオヤマ 椿吉/チンキチ （/（ 東京/トウキョウ 顕微鏡/ケンビキョウ 院/イン ・/・ 院長/インチョウ ）/） ・/・ 川上/カワカミ 元治郎/モトジロウ （/（ 日本/ニホン 医事/イジ 週報/シュウホウ 社/シャ ・/・ 社主/シャシュ ）/） ・/・ 川上/カワカミ 昌保/マサヤス （/（ 医学/イガク 博士/ハカセ 、/、 キリスト教/キリストキョウ 徒/ト ）/） ら/ラ で/デ あっ/アッ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "創始者",
+          "ソウシシャ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "神田",
+          "カンダ"
+        ],
+        [
+          "衛生",
+          "エイセイ"
+        ],
+        [
+          "会",
+          "カイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "メンバー",
+          "メンバー"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "遠山",
+          "トオヤマ"
+        ],
+        [
+          "椿吉",
+          "チンキチ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "東京",
+          "トウキョウ"
+        ],
+        [
+          "顕微鏡",
+          "ケンビキョウ"
+        ],
+        [
+          "院",
+          "イン"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "院長",
+          "インチョウ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "川上",
+          "カワカミ"
+        ],
+        [
+          "元治郎",
+          "モトジロウ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "日本",
+          "ニホン"
+        ],
+        [
+          "医事",
+          "イジ"
+        ],
+        [
+          "週報",
+          "シュウホウ"
+        ],
+        [
+          "社",
+          "シャ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "社主",
+          "シャシュ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "川上",
+          "カワカミ"
+        ],
+        [
+          "昌保",
+          "マサヤス"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "医学",
+          "イガク"
+        ],
+        [
+          "博士",
+          "ハカセ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "キリスト教",
+          "キリストキョウ"
+        ],
+        [
+          "徒",
+          "ト"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "ら",
+          "ラ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "あっ",
+          "アッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "創始者",
+          "reading": "ソウシシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "創始者",
+              "reading": "そうししゃ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "神田",
+          "reading": "カンダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神田",
+              "reading": "かんだ"
+            }
+          ]
+        },
+        {
+          "surface": "衛生",
+          "reading": "エイセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "衛生",
+              "reading": "えいせい"
+            }
+          ]
+        },
+        {
+          "surface": "会",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "メンバー",
+          "reading": "メンバー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メンバー"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "遠山",
+          "reading": "トオヤマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遠山",
+              "reading": "とおやま"
+            }
+          ]
+        },
+        {
+          "surface": "椿吉",
+          "reading": "チンキチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "椿吉",
+              "reading": "ちんきち"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "東京",
+          "reading": "トウキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東京",
+              "reading": "とうきょう"
+            }
+          ]
+        },
+        {
+          "surface": "顕微鏡",
+          "reading": "ケンビキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "顕微鏡",
+              "reading": "けんびきょう"
+            }
+          ]
+        },
+        {
+          "surface": "院",
+          "reading": "イン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "院",
+              "reading": "いん"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "院長",
+          "reading": "インチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "院長",
+              "reading": "いんちょう"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "川上",
+          "reading": "カワカミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "川上",
+              "reading": "かわかみ"
+            }
+          ]
+        },
+        {
+          "surface": "元治郎",
+          "reading": "モトジロウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "元治郎",
+              "reading": "もとじろう"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "日本",
+          "reading": "ニホン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本",
+              "reading": "にほん"
+            }
+          ]
+        },
+        {
+          "surface": "医事",
+          "reading": "イジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "医事",
+              "reading": "いじ"
+            }
+          ]
+        },
+        {
+          "surface": "週報",
+          "reading": "シュウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "週報",
+              "reading": "しゅうほう"
+            }
+          ]
+        },
+        {
+          "surface": "社",
+          "reading": "シャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "社",
+              "reading": "しゃ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "社主",
+          "reading": "シャシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "社主",
+              "reading": "しゃしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "川上",
+          "reading": "カワカミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "川上",
+              "reading": "かわかみ"
+            }
+          ]
+        },
+        {
+          "surface": "昌保",
+          "reading": "マサヤス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昌保",
+              "reading": "まさやす"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "医学",
+          "reading": "イガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "医学",
+              "reading": "いがく"
+            }
+          ]
+        },
+        {
+          "surface": "博士",
+          "reading": "ハカセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "博士",
+              "reading": "はかせ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "キリスト教",
+          "reading": "キリストキョウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "キリスト"
+            },
+            {
+              "type": "ruby",
+              "text": "教",
+              "reading": "きょう"
+            }
+          ]
+        },
+        {
+          "surface": "徒",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "徒",
+              "reading": "と"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "ら",
+          "reading": "ラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ら"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "あっ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000945953:u0005::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000945953:u0005",
+          "text": "その創始者は、神田衛生会のメンバーである遠山椿吉（東京顕微鏡院・院長）・川上元治郎（日本医事週報社・社主）・川上昌保（医学博士、キリスト教徒）らであった。",
+          "rendered_yomi_before": "その/ソノ 創始者/ソウシシャ は/ハ 、/、 神田/カンダ 衛生/エイセイ 会/カイ の/ノ メンバー/メンバー で/デ ある/アル 遠山/トオヤマ 椿/ツバキ 吉/キチ （/（ 東京/トウキョウ 顕微鏡/ケンビキョウ 院/イン ・/・ 院長/インチョウ ）/） ・/・ 川上/カワカミ 元治郎/モトジロウ （/（ 日本/ニホン 医事/イジ 週報/シュウホウ 社/シャ ・/・ 社主/シャシュ ）/） ・/・ 川上/カワカミ 昌保/マサヤス （/（ 医学/イガク 博士/ハカセ 、/、 キリスト教/キリストキョウ 徒/ト ）/） ら/ラ で/デ あっ/アッ た/タ 。/。",
+          "rendered_yomi_after": "その/ソノ 創始者/ソウシシャ は/ハ 、/、 神田/カンダ 衛生/エイセイ 会/カイ の/ノ メンバー/メンバー で/デ ある/アル 遠山/トオヤマ 椿吉/チンキチ （/（ 東京/トウキョウ 顕微鏡/ケンビキョウ 院/イン ・/・ 院長/インチョウ ）/） ・/・ 川上/カワカミ 元治郎/モトジロウ （/（ 日本/ニホン 医事/イジ 週報/シュウホウ 社/シャ ・/・ 社主/シャシュ ）/） ・/・ 川上/カワカミ 昌保/マサヤス （/（ 医学/イガク 博士/ハカセ 、/、 キリスト教/キリストキョウ 徒/ト ）/） ら/ラ で/デ あっ/アッ た/タ 。/。",
+          "display_mapping": {
+            "start": 12,
+            "end": 13,
+            "char_start": 22,
+            "char_end": 24,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005:s0023-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "椿",
+              "token_surface": "椿",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つばき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "椿",
+                  "reading": "つばき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "吉",
+              "token_surface": "吉",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "吉",
+                  "reading": "きち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005:s0023-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "椿",
+              "token_surface": "椿",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つばき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "椿",
+                  "reading": "つばき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "吉",
+              "token_surface": "吉",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "吉",
+                  "reading": "きち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "椿吉",
+          "reading_candidates": {
+            "椿": [
+              "つばき"
+            ],
+            "吉": [
+              "きち",
+              "よし"
+            ]
+          },
+          "reading_hints": {
+            "椿": "つばき",
+            "吉": "きち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "椿",
+              "reading": "つばき",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "吉",
+              "reading": "きち",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"椿吉\",\"reading\":\"チンキチ\",\"used_web_search\":true,\"comment\":\"公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。",
+              "reading": "チンキチ",
+              "surface": "椿吉",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "椿吉",
+            "replacement": [
+              {
+                "surface": "椿吉",
+                "reading": "チンキチ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000945953:u0005::target_group:1",
+                "surface": "椿吉",
+                "comment": "公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "椿吉",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005:s0023-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "椿",
+          "token_surface": "椿",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つばき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "椿",
+              "reading": "つばき",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005:s0024-0024",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "吉",
+          "token_surface": "吉",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きち",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "吉",
+              "reading": "きち",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "椿",
+          "reading": "つばき",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "吉",
+          "reading": "きち",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "椿": [
+          "つばき"
+        ],
+        "吉": [
+          "きち",
+          "よし"
+        ]
+      },
+      "reading_hints": {
+        "椿": "つばき",
+        "吉": "きち"
+      },
+      "llm_parsed": [
+        {
+          "comment": "公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。",
+          "reading": "チンキチ",
+          "surface": "椿吉",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"椿吉\",\"reading\":\"チンキチ\",\"used_web_search\":true,\"comment\":\"公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。\"}]",
+      "llm_comments": [
+        "公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000945953:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "椿吉",
+        "replacement": [
+          {
+            "surface": "椿吉",
+            "reading": "チンキチ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000945953:u0005::target_group:1",
+            "surface": "椿吉",
+            "comment": "公式サイト等で「遠山椿吉（とおやま ちんきち）」と確認できるため、この部分は名の一塊として読む。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
