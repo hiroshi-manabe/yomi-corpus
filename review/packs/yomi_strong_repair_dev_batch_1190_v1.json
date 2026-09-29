@@ -1,0 +1,4948 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1190_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1190",
+  "created_at_epoch": 1790660652,
+  "created_at": "2026-09-29T05:44:12Z",
+  "item_count": 4,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 4,
+    "queued_repair_row_count": 4,
+    "result_row_count": 4,
+    "reviewable_repair_row_count": 4,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001948335",
+      "doc_seq": 1,
+      "track_doc_seq": 3371,
+      "unit_count": 67,
+      "source_file": "ja/ja_cc/level2/0252.jsonl.gz",
+      "source_line_no": 1948335,
+      "preview": "セブン＆アイホールディングス株価が大幅続伸、9月6日の安値4486円から短期間で急上昇、9月14日午前11時20分には5009円の高値まで株価上昇となった。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T05:25:58Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 67,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001386625",
+      "doc_seq": 2,
+      "track_doc_seq": 3372,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0162.jsonl.gz",
+      "source_line_no": 1386625,
+      "preview": "確かに、旧行内紛は次の次元「旧日本興業銀行主流派vs.非主流派」という旧興銀勢同士が相食む構図になったようだ。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T05:25:58Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000258054",
+      "doc_seq": 3,
+      "track_doc_seq": 3373,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0027.jsonl.gz",
+      "source_line_no": 258054,
+      "preview": "捻挫の症状は何がありますか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:25:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002376844",
+      "doc_seq": 4,
+      "track_doc_seq": 3374,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0351.jsonl.gz",
+      "source_line_no": 2376844,
+      "preview": "フィリピンは日本からの政府開発援助(ODA)プログラムで10隻の新しい海上哨戒船を得ることになり、その調印式が4日に行われ、アキノ大統領が出席することになった。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:25:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001811833",
+      "doc_seq": 5,
+      "track_doc_seq": 3375,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0229.jsonl.gz",
+      "source_line_no": 1811833,
+      "preview": "オリゴデンドログリアや神経細胞の中にαシヌクレインという蛋白質が凝集した封入体が形成されます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:25:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001686693",
+      "doc_seq": 6,
+      "track_doc_seq": 3376,
+      "unit_count": 24,
+      "source_file": "ja/ja_cc/level2/0208.jsonl.gz",
+      "source_line_no": 1686693,
+      "preview": "去年は六本木でやっていた、ベルギービールがおそとで楽しめるイベント・ベルギービールウィークエンド。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:25:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 24,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001997876",
+      "doc_seq": 7,
+      "track_doc_seq": 3377,
+      "unit_count": 48,
+      "source_file": "ja/ja_cc/level2/0259.jsonl.gz",
+      "source_line_no": 1997876,
+      "preview": "日本傷痍軍人会が11月末日をもって解散となったことを朝日新聞『天声人語』が伝えている。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T05:25:58Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 4,
+      "to_seq": 4,
+      "reviewed_unit_count": 48,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000539149",
+      "doc_seq": 8,
+      "track_doc_seq": 3378,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0059.jsonl.gz",
+      "source_line_no": 539149,
+      "preview": "『宗教のレトリック』（中村圭志著、トランスビュー）の著者が、「レトリックについて考えることが、禁断の遊びのように楽しいものであることを教えてくれたのは、1978年に出版された佐藤信夫の『レトリック感覚』であった」と述べているが、実を言えば、私も35年前に『レトリック感覚』で禁断の味を知ってしまった一人である。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:25:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001336361",
+      "doc_seq": 9,
+      "track_doc_seq": 3379,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0154.jsonl.gz",
+      "source_line_no": 1336361,
+      "preview": "小さな小さな庭で、バラをたくさん育てています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:25:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001305109",
+      "doc_seq": 10,
+      "track_doc_seq": 3380,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0148.jsonl.gz",
+      "source_line_no": 1305109,
+      "preview": "年が明けてから、お施主様に再度補修工事をご提案させて頂きました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:25:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001948335",
+      "doc_seq": 1,
+      "track_doc_seq": 3371,
+      "unit_id": "ja_cc_level2_corrected_v1:0001948335:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0252.jsonl.gz",
+      "source_line_no": 1948335,
+      "text": "東証一部の出来高は13億4410万株、売買代金は2兆1117億円、値上がり銘柄数1058、値下がり銘柄数942、変わらずは107、ヘリオステクノ(6927)、三桜工業(6584)がストップ高、TATERU(1435)、レノバ(9519)がストップ安まで売り込まれた。",
+      "rendered_yomi_before": "東証/トウショウ 一/イチ 部/ブ の/ノ 出来高/デキダカ は/ハ 13/ 億/オク 4410/ 万/マン 株/カブ 、/、 売買/バイバイ 代金/ダイキン は/ハ 2/ 兆/チョウ 1117/ 億/オク 円/エン 、/、 値上がり/ネアガリ 銘柄/メイガラ 数/スウ 1058/ 、/、 値下がり/ネサガリ 銘柄/メイガラ 数/スウ 942/ 、/、 変わら/カワラ ず/ズ は/ハ 107/ 、/、 ヘリオス/ヘリオス テクノ/テクノ (/( 6927/ )/) 、/、 三/サン 桜/サクラ 工業/コウギョウ (/( 6584/ )/) が/ガ ストップ高/ストップダカ 、/、 TATERU/タテル (/( 1435/ )/) 、/、 レノバ/レノバ (/( 9519/ )/) が/ガ ストップ安/ストップヤス まで/マデ 売り込ま/ウリコマ れ/レ た/タ 。/。",
+      "rendered_yomi_after": "東証/トウショウ 一/イチ 部/ブ の/ノ 出来高/デキダカ は/ハ 13/ 億/オク 4410/ 万/マン 株/カブ 、/、 売買/バイバイ 代金/ダイキン は/ハ 2/ 兆/チョウ 1117/ 億/オク 円/エン 、/、 値上がり/ネアガリ 銘柄/メイガラ 数/スウ 1058/ 、/、 値下がり/ネサガリ 銘柄/メイガラ 数/スウ 942/ 、/、 変わら/カワラ ず/ズ は/ハ 107/ 、/、 ヘリオス/ヘリオス テクノ/テクノ (/( 6927/ )/) 、/、 三桜/サンオウ 工業/コウギョウ (/( 6584/ )/) が/ガ ストップ高/ストップダカ 、/、 TATERU/タテル (/( 1435/ )/) 、/、 レノバ/レノバ (/( 9519/ )/) が/ガ ストップ安/ストップヤス まで/マデ 売り込ま/ウリコマ れ/レ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "東証",
+          "トウショウ"
+        ],
+        [
+          "一",
+          "イチ"
+        ],
+        [
+          "部",
+          "ブ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "出来高",
+          "デキダカ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "13",
+          ""
+        ],
+        [
+          "億",
+          "オク"
+        ],
+        [
+          "4410",
+          ""
+        ],
+        [
+          "万",
+          "マン"
+        ],
+        [
+          "株",
+          "カブ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "売買",
+          "バイバイ"
+        ],
+        [
+          "代金",
+          "ダイキン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "2",
+          ""
+        ],
+        [
+          "兆",
+          "チョウ"
+        ],
+        [
+          "1117",
+          ""
+        ],
+        [
+          "億",
+          "オク"
+        ],
+        [
+          "円",
+          "エン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "値上がり",
+          "ネアガリ"
+        ],
+        [
+          "銘柄",
+          "メイガラ"
+        ],
+        [
+          "数",
+          "スウ"
+        ],
+        [
+          "1058",
+          ""
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "値下がり",
+          "ネサガリ"
+        ],
+        [
+          "銘柄",
+          "メイガラ"
+        ],
+        [
+          "数",
+          "スウ"
+        ],
+        [
+          "942",
+          ""
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "変わら",
+          "カワラ"
+        ],
+        [
+          "ず",
+          "ズ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "107",
+          ""
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ヘリオス",
+          "ヘリオス"
+        ],
+        [
+          "テクノ",
+          "テクノ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "6927",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "三桜",
+          "サンオウ"
+        ],
+        [
+          "工業",
+          "コウギョウ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "6584",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ストップ高",
+          "ストップダカ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "TATERU",
+          "タテル"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "1435",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "レノバ",
+          "レノバ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "9519",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ストップ安",
+          "ストップヤス"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "売り込ま",
+          "ウリコマ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "東証",
+          "reading": "トウショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東証",
+              "reading": "とうしょう"
+            }
+          ]
+        },
+        {
+          "surface": "一",
+          "reading": "イチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一",
+              "reading": "いち"
+            }
+          ]
+        },
+        {
+          "surface": "部",
+          "reading": "ブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "部",
+              "reading": "ぶ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "出来高",
+          "reading": "デキダカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出来高",
+              "reading": "できだか"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "13",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "13"
+            }
+          ]
+        },
+        {
+          "surface": "億",
+          "reading": "オク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "億",
+              "reading": "おく"
+            }
+          ]
+        },
+        {
+          "surface": "4410",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "4410"
+            }
+          ]
+        },
+        {
+          "surface": "万",
+          "reading": "マン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "万",
+              "reading": "まん"
+            }
+          ]
+        },
+        {
+          "surface": "株",
+          "reading": "カブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "株",
+              "reading": "かぶ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "売買",
+          "reading": "バイバイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "売買",
+              "reading": "ばいばい"
+            }
+          ]
+        },
+        {
+          "surface": "代金",
+          "reading": "ダイキン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代金",
+              "reading": "だいきん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "2",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2"
+            }
+          ]
+        },
+        {
+          "surface": "兆",
+          "reading": "チョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "兆",
+              "reading": "ちょう"
+            }
+          ]
+        },
+        {
+          "surface": "1117",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1117"
+            }
+          ]
+        },
+        {
+          "surface": "億",
+          "reading": "オク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "億",
+              "reading": "おく"
+            }
+          ]
+        },
+        {
+          "surface": "円",
+          "reading": "エン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "円",
+              "reading": "えん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "値上がり",
+          "reading": "ネアガリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "値上",
+              "reading": "ねあ"
+            },
+            {
+              "type": "text",
+              "text": "がり"
+            }
+          ]
+        },
+        {
+          "surface": "銘柄",
+          "reading": "メイガラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "銘柄",
+              "reading": "めいがら"
+            }
+          ]
+        },
+        {
+          "surface": "数",
+          "reading": "スウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "数",
+              "reading": "すう"
+            }
+          ]
+        },
+        {
+          "surface": "1058",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1058"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "値下がり",
+          "reading": "ネサガリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "値下",
+              "reading": "ねさ"
+            },
+            {
+              "type": "text",
+              "text": "がり"
+            }
+          ]
+        },
+        {
+          "surface": "銘柄",
+          "reading": "メイガラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "銘柄",
+              "reading": "めいがら"
+            }
+          ]
+        },
+        {
+          "surface": "数",
+          "reading": "スウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "数",
+              "reading": "すう"
+            }
+          ]
+        },
+        {
+          "surface": "942",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "942"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "変わら",
+          "reading": "カワラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "変",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "わら"
+            }
+          ]
+        },
+        {
+          "surface": "ず",
+          "reading": "ズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ず"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "107",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "107"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ヘリオス",
+          "reading": "ヘリオス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ヘリオス"
+            }
+          ]
+        },
+        {
+          "surface": "テクノ",
+          "reading": "テクノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "テクノ"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "6927",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6927"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "三桜",
+          "reading": "サンオウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三桜",
+              "reading": "さんおう"
+            }
+          ]
+        },
+        {
+          "surface": "工業",
+          "reading": "コウギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "工業",
+              "reading": "こうぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "6584",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6584"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ストップ高",
+          "reading": "ストップダカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ストップ"
+            },
+            {
+              "type": "ruby",
+              "text": "高",
+              "reading": "だか"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "TATERU",
+          "reading": "タテル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "TATERU",
+              "reading": "たてる"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "1435",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1435"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "レノバ",
+          "reading": "レノバ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レノバ"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "9519",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "9519"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ストップ安",
+          "reading": "ストップヤス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ストップ"
+            },
+            {
+              "type": "ruby",
+              "text": "安",
+              "reading": "やす"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "売り込ま",
+          "reading": "ウリコマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "売",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "込",
+              "reading": "こ"
+            },
+            {
+              "type": "text",
+              "text": "ま"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001948335:u0009::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001948335:u0009",
+          "text": "東証一部の出来高は13億4410万株、売買代金は2兆1117億円、値上がり銘柄数1058、値下がり銘柄数942、変わらずは107、ヘリオステクノ(6927)、三桜工業(6584)がストップ高、TATERU(1435)、レノバ(9519)がストップ安まで売り込まれた。",
+          "rendered_yomi_before": "東証/トウショウ 一/イチ 部/ブ の/ノ 出来高/デキダカ は/ハ 13/ 億/オク 4410/ 万/マン 株/カブ 、/、 売買/バイバイ 代金/ダイキン は/ハ 2/ 兆/チョウ 1117/ 億/オク 円/エン 、/、 値上がり/ネアガリ 銘柄/メイガラ 数/スウ 1058/ 、/、 値下がり/ネサガリ 銘柄/メイガラ 数/スウ 942/ 、/、 変わら/カワラ ず/ズ は/ハ 107/ 、/、 ヘリオス/ヘリオス テクノ/テクノ (/( 6927/ )/) 、/、 三/サン 桜/サクラ 工業/コウギョウ (/( 6584/ )/) が/ガ ストップ高/ストップダカ 、/、 TATERU/タテル (/( 1435/ )/) 、/、 レノバ/レノバ (/( 9519/ )/) が/ガ ストップ安/ストップヤス まで/マデ 売り込ま/ウリコマ れ/レ た/タ 。/。",
+          "rendered_yomi_after": "東証/トウショウ 一/イチ 部/ブ の/ノ 出来高/デキダカ は/ハ 13/ 億/オク 4410/ 万/マン 株/カブ 、/、 売買/バイバイ 代金/ダイキン は/ハ 2/ 兆/チョウ 1117/ 億/オク 円/エン 、/、 値上がり/ネアガリ 銘柄/メイガラ 数/スウ 1058/ 、/、 値下がり/ネサガリ 銘柄/メイガラ 数/スウ 942/ 、/、 変わら/カワラ ず/ズ は/ハ 107/ 、/、 ヘリオス/ヘリオス テクノ/テクノ (/( 6927/ )/) 、/、 三桜/サンオウ 工業/コウギョウ (/( 6584/ )/) が/ガ ストップ高/ストップダカ 、/、 TATERU/タテル (/( 1435/ )/) 、/、 レノバ/レノバ (/( 9519/ )/) が/ガ ストップ安/ストップヤス まで/マデ 売り込ま/ウリコマ れ/レ た/タ 。/。",
+          "display_mapping": {
+            "start": 42,
+            "end": 43,
+            "char_start": 79,
+            "char_end": 81,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009:s0080-0080",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 42,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009:s0081-0081",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "桜",
+              "token_surface": "桜",
+              "token_index": 43,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さくら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "桜",
+                  "reading": "さくら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009:s0080-0080",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 42,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009:s0081-0081",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "桜",
+              "token_surface": "桜",
+              "token_index": 43,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さくら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "桜",
+                  "reading": "さくら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "三桜",
+          "reading_candidates": {
+            "三": [
+              "さん",
+              "み",
+              "みっ",
+              "ぞう",
+              "みい"
+            ],
+            "桜": [
+              "おう",
+              "さくら",
+              "ざくら"
+            ]
+          },
+          "reading_hints": {
+            "三": "さん",
+            "桜": "おう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "さん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "桜",
+              "reading": "さくら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"三桜\",\"reading\":\"サンオウ\",\"used_web_search\":true,\"comment\":\"会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))",
+              "reading": "サンオウ",
+              "surface": "三桜",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "三桜",
+            "replacement": [
+              {
+                "surface": "三桜",
+                "reading": "サンオウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001948335:u0009::target_group:1",
+                "surface": "三桜",
+                "comment": "会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "三桜",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009:s0080-0080",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "三",
+          "token_surface": "三",
+          "token_index": 42,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "さん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009:s0081-0081",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "桜",
+          "token_surface": "桜",
+          "token_index": 43,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さくら",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "桜",
+              "reading": "さくら",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "三",
+          "reading": "さん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "桜",
+          "reading": "さくら",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "三": [
+          "さん",
+          "み",
+          "みっ",
+          "ぞう",
+          "みい"
+        ],
+        "桜": [
+          "おう",
+          "さくら",
+          "ざくら"
+        ]
+      },
+      "reading_hints": {
+        "三": "さん",
+        "桜": "おう"
+      },
+      "llm_parsed": [
+        {
+          "comment": "会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))",
+          "reading": "サンオウ",
+          "surface": "三桜",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"三桜\",\"reading\":\"サンオウ\",\"used_web_search\":true,\"comment\":\"会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001948335:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "三桜",
+        "replacement": [
+          {
+            "surface": "三桜",
+            "reading": "サンオウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001948335:u0009::target_group:1",
+            "surface": "三桜",
+            "comment": "会社名「三桜工業」は公式に Sanoh Industrial Co., Ltd. とされ、辞書系資料でも読みは「さんおうこうぎょう」。この span はその社名の一部なので「三桜」は「サンオウ」と読む。 ([sanoh.com](https://www.sanoh.com/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0001948335",
+      "doc_seq": 1,
+      "track_doc_seq": 3371,
+      "unit_id": "ja_cc_level2_corrected_v1:0001948335:u0060",
+      "unit_seq": 60,
+      "source_file": "ja/ja_cc/level2/0252.jsonl.gz",
+      "source_line_no": 1948335,
+      "text": "メリルリンチ証券が格上げした日本郵船(9101)が高く、商船三井(9104)、川崎汽船(9107)も連高となった、自動車輸入関税への懸念が後退してトヨタ自動車(7203)やホンダ(7267)も買われ、いちよし証券がレーティングを「A」に格上げした第一精工(6640)が3日続伸、IBJ(6071)はSBI証券が投資判断「強気」を継続したことで6.58％値上がりとなった。",
+      "rendered_yomi_before": "メリル/メリル リンチ/リンチ 証券/ショウケン が/ガ 格上げ/カクアゲ し/シ た/タ 日本/ニッポン 郵船/ユウセン (/( 9101/ )/) が/ガ 高く/タカク 、/、 商船/ショウセン 三井/ミツイ (/( 9104/ )/) 、/、 川崎/カワサキ 汽船/キセン (/( 9107/ )/) も/モ 連/レン 高/ダカ と/ト なっ/ナッ た/タ 、/、 自動車/ジドウシャ 輸入/ユニュウ 関税/カンゼイ へ/ヘ の/ノ 懸念/ケネン が/ガ 後退/コウタイ し/シ て/テ トヨタ/トヨタ 自動車/ジドウシャ (/( 7203/ )/) や/ヤ ホンダ/ホンダ (/( 7267/ )/) も/モ 買わ/カワ れ/レ 、/、 いちよし/イチヨシ 証券/ショウケン が/ガ レーティング/レーティング を/ヲ 「/「 A/エー 」/」 に/ニ 格上げ/カクアゲ し/シ た/タ 第/ダイ 一/イチ 精工/セイコウ (/( 6640/ )/) が/ガ 3日/ミッカ 続伸/ゾクシン 、/、 IBJ/アイビージェー (/( 6071/ )/) は/ハ SBI/エスビーアイ 証券/ショウケン が/ガ 投資/トウシ 判断/ハンダン 「/「 強気/ツヨキ 」/」 を/ヲ 継続/ケイゾク し/シ た/タ こと/コト で/デ 6.58/ ％/％ 値上がり/ネアガリ と/ト なっ/ナッ た/タ 。/。",
+      "rendered_yomi_after": "メリル/メリル リンチ/リンチ 証券/ショウケン が/ガ 格上げ/カクアゲ し/シ た/タ 日本/ニッポン 郵船/ユウセン (/( 9101/ )/) が/ガ 高く/タカク 、/、 商船/ショウセン 三井/ミツイ (/( 9104/ )/) 、/、 川崎/カワサキ 汽船/キセン (/( 9107/ )/) も/モ 連高/レンダカ と/ト なっ/ナッ た/タ 、/、 自動車/ジドウシャ 輸入/ユニュウ 関税/カンゼイ へ/ヘ の/ノ 懸念/ケネン が/ガ 後退/コウタイ し/シ て/テ トヨタ/トヨタ 自動車/ジドウシャ (/( 7203/ )/) や/ヤ ホンダ/ホンダ (/( 7267/ )/) も/モ 買わ/カワ れ/レ 、/、 いちよし/イチヨシ 証券/ショウケン が/ガ レーティング/レーティング を/ヲ 「/「 A/エー 」/」 に/ニ 格上げ/カクアゲ し/シ た/タ 第/ダイ 一/イチ 精工/セイコウ (/( 6640/ )/) が/ガ 3日/ミッカ 続伸/ゾクシン 、/、 IBJ/アイビージェー (/( 6071/ )/) は/ハ SBI/エスビーアイ 証券/ショウケン が/ガ 投資/トウシ 判断/ハンダン 「/「 強気/ツヨキ 」/」 を/ヲ 継続/ケイゾク し/シ た/タ こと/コト で/デ 6.58/ ％/％ 値上がり/ネアガリ と/ト なっ/ナッ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "メリル",
+          "メリル"
+        ],
+        [
+          "リンチ",
+          "リンチ"
+        ],
+        [
+          "証券",
+          "ショウケン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "格上げ",
+          "カクアゲ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "日本",
+          "ニッポン"
+        ],
+        [
+          "郵船",
+          "ユウセン"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "9101",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "高く",
+          "タカク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "商船",
+          "ショウセン"
+        ],
+        [
+          "三井",
+          "ミツイ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "9104",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "川崎",
+          "カワサキ"
+        ],
+        [
+          "汽船",
+          "キセン"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "9107",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "連高",
+          "レンダカ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "自動車",
+          "ジドウシャ"
+        ],
+        [
+          "輸入",
+          "ユニュウ"
+        ],
+        [
+          "関税",
+          "カンゼイ"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "懸念",
+          "ケネン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "後退",
+          "コウタイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "トヨタ",
+          "トヨタ"
+        ],
+        [
+          "自動車",
+          "ジドウシャ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "7203",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "ホンダ",
+          "ホンダ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "7267",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "買わ",
+          "カワ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "いちよし",
+          "イチヨシ"
+        ],
+        [
+          "証券",
+          "ショウケン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "レーティング",
+          "レーティング"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "A",
+          "エー"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "格上げ",
+          "カクアゲ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "一",
+          "イチ"
+        ],
+        [
+          "精工",
+          "セイコウ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "6640",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "3日",
+          "ミッカ"
+        ],
+        [
+          "続伸",
+          "ゾクシン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "IBJ",
+          "アイビージェー"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "6071",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "SBI",
+          "エスビーアイ"
+        ],
+        [
+          "証券",
+          "ショウケン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "投資",
+          "トウシ"
+        ],
+        [
+          "判断",
+          "ハンダン"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "強気",
+          "ツヨキ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "継続",
+          "ケイゾク"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "6.58",
+          ""
+        ],
+        [
+          "％",
+          "％"
+        ],
+        [
+          "値上がり",
+          "ネアガリ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "メリル",
+          "reading": "メリル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メリル"
+            }
+          ]
+        },
+        {
+          "surface": "リンチ",
+          "reading": "リンチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "リンチ"
+            }
+          ]
+        },
+        {
+          "surface": "証券",
+          "reading": "ショウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "証券",
+              "reading": "しょうけん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "格上げ",
+          "reading": "カクアゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "格上",
+              "reading": "かくあ"
+            },
+            {
+              "type": "text",
+              "text": "げ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "日本",
+          "reading": "ニッポン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本",
+              "reading": "にっぽん"
+            }
+          ]
+        },
+        {
+          "surface": "郵船",
+          "reading": "ユウセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "郵船",
+              "reading": "ゆうせん"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "9101",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "9101"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "高く",
+          "reading": "タカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高",
+              "reading": "たか"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "商船",
+          "reading": "ショウセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "商船",
+              "reading": "しょうせん"
+            }
+          ]
+        },
+        {
+          "surface": "三井",
+          "reading": "ミツイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三井",
+              "reading": "みつい"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "9104",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "9104"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "川崎",
+          "reading": "カワサキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "川崎",
+              "reading": "かわさき"
+            }
+          ]
+        },
+        {
+          "surface": "汽船",
+          "reading": "キセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "汽船",
+              "reading": "きせん"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "9107",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "9107"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "連高",
+          "reading": "レンダカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "連高",
+              "reading": "れんだか"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "自動車",
+          "reading": "ジドウシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "自動車",
+              "reading": "じどうしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "輸入",
+          "reading": "ユニュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "輸入",
+              "reading": "ゆにゅう"
+            }
+          ]
+        },
+        {
+          "surface": "関税",
+          "reading": "カンゼイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "関税",
+              "reading": "かんぜい"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "懸念",
+          "reading": "ケネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "懸念",
+              "reading": "けねん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "後退",
+          "reading": "コウタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後退",
+              "reading": "こうたい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "トヨタ",
+          "reading": "トヨタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "トヨタ"
+            }
+          ]
+        },
+        {
+          "surface": "自動車",
+          "reading": "ジドウシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "自動車",
+              "reading": "じどうしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "7203",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "7203"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "ホンダ",
+          "reading": "ホンダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ホンダ"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "7267",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "7267"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "買わ",
+          "reading": "カワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "買",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "いちよし",
+          "reading": "イチヨシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いちよし"
+            }
+          ]
+        },
+        {
+          "surface": "証券",
+          "reading": "ショウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "証券",
+              "reading": "しょうけん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "レーティング",
+          "reading": "レーティング",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レーティング"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "A",
+          "reading": "エー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "A",
+              "reading": "えー"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "格上げ",
+          "reading": "カクアゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "格上",
+              "reading": "かくあ"
+            },
+            {
+              "type": "text",
+              "text": "げ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "一",
+          "reading": "イチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一",
+              "reading": "いち"
+            }
+          ]
+        },
+        {
+          "surface": "精工",
+          "reading": "セイコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "精工",
+              "reading": "せいこう"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "6640",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6640"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "3日",
+          "reading": "ミッカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "3日",
+              "reading": "みっか"
+            }
+          ]
+        },
+        {
+          "surface": "続伸",
+          "reading": "ゾクシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続伸",
+              "reading": "ぞくしん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "IBJ",
+          "reading": "アイビージェー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "IBJ",
+              "reading": "あいびーじぇー"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "6071",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6071"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "SBI",
+          "reading": "エスビーアイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "SBI",
+              "reading": "えすびーあい"
+            }
+          ]
+        },
+        {
+          "surface": "証券",
+          "reading": "ショウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "証券",
+              "reading": "しょうけん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "投資",
+          "reading": "トウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投資",
+              "reading": "とうし"
+            }
+          ]
+        },
+        {
+          "surface": "判断",
+          "reading": "ハンダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "判断",
+              "reading": "はんだん"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "強気",
+          "reading": "ツヨキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "強気",
+              "reading": "つよき"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "継続",
+          "reading": "ケイゾク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "継続",
+              "reading": "けいぞく"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "6.58",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6.58"
+            }
+          ]
+        },
+        {
+          "surface": "％",
+          "reading": "％",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "％"
+            }
+          ]
+        },
+        {
+          "surface": "値上がり",
+          "reading": "ネアガリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "値上",
+              "reading": "ねあ"
+            },
+            {
+              "type": "text",
+              "text": "がり"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001948335:u0060::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001948335:u0060",
+          "text": "メリルリンチ証券が格上げした日本郵船(9101)が高く、商船三井(9104)、川崎汽船(9107)も連高となった、自動車輸入関税への懸念が後退してトヨタ自動車(7203)やホンダ(7267)も買われ、いちよし証券がレーティングを「A」に格上げした第一精工(6640)が3日続伸、IBJ(6071)はSBI証券が投資判断「強気」を継続したことで6.58％値上がりとなった。",
+          "rendered_yomi_before": "メリル/メリル リンチ/リンチ 証券/ショウケン が/ガ 格上げ/カクアゲ し/シ た/タ 日本/ニッポン 郵船/ユウセン (/( 9101/ )/) が/ガ 高く/タカク 、/、 商船/ショウセン 三井/ミツイ (/( 9104/ )/) 、/、 川崎/カワサキ 汽船/キセン (/( 9107/ )/) も/モ 連/レン 高/ダカ と/ト なっ/ナッ た/タ 、/、 自動車/ジドウシャ 輸入/ユニュウ 関税/カンゼイ へ/ヘ の/ノ 懸念/ケネン が/ガ 後退/コウタイ し/シ て/テ トヨタ/トヨタ 自動車/ジドウシャ (/( 7203/ )/) や/ヤ ホンダ/ホンダ (/( 7267/ )/) も/モ 買わ/カワ れ/レ 、/、 いちよし/イチヨシ 証券/ショウケン が/ガ レーティング/レーティング を/ヲ 「/「 A/エー 」/」 に/ニ 格上げ/カクアゲ し/シ た/タ 第/ダイ 一/イチ 精工/セイコウ (/( 6640/ )/) が/ガ 3日/ミッカ 続伸/ゾクシン 、/、 IBJ/アイビージェー (/( 6071/ )/) は/ハ SBI/エスビーアイ 証券/ショウケン が/ガ 投資/トウシ 判断/ハンダン 「/「 強気/ツヨキ 」/」 を/ヲ 継続/ケイゾク し/シ た/タ こと/コト で/デ 6.58/ ％/％ 値上がり/ネアガリ と/ト なっ/ナッ た/タ 。/。",
+          "rendered_yomi_after": "メリル/メリル リンチ/リンチ 証券/ショウケン が/ガ 格上げ/カクアゲ し/シ た/タ 日本/ニッポン 郵船/ユウセン (/( 9101/ )/) が/ガ 高く/タカク 、/、 商船/ショウセン 三井/ミツイ (/( 9104/ )/) 、/、 川崎/カワサキ 汽船/キセン (/( 9107/ )/) も/モ 連高/レンダカ と/ト なっ/ナッ た/タ 、/、 自動車/ジドウシャ 輸入/ユニュウ 関税/カンゼイ へ/ヘ の/ノ 懸念/ケネン が/ガ 後退/コウタイ し/シ て/テ トヨタ/トヨタ 自動車/ジドウシャ (/( 7203/ )/) や/ヤ ホンダ/ホンダ (/( 7267/ )/) も/モ 買わ/カワ れ/レ 、/、 いちよし/イチヨシ 証券/ショウケン が/ガ レーティング/レーティング を/ヲ 「/「 A/エー 」/」 に/ニ 格上げ/カクアゲ し/シ た/タ 第/ダイ 一/イチ 精工/セイコウ (/( 6640/ )/) が/ガ 3日/ミッカ 続伸/ゾクシン 、/、 IBJ/アイビージェー (/( 6071/ )/) は/ハ SBI/エスビーアイ 証券/ショウケン が/ガ 投資/トウシ 判断/ハンダン 「/「 強気/ツヨキ 」/」 を/ヲ 継続/ケイゾク し/シ た/タ こと/コト で/デ 6.58/ ％/％ 値上がり/ネアガリ と/ト なっ/ナッ た/タ 。/。",
+          "display_mapping": {
+            "start": 27,
+            "end": 28,
+            "char_start": 50,
+            "char_end": 52,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060:s0051-0051",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "連",
+              "token_surface": "連",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "連",
+                  "reading": "れん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060:s0052-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "高",
+              "token_surface": "高",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "高",
+                  "reading": "だか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060:s0051-0051",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "連",
+              "token_surface": "連",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "連",
+                  "reading": "れん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060:s0052-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "高",
+              "token_surface": "高",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "高",
+                  "reading": "だか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "連高",
+          "reading_candidates": {
+            "連": [
+              "つれ",
+              "むらじ",
+              "れん"
+            ],
+            "高": [
+              "こう",
+              "たか",
+              "こうの",
+              "たかし",
+              "だか"
+            ]
+          },
+          "reading_hints": {
+            "連": "つれ",
+            "高": "こう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "連",
+              "reading": "れん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "高",
+              "reading": "だか",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"連高\",\"reading\":\"れんだか\",\"used_web_search\":false,\"comment\":\"株式記事で使う「連続高」の略。ここは一語として読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "株式記事で使う「連続高」の略。ここは一語として読むのが自然です。",
+              "reading": "れんだか",
+              "surface": "連高",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "株式記事で使う「連続高」の略。ここは一語として読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060::target_group:1",
+            "status": "applied",
+            "rejected_span": "連高",
+            "replacement": [
+              {
+                "surface": "連高",
+                "reading": "レンダカ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001948335:u0060::target_group:1",
+                "surface": "連高",
+                "comment": "株式記事で使う「連続高」の略。ここは一語として読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "連高",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060:s0051-0051",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "連",
+          "token_surface": "連",
+          "token_index": 27,
+          "chunk_index": 0,
+          "current_reading_hiragana": "れん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "連",
+              "reading": "れん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060:s0052-0052",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "高",
+          "token_surface": "高",
+          "token_index": 28,
+          "chunk_index": 0,
+          "current_reading_hiragana": "だか",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "高",
+              "reading": "だか",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "連",
+          "reading": "れん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "高",
+          "reading": "だか",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "連": [
+          "つれ",
+          "むらじ",
+          "れん"
+        ],
+        "高": [
+          "こう",
+          "たか",
+          "こうの",
+          "たかし",
+          "だか"
+        ]
+      },
+      "reading_hints": {
+        "連": "つれ",
+        "高": "こう"
+      },
+      "llm_parsed": [
+        {
+          "comment": "株式記事で使う「連続高」の略。ここは一語として読むのが自然です。",
+          "reading": "れんだか",
+          "surface": "連高",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"連高\",\"reading\":\"れんだか\",\"used_web_search\":false,\"comment\":\"株式記事で使う「連続高」の略。ここは一語として読むのが自然です。\"}]",
+      "llm_comments": [
+        "株式記事で使う「連続高」の略。ここは一語として読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001948335:u0060::target_group:1",
+        "status": "applied",
+        "rejected_span": "連高",
+        "replacement": [
+          {
+            "surface": "連高",
+            "reading": "レンダカ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001948335:u0060::target_group:1",
+            "surface": "連高",
+            "comment": "株式記事で使う「連続高」の略。ここは一語として読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001386625:u0001::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0001386625",
+      "doc_seq": 2,
+      "track_doc_seq": 3372,
+      "unit_id": "ja_cc_level2_corrected_v1:0001386625:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0162.jsonl.gz",
+      "source_line_no": 1386625,
+      "text": "確かに、旧行内紛は次の次元「旧日本興業銀行主流派vs.非主流派」という旧興銀勢同士が相食む構図になったようだ。",
+      "rendered_yomi_before": "確か/タシカ に/ニ 、/、 旧行/キュウコウ 内紛/ナイフン は/ハ 次/ツギ の/ノ 次元/ジゲン 「/「 旧/キュウ 日本/ニホン 興業/コウギョウ 銀行/ギンコウ 主流派/シュリュウハ vs./ブイエス 非/ヒ 主流派/シュリュウハ 」/」 と/ト いう/イウ 旧/キュウ 興銀/コウギン 勢/ゼイ 同士/ドウシ が/ガ 相/アイ 食む/ハム 構図/コウズ に/ニ なっ/ナッ た/タ よう/ヨウ だ/ダ 。/。",
+      "rendered_yomi_after": "確か/タシカ に/ニ 、/、 旧行/キュウコウ 内紛/ナイフン は/ハ 次/ツギ の/ノ 次元/ジゲン 「/「 旧/キュウ 日本/ニホン 興業/コウギョウ 銀行/ギンコウ 主流派/シュリュウハ vs./ブイエス 非/ヒ 主流派/シュリュウハ 」/」 と/ト いう/イウ 旧/キュウ 興銀/コウギン 勢/ゼイ 同士/ドウシ が/ガ 相/アイ 食む/ハム 構図/コウズ に/ニ なっ/ナッ た/タ よう/ヨウ だ/ダ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "確か",
+          "タシカ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "旧行",
+          "キュウコウ"
+        ],
+        [
+          "内紛",
+          "ナイフン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "次",
+          "ツギ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "次元",
+          "ジゲン"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "旧",
+          "キュウ"
+        ],
+        [
+          "日本",
+          "ニホン"
+        ],
+        [
+          "興業",
+          "コウギョウ"
+        ],
+        [
+          "銀行",
+          "ギンコウ"
+        ],
+        [
+          "主流派",
+          "シュリュウハ"
+        ],
+        [
+          "vs.",
+          "ブイエス"
+        ],
+        [
+          "非",
+          "ヒ"
+        ],
+        [
+          "主流派",
+          "シュリュウハ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "旧",
+          "キュウ"
+        ],
+        [
+          "興銀",
+          "コウギン"
+        ],
+        [
+          "勢",
+          "ゼイ"
+        ],
+        [
+          "同士",
+          "ドウシ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "相",
+          "アイ"
+        ],
+        [
+          "食む",
+          "ハム"
+        ],
+        [
+          "構図",
+          "コウズ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "よう",
+          "ヨウ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "確か",
+          "reading": "タシカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "確",
+              "reading": "たし"
+            },
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "旧行",
+          "reading": "キュウコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旧行",
+              "reading": "きゅうこう"
+            }
+          ]
+        },
+        {
+          "surface": "内紛",
+          "reading": "ナイフン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "内紛",
+              "reading": "ないふん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "次",
+          "reading": "ツギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "次",
+              "reading": "つぎ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "次元",
+          "reading": "ジゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "次元",
+              "reading": "じげん"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "旧",
+          "reading": "キュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旧",
+              "reading": "きゅう"
+            }
+          ]
+        },
+        {
+          "surface": "日本",
+          "reading": "ニホン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本",
+              "reading": "にほん"
+            }
+          ]
+        },
+        {
+          "surface": "興業",
+          "reading": "コウギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "興業",
+              "reading": "こうぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "銀行",
+          "reading": "ギンコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "銀行",
+              "reading": "ぎんこう"
+            }
+          ]
+        },
+        {
+          "surface": "主流派",
+          "reading": "シュリュウハ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主流派",
+              "reading": "しゅりゅうは"
+            }
+          ]
+        },
+        {
+          "surface": "vs.",
+          "reading": "ブイエス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "vs.",
+              "reading": "ぶいえす"
+            }
+          ]
+        },
+        {
+          "surface": "非",
+          "reading": "ヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "非",
+              "reading": "ひ"
+            }
+          ]
+        },
+        {
+          "surface": "主流派",
+          "reading": "シュリュウハ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主流派",
+              "reading": "しゅりゅうは"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "旧",
+          "reading": "キュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旧",
+              "reading": "きゅう"
+            }
+          ]
+        },
+        {
+          "surface": "興銀",
+          "reading": "コウギン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "興銀",
+              "reading": "こうぎん"
+            }
+          ]
+        },
+        {
+          "surface": "勢",
+          "reading": "ゼイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勢",
+              "reading": "ぜい"
+            }
+          ]
+        },
+        {
+          "surface": "同士",
+          "reading": "ドウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同士",
+              "reading": "どうし"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "相",
+          "reading": "アイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "相",
+              "reading": "あい"
+            }
+          ]
+        },
+        {
+          "surface": "食む",
+          "reading": "ハム",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "食",
+              "reading": "は"
+            },
+            {
+              "type": "text",
+              "text": "む"
+            }
+          ]
+        },
+        {
+          "surface": "構図",
+          "reading": "コウズ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "構図",
+              "reading": "こうず"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001386625:u0001::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001386625:u0001::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001386625:u0001",
+          "text": "確かに、旧行内紛は次の次元「旧日本興業銀行主流派vs.非主流派」という旧興銀勢同士が相食む構図になったようだ。",
+          "rendered_yomi_before": "確か/タシカ に/ニ 、/、 旧行/キュウコウ 内紛/ナイフン は/ハ 次/ツギ の/ノ 次元/ジゲン 「/「 旧/キュウ 日本/ニホン 興業/コウギョウ 銀行/ギンコウ 主流派/シュリュウハ vs./ブイエス 非/ヒ 主流派/シュリュウハ 」/」 と/ト いう/イウ 旧/キュウ 興銀/コウギン 勢/ゼイ 同士/ドウシ が/ガ 相/アイ 食む/ハム 構図/コウズ に/ニ なっ/ナッ た/タ よう/ヨウ だ/ダ 。/。",
+          "rendered_yomi_after": "確か/タシカ に/ニ 、/、 旧行/キュウコウ 内紛/ナイフン は/ハ 次/ツギ の/ノ 次元/ジゲン 「/「 旧/キュウ 日本/ニホン 興業/コウギョウ 銀行/ギンコウ 主流派/シュリュウハ vs./ブイエス 非/ヒ 主流派/シュリュウハ 」/」 と/ト いう/イウ 旧/キュウ 興銀/コウギン 勢/ゼイ 同士/ドウシ が/ガ 相/アイ 食む/ハム 構図/コウズ に/ニ なっ/ナッ た/タ よう/ヨウ だ/ダ 。/。",
+          "display_mapping": {
+            "start": 15,
+            "end": 16,
+            "char_start": 24,
+            "char_end": 27,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001386625:u0001:s0025-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "vs.",
+              "token_surface": "vs.",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶいえす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "vs.",
+                  "reading": "ぶいえす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001386625:u0001:s0025-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "vs.",
+              "token_surface": "vs.",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶいえす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "vs.",
+                  "reading": "ぶいえす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "vs.",
+          "reading_candidates": {
+            "v": [
+              "ぶい"
+            ],
+            "vs": [
+              "ぶいえす",
+              "ばーさす"
+            ],
+            "s": [
+              "えす"
+            ]
+          },
+          "reading_hints": {
+            "v": "ぶい",
+            "vs": "ぶいえす",
+            "s": "えす"
+          },
+          "rejected_readings": [
+            {
+              "surface": "vs.",
+              "reading": "ぶいえす",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"vs.\",\"reading\":\"ブイエス\",\"used_web_search\":false,\"comment\":\"対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。",
+              "reading": "ブイエス",
+              "surface": "vs.",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001386625:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "vs.",
+            "replacement": [
+              {
+                "surface": "vs.",
+                "reading": "ブイエス"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001386625:u0001::target_group:1",
+                "surface": "vs.",
+                "comment": "対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "vs.",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001386625:u0001:s0025-0027",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "vs.",
+          "token_surface": "vs.",
+          "token_index": 15,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぶいえす",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "vs.",
+              "reading": "ぶいえす",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "vs.",
+          "reading": "ぶいえす",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "v": [
+          "ぶい"
+        ],
+        "vs": [
+          "ぶいえす",
+          "ばーさす"
+        ],
+        "s": [
+          "えす"
+        ]
+      },
+      "reading_hints": {
+        "v": "ぶい",
+        "vs": "ぶいえす",
+        "s": "えす"
+      },
+      "llm_parsed": [
+        {
+          "comment": "対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。",
+          "reading": "ブイエス",
+          "surface": "vs.",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"vs.\",\"reading\":\"ブイエス\",\"used_web_search\":false,\"comment\":\"対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001386625:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "vs.",
+        "replacement": [
+          {
+            "surface": "vs.",
+            "reading": "ブイエス"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001386625:u0001::target_group:1",
+            "surface": "vs.",
+            "comment": "対立構図の「A vs. B」はこの文脈では英字略号として「ブイエス」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0001997876",
+      "doc_seq": 7,
+      "track_doc_seq": 3377,
+      "unit_id": "ja_cc_level2_corrected_v1:0001997876:u0035",
+      "unit_seq": 35,
+      "source_file": "ja/ja_cc/level2/0259.jsonl.gz",
+      "source_line_no": 1997876,
+      "text": "まず「アッキー」という愛称も定着、話題になり続けている安倍昭恵首相夫人の「家庭内野党」が頭に浮かぶ。",
+      "rendered_yomi_before": "まず/マズ 「/「 アッキー/アッキー 」/」 と/ト いう/イウ 愛称/アイショウ も/モ 定着/テイチャク 、/、 話題/ワダイ に/ニ なり/ナリ 続け/ツヅケ て/テ いる/イル 安倍/アベ 昭恵/アキエ 首相/シュショウ 夫人/フジン の/ノ 「/「 家庭/カテイ 内野/ナイヤ 党/トウ 」/」 が/ガ 頭/アタマ に/ニ 浮かぶ/ウカブ 。/。",
+      "rendered_yomi_after": "まず/マズ 「/「 アッキー/アッキー 」/」 と/ト いう/イウ 愛称/アイショウ も/モ 定着/テイチャク 、/、 話題/ワダイ に/ニ なり/ナリ 続け/ツヅケ て/テ いる/イル 安倍/アベ 昭恵/アキエ 首相/シュショウ 夫人/フジン の/ノ 「/「 家庭/カテイ 内野党/ナイヤトウ 」/」 が/ガ 頭/アタマ に/ニ 浮かぶ/ウカブ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "まず",
+          "マズ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "アッキー",
+          "アッキー"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "愛称",
+          "アイショウ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "定着",
+          "テイチャク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "話題",
+          "ワダイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なり",
+          "ナリ"
+        ],
+        [
+          "続け",
+          "ツヅケ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "安倍",
+          "アベ"
+        ],
+        [
+          "昭恵",
+          "アキエ"
+        ],
+        [
+          "首相",
+          "シュショウ"
+        ],
+        [
+          "夫人",
+          "フジン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "家庭",
+          "カテイ"
+        ],
+        [
+          "内野党",
+          "ナイヤトウ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "頭",
+          "アタマ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "浮かぶ",
+          "ウカブ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "まず",
+          "reading": "マズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まず"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "アッキー",
+          "reading": "アッキー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アッキー"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "愛称",
+          "reading": "アイショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "愛称",
+              "reading": "あいしょう"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "定着",
+          "reading": "テイチャク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "定着",
+              "reading": "ていちゃく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "話題",
+          "reading": "ワダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話題",
+              "reading": "わだい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なり",
+          "reading": "ナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なり"
+            }
+          ]
+        },
+        {
+          "surface": "続け",
+          "reading": "ツヅケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続",
+              "reading": "つづ"
+            },
+            {
+              "type": "text",
+              "text": "け"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "安倍",
+          "reading": "アベ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "安倍",
+              "reading": "あべ"
+            }
+          ]
+        },
+        {
+          "surface": "昭恵",
+          "reading": "アキエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昭恵",
+              "reading": "あきえ"
+            }
+          ]
+        },
+        {
+          "surface": "首相",
+          "reading": "シュショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "首相",
+              "reading": "しゅしょう"
+            }
+          ]
+        },
+        {
+          "surface": "夫人",
+          "reading": "フジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夫人",
+              "reading": "ふじん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "家庭",
+          "reading": "カテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "家庭",
+              "reading": "かてい"
+            }
+          ]
+        },
+        {
+          "surface": "内野党",
+          "reading": "ナイヤトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "内野党",
+              "reading": "ないやとう"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "頭",
+          "reading": "アタマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頭",
+              "reading": "あたま"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "浮かぶ",
+          "reading": "ウカブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "浮",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "かぶ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001997876:u0035::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001997876:u0035",
+          "text": "まず「アッキー」という愛称も定着、話題になり続けている安倍昭恵首相夫人の「家庭内野党」が頭に浮かぶ。",
+          "rendered_yomi_before": "まず/マズ 「/「 アッキー/アッキー 」/」 と/ト いう/イウ 愛称/アイショウ も/モ 定着/テイチャク 、/、 話題/ワダイ に/ニ なり/ナリ 続け/ツヅケ て/テ いる/イル 安倍/アベ 昭恵/アキエ 首相/シュショウ 夫人/フジン の/ノ 「/「 家庭/カテイ 内野/ナイヤ 党/トウ 」/」 が/ガ 頭/アタマ に/ニ 浮かぶ/ウカブ 。/。",
+          "rendered_yomi_after": "まず/マズ 「/「 アッキー/アッキー 」/」 と/ト いう/イウ 愛称/アイショウ も/モ 定着/テイチャク 、/、 話題/ワダイ に/ニ なり/ナリ 続け/ツヅケ て/テ いる/イル 安倍/アベ 昭恵/アキエ 首相/シュショウ 夫人/フジン の/ノ 「/「 家庭/カテイ 内野党/ナイヤトウ 」/」 が/ガ 頭/アタマ に/ニ 浮かぶ/ウカブ 。/。",
+          "display_mapping": {
+            "start": 23,
+            "end": 24,
+            "char_start": 39,
+            "char_end": 42,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035:s0040-0041",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "内野",
+              "token_surface": "内野",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ないや",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "内野",
+                  "reading": "ないや",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035:s0042-0042",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "党",
+              "token_surface": "党",
+              "token_index": 24,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "党",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035:s0040-0041",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "内野",
+              "token_surface": "内野",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ないや",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "内野",
+                  "reading": "ないや",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035:s0042-0042",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "党",
+              "token_surface": "党",
+              "token_index": 24,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "党",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "内野党",
+          "reading_candidates": {
+            "内": [
+              "ない",
+              "うち"
+            ],
+            "内野": [
+              "うちの",
+              "うつの",
+              "ないや"
+            ],
+            "野": [
+              "の",
+              "や"
+            ],
+            "野党": [
+              "やとう"
+            ],
+            "党": [
+              "あきら",
+              "とう"
+            ]
+          },
+          "reading_hints": {
+            "内": "ない",
+            "内野": "うちの",
+            "野": "の",
+            "野党": "やとう",
+            "党": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "内野",
+              "reading": "ないや",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "党",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"内野党\",\"reading\":\"ナイヤトウ\",\"used_web_search\":false,\"comment\":\"「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。",
+              "reading": "ナイヤトウ",
+              "surface": "内野党",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035::target_group:1",
+            "status": "applied",
+            "rejected_span": "内野党",
+            "replacement": [
+              {
+                "surface": "内野党",
+                "reading": "ナイヤトウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001997876:u0035::target_group:1",
+                "surface": "内野党",
+                "comment": "「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "内野党",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035:s0040-0041",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "内野",
+          "token_surface": "内野",
+          "token_index": 23,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ないや",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "内野",
+              "reading": "ないや",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035:s0042-0042",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "党",
+          "token_surface": "党",
+          "token_index": 24,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "党",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "内野",
+          "reading": "ないや",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "党",
+          "reading": "とう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "内": [
+          "ない",
+          "うち"
+        ],
+        "内野": [
+          "うちの",
+          "うつの",
+          "ないや"
+        ],
+        "野": [
+          "の",
+          "や"
+        ],
+        "野党": [
+          "やとう"
+        ],
+        "党": [
+          "あきら",
+          "とう"
+        ]
+      },
+      "reading_hints": {
+        "内": "ない",
+        "内野": "うちの",
+        "野": "の",
+        "野党": "やとう",
+        "党": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。",
+          "reading": "ナイヤトウ",
+          "surface": "内野党",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"内野党\",\"reading\":\"ナイヤトウ\",\"used_web_search\":false,\"comment\":\"「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。\"}]",
+      "llm_comments": [
+        "「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001997876:u0035::target_group:1",
+        "status": "applied",
+        "rejected_span": "内野党",
+        "replacement": [
+          {
+            "surface": "内野党",
+            "reading": "ナイヤトウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001997876:u0035::target_group:1",
+            "surface": "内野党",
+            "comment": "「家庭内野党」の一部として読むため、語としては「ないやとう」と一まとまりにするのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}

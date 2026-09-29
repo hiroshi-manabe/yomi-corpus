@@ -2284,7 +2284,13 @@ function reviewWarningPairs(item, override, strong) {
       if (!segments?.length) continue;
       const matches = findRenderedTokenSpans(yomiTokenPairObjects(pairs), region.rejected_span);
       const match = matches.find((m) => !region.display_mapping || strongRepairMappingsEqual(m, region.display_mapping));
-      if (match && !match.prefix && !match.suffix) pairs.splice(match.start, match.end - match.start, ...segments.map((s) => [s.surface, hiraganaToKatakana(s.reading)]));
+      const editedPairs = segments.map((s) => [s.surface, hiraganaToKatakana(s.reading)]);
+      if (match && !match.prefix && !match.suffix) {
+        pairs.splice(match.start, match.end - match.start, ...editedPairs);
+      } else {
+        // Partial-token mappings cannot replace whole preview tokens, but still need validation.
+        pairs.push(...editedPairs);
+      }
     }
   } else {
     let offset = 0;
