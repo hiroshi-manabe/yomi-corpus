@@ -6155,23 +6155,51 @@ function decorateReadingContrastBadge(container, candidateReadings, currentReadi
   const badge = document.createElement("span");
   badge.className = `reading-contrast-badge reading-contrast-${label.toLowerCase()}`;
   badge.textContent = label;
-  badge.title = label === "P" ? "半濁音" : "濁音";
+  badge.title = { N: "清音", D: "濁音", P: "半濁音" }[label];
   annotation.prepend(badge, document.createTextNode(" "));
 }
 
+function initialKanaVoicing(reading) {
+  if (typeof reading !== "string" || !reading) {
+    return null;
+  }
+  const normalized = katakanaToHiragana(reading)
+    .replace(/[ヵヶヴ]/gu, (char) => String.fromCharCode(char.charCodeAt(0) - 0x60))
+    .normalize("NFC");
+  const initial = Array.from(normalized)[0];
+  if (!initial || !/^[ぁ-ゖ]$/u.test(initial)) {
+    return null;
+  }
+  const [base, mark, ...extra] = Array.from(initial.normalize("NFD"));
+  if (extra.length || (mark && mark !== "\u3099" && mark !== "\u309a")) {
+    return null;
+  }
+  return {
+    reading: normalized,
+    key: `${base}\u0000${normalized.slice(initial.length)}`,
+    label: mark === "\u3099" ? "D" : mark === "\u309a" ? "P" : "N",
+  };
+}
+
 function readingContrastBadge(candidateReadings, currentReading) {
-  const readings = candidateReadings.filter((reading) => typeof reading === "string");
-  const hasBReading = readings.some((reading) => /[ばびぶべぼバビブベボ]/u.test(reading));
-  const hasPReading = readings.some((reading) => /[ぱぴぷぺぽパピプペポ]/u.test(reading));
-  if (!hasBReading || !hasPReading || typeof currentReading !== "string") {
+  const current = initialKanaVoicing(currentReading);
+  if (!current) {
     return null;
   }
-  const currentHasB = /[ばびぶべぼバビブベボ]/u.test(currentReading);
-  const currentHasP = /[ぱぴぷぺぽパピプペポ]/u.test(currentReading);
-  if (currentHasB === currentHasP) {
+  const matchingLabels = new Set();
+  let currentIsCandidate = false;
+  for (const reading of candidateReadings || []) {
+    const candidate = initialKanaVoicing(reading);
+    if (!candidate || candidate.key !== current.key) {
+      continue;
+    }
+    matchingLabels.add(candidate.label);
+    currentIsCandidate ||= candidate.reading === current.reading;
+  }
+  if (!currentIsCandidate || matchingLabels.size < 2) {
     return null;
   }
-  return currentHasP ? "P" : "B";
+  return current.label;
 }
 
 function selectedCandidate(target, targetDraft) {

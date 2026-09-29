@@ -2146,12 +2146,17 @@ button:disabled {
 .reading-contrast-badge {
   display: inline-grid;
   place-items: center;
-  min-width: 1.15em;
-  height: 1.15em;
+  min-width: 1.3em;
+  height: 1.3em;
   border: 1px solid currentColor;
   border-radius: 999px;
-  font: 800 0.62rem/1 "Iosevka", "SFMono-Regular", Consolas, monospace;
+  font: 800 0.7rem/1 "Iosevka", "SFMono-Regular", Consolas, monospace;
   vertical-align: 0.08em;
+}
+
+.reading-contrast-n {
+  color: #4d5860;
+  background: rgba(77, 88, 96, 0.1);
 }
 
 .reading-contrast-p {
@@ -2159,7 +2164,7 @@ button:disabled {
   background: rgba(196, 105, 33, 0.12);
 }
 
-.reading-contrast-b {
+.reading-contrast-d {
   color: #286489;
   background: rgba(40, 100, 137, 0.12);
 }
