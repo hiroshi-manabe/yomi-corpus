@@ -10,10 +10,9 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -109,12 +108,12 @@
       "source_line_no": 1759538,
       "preview": "１1月の公認大会は「千葉県国際総合水泳場チャレンジカップ水泳競技大会」に大倉彩那選手(中3･14才)が200m個人メドレーに出場いたしました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-29T01:51:38Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:24:59Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +238,12 @@
       "source_line_no": 100467,
       "preview": "南鮮には外交関係を破壊する3人のムンがいる。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-29T01:51:38Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T05:24:59Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -3327,7 +3326,7 @@
       "source_line_no": 100467,
       "text": "そして、対北連携にクサビを打ち、在南米軍の弱体化にひた走る文在寅政権の正体に米国は漸く気付き始めた。",
       "rendered_yomi_before": "そして/ソシテ 、/、 対/タイ 北/ホク 連携/レンケイ に/ニ クサビ/クサビ を/ヲ 打ち/ウチ 、/、 在/ザイ 南米/ナンベイ 軍/グン の/ノ 弱体化/ジャクタイカ に/ニ ひた走る/ヒタハシル 文在寅/ムンジェイン 政権/セイケン の/ノ 正体/ショウタイ に/ニ 米国/ベイコク は/ハ 漸く/ヨウヤク 気付き/キヅキ 始め/ハジメ た/タ 。/。",
-      "rendered_yomi_after": "そして/ソシテ 、/、 対/タイ 北/ホク 連携/レンケイ に/ニ クサビ/クサビ を/ヲ 打ち/ウチ 、/、 在南米軍/ザイカンベイグン の/ノ 弱体化/ジャクタイカ に/ニ ひた走る/ヒタハシル 文在寅/ムンジェイン 政権/セイケン の/ノ 正体/ショウタイ に/ニ 米国/ベイコク は/ハ 漸く/ヨウヤク 気付き/キヅキ 始め/ハジメ た/タ 。/。",
+      "rendered_yomi_after": "そして/ソシテ 、/、 対/タイ 北/ホク 連携/レンケイ に/ニ クサビ/クサビ を/ヲ 打ち/ウチ 、/、 在南/ザイナン 米軍/ベイグン の/ノ 弱体化/ジャクタイカ に/ニ ひた走る/ヒタハシル 文在寅/ムンジェイン 政権/セイケン の/ノ 正体/ショウタイ に/ニ 米国/ベイコク は/ハ 漸く/ヨウヤク 気付き/キヅキ 始め/ハジメ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "そして",
@@ -3370,8 +3369,12 @@
           "、"
         ],
         [
-          "在南米軍",
-          "ザイカンベイグン"
+          "在南",
+          "ザイナン"
+        ],
+        [
+          "米軍",
+          "ベイグン"
         ],
         [
           "の",
@@ -3550,13 +3553,24 @@
           ]
         },
         {
-          "surface": "在南米軍",
-          "reading": "ザイカンベイグン",
+          "surface": "在南",
+          "reading": "ザイナン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "在南米軍",
-              "reading": "ざいかんべいぐん"
+              "text": "在南",
+              "reading": "ざいなん"
+            }
+          ]
+        },
+        {
+          "surface": "米軍",
+          "reading": "ベイグン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "米軍",
+              "reading": "べいぐん"
             }
           ]
         },
@@ -3763,14 +3777,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000100467:u0106",
           "text": "そして、対北連携にクサビを打ち、在南米軍の弱体化にひた走る文在寅政権の正体に米国は漸く気付き始めた。",
           "rendered_yomi_before": "そして/ソシテ 、/、 対/タイ 北/ホク 連携/レンケイ に/ニ クサビ/クサビ を/ヲ 打ち/ウチ 、/、 在/ザイ 南米/ナンベイ 軍/グン の/ノ 弱体化/ジャクタイカ に/ニ ひた走る/ヒタハシル 文在寅/ムンジェイン 政権/セイケン の/ノ 正体/ショウタイ に/ニ 米国/ベイコク は/ハ 漸く/ヨウヤク 気付き/キヅキ 始め/ハジメ た/タ 。/。",
-          "rendered_yomi_after": "そして/ソシテ 、/、 対/タイ 北/ホク 連携/レンケイ に/ニ クサビ/クサビ を/ヲ 打ち/ウチ 、/、 在南米軍/ザイカンベイグン の/ノ 弱体化/ジャクタイカ に/ニ ひた走る/ヒタハシル 文在寅/ムンジェイン 政権/セイケン の/ノ 正体/ショウタイ に/ニ 米国/ベイコク は/ハ 漸く/ヨウヤク 気付き/キヅキ 始め/ハジメ た/タ 。/。",
+          "rendered_yomi_after": "そして/ソシテ 、/、 対/タイ 北/ホク 連携/レンケイ に/ニ クサビ/クサビ を/ヲ 打ち/ウチ 、/、 在南/ザイナン 米軍/ベイグン の/ノ 弱体化/ジャクタイカ に/ニ ひた走る/ヒタハシル 文在寅/ムンジェイン 政権/セイケン の/ノ 正体/ショウタイ に/ニ 米国/ベイコク は/ハ 漸く/ヨウヤク 気付き/キヅキ 始め/ハジメ た/タ 。/。",
           "display_mapping": {
             "start": 10,
-            "end": 11,
+            "end": 12,
             "char_start": 16,
             "char_end": 20,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
