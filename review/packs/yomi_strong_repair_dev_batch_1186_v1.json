@@ -1,0 +1,6692 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1186_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1186",
+  "created_at_epoch": 1790646721,
+  "created_at": "2026-09-29T01:52:01Z",
+  "item_count": 7,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 7,
+    "queued_repair_row_count": 7,
+    "result_row_count": 7,
+    "reviewable_repair_row_count": 7,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002099440",
+      "doc_seq": 1,
+      "track_doc_seq": 3331,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0280.jsonl.gz",
+      "source_line_no": 2099440,
+      "preview": "昨夜は何時もの時刻に就寝しましたが、起床は５時前でした。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000777643",
+      "doc_seq": 2,
+      "track_doc_seq": 3332,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0080.jsonl.gz",
+      "source_line_no": 777643,
+      "preview": "見てるだけでも楽しくなるから、使うともっと楽しくなるのは間違いなし！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000671309",
+      "doc_seq": 3,
+      "track_doc_seq": 3333,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0068.jsonl.gz",
+      "source_line_no": 671309,
+      "preview": "2月16日（土）小田原のお天気は、朝方雲が多かったのですが、お昼頃晴れ間が出て来ました今日は午前中歯医者の定期検診に行ってきました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001377615",
+      "doc_seq": 4,
+      "track_doc_seq": 3334,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0161.jsonl.gz",
+      "source_line_no": 1377615,
+      "preview": "ミャンマー国軍によるクーデターから3カ月がたち、1～2日にかけて、少なくとも世界18カ国で「グローバルミャンマー春の革命デー」と題した抗議デモが催された。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001020658",
+      "doc_seq": 5,
+      "track_doc_seq": 3335,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0109.jsonl.gz",
+      "source_line_no": 1020658,
+      "preview": "「あそこまでしておいて、放置なんて…」。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002417863",
+      "doc_seq": 6,
+      "track_doc_seq": 3336,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0358.jsonl.gz",
+      "source_line_no": 2417863,
+      "preview": "四球をもらえないし、失投もなく淡々と投げられてしまう。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002471290",
+      "doc_seq": 7,
+      "track_doc_seq": 3337,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0370.jsonl.gz",
+      "source_line_no": 2471290,
+      "preview": "3 和田容疑者の顔写真やFacebookは？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 7,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002096943",
+      "doc_seq": 8,
+      "track_doc_seq": 3338,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0280.jsonl.gz",
+      "source_line_no": 2096943,
+      "preview": "井上裕樹さんのチャネリング交遊（会）。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001540450",
+      "doc_seq": 9,
+      "track_doc_seq": 3339,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0190.jsonl.gz",
+      "source_line_no": 1540450,
+      "preview": "わたしはわりかし物持ちがいいほうで、革製品はなかなかこなれた風合いにならないし、洋服も１０年以上着ているよそ行きが結構ある。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002120966",
+      "doc_seq": 10,
+      "track_doc_seq": 3340,
+      "unit_count": 29,
+      "source_file": "ja/ja_cc/level2/0286.jsonl.gz",
+      "source_line_no": 2120966,
+      "preview": "金曜夜に夜行で被災地入り土日作業して仕事に戻る仲間たちもいる…　関東、和歌山、広島、岡山、宮城から安い飛行機で通っている方もいる。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-29T01:37:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 4,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 4,
+      "to_seq": 7,
+      "reviewed_unit_count": 29,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001377615",
+      "doc_seq": 4,
+      "track_doc_seq": 3334,
+      "unit_id": "ja_cc_level2_corrected_v1:0001377615:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0161.jsonl.gz",
+      "source_line_no": 1377615,
+      "text": "収容先の名古屋出入国在留管理局（名古屋市）で3月に亡くなったスリランカ女性、ウィシュマ・サンダマリさん（当時33歳）の遺族が17日、名古屋入管の佐野豪俊局長と面会した。",
+      "rendered_yomi_before": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪/ツヨシ 俊/シュン 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+      "rendered_yomi_after": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪俊/タケトシ 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "収容",
+          "シュウヨウ"
+        ],
+        [
+          "先",
+          "サキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "名古屋",
+          "ナゴヤ"
+        ],
+        [
+          "出入国",
+          "シュツニュウコク"
+        ],
+        [
+          "在留",
+          "ザイリュウ"
+        ],
+        [
+          "管理局",
+          "カンリキョク"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "名古屋市",
+          "ナゴヤシ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "亡くなっ",
+          "ナクナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "スリランカ",
+          "スリランカ"
+        ],
+        [
+          "女性",
+          "ジョセイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ウィ",
+          "ウィ"
+        ],
+        [
+          "シュ",
+          "シュ"
+        ],
+        [
+          "マ",
+          "マ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "サンダ",
+          "サンダ"
+        ],
+        [
+          "マリ",
+          "マリ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "当時",
+          "トウジ"
+        ],
+        [
+          "33",
+          ""
+        ],
+        [
+          "歳",
+          "サイ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "遺族",
+          "イゾク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "17",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "名古屋",
+          "ナゴヤ"
+        ],
+        [
+          "入管",
+          "ニュウカン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "佐野",
+          "サノ"
+        ],
+        [
+          "豪俊",
+          "タケトシ"
+        ],
+        [
+          "局長",
+          "キョクチョウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "面会",
+          "メンカイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "収容",
+          "reading": "シュウヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "収容",
+              "reading": "しゅうよう"
+            }
+          ]
+        },
+        {
+          "surface": "先",
+          "reading": "サキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先",
+              "reading": "さき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "名古屋",
+          "reading": "ナゴヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名古屋",
+              "reading": "なごや"
+            }
+          ]
+        },
+        {
+          "surface": "出入国",
+          "reading": "シュツニュウコク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出入国",
+              "reading": "しゅつにゅうこく"
+            }
+          ]
+        },
+        {
+          "surface": "在留",
+          "reading": "ザイリュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "在留",
+              "reading": "ざいりゅう"
+            }
+          ]
+        },
+        {
+          "surface": "管理局",
+          "reading": "カンリキョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "管理局",
+              "reading": "かんりきょく"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "名古屋市",
+          "reading": "ナゴヤシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名古屋市",
+              "reading": "なごやし"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "亡くなっ",
+          "reading": "ナクナッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "亡",
+              "reading": "な"
+            },
+            {
+              "type": "text",
+              "text": "くなっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "スリランカ",
+          "reading": "スリランカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スリランカ"
+            }
+          ]
+        },
+        {
+          "surface": "女性",
+          "reading": "ジョセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "女性",
+              "reading": "じょせい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ウィ",
+          "reading": "ウィ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ウィ"
+            }
+          ]
+        },
+        {
+          "surface": "シュ",
+          "reading": "シュ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シュ"
+            }
+          ]
+        },
+        {
+          "surface": "マ",
+          "reading": "マ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "サンダ",
+          "reading": "サンダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "サンダ"
+            }
+          ]
+        },
+        {
+          "surface": "マリ",
+          "reading": "マリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マリ"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "当時",
+          "reading": "トウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当時",
+              "reading": "とうじ"
+            }
+          ]
+        },
+        {
+          "surface": "33",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "33"
+            }
+          ]
+        },
+        {
+          "surface": "歳",
+          "reading": "サイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歳",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "遺族",
+          "reading": "イゾク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺族",
+              "reading": "いぞく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "17",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "17"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "名古屋",
+          "reading": "ナゴヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名古屋",
+              "reading": "なごや"
+            }
+          ]
+        },
+        {
+          "surface": "入管",
+          "reading": "ニュウカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入管",
+              "reading": "にゅうかん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "佐野",
+          "reading": "サノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "佐野",
+              "reading": "さの"
+            }
+          ]
+        },
+        {
+          "surface": "豪俊",
+          "reading": "タケトシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "豪俊",
+              "reading": "たけとし"
+            }
+          ]
+        },
+        {
+          "surface": "局長",
+          "reading": "キョクチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "局長",
+              "reading": "きょくちょう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "面会",
+          "reading": "メンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "面会",
+              "reading": "めんかい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001377615:u0005::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001377615:u0005",
+          "text": "収容先の名古屋出入国在留管理局（名古屋市）で3月に亡くなったスリランカ女性、ウィシュマ・サンダマリさん（当時33歳）の遺族が17日、名古屋入管の佐野豪俊局長と面会した。",
+          "rendered_yomi_before": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪/ツヨシ 俊/シュン 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+          "rendered_yomi_after": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪俊/タケトシ 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+          "display_mapping": {
+            "start": 41,
+            "end": 42,
+            "char_start": 74,
+            "char_end": 76,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005:s0075-0075",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "豪",
+              "token_surface": "豪",
+              "token_index": 41,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つよし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "豪",
+                  "reading": "つよし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005:s0076-0076",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "俊",
+              "token_surface": "俊",
+              "token_index": 42,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "俊",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005:s0075-0075",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "豪",
+              "token_surface": "豪",
+              "token_index": 41,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つよし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "豪",
+                  "reading": "つよし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005:s0076-0076",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "俊",
+              "token_surface": "俊",
+              "token_index": 42,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "俊",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "豪俊",
+          "reading_candidates": {
+            "豪": [
+              "えら",
+              "ごう",
+              "たけし",
+              "つよし",
+              "ひろ"
+            ],
+            "俊": [
+              "さとし",
+              "しゅん",
+              "すぐる",
+              "たかし",
+              "とし",
+              "まさる"
+            ]
+          },
+          "reading_hints": {
+            "豪": "えら",
+            "俊": "さとし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "豪",
+              "reading": "つよし",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "俊",
+              "reading": "しゅん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"豪俊\",\"reading\":\"タケトシ\",\"used_web_search\":true,\"comment\":\"岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))",
+              "reading": "タケトシ",
+              "surface": "豪俊",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "豪俊",
+            "replacement": [
+              {
+                "surface": "豪俊",
+                "reading": "タケトシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001377615:u0005::target_group:1",
+                "surface": "豪俊",
+                "comment": "岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "豪俊",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005:s0075-0075",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "豪",
+          "token_surface": "豪",
+          "token_index": 41,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つよし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "豪",
+              "reading": "つよし",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005:s0076-0076",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "俊",
+          "token_surface": "俊",
+          "token_index": 42,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しゅん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "俊",
+              "reading": "しゅん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "豪",
+          "reading": "つよし",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "俊",
+          "reading": "しゅん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "豪": [
+          "えら",
+          "ごう",
+          "たけし",
+          "つよし",
+          "ひろ"
+        ],
+        "俊": [
+          "さとし",
+          "しゅん",
+          "すぐる",
+          "たかし",
+          "とし",
+          "まさる"
+        ]
+      },
+      "reading_hints": {
+        "豪": "えら",
+        "俊": "さとし"
+      },
+      "llm_parsed": [
+        {
+          "comment": "岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))",
+          "reading": "タケトシ",
+          "surface": "豪俊",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"豪俊\",\"reading\":\"タケトシ\",\"used_web_search\":true,\"comment\":\"岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))\"}]",
+      "llm_comments": [
+        "岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001377615:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "豪俊",
+        "replacement": [
+          {
+            "surface": "豪俊",
+            "reading": "タケトシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001377615:u0005::target_group:1",
+            "surface": "豪俊",
+            "comment": "岐阜県の記者会見資料などで「佐野豪俊（さのたけとし）」と確認できるため、名は一語で「たけとし」と読む。([pref.gifu.lg.jp](https://www.pref.gifu.lg.jp/site/kaiken/23224.html?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0001377615",
+      "doc_seq": 4,
+      "track_doc_seq": 3334,
+      "unit_id": "ja_cc_level2_corrected_v1:0001377615:u0010",
+      "unit_seq": 10,
+      "source_file": "ja/ja_cc/level2/0161.jsonl.gz",
+      "source_line_no": 1377615,
+      "text": "収容先の名古屋出入国在留管理局（名古屋市）で3月に亡くなったスリランカ女性、ウィシュマ・サンダマリさん（当時33歳）の遺族が17日、名古屋入管の佐野豪俊局長と面会した。",
+      "rendered_yomi_before": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪/ツヨシ 俊/シュン 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+      "rendered_yomi_after": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪俊/タケトシ 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "収容",
+          "シュウヨウ"
+        ],
+        [
+          "先",
+          "サキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "名古屋",
+          "ナゴヤ"
+        ],
+        [
+          "出入国",
+          "シュツニュウコク"
+        ],
+        [
+          "在留",
+          "ザイリュウ"
+        ],
+        [
+          "管理局",
+          "カンリキョク"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "名古屋市",
+          "ナゴヤシ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "亡くなっ",
+          "ナクナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "スリランカ",
+          "スリランカ"
+        ],
+        [
+          "女性",
+          "ジョセイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ウィ",
+          "ウィ"
+        ],
+        [
+          "シュ",
+          "シュ"
+        ],
+        [
+          "マ",
+          "マ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "サンダ",
+          "サンダ"
+        ],
+        [
+          "マリ",
+          "マリ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "当時",
+          "トウジ"
+        ],
+        [
+          "33",
+          ""
+        ],
+        [
+          "歳",
+          "サイ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "遺族",
+          "イゾク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "17",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "名古屋",
+          "ナゴヤ"
+        ],
+        [
+          "入管",
+          "ニュウカン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "佐野",
+          "サノ"
+        ],
+        [
+          "豪俊",
+          "タケトシ"
+        ],
+        [
+          "局長",
+          "キョクチョウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "面会",
+          "メンカイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "収容",
+          "reading": "シュウヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "収容",
+              "reading": "しゅうよう"
+            }
+          ]
+        },
+        {
+          "surface": "先",
+          "reading": "サキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先",
+              "reading": "さき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "名古屋",
+          "reading": "ナゴヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名古屋",
+              "reading": "なごや"
+            }
+          ]
+        },
+        {
+          "surface": "出入国",
+          "reading": "シュツニュウコク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出入国",
+              "reading": "しゅつにゅうこく"
+            }
+          ]
+        },
+        {
+          "surface": "在留",
+          "reading": "ザイリュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "在留",
+              "reading": "ざいりゅう"
+            }
+          ]
+        },
+        {
+          "surface": "管理局",
+          "reading": "カンリキョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "管理局",
+              "reading": "かんりきょく"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "名古屋市",
+          "reading": "ナゴヤシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名古屋市",
+              "reading": "なごやし"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "亡くなっ",
+          "reading": "ナクナッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "亡",
+              "reading": "な"
+            },
+            {
+              "type": "text",
+              "text": "くなっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "スリランカ",
+          "reading": "スリランカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スリランカ"
+            }
+          ]
+        },
+        {
+          "surface": "女性",
+          "reading": "ジョセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "女性",
+              "reading": "じょせい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ウィ",
+          "reading": "ウィ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ウィ"
+            }
+          ]
+        },
+        {
+          "surface": "シュ",
+          "reading": "シュ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シュ"
+            }
+          ]
+        },
+        {
+          "surface": "マ",
+          "reading": "マ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "サンダ",
+          "reading": "サンダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "サンダ"
+            }
+          ]
+        },
+        {
+          "surface": "マリ",
+          "reading": "マリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マリ"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "当時",
+          "reading": "トウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当時",
+              "reading": "とうじ"
+            }
+          ]
+        },
+        {
+          "surface": "33",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "33"
+            }
+          ]
+        },
+        {
+          "surface": "歳",
+          "reading": "サイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歳",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "遺族",
+          "reading": "イゾク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺族",
+              "reading": "いぞく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "17",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "17"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "名古屋",
+          "reading": "ナゴヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名古屋",
+              "reading": "なごや"
+            }
+          ]
+        },
+        {
+          "surface": "入管",
+          "reading": "ニュウカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入管",
+              "reading": "にゅうかん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "佐野",
+          "reading": "サノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "佐野",
+              "reading": "さの"
+            }
+          ]
+        },
+        {
+          "surface": "豪俊",
+          "reading": "タケトシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "豪俊",
+              "reading": "たけとし"
+            }
+          ]
+        },
+        {
+          "surface": "局長",
+          "reading": "キョクチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "局長",
+              "reading": "きょくちょう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "面会",
+          "reading": "メンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "面会",
+              "reading": "めんかい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001377615:u0010::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001377615:u0010",
+          "text": "収容先の名古屋出入国在留管理局（名古屋市）で3月に亡くなったスリランカ女性、ウィシュマ・サンダマリさん（当時33歳）の遺族が17日、名古屋入管の佐野豪俊局長と面会した。",
+          "rendered_yomi_before": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪/ツヨシ 俊/シュン 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+          "rendered_yomi_after": "収容/シュウヨウ 先/サキ の/ノ 名古屋/ナゴヤ 出入国/シュツニュウコク 在留/ザイリュウ 管理局/カンリキョク （/（ 名古屋市/ナゴヤシ ）/） で/デ 3/ 月/ガツ に/ニ 亡くなっ/ナクナッ た/タ スリランカ/スリランカ 女性/ジョセイ 、/、 ウィ/ウィ シュ/シュ マ/マ ・/・ サンダ/サンダ マリ/マリ さん/サン （/（ 当時/トウジ 33/ 歳/サイ ）/） の/ノ 遺族/イゾク が/ガ 17/ 日/ニチ 、/、 名古屋/ナゴヤ 入管/ニュウカン の/ノ 佐野/サノ 豪俊/タケトシ 局長/キョクチョウ と/ト 面会/メンカイ し/シ た/タ 。/。",
+          "display_mapping": {
+            "start": 41,
+            "end": 42,
+            "char_start": 74,
+            "char_end": 76,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010:s0075-0075",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "豪",
+              "token_surface": "豪",
+              "token_index": 41,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つよし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "豪",
+                  "reading": "つよし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010:s0076-0076",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "俊",
+              "token_surface": "俊",
+              "token_index": 42,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "俊",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010:s0075-0075",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "豪",
+              "token_surface": "豪",
+              "token_index": 41,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つよし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "豪",
+                  "reading": "つよし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010:s0076-0076",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "俊",
+              "token_surface": "俊",
+              "token_index": 42,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "俊",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "豪俊",
+          "reading_candidates": {
+            "豪": [
+              "えら",
+              "ごう",
+              "たけし",
+              "つよし",
+              "ひろ"
+            ],
+            "俊": [
+              "さとし",
+              "しゅん",
+              "すぐる",
+              "たかし",
+              "とし",
+              "まさる"
+            ]
+          },
+          "reading_hints": {
+            "豪": "えら",
+            "俊": "さとし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "豪",
+              "reading": "つよし",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "俊",
+              "reading": "しゅん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"豪俊\",\"reading\":\"タケトシ\",\"used_web_search\":true,\"comment\":\"名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。",
+              "reading": "タケトシ",
+              "surface": "豪俊",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010::target_group:1",
+            "status": "applied",
+            "rejected_span": "豪俊",
+            "replacement": [
+              {
+                "surface": "豪俊",
+                "reading": "タケトシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001377615:u0010::target_group:1",
+                "surface": "豪俊",
+                "comment": "名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "豪俊",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010:s0075-0075",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "豪",
+          "token_surface": "豪",
+          "token_index": 41,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つよし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "豪",
+              "reading": "つよし",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010:s0076-0076",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "俊",
+          "token_surface": "俊",
+          "token_index": 42,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しゅん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "俊",
+              "reading": "しゅん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "豪",
+          "reading": "つよし",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "俊",
+          "reading": "しゅん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "豪": [
+          "えら",
+          "ごう",
+          "たけし",
+          "つよし",
+          "ひろ"
+        ],
+        "俊": [
+          "さとし",
+          "しゅん",
+          "すぐる",
+          "たかし",
+          "とし",
+          "まさる"
+        ]
+      },
+      "reading_hints": {
+        "豪": "えら",
+        "俊": "さとし"
+      },
+      "llm_parsed": [
+        {
+          "comment": "名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。",
+          "reading": "タケトシ",
+          "surface": "豪俊",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"豪俊\",\"reading\":\"タケトシ\",\"used_web_search\":true,\"comment\":\"名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。\"}]",
+      "llm_comments": [
+        "名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001377615:u0010::target_group:1",
+        "status": "applied",
+        "rejected_span": "豪俊",
+        "replacement": [
+          {
+            "surface": "豪俊",
+            "reading": "タケトシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001377615:u0010::target_group:1",
+            "surface": "豪俊",
+            "comment": "名古屋出入国在留管理局長の佐野豪俊は「さのたけとし」と確認できるため、豪俊はまとめて「タケトシ」と読む。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0002417863",
+      "doc_seq": 6,
+      "track_doc_seq": 3336,
+      "unit_id": "ja_cc_level2_corrected_v1:0002417863:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0358.jsonl.gz",
+      "source_line_no": 2417863,
+      "text": "松本と二保による先発6枠目投手の争い。",
+      "rendered_yomi_before": "松本/マツモト と/ト 二/ニ 保/ホ に/ニ よる/ヨル 先発/センパツ 6/ 枠/ワク 目/メ 投手/トウシュ の/ノ 争い/アラソイ 。/。",
+      "rendered_yomi_after": "松本/マツモト と/ト 二保/ニホ に/ニ よる/ヨル 先発/センパツ 6/ 枠/ワク 目/メ 投手/トウシュ の/ノ 争い/アラソイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "松本",
+          "マツモト"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "二保",
+          "ニホ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "よる",
+          "ヨル"
+        ],
+        [
+          "先発",
+          "センパツ"
+        ],
+        [
+          "6",
+          ""
+        ],
+        [
+          "枠",
+          "ワク"
+        ],
+        [
+          "目",
+          "メ"
+        ],
+        [
+          "投手",
+          "トウシュ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "争い",
+          "アラソイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "松本",
+          "reading": "マツモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "松本",
+              "reading": "まつもと"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "二保",
+          "reading": "ニホ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "二保",
+              "reading": "にほ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "よる",
+          "reading": "ヨル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よる"
+            }
+          ]
+        },
+        {
+          "surface": "先発",
+          "reading": "センパツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先発",
+              "reading": "せんぱつ"
+            }
+          ]
+        },
+        {
+          "surface": "6",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6"
+            }
+          ]
+        },
+        {
+          "surface": "枠",
+          "reading": "ワク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "枠",
+              "reading": "わく"
+            }
+          ]
+        },
+        {
+          "surface": "目",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目",
+              "reading": "め"
+            }
+          ]
+        },
+        {
+          "surface": "投手",
+          "reading": "トウシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投手",
+              "reading": "とうしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "争い",
+          "reading": "アラソイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "争",
+              "reading": "あらそ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002417863:u0008::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002417863:u0008",
+          "text": "松本と二保による先発6枠目投手の争い。",
+          "rendered_yomi_before": "松本/マツモト と/ト 二/ニ 保/ホ に/ニ よる/ヨル 先発/センパツ 6/ 枠/ワク 目/メ 投手/トウシュ の/ノ 争い/アラソイ 。/。",
+          "rendered_yomi_after": "松本/マツモト と/ト 二保/ニホ に/ニ よる/ヨル 先発/センパツ 6/ 枠/ワク 目/メ 投手/トウシュ の/ノ 争い/アラソイ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 3,
+            "char_end": 5,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "二",
+              "token_surface": "二",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "に",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "二",
+                  "reading": "に",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "保",
+              "token_surface": "保",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "保",
+                  "reading": "ほ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "二",
+              "token_surface": "二",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "に",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "二",
+                  "reading": "に",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "保",
+              "token_surface": "保",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "保",
+                  "reading": "ほ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "二保",
+          "reading_candidates": {
+            "二": [
+              "ふつ",
+              "ぷた",
+              "に",
+              "ふた",
+              "じ",
+              "にい",
+              "ふ",
+              "ふう",
+              "ぶた"
+            ],
+            "二保": [
+              "にほ"
+            ],
+            "保": [
+              "たもつ",
+              "ほ",
+              "ほう",
+              "やす",
+              "やすし"
+            ]
+          },
+          "reading_hints": {
+            "二": "ふつ",
+            "二保": "にほ",
+            "保": "たもつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "二",
+              "reading": "に",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "保",
+              "reading": "ほ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"二保\",\"reading\":\"ニホ\",\"used_web_search\":false,\"comment\":\"野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。",
+              "reading": "ニホ",
+              "surface": "二保",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "二保",
+            "replacement": [
+              {
+                "surface": "二保",
+                "reading": "ニホ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002417863:u0008::target_group:1",
+                "surface": "二保",
+                "comment": "野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "二保",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008:s0004-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "二",
+          "token_surface": "二",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "に",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "二",
+              "reading": "に",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "保",
+          "token_surface": "保",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ほ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "保",
+              "reading": "ほ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "二",
+          "reading": "に",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "保",
+          "reading": "ほ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "二": [
+          "ふつ",
+          "ぷた",
+          "に",
+          "ふた",
+          "じ",
+          "にい",
+          "ふ",
+          "ふう",
+          "ぶた"
+        ],
+        "二保": [
+          "にほ"
+        ],
+        "保": [
+          "たもつ",
+          "ほ",
+          "ほう",
+          "やす",
+          "やすし"
+        ]
+      },
+      "reading_hints": {
+        "二": "ふつ",
+        "二保": "にほ",
+        "保": "たもつ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。",
+          "reading": "ニホ",
+          "surface": "二保",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"二保\",\"reading\":\"ニホ\",\"used_web_search\":false,\"comment\":\"野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。\"}]",
+      "llm_comments": [
+        "野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002417863:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "二保",
+        "replacement": [
+          {
+            "surface": "二保",
+            "reading": "ニホ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002417863:u0008::target_group:1",
+            "surface": "二保",
+            "comment": "野球選手の姓で「にほ」と読む。文脈上も投手の二保を指す。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0002120966",
+      "doc_seq": 10,
+      "track_doc_seq": 3340,
+      "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0286.jsonl.gz",
+      "source_line_no": 2120966,
+      "text": "土砂出し作業以外にも、思い出の品を洗う作業、話し相手、肩たたき、お掃除などなどいろんな活動あります。",
+      "rendered_yomi_before": "土/ツチ 砂出し/スナダシ 作業/サギョウ 以外/イガイ に/ニ も/モ 、/、 思い出/オモイデ の/ノ 品/シナ を/ヲ 洗う/アラウ 作業/サギョウ 、/、 話し/ハナシ 相手/アイテ 、/、 肩たたき/カタタタキ 、/、 お/オ 掃除/ソウジ など/ナド など/ナド いろんな/イロンナ 活動/カツドウ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after": "土砂/ドシャ 出し/ダシ 作業/サギョウ 以外/イガイ に/ニ も/モ 、/、 思い出/オモイデ の/ノ 品/シナ を/ヲ 洗う/アラウ 作業/サギョウ 、/、 話し/ハナシ 相手/アイテ 、/、 肩たたき/カタタタキ 、/、 お/オ 掃除/ソウジ など/ナド など/ナド いろんな/イロンナ 活動/カツドウ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "土砂",
+          "ドシャ"
+        ],
+        [
+          "出し",
+          "ダシ"
+        ],
+        [
+          "作業",
+          "サギョウ"
+        ],
+        [
+          "以外",
+          "イガイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "思い出",
+          "オモイデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "品",
+          "シナ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "洗う",
+          "アラウ"
+        ],
+        [
+          "作業",
+          "サギョウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "話し",
+          "ハナシ"
+        ],
+        [
+          "相手",
+          "アイテ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "肩たたき",
+          "カタタタキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "掃除",
+          "ソウジ"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "いろんな",
+          "イロンナ"
+        ],
+        [
+          "活動",
+          "カツドウ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "土砂",
+          "reading": "ドシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "土砂",
+              "reading": "どしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "出し",
+          "reading": "ダシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "だ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "作業",
+          "reading": "サギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作業",
+              "reading": "さぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "以外",
+          "reading": "イガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "以外",
+              "reading": "いがい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "思い出",
+          "reading": "オモイデ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            },
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "で"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "品",
+          "reading": "シナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "品",
+              "reading": "しな"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "洗う",
+          "reading": "アラウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "洗",
+              "reading": "あら"
+            },
+            {
+              "type": "text",
+              "text": "う"
+            }
+          ]
+        },
+        {
+          "surface": "作業",
+          "reading": "サギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作業",
+              "reading": "さぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "話し",
+          "reading": "ハナシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "はな"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "相手",
+          "reading": "アイテ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "相手",
+              "reading": "あいて"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "肩たたき",
+          "reading": "カタタタキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "肩",
+              "reading": "かた"
+            },
+            {
+              "type": "text",
+              "text": "たたき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "掃除",
+          "reading": "ソウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "掃除",
+              "reading": "そうじ"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "いろんな",
+          "reading": "イロンナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いろんな"
+            }
+          ]
+        },
+        {
+          "surface": "活動",
+          "reading": "カツドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "活動",
+              "reading": "かつどう"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0003",
+          "text": "土砂出し作業以外にも、思い出の品を洗う作業、話し相手、肩たたき、お掃除などなどいろんな活動あります。",
+          "rendered_yomi_before": "土/ツチ 砂出し/スナダシ 作業/サギョウ 以外/イガイ に/ニ も/モ 、/、 思い出/オモイデ の/ノ 品/シナ を/ヲ 洗う/アラウ 作業/サギョウ 、/、 話し/ハナシ 相手/アイテ 、/、 肩たたき/カタタタキ 、/、 お/オ 掃除/ソウジ など/ナド など/ナド いろんな/イロンナ 活動/カツドウ あり/アリ ます/マス 。/。",
+          "rendered_yomi_after": "土砂/ドシャ 出し/ダシ 作業/サギョウ 以外/イガイ に/ニ も/モ 、/、 思い出/オモイデ の/ノ 品/シナ を/ヲ 洗う/アラウ 作業/サギョウ 、/、 話し/ハナシ 相手/アイテ 、/、 肩たたき/カタタタキ 、/、 お/オ 掃除/ソウジ など/ナド など/ナド いろんな/イロンナ 活動/カツドウ あり/アリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 4,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "土",
+              "token_surface": "土",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "土",
+                  "reading": "つち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003:s0002-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂出し",
+              "token_surface": "砂出し",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すなだし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂出し",
+                  "reading": "すなだし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "土",
+              "token_surface": "土",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "土",
+                  "reading": "つち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003:s0002-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "砂出し",
+              "token_surface": "砂出し",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すなだし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "砂出し",
+                  "reading": "すなだし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "土砂出し",
+          "reading_candidates": {
+            "土": [
+              "つち",
+              "ど",
+              "づち"
+            ],
+            "土砂": [
+              "どしゃ"
+            ],
+            "砂": [
+              "ずな",
+              "いさご",
+              "さ",
+              "しゃ",
+              "すな"
+            ],
+            "砂出し": [
+              "すなだし"
+            ],
+            "出": [
+              "で",
+              "しゅつ",
+              "いずる",
+              "いづ",
+              "いづる",
+              "いで"
+            ],
+            "出し": [
+              "だし",
+              "いだし"
+            ],
+            "し": [
+              "し"
+            ]
+          },
+          "reading_hints": {
+            "土": "つち",
+            "土砂": "どしゃ",
+            "砂": "ずな",
+            "砂出し": "すなだし",
+            "出": "で",
+            "出し": "だし",
+            "し": "し"
+          },
+          "rejected_readings": [
+            {
+              "surface": "土",
+              "reading": "つち",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "砂出し",
+              "reading": "すなだし",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"土砂\",\"reading\":\"ドシャ\",\"used_web_search\":false,\"comment\":\"一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。\"},{\"surface\":\"出し\",\"reading\":\"ダシ\",\"used_web_search\":false,\"comment\":\"「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。",
+              "reading": "ドシャ",
+              "surface": "土砂",
+              "used_web_search": false
+            },
+            {
+              "comment": "「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。",
+              "reading": "ダシ",
+              "surface": "出し",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。",
+            "「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "土砂出し",
+            "replacement": [
+              {
+                "surface": "土砂",
+                "reading": "ドシャ"
+              },
+              {
+                "surface": "出し",
+                "reading": "ダシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+                "surface": "土砂出し",
+                "comment": "一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+                "surface": "土砂出し",
+                "comment": "「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "土砂出し",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "土",
+          "token_surface": "土",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つち",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "土",
+              "reading": "つち",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003:s0002-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "砂出し",
+          "token_surface": "砂出し",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すなだし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "砂出し",
+              "reading": "すなだし",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "土",
+          "reading": "つち",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "砂出し",
+          "reading": "すなだし",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "土": [
+          "つち",
+          "ど",
+          "づち"
+        ],
+        "土砂": [
+          "どしゃ"
+        ],
+        "砂": [
+          "ずな",
+          "いさご",
+          "さ",
+          "しゃ",
+          "すな"
+        ],
+        "砂出し": [
+          "すなだし"
+        ],
+        "出": [
+          "で",
+          "しゅつ",
+          "いずる",
+          "いづ",
+          "いづる",
+          "いで"
+        ],
+        "出し": [
+          "だし",
+          "いだし"
+        ],
+        "し": [
+          "し"
+        ]
+      },
+      "reading_hints": {
+        "土": "つち",
+        "土砂": "どしゃ",
+        "砂": "ずな",
+        "砂出し": "すなだし",
+        "出": "で",
+        "出し": "だし",
+        "し": "し"
+      },
+      "llm_parsed": [
+        {
+          "comment": "一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。",
+          "reading": "ドシャ",
+          "surface": "土砂",
+          "used_web_search": false
+        },
+        {
+          "comment": "「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。",
+          "reading": "ダシ",
+          "surface": "出し",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"土砂\",\"reading\":\"ドシャ\",\"used_web_search\":false,\"comment\":\"一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。\"},{\"surface\":\"出し\",\"reading\":\"ダシ\",\"used_web_search\":false,\"comment\":\"「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。",
+        "「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "土砂出し",
+        "replacement": [
+          {
+            "surface": "土砂",
+            "reading": "ドシャ"
+          },
+          {
+            "surface": "出し",
+            "reading": "ダシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+            "surface": "土砂出し",
+            "comment": "一般的に「土砂」は「どしゃ」と読むため、ここは一まとまりで扱うのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0003::target_group:1",
+            "surface": "土砂出し",
+            "comment": "「土砂出し作業」の「出し」は取り除く意味の名詞化で、「だし」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0002120966",
+      "doc_seq": 10,
+      "track_doc_seq": 3340,
+      "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0286.jsonl.gz",
+      "source_line_no": 2120966,
+      "text": "→出店先の新潟・埼玉より、10日ぶりに福岡県『東峰村』・朝倉市杷木『松末本村』へと帰ってきました。",
+      "rendered_yomi_before": "→/→ 出店/シュッテン 先/サキ の/ノ 新潟/ニイガタ ・/・ 埼玉/サイタマ より/ヨリ 、/、 10日/トオカ ぶり/ブリ に/ニ 福岡県/フクオカケン 『/『 東峰村/トウホウムラ 』/』 ・/・ 朝倉市/アサクラシ 杷木/ハキ 『/『 松末/マツスエ 本村/ホンソン 』/』 へ/ヘ と/ト 帰っ/カエッ て/テ き/キ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "→/→ 出店/シュッテン 先/サキ の/ノ 新潟/ニイガタ ・/・ 埼玉/サイタマ より/ヨリ 、/、 10日/トオカ ぶり/ブリ に/ニ 福岡県/フクオカケン 『/『 東峰村/トウホウムラ 』/』 ・/・ 朝倉市/アサクラシ 杷木/ハキ 『/『 松末/マツスエ 本村/ホンムラ 』/』 へ/ヘ と/ト 帰っ/カエッ て/テ き/キ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "→",
+          "→"
+        ],
+        [
+          "出店",
+          "シュッテン"
+        ],
+        [
+          "先",
+          "サキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "新潟",
+          "ニイガタ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "埼玉",
+          "サイタマ"
+        ],
+        [
+          "より",
+          "ヨリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "10日",
+          "トオカ"
+        ],
+        [
+          "ぶり",
+          "ブリ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "福岡県",
+          "フクオカケン"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "東峰村",
+          "トウホウムラ"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "朝倉市",
+          "アサクラシ"
+        ],
+        [
+          "杷木",
+          "ハキ"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "松末",
+          "マツスエ"
+        ],
+        [
+          "本村",
+          "ホンムラ"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "帰っ",
+          "カエッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "き",
+          "キ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "→",
+          "reading": "→",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "→"
+            }
+          ]
+        },
+        {
+          "surface": "出店",
+          "reading": "シュッテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出店",
+              "reading": "しゅってん"
+            }
+          ]
+        },
+        {
+          "surface": "先",
+          "reading": "サキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先",
+              "reading": "さき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "新潟",
+          "reading": "ニイガタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "新潟",
+              "reading": "にいがた"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "埼玉",
+          "reading": "サイタマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "埼玉",
+              "reading": "さいたま"
+            }
+          ]
+        },
+        {
+          "surface": "より",
+          "reading": "ヨリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "より"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "10日",
+          "reading": "トオカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "10日",
+              "reading": "とおか"
+            }
+          ]
+        },
+        {
+          "surface": "ぶり",
+          "reading": "ブリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ぶり"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "福岡県",
+          "reading": "フクオカケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "福岡県",
+              "reading": "ふくおかけん"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "東峰村",
+          "reading": "トウホウムラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東峰村",
+              "reading": "とうほうむら"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "朝倉市",
+          "reading": "アサクラシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "朝倉市",
+              "reading": "あさくらし"
+            }
+          ]
+        },
+        {
+          "surface": "杷木",
+          "reading": "ハキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "杷木",
+              "reading": "はき"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "松末",
+          "reading": "マツスエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "松末",
+              "reading": "まつすえ"
+            }
+          ]
+        },
+        {
+          "surface": "本村",
+          "reading": "ホンムラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本村",
+              "reading": "ほんむら"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "帰っ",
+          "reading": "カエッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "帰",
+              "reading": "かえ"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "き",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0007",
+          "text": "→出店先の新潟・埼玉より、10日ぶりに福岡県『東峰村』・朝倉市杷木『松末本村』へと帰ってきました。",
+          "rendered_yomi_before": "→/→ 出店/シュッテン 先/サキ の/ノ 新潟/ニイガタ ・/・ 埼玉/サイタマ より/ヨリ 、/、 10日/トオカ ぶり/ブリ に/ニ 福岡県/フクオカケン 『/『 東峰村/トウホウムラ 』/』 ・/・ 朝倉市/アサクラシ 杷木/ハキ 『/『 松末/マツスエ 本村/ホンソン 』/』 へ/ヘ と/ト 帰っ/カエッ て/テ き/キ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "→/→ 出店/シュッテン 先/サキ の/ノ 新潟/ニイガタ ・/・ 埼玉/サイタマ より/ヨリ 、/、 10日/トオカ ぶり/ブリ に/ニ 福岡県/フクオカケン 『/『 東峰村/トウホウムラ 』/』 ・/・ 朝倉市/アサクラシ 杷木/ハキ 『/『 松末/マツスエ 本村/ホンムラ 』/』 へ/ヘ と/ト 帰っ/カエッ て/テ き/キ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 20,
+            "end": 22,
+            "char_start": 34,
+            "char_end": 38,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007:s0035-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "松末",
+              "token_surface": "松末",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まつすえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "松末",
+                  "reading": "まつすえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007:s0037-0038",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "本村",
+              "token_surface": "本村",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほんそん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "本村",
+                  "reading": "ほんそん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007:s0035-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "松末",
+              "token_surface": "松末",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まつすえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "松末",
+                  "reading": "まつすえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007:s0037-0038",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "本村",
+              "token_surface": "本村",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほんそん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "本村",
+                  "reading": "ほんそん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "松末本村",
+          "reading_candidates": {
+            "松": [
+              "しょう",
+              "まつ"
+            ],
+            "松末": [
+              "まつすえ",
+              "まつづね"
+            ],
+            "末": [
+              "まつ",
+              "すえ"
+            ],
+            "末本": [
+              "すえもと",
+              "まつもと"
+            ],
+            "本": [
+              "ぽん",
+              "ぼん",
+              "ほん",
+              "もと"
+            ],
+            "本村": [
+              "ほんそん",
+              "ほんむら",
+              "もとむら"
+            ],
+            "村": [
+              "そん",
+              "むら"
+            ]
+          },
+          "reading_hints": {
+            "松": "しょう",
+            "松末": "まつすえ",
+            "末": "まつ",
+            "末本": "すえもと",
+            "本": "ぽん",
+            "本村": "ほんそん",
+            "村": "そん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "松末",
+              "reading": "まつすえ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "本村",
+              "reading": "ほんそん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"松末\",\n    \"reading\": \"まつすえ\",\n    \"used_web_search\": true,\n    \"comment\": \"松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"本村\",\n    \"reading\": \"ほんむら\",\n    \"used_web_search\": true,\n    \"comment\": \"地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))",
+              "reading": "まつすえ",
+              "surface": "松末",
+              "used_web_search": true
+            },
+            {
+              "comment": "地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))",
+              "reading": "ほんむら",
+              "surface": "本村",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))",
+            "地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "松末本村",
+            "replacement": [
+              {
+                "surface": "松末",
+                "reading": "マツスエ"
+              },
+              {
+                "surface": "本村",
+                "reading": "ホンムラ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+                "surface": "松末本村",
+                "comment": "松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+                "surface": "松末本村",
+                "comment": "地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "松末本村",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007:s0035-0036",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "松末",
+          "token_surface": "松末",
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading_hiragana": "まつすえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "松末",
+              "reading": "まつすえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007:s0037-0038",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "本村",
+          "token_surface": "本村",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ほんそん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "本村",
+              "reading": "ほんそん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "松末",
+          "reading": "まつすえ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "本村",
+          "reading": "ほんそん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "松": [
+          "しょう",
+          "まつ"
+        ],
+        "松末": [
+          "まつすえ",
+          "まつづね"
+        ],
+        "末": [
+          "まつ",
+          "すえ"
+        ],
+        "末本": [
+          "すえもと",
+          "まつもと"
+        ],
+        "本": [
+          "ぽん",
+          "ぼん",
+          "ほん",
+          "もと"
+        ],
+        "本村": [
+          "ほんそん",
+          "ほんむら",
+          "もとむら"
+        ],
+        "村": [
+          "そん",
+          "むら"
+        ]
+      },
+      "reading_hints": {
+        "松": "しょう",
+        "松末": "まつすえ",
+        "末": "まつ",
+        "末本": "すえもと",
+        "本": "ぽん",
+        "本村": "ほんそん",
+        "村": "そん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))",
+          "reading": "まつすえ",
+          "surface": "松末",
+          "used_web_search": true
+        },
+        {
+          "comment": "地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))",
+          "reading": "ほんむら",
+          "surface": "本村",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"松末\",\n    \"reading\": \"まつすえ\",\n    \"used_web_search\": true,\n    \"comment\": \"松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"本村\",\n    \"reading\": \"ほんむら\",\n    \"used_web_search\": true,\n    \"comment\": \"地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))\"\n  }\n]",
+      "llm_comments": [
+        "松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))",
+        "地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "松末本村",
+        "replacement": [
+          {
+            "surface": "松末",
+            "reading": "マツスエ"
+          },
+          {
+            "surface": "本村",
+            "reading": "ホンムラ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+            "surface": "松末本村",
+            "comment": "松末地区の前半で、朝倉市の区設置規則でも「松末本村」として区分されている。([www1.g-reiki.net](https://www1.g-reiki.net/city.asakura/reiki_honbun/r347RG00000763.html?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0007::target_group:1",
+            "surface": "松末本村",
+            "comment": "地区名は「本村地区（ほんむらちく）」と示されており、この文脈では「ほんむら」と読むのが自然。([sogo-bousai.pref.fukuoka.lg.jp](https://sogo-bousai.pref.fukuoka.lg.jp/sabo/files/uploads/%E2%98%86%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A0%82%E9%98%B2%E3%83%91%E3%83%B3%E3%83%95%E3%83%AC%E3%83%83%E3%83%88%EF%BC%88R20312%EF%BC%89.pdf?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 6,
+      "doc_id": "ja_cc_level2_corrected_v1:0002120966",
+      "doc_seq": 10,
+      "track_doc_seq": 3340,
+      "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0286.jsonl.gz",
+      "source_line_no": 2120966,
+      "text": "昨日の大雨で土砂が堆積した松末本村地区の赤谷川は、お盆前より更に盛り上がり、、もはやどちらが川で道路なのか一瞬錯覚してしまうほど。",
+      "rendered_yomi_before": "昨日/キノウ の/ノ 大雨/オオアメ で/デ 土砂/ドシャ が/ガ 堆積/タイセキ し/シ た/タ 松末/マツスエ 本村/ホンソン 地区/チク の/ノ 赤谷川/アカタニガワ は/ハ 、/、 お/オ 盆/ボン 前/マエ より/ヨリ 更に/サラニ 盛り上がり/モリアガリ 、/、 、/、 もはや/モハヤ どちら/ドチラ が/ガ 川/カワ で/デ 道路/ドウロ な/ナ の/ノ か/カ 一瞬/イッシュン 錯覚/サッカク し/シ て/テ しまう/シマウ ほど/ホド 。/。",
+      "rendered_yomi_after": "昨日/キノウ の/ノ 大雨/オオアメ で/デ 土砂/ドシャ が/ガ 堆積/タイセキ し/シ た/タ 松末/マスエ 本村/ホンムラ 地区/チク の/ノ 赤谷川/アカタニガワ は/ハ 、/、 お/オ 盆/ボン 前/マエ より/ヨリ 更に/サラニ 盛り上がり/モリアガリ 、/、 、/、 もはや/モハヤ どちら/ドチラ が/ガ 川/カワ で/デ 道路/ドウロ な/ナ の/ノ か/カ 一瞬/イッシュン 錯覚/サッカク し/シ て/テ しまう/シマウ ほど/ホド 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "昨日",
+          "キノウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "大雨",
+          "オオアメ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "土砂",
+          "ドシャ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "堆積",
+          "タイセキ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "松末",
+          "マスエ"
+        ],
+        [
+          "本村",
+          "ホンムラ"
+        ],
+        [
+          "地区",
+          "チク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "赤谷川",
+          "アカタニガワ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "盆",
+          "ボン"
+        ],
+        [
+          "前",
+          "マエ"
+        ],
+        [
+          "より",
+          "ヨリ"
+        ],
+        [
+          "更に",
+          "サラニ"
+        ],
+        [
+          "盛り上がり",
+          "モリアガリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "もはや",
+          "モハヤ"
+        ],
+        [
+          "どちら",
+          "ドチラ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "川",
+          "カワ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "道路",
+          "ドウロ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "一瞬",
+          "イッシュン"
+        ],
+        [
+          "錯覚",
+          "サッカク"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "しまう",
+          "シマウ"
+        ],
+        [
+          "ほど",
+          "ホド"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "昨日",
+          "reading": "キノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昨日",
+              "reading": "きのう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "大雨",
+          "reading": "オオアメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大雨",
+              "reading": "おおあめ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "土砂",
+          "reading": "ドシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "土砂",
+              "reading": "どしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "堆積",
+          "reading": "タイセキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "堆積",
+              "reading": "たいせき"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "松末",
+          "reading": "マスエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "松末",
+              "reading": "ますえ"
+            }
+          ]
+        },
+        {
+          "surface": "本村",
+          "reading": "ホンムラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本村",
+              "reading": "ほんむら"
+            }
+          ]
+        },
+        {
+          "surface": "地区",
+          "reading": "チク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "地区",
+              "reading": "ちく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "赤谷川",
+          "reading": "アカタニガワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "赤谷川",
+              "reading": "あかたにがわ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "盆",
+          "reading": "ボン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "盆",
+              "reading": "ぼん"
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "より",
+          "reading": "ヨリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "より"
+            }
+          ]
+        },
+        {
+          "surface": "更に",
+          "reading": "サラニ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "更",
+              "reading": "さら"
+            },
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "盛り上がり",
+          "reading": "モリアガリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "盛",
+              "reading": "も"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "がり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "もはや",
+          "reading": "モハヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もはや"
+            }
+          ]
+        },
+        {
+          "surface": "どちら",
+          "reading": "ドチラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どちら"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "川",
+          "reading": "カワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "川",
+              "reading": "かわ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "道路",
+          "reading": "ドウロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "道路",
+              "reading": "どうろ"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "一瞬",
+          "reading": "イッシュン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一瞬",
+              "reading": "いっしゅん"
+            }
+          ]
+        },
+        {
+          "surface": "錯覚",
+          "reading": "サッカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "錯覚",
+              "reading": "さっかく"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "しまう",
+          "reading": "シマウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しまう"
+            }
+          ]
+        },
+        {
+          "surface": "ほど",
+          "reading": "ホド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ほど"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0008",
+          "text": "昨日の大雨で土砂が堆積した松末本村地区の赤谷川は、お盆前より更に盛り上がり、、もはやどちらが川で道路なのか一瞬錯覚してしまうほど。",
+          "rendered_yomi_before": "昨日/キノウ の/ノ 大雨/オオアメ で/デ 土砂/ドシャ が/ガ 堆積/タイセキ し/シ た/タ 松末/マツスエ 本村/ホンソン 地区/チク の/ノ 赤谷川/アカタニガワ は/ハ 、/、 お/オ 盆/ボン 前/マエ より/ヨリ 更に/サラニ 盛り上がり/モリアガリ 、/、 、/、 もはや/モハヤ どちら/ドチラ が/ガ 川/カワ で/デ 道路/ドウロ な/ナ の/ノ か/カ 一瞬/イッシュン 錯覚/サッカク し/シ て/テ しまう/シマウ ほど/ホド 。/。",
+          "rendered_yomi_after": "昨日/キノウ の/ノ 大雨/オオアメ で/デ 土砂/ドシャ が/ガ 堆積/タイセキ し/シ た/タ 松末/マスエ 本村/ホンムラ 地区/チク の/ノ 赤谷川/アカタニガワ は/ハ 、/、 お/オ 盆/ボン 前/マエ より/ヨリ 更に/サラニ 盛り上がり/モリアガリ 、/、 、/、 もはや/モハヤ どちら/ドチラ が/ガ 川/カワ で/デ 道路/ドウロ な/ナ の/ノ か/カ 一瞬/イッシュン 錯覚/サッカク し/シ て/テ しまう/シマウ ほど/ホド 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 11,
+            "char_start": 13,
+            "char_end": 17,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "松末",
+              "token_surface": "松末",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まつすえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "松末",
+                  "reading": "まつすえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008:s0016-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "本村",
+              "token_surface": "本村",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほんそん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "本村",
+                  "reading": "ほんそん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "松末",
+              "token_surface": "松末",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まつすえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "松末",
+                  "reading": "まつすえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008:s0016-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "本村",
+              "token_surface": "本村",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほんそん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "本村",
+                  "reading": "ほんそん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "松末本村",
+          "reading_candidates": {
+            "松": [
+              "しょう",
+              "まつ"
+            ],
+            "松末": [
+              "まつすえ",
+              "まつづね"
+            ],
+            "末": [
+              "まつ",
+              "すえ"
+            ],
+            "末本": [
+              "すえもと",
+              "まつもと"
+            ],
+            "本": [
+              "ぽん",
+              "ぼん",
+              "ほん",
+              "もと"
+            ],
+            "本村": [
+              "ほんそん",
+              "ほんむら",
+              "もとむら"
+            ],
+            "村": [
+              "そん",
+              "むら"
+            ]
+          },
+          "reading_hints": {
+            "松": "しょう",
+            "松末": "まつすえ",
+            "末": "まつ",
+            "末本": "すえもと",
+            "本": "ぽん",
+            "本村": "ほんそん",
+            "村": "そん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "松末",
+              "reading": "まつすえ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "本村",
+              "reading": "ほんそん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"松末\",\n    \"reading\": \"マスエ\",\n    \"used_web_search\": true,\n    \"comment\": \"朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))\"\n  },\n  {\n    \"surface\": \"本村\",\n    \"reading\": \"ホンムラ\",\n    \"used_web_search\": true,\n    \"comment\": \"同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))",
+              "reading": "マスエ",
+              "surface": "松末",
+              "used_web_search": true
+            },
+            {
+              "comment": "同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))",
+              "reading": "ホンムラ",
+              "surface": "本村",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))",
+            "同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "松末本村",
+            "replacement": [
+              {
+                "surface": "松末",
+                "reading": "マスエ"
+              },
+              {
+                "surface": "本村",
+                "reading": "ホンムラ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+                "surface": "松末本村",
+                "comment": "朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+                "surface": "松末本村",
+                "comment": "同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "松末本村",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "松末",
+          "token_surface": "松末",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "まつすえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "松末",
+              "reading": "まつすえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008:s0016-0017",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "本村",
+          "token_surface": "本村",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ほんそん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "本村",
+              "reading": "ほんそん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "松末",
+          "reading": "まつすえ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "本村",
+          "reading": "ほんそん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "松": [
+          "しょう",
+          "まつ"
+        ],
+        "松末": [
+          "まつすえ",
+          "まつづね"
+        ],
+        "末": [
+          "まつ",
+          "すえ"
+        ],
+        "末本": [
+          "すえもと",
+          "まつもと"
+        ],
+        "本": [
+          "ぽん",
+          "ぼん",
+          "ほん",
+          "もと"
+        ],
+        "本村": [
+          "ほんそん",
+          "ほんむら",
+          "もとむら"
+        ],
+        "村": [
+          "そん",
+          "むら"
+        ]
+      },
+      "reading_hints": {
+        "松": "しょう",
+        "松末": "まつすえ",
+        "末": "まつ",
+        "末本": "すえもと",
+        "本": "ぽん",
+        "本村": "ほんそん",
+        "村": "そん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))",
+          "reading": "マスエ",
+          "surface": "松末",
+          "used_web_search": true
+        },
+        {
+          "comment": "同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))",
+          "reading": "ホンムラ",
+          "surface": "本村",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"松末\",\n    \"reading\": \"マスエ\",\n    \"used_web_search\": true,\n    \"comment\": \"朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))\"\n  },\n  {\n    \"surface\": \"本村\",\n    \"reading\": \"ホンムラ\",\n    \"used_web_search\": true,\n    \"comment\": \"同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))\"\n  }\n]",
+      "llm_comments": [
+        "朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))",
+        "同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "松末本村",
+        "replacement": [
+          {
+            "surface": "松末",
+            "reading": "マスエ"
+          },
+          {
+            "surface": "本村",
+            "reading": "ホンムラ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+            "surface": "松末本村",
+            "comment": "朝倉市の資料で「松末（ますえ）地区」と確認できるため。([isad.or.jp](https://www.isad.or.jp/wp/wp-content/uploads/2019/02/no132_28p.pdf))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0008::target_group:1",
+            "surface": "松末本村",
+            "comment": "同じ朝倉市資料で「本村（ほんむら）」と示されているため。([city.asakura.lg.jp](https://www.city.asakura.lg.jp/www/contents/1550711650362/files/fkeikaku20230322.pdf?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 7,
+      "doc_id": "ja_cc_level2_corrected_v1:0002120966",
+      "doc_seq": 10,
+      "track_doc_seq": 3340,
+      "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0286.jsonl.gz",
+      "source_line_no": 2120966,
+      "text": "昨日までの2日間、先月の東峰村派遣に続いて国際学生ボランティア協会(IVUSA)が100名体制で朝倉市松末本村地区に入ってくれた。",
+      "rendered_yomi_before": "昨日/キノウ まで/マデ の/ノ 2日/フツカ 間/カン 、/、 先月/センゲツ の/ノ 東峰村/トウホウムラ 派遣/ハケン に/ニ 続い/ツヅイ て/テ 国際/コクサイ 学生/ガクセイ ボランティア/ボランティア 協会/キョウカイ (/( IVUSA/イビューサ )/) が/ガ 100/ 名/メイ 体制/タイセイ で/デ 朝倉/アサクラ 市松/イチマツ 末本/スエモト 村/ソン 地区/チク に/ニ 入っ/ハイッ て/テ くれ/クレ た/タ 。/。",
+      "rendered_yomi_after": "昨日/キノウ まで/マデ の/ノ 2日/フツカ 間/カン 、/、 先月/センゲツ の/ノ 東峰村/トウホウムラ 派遣/ハケン に/ニ 続い/ツヅイ て/テ 国際/コクサイ 学生/ガクセイ ボランティア/ボランティア 協会/キョウカイ (/( IVUSA/イビューサ )/) が/ガ 100/ 名/メイ 体制/タイセイ で/デ 朝倉市/アサクラシ 松末/マスエ 本村/ホンムラ 地区/チク に/ニ 入っ/ハイッ て/テ くれ/クレ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "昨日",
+          "キノウ"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "2日",
+          "フツカ"
+        ],
+        [
+          "間",
+          "カン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "先月",
+          "センゲツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "東峰村",
+          "トウホウムラ"
+        ],
+        [
+          "派遣",
+          "ハケン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "続い",
+          "ツヅイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "国際",
+          "コクサイ"
+        ],
+        [
+          "学生",
+          "ガクセイ"
+        ],
+        [
+          "ボランティア",
+          "ボランティア"
+        ],
+        [
+          "協会",
+          "キョウカイ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "IVUSA",
+          "イビューサ"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "100",
+          ""
+        ],
+        [
+          "名",
+          "メイ"
+        ],
+        [
+          "体制",
+          "タイセイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "朝倉市",
+          "アサクラシ"
+        ],
+        [
+          "松末",
+          "マスエ"
+        ],
+        [
+          "本村",
+          "ホンムラ"
+        ],
+        [
+          "地区",
+          "チク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "入っ",
+          "ハイッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "くれ",
+          "クレ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "昨日",
+          "reading": "キノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昨日",
+              "reading": "きのう"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "2日",
+          "reading": "フツカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "2日",
+              "reading": "ふつか"
+            }
+          ]
+        },
+        {
+          "surface": "間",
+          "reading": "カン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "間",
+              "reading": "かん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "先月",
+          "reading": "センゲツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先月",
+              "reading": "せんげつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "東峰村",
+          "reading": "トウホウムラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東峰村",
+              "reading": "とうほうむら"
+            }
+          ]
+        },
+        {
+          "surface": "派遣",
+          "reading": "ハケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "派遣",
+              "reading": "はけん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "続い",
+          "reading": "ツヅイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続",
+              "reading": "つづ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "国際",
+          "reading": "コクサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国際",
+              "reading": "こくさい"
+            }
+          ]
+        },
+        {
+          "surface": "学生",
+          "reading": "ガクセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学生",
+              "reading": "がくせい"
+            }
+          ]
+        },
+        {
+          "surface": "ボランティア",
+          "reading": "ボランティア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ボランティア"
+            }
+          ]
+        },
+        {
+          "surface": "協会",
+          "reading": "キョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "協会",
+              "reading": "きょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "IVUSA",
+          "reading": "イビューサ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "IVUSA",
+              "reading": "いびゅーさ"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "100",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "100"
+            }
+          ]
+        },
+        {
+          "surface": "名",
+          "reading": "メイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名",
+              "reading": "めい"
+            }
+          ]
+        },
+        {
+          "surface": "体制",
+          "reading": "タイセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "体制",
+              "reading": "たいせい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "朝倉市",
+          "reading": "アサクラシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "朝倉市",
+              "reading": "あさくらし"
+            }
+          ]
+        },
+        {
+          "surface": "松末",
+          "reading": "マスエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "松末",
+              "reading": "ますえ"
+            }
+          ]
+        },
+        {
+          "surface": "本村",
+          "reading": "ホンムラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本村",
+              "reading": "ほんむら"
+            }
+          ]
+        },
+        {
+          "surface": "地区",
+          "reading": "チク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "地区",
+              "reading": "ちく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "入っ",
+          "reading": "ハイッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入",
+              "reading": "はい"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "くれ",
+          "reading": "クレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "くれ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002120966:u0026",
+          "text": "昨日までの2日間、先月の東峰村派遣に続いて国際学生ボランティア協会(IVUSA)が100名体制で朝倉市松末本村地区に入ってくれた。",
+          "rendered_yomi_before": "昨日/キノウ まで/マデ の/ノ 2日/フツカ 間/カン 、/、 先月/センゲツ の/ノ 東峰村/トウホウムラ 派遣/ハケン に/ニ 続い/ツヅイ て/テ 国際/コクサイ 学生/ガクセイ ボランティア/ボランティア 協会/キョウカイ (/( IVUSA/イビューサ )/) が/ガ 100/ 名/メイ 体制/タイセイ で/デ 朝倉/アサクラ 市松/イチマツ 末本/スエモト 村/ソン 地区/チク に/ニ 入っ/ハイッ て/テ くれ/クレ た/タ 。/。",
+          "rendered_yomi_after": "昨日/キノウ まで/マデ の/ノ 2日/フツカ 間/カン 、/、 先月/センゲツ の/ノ 東峰村/トウホウムラ 派遣/ハケン に/ニ 続い/ツヅイ て/テ 国際/コクサイ 学生/ガクセイ ボランティア/ボランティア 協会/キョウカイ (/( IVUSA/イビューサ )/) が/ガ 100/ 名/メイ 体制/タイセイ で/デ 朝倉市/アサクラシ 松末/マスエ 本村/ホンムラ 地区/チク に/ニ 入っ/ハイッ て/テ くれ/クレ た/タ 。/。",
+          "display_mapping": {
+            "start": 25,
+            "end": 28,
+            "char_start": 48,
+            "char_end": 55,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0049-0050",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "朝倉",
+              "token_surface": "朝倉",
+              "token_index": 25,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あさくら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "朝倉",
+                  "reading": "あさくら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0051-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市松",
+              "token_surface": "市松",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いちまつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市松",
+                  "reading": "いちまつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0053-0054",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "末本",
+              "token_surface": "末本",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すえもと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "末本",
+                  "reading": "すえもと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0055-0055",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "村",
+              "token_surface": "村",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "そん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "村",
+                  "reading": "そん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0049-0050",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "朝倉",
+              "token_surface": "朝倉",
+              "token_index": 25,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あさくら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "朝倉",
+                  "reading": "あさくら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0051-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市松",
+              "token_surface": "市松",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いちまつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市松",
+                  "reading": "いちまつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0053-0054",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "末本",
+              "token_surface": "末本",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すえもと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "末本",
+                  "reading": "すえもと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0055-0055",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "村",
+              "token_surface": "村",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "そん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "村",
+                  "reading": "そん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "朝倉市松末本村",
+          "reading_candidates": {
+            "朝": [
+              "あさ",
+              "あさひ",
+              "あした",
+              "ちょう"
+            ],
+            "朝倉": [
+              "あさくら"
+            ],
+            "朝倉市": [
+              "あさくらし"
+            ],
+            "倉": [
+              "おさむ",
+              "くら",
+              "ぐら",
+              "そう"
+            ],
+            "市": [
+              "いち",
+              "いちの",
+              "し"
+            ],
+            "市松": [
+              "いちまつ"
+            ],
+            "松": [
+              "しょう",
+              "まつ"
+            ],
+            "松末": [
+              "まつすえ",
+              "まつづね"
+            ],
+            "末": [
+              "まつ",
+              "すえ"
+            ],
+            "末本": [
+              "すえもと",
+              "まつもと"
+            ],
+            "本": [
+              "ぽん",
+              "ぼん",
+              "ほん",
+              "もと"
+            ],
+            "本村": [
+              "ほんそん",
+              "ほんむら",
+              "もとむら"
+            ],
+            "村": [
+              "そん",
+              "むら"
+            ]
+          },
+          "reading_hints": {
+            "朝": "あさ",
+            "朝倉": "あさくら",
+            "朝倉市": "あさくらし",
+            "倉": "おさむ",
+            "市": "いち",
+            "市松": "いちまつ",
+            "松": "しょう",
+            "松末": "まつすえ",
+            "末": "まつ",
+            "末本": "すえもと",
+            "本": "ぽん",
+            "本村": "ほんそん",
+            "村": "そん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "朝倉",
+              "reading": "あさくら",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "市松",
+              "reading": "いちまつ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "末本",
+              "reading": "すえもと",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "村",
+              "reading": "そん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"朝倉市\",\"reading\":\"あさくらし\",\"used_web_search\":true,\"comment\":\"市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))\"},{\"surface\":\"松末\",\"reading\":\"ますえ\",\"used_web_search\":true,\"comment\":\"朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))\"},{\"surface\":\"本村\",\"reading\":\"ほんむら\",\"used_web_search\":true,\"comment\":\"復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))",
+              "reading": "あさくらし",
+              "surface": "朝倉市",
+              "used_web_search": true
+            },
+            {
+              "comment": "朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))",
+              "reading": "ますえ",
+              "surface": "松末",
+              "used_web_search": true
+            },
+            {
+              "comment": "復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))",
+              "reading": "ほんむら",
+              "surface": "本村",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))",
+            "朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))",
+            "復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "朝倉市松末本村",
+            "replacement": [
+              {
+                "surface": "朝倉市",
+                "reading": "アサクラシ"
+              },
+              {
+                "surface": "松末",
+                "reading": "マスエ"
+              },
+              {
+                "surface": "本村",
+                "reading": "ホンムラ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+                "surface": "朝倉市松末本村",
+                "comment": "市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+                "surface": "朝倉市松末本村",
+                "comment": "朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+                "surface": "朝倉市松末本村",
+                "comment": "復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "朝倉市松末本村",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0049-0050",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "朝倉",
+          "token_surface": "朝倉",
+          "token_index": 25,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あさくら",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "朝倉",
+              "reading": "あさくら",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0051-0052",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "市松",
+          "token_surface": "市松",
+          "token_index": 26,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いちまつ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "市松",
+              "reading": "いちまつ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0053-0054",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "末本",
+          "token_surface": "末本",
+          "token_index": 27,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すえもと",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "末本",
+              "reading": "すえもと",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026:s0055-0055",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "村",
+          "token_surface": "村",
+          "token_index": 28,
+          "chunk_index": 0,
+          "current_reading_hiragana": "そん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "村",
+              "reading": "そん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "朝倉",
+          "reading": "あさくら",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "市松",
+          "reading": "いちまつ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "末本",
+          "reading": "すえもと",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "村",
+          "reading": "そん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "朝": [
+          "あさ",
+          "あさひ",
+          "あした",
+          "ちょう"
+        ],
+        "朝倉": [
+          "あさくら"
+        ],
+        "朝倉市": [
+          "あさくらし"
+        ],
+        "倉": [
+          "おさむ",
+          "くら",
+          "ぐら",
+          "そう"
+        ],
+        "市": [
+          "いち",
+          "いちの",
+          "し"
+        ],
+        "市松": [
+          "いちまつ"
+        ],
+        "松": [
+          "しょう",
+          "まつ"
+        ],
+        "松末": [
+          "まつすえ",
+          "まつづね"
+        ],
+        "末": [
+          "まつ",
+          "すえ"
+        ],
+        "末本": [
+          "すえもと",
+          "まつもと"
+        ],
+        "本": [
+          "ぽん",
+          "ぼん",
+          "ほん",
+          "もと"
+        ],
+        "本村": [
+          "ほんそん",
+          "ほんむら",
+          "もとむら"
+        ],
+        "村": [
+          "そん",
+          "むら"
+        ]
+      },
+      "reading_hints": {
+        "朝": "あさ",
+        "朝倉": "あさくら",
+        "朝倉市": "あさくらし",
+        "倉": "おさむ",
+        "市": "いち",
+        "市松": "いちまつ",
+        "松": "しょう",
+        "松末": "まつすえ",
+        "末": "まつ",
+        "末本": "すえもと",
+        "本": "ぽん",
+        "本村": "ほんそん",
+        "村": "そん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))",
+          "reading": "あさくらし",
+          "surface": "朝倉市",
+          "used_web_search": true
+        },
+        {
+          "comment": "朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))",
+          "reading": "ますえ",
+          "surface": "松末",
+          "used_web_search": true
+        },
+        {
+          "comment": "復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))",
+          "reading": "ほんむら",
+          "surface": "本村",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"朝倉市\",\"reading\":\"あさくらし\",\"used_web_search\":true,\"comment\":\"市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))\"},{\"surface\":\"松末\",\"reading\":\"ますえ\",\"used_web_search\":true,\"comment\":\"朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))\"},{\"surface\":\"本村\",\"reading\":\"ほんむら\",\"used_web_search\":true,\"comment\":\"復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))\"}]",
+      "llm_comments": [
+        "市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))",
+        "朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))",
+        "復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "朝倉市松末本村",
+        "replacement": [
+          {
+            "surface": "朝倉市",
+            "reading": "アサクラシ"
+          },
+          {
+            "surface": "松末",
+            "reading": "マスエ"
+          },
+          {
+            "surface": "本村",
+            "reading": "ホンムラ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+            "surface": "朝倉市松末本村",
+            "comment": "市名は公式に「朝倉市（あさくらし）」と案内されているため、この区切りで読む。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/soshiki/6/9192.html?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+            "surface": "朝倉市松末本村",
+            "comment": "朝倉市の公的資料で「松末（ますえ）」と読まれている。 ([gensai.nagoya-u.ac.jp](https://www.gensai.nagoya-u.ac.jp/?p=8930&utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002120966:u0026::target_group:1",
+            "surface": "朝倉市松末本村",
+            "comment": "復興計画で「松末地区本村（ほんむら）」とあり、松末と本村は別境界で読むのが自然。 ([city.asakura.lg.jp](https://www.city.asakura.lg.jp/uploaded/attachment/6372.pdf))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
