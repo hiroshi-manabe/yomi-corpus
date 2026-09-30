@@ -4111,6 +4111,29 @@ function setDocumentYomiDisposition(item, disposition) {
   render();
 }
 
+function appendDefaultSkipReason(parent, item) {
+  const reasons = {
+    contains_zero_width_joiner: "不可視のゼロ幅接合子（U+200D）が含まれ、形態素解析の区切りが崩れる可能性があります。",
+    leading_orphan_variation_selector: "文頭に対応する文字のない異体字セレクターが含まれています。",
+    contains_cjk_radical: "通常の漢字とは異なる部首文字が含まれ、形態素解析や読みの対応が崩れる可能性があります。",
+    halfwidth_stop_outside_emoticon: "顔文字以外に半角の句点（｡）があり、文の区切りが不適切な可能性があります。",
+    japanese_text_terminated_by_period: "日本語の文末にピリオドがあり、文の区切りが不適切な可能性があります。",
+  };
+  const reason = reasons[item.initial_disposition_reason];
+  if (!reason) return;
+  const details = document.createElement("details");
+  details.className = "default-skip-reason";
+  const summary = document.createElement("summary");
+  summary.textContent = "ⓘ";
+  summary.title = `自動スキップの理由: ${reason}`;
+  summary.setAttribute("aria-label", "自動スキップの理由");
+  const explanation = document.createElement("span");
+  explanation.className = "default-skip-reason-text";
+  explanation.textContent = reason;
+  details.append(summary, explanation);
+  parent.append(details);
+}
+
 function renderStrongRepairItem({ node, item, override, editable }) {
   node.innerHTML = "";
   node.classList.add("strong-repair-card");
@@ -4194,6 +4217,7 @@ function renderStrongRepairItem({ node, item, override, editable }) {
     });
     scopeControls.append(button);
   }
+  appendDefaultSkipReason(scopeControls, item);
   header.append(titleWrap, scopeControls, manualCorrectionControl);
   node.append(header);
 
@@ -5419,6 +5443,7 @@ function renderYomiItem({ node, item, override, editable }) {
     }
     scopeSelector.append(button);
   }
+  appendDefaultSkipReason(scopeSelector, item);
   controls.append(scopeSelector);
 
   const manualCorrectionControl = createManualCorrectionFlag({

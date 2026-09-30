@@ -1857,6 +1857,49 @@ button:disabled {
   align-items: center;
 }
 
+.default-skip-reason {
+  position: relative;
+  margin-left: 6px;
+  color: var(--ink);
+}
+
+.default-skip-reason summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 1rem;
+}
+
+.default-skip-reason summary::-webkit-details-marker {
+  display: none;
+}
+
+.default-skip-reason-text {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 10;
+  width: min(280px, 70vw);
+  padding: 10px 12px;
+  border: 1px solid rgba(58, 48, 33, 0.22);
+  border-radius: 6px;
+  background: #fffdf9;
+  box-shadow: 0 4px 12px rgba(58, 48, 33, 0.12);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: normal;
+}
+
+.default-skip-reason[open] .default-skip-reason-text {
+  display: block;
+}
+
+@media (hover: hover) {
+  .default-skip-reason:hover .default-skip-reason-text {
+    display: block;
+  }
+}
+
 .yomi-scope-option {
   display: inline-grid;
   place-items: center;
