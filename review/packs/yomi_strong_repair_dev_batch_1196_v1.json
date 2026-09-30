@@ -10,10 +10,9 @@
   "item_count": 7,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "repaired_item_count": 7,
     "queued_repair_row_count": 9,
@@ -57,12 +56,12 @@
       "source_line_no": 1835445,
       "preview": "「旗本退屈男」（第１回、サイレント、1930）を弁士付き（活動弁士：澤登翠：さわと・みどり）で見た。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-30T00:58:11Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T04:38:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -213,12 +212,12 @@
       "source_line_no": 987494,
       "preview": "少しうとうとしたものの、結局そこから眠れず。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-30T00:58:11Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T04:38:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -4770,8 +4769,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_1196_v1__2026-09-30T04:30:44.359Z",
+            "generated_at_epoch": 1790742644
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_1196_v1__2026-09-30T04:30:44.359Z",
+        "generated_at_epoch": 1790742644
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
@@ -5123,7 +5135,7 @@
       "source_line_no": 987494,
       "text": "構成はナ白黒学学風で、僕は白。",
       "rendered_yomi_before": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
-      "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+      "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白/シロ 黒/クロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "構成",
@@ -5138,8 +5150,12 @@
           "ナ"
         ],
         [
-          "白黒",
-          "シロクロ"
+          "白",
+          "シロ"
+        ],
+        [
+          "黒",
+          "クロ"
         ],
         [
           "学",
@@ -5213,13 +5229,24 @@
           ]
         },
         {
-          "surface": "白黒",
-          "reading": "シロクロ",
+          "surface": "白",
+          "reading": "シロ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "白黒",
-              "reading": "しろくろ"
+              "text": "白",
+              "reading": "しろ"
+            }
+          ]
+        },
+        {
+          "surface": "黒",
+          "reading": "クロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "黒",
+              "reading": "くろ"
             }
           ]
         },
@@ -5332,14 +5359,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0055",
           "text": "構成はナ白黒学学風で、僕は白。",
           "rendered_yomi_before": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
-          "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白/シロ 黒/クロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
           "display_mapping": {
             "start": 3,
-            "end": 4,
+            "end": 5,
             "char_start": 4,
             "char_end": 6,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -5470,10 +5497,10 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0055",
           "text": "構成はナ白黒学学風で、僕は白。",
           "rendered_yomi_before": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
-          "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白/シロ 黒/クロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
           "display_mapping": {
-            "start": 11,
-            "end": 12,
+            "start": 12,
+            "end": 13,
             "char_start": 13,
             "char_end": 14,
             "start_offset": 0,
