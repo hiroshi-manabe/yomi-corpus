@@ -2294,13 +2294,19 @@ function reviewWarningPairs(item, override, strong) {
     }
   } else {
     let offset = 0;
+    const pendingRepairPairs = new Set();
     for (const pair of pairs) {
       const target = (item.targets || []).find((t) => t.surface === pair[0] && t.target_start === offset);
       if (target && override?.targets?.[target.item_id]) {
         pair[1] = hiraganaToKatakana(selectedCandidate(target, override.targets[target.item_id])?.reading || "");
       }
+      // A cancelled reading is resolved by Detailed Review after submission.
+      if (!pair[1] && target && isNoRubyTarget(target, override)) {
+        pendingRepairPairs.add(pair);
+      }
       offset += pair[0].length;
     }
+    return pairs.filter((pair) => !pendingRepairPairs.has(pair));
   }
   return pairs;
 }
