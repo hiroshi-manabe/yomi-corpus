@@ -2361,11 +2361,11 @@ function hiraganaToKatakana(value) {
 }
 
 function compatibilityUnitReading(surface) {
-  return { "㎝": "センチ", "㎜": "ミリ", "㎞": "キロ", "㎏": "キロ",
-    "㌔": "キロ", "㌢": "センチ", "㍉": "ミリ", "㍍": "メートル",
-    "㌘": "グラム", "㍑": "リットル", "㌧": "トン", "㌫": "パーセント",
-    "㌶": "ヘクタール", "㌻": "ページ", "㎎": "ミリグラム", "㏌": "インチ",
-    "㎡": "ヘイホウメートル", "㎥": "リッポウメートル", "ℓ": "リットル" }[surface] || null;
+  return state.manifest?.spoken_symbol_readings?.[surface] || null;
+}
+
+function isStandaloneSymbol(surface) {
+  return [...surface].length === 1 && (Boolean(compatibilityUnitReading(surface)) || /[\p{P}\p{S}]/u.test(surface));
 }
 
 function expandedKanaSpelling(surface) {
@@ -2447,7 +2447,6 @@ function validMixedKanaSpellingReading(surface, reading) {
 function defaultNonlexicalReading(surface) {
   const unitReading = compatibilityUnitReading(surface);
   if (unitReading) return unitReading;
-  if ({ "㈱": "カブ", "㊙": "ヒ" }[surface]) return { "㈱": "カブ", "㊙": "ヒ" }[surface];
   const kana = expandedKanaSpelling(surface);
   if (kana !== null) return kana.replace(/ヰ/gu, "イ").replace(/ヱ/gu, "エ");
   const reading = hiraganaToKatakana(surface);
@@ -2485,6 +2484,9 @@ function validateRenderedYomiReading(surface, reading) {
     return isSymbolicKaomojiCorrectionSurface(surface)
       ? { ok: true }
       : { ok: false, error: "「カオモジ」は記号的な顔文字だけに使用できます。" };
+  }
+  if (isStandaloneSymbol(surface)) {
+    return reading === surface ? { ok: true } : { ok: false, error: `読みは ${surface} にしてください。` };
   }
   if (isStandaloneLaughterW(surface) && !reading) {
     return { ok: true };
