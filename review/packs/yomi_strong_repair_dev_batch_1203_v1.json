@@ -1,0 +1,5865 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1203_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1203",
+  "created_at_epoch": 1790753321,
+  "created_at": "2026-09-30T07:28:41Z",
+  "item_count": 6,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 6,
+    "queued_repair_row_count": 7,
+    "result_row_count": 7,
+    "reviewable_repair_row_count": 7,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001614280",
+      "doc_seq": 1,
+      "track_doc_seq": 3501,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0200.jsonl.gz",
+      "source_line_no": 1614280,
+      "preview": "少し明るさ等が違って見えます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000394049",
+      "doc_seq": 2,
+      "track_doc_seq": 3502,
+      "unit_count": 71,
+      "source_file": "ja/ja_cc/level2/0042.jsonl.gz",
+      "source_line_no": 394049,
+      "preview": "＜知の巨人＞立花大先生には、いろいろと目のうろこを落としてもらった。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 71,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000917256",
+      "doc_seq": 3,
+      "track_doc_seq": 3503,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0093.jsonl.gz",
+      "source_line_no": 917256,
+      "preview": "妊娠３カ月頃から始まったつわり。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002046844",
+      "doc_seq": 4,
+      "track_doc_seq": 3504,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0268.jsonl.gz",
+      "source_line_no": 2046844,
+      "preview": "当日７００ゲームで落ちていたお宝台を拾って、宵1000ゲームで天井即あたり。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000204920",
+      "doc_seq": 5,
+      "track_doc_seq": 3505,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0020.jsonl.gz",
+      "source_line_no": 204920,
+      "preview": "１年間無事に活動することができました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002229159",
+      "doc_seq": 6,
+      "track_doc_seq": 3506,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0318.jsonl.gz",
+      "source_line_no": 2229159,
+      "preview": "こちらは、正反対に金属系、ひんやりです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001565919",
+      "doc_seq": 7,
+      "track_doc_seq": 3507,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0193.jsonl.gz",
+      "source_line_no": 1565919,
+      "preview": "エプソムカップ（GⅢ）の最終予想に入ります。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000752090",
+      "doc_seq": 8,
+      "track_doc_seq": 3508,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0077.jsonl.gz",
+      "source_line_no": 752090,
+      "preview": "渓谷の水は四季を通して澄み渡り、平家マスの生息地として名高い尾前地区。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 4,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 2,
+      "to_seq": 5,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000826306",
+      "doc_seq": 9,
+      "track_doc_seq": 3509,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0083.jsonl.gz",
+      "source_line_no": 826306,
+      "preview": "「若松城」は、福島県会津若松市追手町にあった日本の城です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000164503",
+      "doc_seq": 10,
+      "track_doc_seq": 3510,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0015.jsonl.gz",
+      "source_line_no": 164503,
+      "preview": "大帝国を成した大王、アッティラ・ザ・フン。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T07:14:00Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 6,
+      "to_seq": 6,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000394049:u0025::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000394049",
+      "doc_seq": 2,
+      "track_doc_seq": 3502,
+      "unit_id": "ja_cc_level2_corrected_v1:0000394049:u0025",
+      "unit_seq": 25,
+      "source_file": "ja/ja_cc/level2/0042.jsonl.gz",
+      "source_line_no": 394049,
+      "text": "腎臓ネフローゼという持病を抱え、師匠と一緒に苦闘＜生きられる時間＞を精一杯生きて、29歳で夭折した彼の生涯は、大崎善生著『聖の青春』。",
+      "rendered_yomi_before": "腎臓/ジンゾウ ネフローゼ/ネフローゼ と/ト いう/イウ 持病/ジビョウ を/ヲ 抱え/カカエ 、/、 師匠/シショウ と/ト 一緒/イッショ に/ニ 苦闘/クトウ ＜/＜ 生き/イキ られる/ラレル 時間/ジカン ＞/＞ を/ヲ 精一杯/セイイッパイ 生き/イキ て/テ 、/、 29/ 歳/サイ で/デ 夭折/ヨウセツ し/シ た/タ 彼/カレ の/ノ 生涯/ショウガイ は/ハ 、/、 大崎/オオサキ 善生/ヨシオ 著/チョ 『/『 聖/セイ の/ノ 青春/セイシュン 』/』 。/。",
+      "rendered_yomi_after": "腎臓/ジンゾウ ネフローゼ/ネフローゼ と/ト いう/イウ 持病/ジビョウ を/ヲ 抱え/カカエ 、/、 師匠/シショウ と/ト 一緒/イッショ に/ニ 苦闘/クトウ ＜/＜ 生き/イキ られる/ラレル 時間/ジカン ＞/＞ を/ヲ 精一杯/セイイッパイ 生き/イキ て/テ 、/、 29/ 歳/サイ で/デ 夭折/ヨウセツ し/シ た/タ 彼/カレ の/ノ 生涯/ショウガイ は/ハ 、/、 大崎/オオサキ 善生/ヨシオ 著/チョ 『/『 聖/サトシ の/ノ 青春/セイシュン 』/』 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "腎臓",
+          "ジンゾウ"
+        ],
+        [
+          "ネフローゼ",
+          "ネフローゼ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "持病",
+          "ジビョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "抱え",
+          "カカエ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "師匠",
+          "シショウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "一緒",
+          "イッショ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "苦闘",
+          "クトウ"
+        ],
+        [
+          "＜",
+          "＜"
+        ],
+        [
+          "生き",
+          "イキ"
+        ],
+        [
+          "られる",
+          "ラレル"
+        ],
+        [
+          "時間",
+          "ジカン"
+        ],
+        [
+          "＞",
+          "＞"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "精一杯",
+          "セイイッパイ"
+        ],
+        [
+          "生き",
+          "イキ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "29",
+          ""
+        ],
+        [
+          "歳",
+          "サイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "夭折",
+          "ヨウセツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "彼",
+          "カレ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "生涯",
+          "ショウガイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "大崎",
+          "オオサキ"
+        ],
+        [
+          "善生",
+          "ヨシオ"
+        ],
+        [
+          "著",
+          "チョ"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "聖",
+          "サトシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "青春",
+          "セイシュン"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "腎臓",
+          "reading": "ジンゾウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "腎臓",
+              "reading": "じんぞう"
+            }
+          ]
+        },
+        {
+          "surface": "ネフローゼ",
+          "reading": "ネフローゼ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ネフローゼ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "持病",
+          "reading": "ジビョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "持病",
+              "reading": "じびょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "抱え",
+          "reading": "カカエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "抱",
+              "reading": "かか"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "師匠",
+          "reading": "シショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "師匠",
+              "reading": "ししょう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "一緒",
+          "reading": "イッショ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一緒",
+              "reading": "いっしょ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "苦闘",
+          "reading": "クトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "苦闘",
+              "reading": "くとう"
+            }
+          ]
+        },
+        {
+          "surface": "＜",
+          "reading": "＜",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＜"
+            }
+          ]
+        },
+        {
+          "surface": "生き",
+          "reading": "イキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "生",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "られる",
+          "reading": "ラレル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "られる"
+            }
+          ]
+        },
+        {
+          "surface": "時間",
+          "reading": "ジカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "時間",
+              "reading": "じかん"
+            }
+          ]
+        },
+        {
+          "surface": "＞",
+          "reading": "＞",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＞"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "精一杯",
+          "reading": "セイイッパイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "精一杯",
+              "reading": "せいいっぱい"
+            }
+          ]
+        },
+        {
+          "surface": "生き",
+          "reading": "イキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "生",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "29",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "29"
+            }
+          ]
+        },
+        {
+          "surface": "歳",
+          "reading": "サイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歳",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "夭折",
+          "reading": "ヨウセツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夭折",
+              "reading": "ようせつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "彼",
+          "reading": "カレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "彼",
+              "reading": "かれ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "生涯",
+          "reading": "ショウガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "生涯",
+              "reading": "しょうがい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "大崎",
+          "reading": "オオサキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大崎",
+              "reading": "おおさき"
+            }
+          ]
+        },
+        {
+          "surface": "善生",
+          "reading": "ヨシオ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "善生",
+              "reading": "よしお"
+            }
+          ]
+        },
+        {
+          "surface": "著",
+          "reading": "チョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "著",
+              "reading": "ちょ"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "聖",
+          "reading": "サトシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "聖",
+              "reading": "さとし"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "青春",
+          "reading": "セイシュン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "青春",
+              "reading": "せいしゅん"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000394049:u0025::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000394049:u0025::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000394049:u0025",
+          "text": "腎臓ネフローゼという持病を抱え、師匠と一緒に苦闘＜生きられる時間＞を精一杯生きて、29歳で夭折した彼の生涯は、大崎善生著『聖の青春』。",
+          "rendered_yomi_before": "腎臓/ジンゾウ ネフローゼ/ネフローゼ と/ト いう/イウ 持病/ジビョウ を/ヲ 抱え/カカエ 、/、 師匠/シショウ と/ト 一緒/イッショ に/ニ 苦闘/クトウ ＜/＜ 生き/イキ られる/ラレル 時間/ジカン ＞/＞ を/ヲ 精一杯/セイイッパイ 生き/イキ て/テ 、/、 29/ 歳/サイ で/デ 夭折/ヨウセツ し/シ た/タ 彼/カレ の/ノ 生涯/ショウガイ は/ハ 、/、 大崎/オオサキ 善生/ヨシオ 著/チョ 『/『 聖/セイ の/ノ 青春/セイシュン 』/』 。/。",
+          "rendered_yomi_after": "腎臓/ジンゾウ ネフローゼ/ネフローゼ と/ト いう/イウ 持病/ジビョウ を/ヲ 抱え/カカエ 、/、 師匠/シショウ と/ト 一緒/イッショ に/ニ 苦闘/クトウ ＜/＜ 生き/イキ られる/ラレル 時間/ジカン ＞/＞ を/ヲ 精一杯/セイイッパイ 生き/イキ て/テ 、/、 29/ 歳/サイ で/デ 夭折/ヨウセツ し/シ た/タ 彼/カレ の/ノ 生涯/ショウガイ は/ハ 、/、 大崎/オオサキ 善生/ヨシオ 著/チョ 『/『 聖/サトシ の/ノ 青春/セイシュン 』/』 。/。",
+          "display_mapping": {
+            "start": 38,
+            "end": 39,
+            "char_start": 61,
+            "char_end": 62,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000394049:u0025:s0062-0062",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "聖",
+              "token_surface": "聖",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "聖",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000394049:u0025:s0062-0062",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "聖",
+              "token_surface": "聖",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "聖",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "聖",
+          "reading_candidates": {
+            "聖": [
+              "あきら",
+              "きよ",
+              "きよし",
+              "こうき",
+              "さとし",
+              "さとる",
+              "しょう",
+              "せい",
+              "たかし",
+              "ひじり",
+              "みずき"
+            ]
+          },
+          "reading_hints": {
+            "聖": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "聖",
+              "reading": "せい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"聖\",\"reading\":\"サトシ\",\"used_web_search\":false,\"comment\":\"村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。",
+              "reading": "サトシ",
+              "surface": "聖",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000394049:u0025::target_group:1",
+            "status": "applied",
+            "rejected_span": "聖",
+            "replacement": [
+              {
+                "surface": "聖",
+                "reading": "サトシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000394049:u0025::target_group:1",
+                "surface": "聖",
+                "comment": "村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "聖",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000394049:u0025:s0062-0062",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "聖",
+          "token_surface": "聖",
+          "token_index": 38,
+          "chunk_index": 0,
+          "current_reading_hiragana": "せい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "聖",
+              "reading": "せい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "聖",
+          "reading": "せい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "聖": [
+          "あきら",
+          "きよ",
+          "きよし",
+          "こうき",
+          "さとし",
+          "さとる",
+          "しょう",
+          "せい",
+          "たかし",
+          "ひじり",
+          "みずき"
+        ]
+      },
+      "reading_hints": {
+        "聖": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "comment": "村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。",
+          "reading": "サトシ",
+          "surface": "聖",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"聖\",\"reading\":\"サトシ\",\"used_web_search\":false,\"comment\":\"村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。\"}]",
+      "llm_comments": [
+        "村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000394049:u0025::target_group:1",
+        "status": "applied",
+        "rejected_span": "聖",
+        "replacement": [
+          {
+            "surface": "聖",
+            "reading": "サトシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000394049:u0025::target_group:1",
+            "surface": "聖",
+            "comment": "村山聖の人名読み。ここではタイトル中の固有名として「サトシ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000752090",
+      "doc_seq": 8,
+      "track_doc_seq": 3508,
+      "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0077.jsonl.gz",
+      "source_line_no": 752090,
+      "text": "山村集落として初の重要伝統的建造物群保存地区や、国指定天然記念物「八村スギ」がある巨樹巨木のパワースポットがあります。",
+      "rendered_yomi_before": "山村/サンソン 集落/シュウラク と/ト し/シ て/テ 初/ハツ の/ノ 重要/ジュウヨウ 伝統的/デントウテキ 建造物/ケンゾウブツ 群/グン 保存/ホゾン 地区/チク や/ヤ 、/、 国/クニ 指定/シテイ 天然/テンネン 記念物/キネンブツ 「/「 八/ハチ 村/ソン スギ/スギ 」/」 が/ガ ある/アル 巨樹/キョジュ 巨木/キョボク の/ノ パワー/パワー スポット/スポット が/ガ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after": "山村/サンソン 集落/シュウラク と/ト し/シ て/テ 初/ハツ の/ノ 重要/ジュウヨウ 伝統的/デントウテキ 建造物/ケンゾウブツ 群/グン 保存/ホゾン 地区/チク や/ヤ 、/、 国/クニ 指定/シテイ 天然/テンネン 記念物/キネンブツ 「/「 八村/ヤムラ スギ/スギ 」/」 が/ガ ある/アル 巨樹/キョジュ 巨木/キョボク の/ノ パワー/パワー スポット/スポット が/ガ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "山村",
+          "サンソン"
+        ],
+        [
+          "集落",
+          "シュウラク"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "初",
+          "ハツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "重要",
+          "ジュウヨウ"
+        ],
+        [
+          "伝統的",
+          "デントウテキ"
+        ],
+        [
+          "建造物",
+          "ケンゾウブツ"
+        ],
+        [
+          "群",
+          "グン"
+        ],
+        [
+          "保存",
+          "ホゾン"
+        ],
+        [
+          "地区",
+          "チク"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "国",
+          "クニ"
+        ],
+        [
+          "指定",
+          "シテイ"
+        ],
+        [
+          "天然",
+          "テンネン"
+        ],
+        [
+          "記念物",
+          "キネンブツ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "八村",
+          "ヤムラ"
+        ],
+        [
+          "スギ",
+          "スギ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "巨樹",
+          "キョジュ"
+        ],
+        [
+          "巨木",
+          "キョボク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "パワー",
+          "パワー"
+        ],
+        [
+          "スポット",
+          "スポット"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "山村",
+          "reading": "サンソン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山村",
+              "reading": "さんそん"
+            }
+          ]
+        },
+        {
+          "surface": "集落",
+          "reading": "シュウラク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "集落",
+              "reading": "しゅうらく"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "初",
+          "reading": "ハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "初",
+              "reading": "はつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "重要",
+          "reading": "ジュウヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "重要",
+              "reading": "じゅうよう"
+            }
+          ]
+        },
+        {
+          "surface": "伝統的",
+          "reading": "デントウテキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "伝統的",
+              "reading": "でんとうてき"
+            }
+          ]
+        },
+        {
+          "surface": "建造物",
+          "reading": "ケンゾウブツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "建造物",
+              "reading": "けんぞうぶつ"
+            }
+          ]
+        },
+        {
+          "surface": "群",
+          "reading": "グン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "群",
+              "reading": "ぐん"
+            }
+          ]
+        },
+        {
+          "surface": "保存",
+          "reading": "ホゾン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "保存",
+              "reading": "ほぞん"
+            }
+          ]
+        },
+        {
+          "surface": "地区",
+          "reading": "チク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "地区",
+              "reading": "ちく"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "国",
+          "reading": "クニ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国",
+              "reading": "くに"
+            }
+          ]
+        },
+        {
+          "surface": "指定",
+          "reading": "シテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "指定",
+              "reading": "してい"
+            }
+          ]
+        },
+        {
+          "surface": "天然",
+          "reading": "テンネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "天然",
+              "reading": "てんねん"
+            }
+          ]
+        },
+        {
+          "surface": "記念物",
+          "reading": "キネンブツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "記念物",
+              "reading": "きねんぶつ"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "八村",
+          "reading": "ヤムラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八村",
+              "reading": "やむら"
+            }
+          ]
+        },
+        {
+          "surface": "スギ",
+          "reading": "スギ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スギ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "巨樹",
+          "reading": "キョジュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "巨樹",
+              "reading": "きょじゅ"
+            }
+          ]
+        },
+        {
+          "surface": "巨木",
+          "reading": "キョボク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "巨木",
+              "reading": "きょぼく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "パワー",
+          "reading": "パワー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パワー"
+            }
+          ]
+        },
+        {
+          "surface": "スポット",
+          "reading": "スポット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スポット"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000752090:u0005::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0005",
+          "text": "山村集落として初の重要伝統的建造物群保存地区や、国指定天然記念物「八村スギ」がある巨樹巨木のパワースポットがあります。",
+          "rendered_yomi_before": "山村/サンソン 集落/シュウラク と/ト し/シ て/テ 初/ハツ の/ノ 重要/ジュウヨウ 伝統的/デントウテキ 建造物/ケンゾウブツ 群/グン 保存/ホゾン 地区/チク や/ヤ 、/、 国/クニ 指定/シテイ 天然/テンネン 記念物/キネンブツ 「/「 八/ハチ 村/ソン スギ/スギ 」/」 が/ガ ある/アル 巨樹/キョジュ 巨木/キョボク の/ノ パワー/パワー スポット/スポット が/ガ あり/アリ ます/マス 。/。",
+          "rendered_yomi_after": "山村/サンソン 集落/シュウラク と/ト し/シ て/テ 初/ハツ の/ノ 重要/ジュウヨウ 伝統的/デントウテキ 建造物/ケンゾウブツ 群/グン 保存/ホゾン 地区/チク や/ヤ 、/、 国/クニ 指定/シテイ 天然/テンネン 記念物/キネンブツ 「/「 八村/ヤムラ スギ/スギ 」/」 が/ガ ある/アル 巨樹/キョジュ 巨木/キョボク の/ノ パワー/パワー スポット/スポット が/ガ あり/アリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 20,
+            "end": 21,
+            "char_start": 33,
+            "char_end": 35,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005:s0034-0034",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八",
+              "token_surface": "八",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八",
+                  "reading": "はち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005:s0035-0035",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "村",
+              "token_surface": "村",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "そん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "村",
+                  "reading": "そん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005:s0034-0034",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八",
+              "token_surface": "八",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八",
+                  "reading": "はち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005:s0035-0035",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "村",
+              "token_surface": "村",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "そん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "村",
+                  "reading": "そん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "八村",
+          "reading_candidates": {
+            "八": [
+              "はっ",
+              "はち",
+              "ぱち",
+              "ぱっ",
+              "や",
+              "やあ",
+              "やっ",
+              "よう"
+            ],
+            "八村": [
+              "はちむら",
+              "やむら"
+            ],
+            "村": [
+              "そん",
+              "むら"
+            ]
+          },
+          "reading_hints": {
+            "八": "はっ",
+            "八村": "はちむら",
+            "村": "そん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "八",
+              "reading": "はち",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "村",
+              "reading": "そん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"八村\",\"reading\":\"やむら\",\"used_web_search\":true,\"comment\":\"公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。",
+              "reading": "やむら",
+              "surface": "八村",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "八村",
+            "replacement": [
+              {
+                "surface": "八村",
+                "reading": "ヤムラ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000752090:u0005::target_group:1",
+                "surface": "八村",
+                "comment": "公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "八村",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005:s0034-0034",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "八",
+          "token_surface": "八",
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading_hiragana": "はち",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "八",
+              "reading": "はち",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005:s0035-0035",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "村",
+          "token_surface": "村",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "そん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "村",
+              "reading": "そん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "八",
+          "reading": "はち",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "村",
+          "reading": "そん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "八": [
+          "はっ",
+          "はち",
+          "ぱち",
+          "ぱっ",
+          "や",
+          "やあ",
+          "やっ",
+          "よう"
+        ],
+        "八村": [
+          "はちむら",
+          "やむら"
+        ],
+        "村": [
+          "そん",
+          "むら"
+        ]
+      },
+      "reading_hints": {
+        "八": "はっ",
+        "八村": "はちむら",
+        "村": "そん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。",
+          "reading": "やむら",
+          "surface": "八村",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"八村\",\"reading\":\"やむら\",\"used_web_search\":true,\"comment\":\"公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。\"}]",
+      "llm_comments": [
+        "公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000752090:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "八村",
+        "replacement": [
+          {
+            "surface": "八村",
+            "reading": "ヤムラ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000752090:u0005::target_group:1",
+            "surface": "八村",
+            "comment": "公式の文化財情報で「八村スギ（やむらすぎ）」と確認できるため、「八村」は「やむら」。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000752090:u0013::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000752090",
+      "doc_seq": 8,
+      "track_doc_seq": 3508,
+      "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0013",
+      "unit_seq": 13,
+      "source_file": "ja/ja_cc/level2/0077.jsonl.gz",
+      "source_line_no": 752090,
+      "text": "大きな岩がごろごろしている清流「綱の瀬川」源流の集落。",
+      "rendered_yomi_before": "大きな/オオキナ 岩/イワ が/ガ ごろごろ/ゴロゴロ し/シ て/テ いる/イル 清流/セイリュウ 「/「 綱の瀬川/ 」/」 源流/ゲンリュウ の/ノ 集落/シュウラク 。/。",
+      "rendered_yomi_after": "大きな/オオキナ 岩/イワ が/ガ ごろごろ/ゴロゴロ し/シ て/テ いる/イル 清流/セイリュウ 「/「 綱の瀬/ツナノセ 川/ガワ 」/」 源流/ゲンリュウ の/ノ 集落/シュウラク 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "大きな",
+          "オオキナ"
+        ],
+        [
+          "岩",
+          "イワ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ごろごろ",
+          "ゴロゴロ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "清流",
+          "セイリュウ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "綱の瀬",
+          "ツナノセ"
+        ],
+        [
+          "川",
+          "ガワ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "源流",
+          "ゲンリュウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "集落",
+          "シュウラク"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "大きな",
+          "reading": "オオキナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大",
+              "reading": "おお"
+            },
+            {
+              "type": "text",
+              "text": "きな"
+            }
+          ]
+        },
+        {
+          "surface": "岩",
+          "reading": "イワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "岩",
+              "reading": "いわ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ごろごろ",
+          "reading": "ゴロゴロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ごろごろ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "清流",
+          "reading": "セイリュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "清流",
+              "reading": "せいりゅう"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "綱の瀬",
+          "reading": "ツナノセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "綱",
+              "reading": "つな"
+            },
+            {
+              "type": "text",
+              "text": "の"
+            },
+            {
+              "type": "ruby",
+              "text": "瀬",
+              "reading": "せ"
+            }
+          ]
+        },
+        {
+          "surface": "川",
+          "reading": "ガワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "川",
+              "reading": "がわ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "源流",
+          "reading": "ゲンリュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "源流",
+              "reading": "げんりゅう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "集落",
+          "reading": "シュウラク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "集落",
+              "reading": "しゅうらく"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0013",
+          "text": "大きな岩がごろごろしている清流「綱の瀬川」源流の集落。",
+          "rendered_yomi_before": "大きな/オオキナ 岩/イワ が/ガ ごろごろ/ゴロゴロ し/シ て/テ いる/イル 清流/セイリュウ 「/「 綱の瀬川/ 」/」 源流/ゲンリュウ の/ノ 集落/シュウラク 。/。",
+          "rendered_yomi_after": "大きな/オオキナ 岩/イワ が/ガ ごろごろ/ゴロゴロ し/シ て/テ いる/イル 清流/セイリュウ 「/「 綱の瀬/ツナノセ 川/ガワ 」/」 源流/ゲンリュウ の/ノ 集落/シュウラク 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 11,
+            "char_start": 16,
+            "char_end": 20,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "kana_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "綱の瀬川",
+              "token_surface": "綱の瀬川",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1203_v1:ja_cc_level2_corrected_v1:0000752090:u0013:16-20",
+              "rejected_readings": [
+                {
+                  "surface": "綱の瀬川",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "綱の瀬川",
+              "token_surface": "綱の瀬川",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1203_v1:ja_cc_level2_corrected_v1:0000752090:u0013:16-20",
+              "rejected_readings": [
+                {
+                  "surface": "綱の瀬川",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "綱の瀬川",
+          "reading_candidates": {
+            "綱": [
+              "こう",
+              "つな",
+              "づな"
+            ],
+            "の": [
+              "の"
+            ],
+            "瀬": [
+              "せ",
+              "ぜ"
+            ],
+            "瀬川": [
+              "せかわ",
+              "せがわ"
+            ],
+            "川": [
+              "がわ",
+              "かわ",
+              "せん"
+            ]
+          },
+          "reading_hints": {
+            "綱": "こう",
+            "の": "の",
+            "瀬": "せ",
+            "瀬川": "せかわ",
+            "川": "がわ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "綱の瀬川",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"綱の瀬\",\"reading\":\"ツナノセ\",\"used_web_search\":true,\"comment\":\"河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。\"},{\"surface\":\"川\",\"reading\":\"ガワ\",\"used_web_search\":true,\"comment\":\"河川名の接尾部分なので「がわ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。",
+              "reading": "ツナノセ",
+              "surface": "綱の瀬",
+              "used_web_search": true
+            },
+            {
+              "comment": "河川名の接尾部分なので「がわ」と読む。",
+              "reading": "ガワ",
+              "surface": "川",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。",
+            "河川名の接尾部分なので「がわ」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+            "status": "applied",
+            "rejected_span": "綱の瀬川",
+            "replacement": [
+              {
+                "surface": "綱の瀬",
+                "reading": "ツナノセ"
+              },
+              {
+                "surface": "川",
+                "reading": "ガワ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+                "surface": "綱の瀬川",
+                "comment": "河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+                "surface": "綱の瀬川",
+                "comment": "河川名の接尾部分なので「がわ」と読む。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "綱の瀬川",
+      "target_escalations": [
+        {
+          "surface": "綱の瀬川",
+          "token_surface": "綱の瀬川",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1203_v1:ja_cc_level2_corrected_v1:0000752090:u0013:16-20",
+          "rejected_readings": [
+            {
+              "surface": "綱の瀬川",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "綱の瀬川",
+          "reading": "",
+          "source": "kana_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "綱": [
+          "こう",
+          "つな",
+          "づな"
+        ],
+        "の": [
+          "の"
+        ],
+        "瀬": [
+          "せ",
+          "ぜ"
+        ],
+        "瀬川": [
+          "せかわ",
+          "せがわ"
+        ],
+        "川": [
+          "がわ",
+          "かわ",
+          "せん"
+        ]
+      },
+      "reading_hints": {
+        "綱": "こう",
+        "の": "の",
+        "瀬": "せ",
+        "瀬川": "せかわ",
+        "川": "がわ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。",
+          "reading": "ツナノセ",
+          "surface": "綱の瀬",
+          "used_web_search": true
+        },
+        {
+          "comment": "河川名の接尾部分なので「がわ」と読む。",
+          "reading": "ガワ",
+          "surface": "川",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"綱の瀬\",\"reading\":\"ツナノセ\",\"used_web_search\":true,\"comment\":\"河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。\"},{\"surface\":\"川\",\"reading\":\"ガワ\",\"used_web_search\":true,\"comment\":\"河川名の接尾部分なので「がわ」と読む。\"}]",
+      "llm_comments": [
+        "河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。",
+        "河川名の接尾部分なので「がわ」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+        "status": "applied",
+        "rejected_span": "綱の瀬川",
+        "replacement": [
+          {
+            "surface": "綱の瀬",
+            "reading": "ツナノセ"
+          },
+          {
+            "surface": "川",
+            "reading": "ガワ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+            "surface": "綱の瀬川",
+            "comment": "河川名の本体で、「綱の瀬川」は「つなのせがわ」と読むため。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000752090:u0013::span_group:1",
+            "surface": "綱の瀬川",
+            "comment": "河川名の接尾部分なので「がわ」と読む。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0000752090",
+      "doc_seq": 8,
+      "track_doc_seq": 3508,
+      "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0022",
+      "unit_seq": 22,
+      "source_file": "ja/ja_cc/level2/0077.jsonl.gz",
+      "source_line_no": 752090,
+      "text": "高千穂町秋元コース ～「てっ様」と「ばあ様」に出会えるいろは道～　11/11開催山道を進み峠越えて下り、秋元神社を散策ののち、渓流を挟んだ対岸の集落の間を抜けて、まろうどに戻るという、シンプルなコースなのですが、ビジュアル的には非常にバリエーションに富んだコースです。",
+      "rendered_yomi_before": "高千穂町/タカチホチョウ 秋/アキ 元/モト コース/コース  / ～/～ 「/「 てっ/テッ 様/サマ 」/」 と/ト 「/「 ばあ/バア 様/サマ 」/」 に/ニ 出会える/デアエル いろは/イロハ 道/ミチ ～/～ 　/ 11/ /// 11/ 開催/カイサイ 山道/ヤマミチ を/ヲ 進み/ススミ 峠/トウゲ 越え/コエ て/テ 下り/クダリ 、/、 秋元/アキモト 神社/ジンジャ を/ヲ 散策/サンサク の/ノ のち/ノチ 、/、 渓流/ケイリュウ を/ヲ 挟ん/ハサン だ/ダ 対岸/タイガン の/ノ 集落/シュウラク の/ノ 間/アイダ を/ヲ 抜け/ヌケ て/テ 、/、 まろうど/マロウド に/ニ 戻る/モドル と/ト いう/イウ 、/、 シンプル/シンプル な/ナ コース/コース な/ナ の/ノ です/デス が/ガ 、/、 ビジュアル的/ビジュアルテキ に/ニ は/ハ 非常/ヒジョウ に/ニ バリエーション/バリエーション に/ニ 富ん/トン だ/ダ コース/コース です/デス 。/。",
+      "rendered_yomi_after": "高千穂町/タカチホチョウ 秋元/アキモト コース/コース \\s/ ～/～ 「/「 てっ/テッ 様/サマ 」/」 と/ト 「/「 ばあ/バア 様/サマ 」/」 に/ニ 出会える/デアエル いろは/イロハ 道/ミチ ～/～ \\u3000/ 11/ \\//\\/ 11/ 開催/カイサイ 山道/ヤマミチ を/ヲ 進み/ススミ 峠/トウゲ 越え/コエ て/テ 下り/クダリ 、/、 秋元/アキモト 神社/ジンジャ を/ヲ 散策/サンサク の/ノ のち/ノチ 、/、 渓流/ケイリュウ を/ヲ 挟ん/ハサン だ/ダ 対岸/タイガン の/ノ 集落/シュウラク の/ノ 間/アイダ を/ヲ 抜け/ヌケ て/テ 、/、 まろうど/マロウド に/ニ 戻る/モドル と/ト いう/イウ 、/、 シンプル/シンプル な/ナ コース/コース な/ナ の/ノ です/デス が/ガ 、/、 ビジュアル的/ビジュアルテキ に/ニ は/ハ 非常/ヒジョウ に/ニ バリエーション/バリエーション に/ニ 富ん/トン だ/ダ コース/コース です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "高千穂町",
+          "タカチホチョウ"
+        ],
+        [
+          "秋元",
+          "アキモト"
+        ],
+        [
+          "コース",
+          "コース"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "～",
+          "～"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "てっ",
+          "テッ"
+        ],
+        [
+          "様",
+          "サマ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "ばあ",
+          "バア"
+        ],
+        [
+          "様",
+          "サマ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "出会える",
+          "デアエル"
+        ],
+        [
+          "いろは",
+          "イロハ"
+        ],
+        [
+          "道",
+          "ミチ"
+        ],
+        [
+          "～",
+          "～"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "11",
+          ""
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "11",
+          ""
+        ],
+        [
+          "開催",
+          "カイサイ"
+        ],
+        [
+          "山道",
+          "ヤマミチ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "進み",
+          "ススミ"
+        ],
+        [
+          "峠",
+          "トウゲ"
+        ],
+        [
+          "越え",
+          "コエ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "下り",
+          "クダリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "秋元",
+          "アキモト"
+        ],
+        [
+          "神社",
+          "ジンジャ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "散策",
+          "サンサク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "のち",
+          "ノチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "渓流",
+          "ケイリュウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "挟ん",
+          "ハサン"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "対岸",
+          "タイガン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "集落",
+          "シュウラク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "間",
+          "アイダ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "抜け",
+          "ヌケ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "まろうど",
+          "マロウド"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "戻る",
+          "モドル"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "シンプル",
+          "シンプル"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "コース",
+          "コース"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ビジュアル的",
+          "ビジュアルテキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "非常",
+          "ヒジョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "バリエーション",
+          "バリエーション"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "富ん",
+          "トン"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "コース",
+          "コース"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "高千穂町",
+          "reading": "タカチホチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高千穂町",
+              "reading": "たかちほちょう"
+            }
+          ]
+        },
+        {
+          "surface": "秋元",
+          "reading": "アキモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "秋元",
+              "reading": "あきもと"
+            }
+          ]
+        },
+        {
+          "surface": "コース",
+          "reading": "コース",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コース"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "～",
+          "reading": "～",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "～"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "てっ",
+          "reading": "テッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "てっ"
+            }
+          ]
+        },
+        {
+          "surface": "様",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様",
+              "reading": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "ばあ",
+          "reading": "バア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ばあ"
+            }
+          ]
+        },
+        {
+          "surface": "様",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様",
+              "reading": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "出会える",
+          "reading": "デアエル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出会",
+              "reading": "であ"
+            },
+            {
+              "type": "text",
+              "text": "える"
+            }
+          ]
+        },
+        {
+          "surface": "いろは",
+          "reading": "イロハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いろは"
+            }
+          ]
+        },
+        {
+          "surface": "道",
+          "reading": "ミチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "道",
+              "reading": "みち"
+            }
+          ]
+        },
+        {
+          "surface": "～",
+          "reading": "～",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "～"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "11",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "11"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "11",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "11"
+            }
+          ]
+        },
+        {
+          "surface": "開催",
+          "reading": "カイサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開催",
+              "reading": "かいさい"
+            }
+          ]
+        },
+        {
+          "surface": "山道",
+          "reading": "ヤマミチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山道",
+              "reading": "やまみち"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "進み",
+          "reading": "ススミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "進",
+              "reading": "すす"
+            },
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "峠",
+          "reading": "トウゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "峠",
+              "reading": "とうげ"
+            }
+          ]
+        },
+        {
+          "surface": "越え",
+          "reading": "コエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "越",
+              "reading": "こ"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "下り",
+          "reading": "クダリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "下",
+              "reading": "くだ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "秋元",
+          "reading": "アキモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "秋元",
+              "reading": "あきもと"
+            }
+          ]
+        },
+        {
+          "surface": "神社",
+          "reading": "ジンジャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神社",
+              "reading": "じんじゃ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "散策",
+          "reading": "サンサク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "散策",
+              "reading": "さんさく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "のち",
+          "reading": "ノチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "のち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "渓流",
+          "reading": "ケイリュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "渓流",
+              "reading": "けいりゅう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "挟ん",
+          "reading": "ハサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "挟",
+              "reading": "はさ"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "対岸",
+          "reading": "タイガン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "対岸",
+              "reading": "たいがん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "集落",
+          "reading": "シュウラク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "集落",
+              "reading": "しゅうらく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "間",
+          "reading": "アイダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "間",
+              "reading": "あいだ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "抜け",
+          "reading": "ヌケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "抜",
+              "reading": "ぬ"
+            },
+            {
+              "type": "text",
+              "text": "け"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "まろうど",
+          "reading": "マロウド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まろうど"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "戻る",
+          "reading": "モドル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戻",
+              "reading": "もど"
+            },
+            {
+              "type": "text",
+              "text": "る"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "シンプル",
+          "reading": "シンプル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シンプル"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "コース",
+          "reading": "コース",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コース"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ビジュアル的",
+          "reading": "ビジュアルテキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ビジュアル"
+            },
+            {
+              "type": "ruby",
+              "text": "的",
+              "reading": "てき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "非常",
+          "reading": "ヒジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "非常",
+              "reading": "ひじょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "バリエーション",
+          "reading": "バリエーション",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "バリエーション"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "富ん",
+          "reading": "トン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "富",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "コース",
+          "reading": "コース",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コース"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000752090:u0022::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0022",
+          "text": "高千穂町秋元コース ～「てっ様」と「ばあ様」に出会えるいろは道～　11/11開催山道を進み峠越えて下り、秋元神社を散策ののち、渓流を挟んだ対岸の集落の間を抜けて、まろうどに戻るという、シンプルなコースなのですが、ビジュアル的には非常にバリエーションに富んだコースです。",
+          "rendered_yomi_before": "高千穂町/タカチホチョウ 秋/アキ 元/モト コース/コース  / ～/～ 「/「 てっ/テッ 様/サマ 」/」 と/ト 「/「 ばあ/バア 様/サマ 」/」 に/ニ 出会える/デアエル いろは/イロハ 道/ミチ ～/～ 　/ 11/ /// 11/ 開催/カイサイ 山道/ヤマミチ を/ヲ 進み/ススミ 峠/トウゲ 越え/コエ て/テ 下り/クダリ 、/、 秋元/アキモト 神社/ジンジャ を/ヲ 散策/サンサク の/ノ のち/ノチ 、/、 渓流/ケイリュウ を/ヲ 挟ん/ハサン だ/ダ 対岸/タイガン の/ノ 集落/シュウラク の/ノ 間/アイダ を/ヲ 抜け/ヌケ て/テ 、/、 まろうど/マロウド に/ニ 戻る/モドル と/ト いう/イウ 、/、 シンプル/シンプル な/ナ コース/コース な/ナ の/ノ です/デス が/ガ 、/、 ビジュアル的/ビジュアルテキ に/ニ は/ハ 非常/ヒジョウ に/ニ バリエーション/バリエーション に/ニ 富ん/トン だ/ダ コース/コース です/デス 。/。",
+          "rendered_yomi_after": "高千穂町/タカチホチョウ 秋元/アキモト コース/コース \\s/ ～/～ 「/「 てっ/テッ 様/サマ 」/」 と/ト 「/「 ばあ/バア 様/サマ 」/」 に/ニ 出会える/デアエル いろは/イロハ 道/ミチ ～/～ \\u3000/ 11/ \\//\\/ 11/ 開催/カイサイ 山道/ヤマミチ を/ヲ 進み/ススミ 峠/トウゲ 越え/コエ て/テ 下り/クダリ 、/、 秋元/アキモト 神社/ジンジャ を/ヲ 散策/サンサク の/ノ のち/ノチ 、/、 渓流/ケイリュウ を/ヲ 挟ん/ハサン だ/ダ 対岸/タイガン の/ノ 集落/シュウラク の/ノ 間/アイダ を/ヲ 抜け/ヌケ て/テ 、/、 まろうど/マロウド に/ニ 戻る/モドル と/ト いう/イウ 、/、 シンプル/シンプル な/ナ コース/コース な/ナ の/ノ です/デス が/ガ 、/、 ビジュアル的/ビジュアルテキ に/ニ は/ハ 非常/ヒジョウ に/ニ バリエーション/バリエーション に/ニ 富ん/トン だ/ダ コース/コース です/デス 。/。",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "秋",
+              "token_surface": "秋",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "秋",
+                  "reading": "あき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "元",
+              "token_surface": "元",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "元",
+                  "reading": "もと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "秋",
+              "token_surface": "秋",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "秋",
+                  "reading": "あき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "元",
+              "token_surface": "元",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "元",
+                  "reading": "もと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "秋元",
+          "reading_candidates": {
+            "秋": [
+              "あき",
+              "しゅう",
+              "とき",
+              "あきの",
+              "おさむ"
+            ],
+            "秋元": [
+              "あきもと"
+            ],
+            "元": [
+              "もと",
+              "げん",
+              "がん",
+              "はじむ",
+              "はじめ"
+            ]
+          },
+          "reading_hints": {
+            "秋": "あき",
+            "秋元": "あきもと",
+            "元": "もと"
+          },
+          "rejected_readings": [
+            {
+              "surface": "秋",
+              "reading": "あき",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "元",
+              "reading": "もと",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"秋元\",\"reading\":\"アキモト\",\"used_web_search\":false,\"comment\":\"地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。",
+              "reading": "アキモト",
+              "surface": "秋元",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022::target_group:1",
+            "status": "applied",
+            "rejected_span": "秋元",
+            "replacement": [
+              {
+                "surface": "秋元",
+                "reading": "アキモト"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000752090:u0022::target_group:1",
+                "surface": "秋元",
+                "comment": "地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "秋元",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "秋",
+          "token_surface": "秋",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "秋",
+              "reading": "あき",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "元",
+          "token_surface": "元",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もと",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "元",
+              "reading": "もと",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "秋",
+          "reading": "あき",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "元",
+          "reading": "もと",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "秋": [
+          "あき",
+          "しゅう",
+          "とき",
+          "あきの",
+          "おさむ"
+        ],
+        "秋元": [
+          "あきもと"
+        ],
+        "元": [
+          "もと",
+          "げん",
+          "がん",
+          "はじむ",
+          "はじめ"
+        ]
+      },
+      "reading_hints": {
+        "秋": "あき",
+        "秋元": "あきもと",
+        "元": "もと"
+      },
+      "llm_parsed": [
+        {
+          "comment": "地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。",
+          "reading": "アキモト",
+          "surface": "秋元",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"秋元\",\"reading\":\"アキモト\",\"used_web_search\":false,\"comment\":\"地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。\"}]",
+      "llm_comments": [
+        "地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000752090:u0022::target_group:1",
+        "status": "applied",
+        "rejected_span": "秋元",
+        "replacement": [
+          {
+            "surface": "秋元",
+            "reading": "アキモト"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000752090:u0022::target_group:1",
+            "surface": "秋元",
+            "comment": "地名・コース名の一部として自然に一まとまりで読むため、「秋」「元」に分けず「秋元」でアキモト。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000752090:u0029::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0000752090",
+      "doc_seq": 8,
+      "track_doc_seq": 3508,
+      "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0029",
+      "unit_seq": 29,
+      "source_file": "ja/ja_cc/level2/0077.jsonl.gz",
+      "source_line_no": 752090,
+      "text": "高千穂・国見ヶ丘までをもすっぽり包んだ霧で視界はゼロに近く、日も差さず肌寒かったのですが、スタートする頃から晴れていき、深角フットパスはとても恵まれた風景が広がりました。",
+      "rendered_yomi_before": "高千穂/タカチホ ・/・ 国見ヶ丘/ まで/マデ を/ヲ も/モ すっぽり/スッポリ 包ん/ツツン だ/ダ 霧/キリ で/デ 視界/シカイ は/ハ ゼロ/ゼロ に/ニ 近く/チカク 、/、 日/ヒ も/モ 差さ/ササ ず/ズ 肌寒かっ/ハダサムカッ た/タ の/ノ です/デス が/ガ 、/、 スタート/スタート する/スル 頃/コロ から/カラ 晴れ/ハレ て/テ いき/イキ 、/、 深角/フカスミ フット/フット パス/パス は/ハ とても/トテモ 恵まれ/メグマレ た/タ 風景/フウケイ が/ガ 広がり/ヒロガリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "高千穂/タカチホ ・/・ 国見/クニミ ヶ丘/ガオカ まで/マデ を/ヲ も/モ すっぽり/スッポリ 包ん/ツツン だ/ダ 霧/キリ で/デ 視界/シカイ は/ハ ゼロ/ゼロ に/ニ 近く/チカク 、/、 日/ヒ も/モ 差さ/ササ ず/ズ 肌寒かっ/ハダサムカッ た/タ の/ノ です/デス が/ガ 、/、 スタート/スタート する/スル 頃/コロ から/カラ 晴れ/ハレ て/テ いき/イキ 、/、 深角/フカスミ フット/フット パス/パス は/ハ とても/トテモ 恵まれ/メグマレ た/タ 風景/フウケイ が/ガ 広がり/ヒロガリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "高千穂",
+          "タカチホ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "国見",
+          "クニミ"
+        ],
+        [
+          "ヶ丘",
+          "ガオカ"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "すっぽり",
+          "スッポリ"
+        ],
+        [
+          "包ん",
+          "ツツン"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "霧",
+          "キリ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "視界",
+          "シカイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ゼロ",
+          "ゼロ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "近く",
+          "チカク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "日",
+          "ヒ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "差さ",
+          "ササ"
+        ],
+        [
+          "ず",
+          "ズ"
+        ],
+        [
+          "肌寒かっ",
+          "ハダサムカッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "スタート",
+          "スタート"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "頃",
+          "コロ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "晴れ",
+          "ハレ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いき",
+          "イキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "深角",
+          "フカスミ"
+        ],
+        [
+          "フット",
+          "フット"
+        ],
+        [
+          "パス",
+          "パス"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "とても",
+          "トテモ"
+        ],
+        [
+          "恵まれ",
+          "メグマレ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "風景",
+          "フウケイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "広がり",
+          "ヒロガリ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "高千穂",
+          "reading": "タカチホ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高千穂",
+              "reading": "たかちほ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "国見",
+          "reading": "クニミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国見",
+              "reading": "くにみ"
+            }
+          ]
+        },
+        {
+          "surface": "ヶ丘",
+          "reading": "ガオカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ヶ丘",
+              "reading": "がおか"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "すっぽり",
+          "reading": "スッポリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "すっぽり"
+            }
+          ]
+        },
+        {
+          "surface": "包ん",
+          "reading": "ツツン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "包",
+              "reading": "つつ"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "霧",
+          "reading": "キリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "霧",
+              "reading": "きり"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "視界",
+          "reading": "シカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "視界",
+              "reading": "しかい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ゼロ",
+          "reading": "ゼロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゼロ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "近く",
+          "reading": "チカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "近",
+              "reading": "ちか"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "ひ"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "差さ",
+          "reading": "ササ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "差",
+              "reading": "さ"
+            },
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "ず",
+          "reading": "ズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ず"
+            }
+          ]
+        },
+        {
+          "surface": "肌寒かっ",
+          "reading": "ハダサムカッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "肌寒",
+              "reading": "はださむ"
+            },
+            {
+              "type": "text",
+              "text": "かっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "スタート",
+          "reading": "スタート",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スタート"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "頃",
+          "reading": "コロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頃",
+              "reading": "ころ"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "晴れ",
+          "reading": "ハレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "晴",
+              "reading": "は"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いき",
+          "reading": "イキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "深角",
+          "reading": "フカスミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "深角",
+              "reading": "ふかすみ"
+            }
+          ]
+        },
+        {
+          "surface": "フット",
+          "reading": "フット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "フット"
+            }
+          ]
+        },
+        {
+          "surface": "パス",
+          "reading": "パス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パス"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "とても",
+          "reading": "トテモ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "とても"
+            }
+          ]
+        },
+        {
+          "surface": "恵まれ",
+          "reading": "メグマレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "恵",
+              "reading": "めぐ"
+            },
+            {
+              "type": "text",
+              "text": "まれ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "風景",
+          "reading": "フウケイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "風景",
+              "reading": "ふうけい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "広がり",
+          "reading": "ヒロガリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広",
+              "reading": "ひろ"
+            },
+            {
+              "type": "text",
+              "text": "がり"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000752090:u0029",
+          "text": "高千穂・国見ヶ丘までをもすっぽり包んだ霧で視界はゼロに近く、日も差さず肌寒かったのですが、スタートする頃から晴れていき、深角フットパスはとても恵まれた風景が広がりました。",
+          "rendered_yomi_before": "高千穂/タカチホ ・/・ 国見ヶ丘/ まで/マデ を/ヲ も/モ すっぽり/スッポリ 包ん/ツツン だ/ダ 霧/キリ で/デ 視界/シカイ は/ハ ゼロ/ゼロ に/ニ 近く/チカク 、/、 日/ヒ も/モ 差さ/ササ ず/ズ 肌寒かっ/ハダサムカッ た/タ の/ノ です/デス が/ガ 、/、 スタート/スタート する/スル 頃/コロ から/カラ 晴れ/ハレ て/テ いき/イキ 、/、 深角/フカスミ フット/フット パス/パス は/ハ とても/トテモ 恵まれ/メグマレ た/タ 風景/フウケイ が/ガ 広がり/ヒロガリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "高千穂/タカチホ ・/・ 国見/クニミ ヶ丘/ガオカ まで/マデ を/ヲ も/モ すっぽり/スッポリ 包ん/ツツン だ/ダ 霧/キリ で/デ 視界/シカイ は/ハ ゼロ/ゼロ に/ニ 近く/チカク 、/、 日/ヒ も/モ 差さ/ササ ず/ズ 肌寒かっ/ハダサムカッ た/タ の/ノ です/デス が/ガ 、/、 スタート/スタート する/スル 頃/コロ から/カラ 晴れ/ハレ て/テ いき/イキ 、/、 深角/フカスミ フット/フット パス/パス は/ハ とても/トテモ 恵まれ/メグマレ た/タ 風景/フウケイ が/ガ 広がり/ヒロガリ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "kana_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "国見ヶ丘",
+              "token_surface": "国見ヶ丘",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1203_v1:ja_cc_level2_corrected_v1:0000752090:u0029:4-8",
+              "rejected_readings": [
+                {
+                  "surface": "国見ヶ丘",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "国見ヶ丘",
+              "token_surface": "国見ヶ丘",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1203_v1:ja_cc_level2_corrected_v1:0000752090:u0029:4-8",
+              "rejected_readings": [
+                {
+                  "surface": "国見ヶ丘",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "国見ヶ丘",
+          "reading_candidates": {
+            "国": [
+              "ごく",
+              "くに",
+              "くにの",
+              "こく"
+            ],
+            "国見": [
+              "くにみ"
+            ],
+            "見": [
+              "けん",
+              "み",
+              "みえ"
+            ],
+            "丘": [
+              "おか",
+              "たかし",
+              "きゅう"
+            ]
+          },
+          "reading_hints": {
+            "国": "ごく",
+            "国見": "くにみ",
+            "見": "けん",
+            "丘": "おか"
+          },
+          "rejected_readings": [
+            {
+              "surface": "国見ヶ丘",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"国見\",\"reading\":\"クニミ\",\"used_web_search\":false,\"comment\":\"地名の前半で、固有名の核として自然な区切り。\"},{\"surface\":\"ヶ丘\",\"reading\":\"ガオカ\",\"used_web_search\":false,\"comment\":\"地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "地名の前半で、固有名の核として自然な区切り。",
+              "reading": "クニミ",
+              "surface": "国見",
+              "used_web_search": false
+            },
+            {
+              "comment": "地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。",
+              "reading": "ガオカ",
+              "surface": "ヶ丘",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "地名の前半で、固有名の核として自然な区切り。",
+            "地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+            "status": "applied",
+            "rejected_span": "国見ヶ丘",
+            "replacement": [
+              {
+                "surface": "国見",
+                "reading": "クニミ"
+              },
+              {
+                "surface": "ヶ丘",
+                "reading": "ガオカ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+                "surface": "国見ヶ丘",
+                "comment": "地名の前半で、固有名の核として自然な区切り。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+                "surface": "国見ヶ丘",
+                "comment": "地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "国見ヶ丘",
+      "target_escalations": [
+        {
+          "surface": "国見ヶ丘",
+          "token_surface": "国見ヶ丘",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1203_v1:ja_cc_level2_corrected_v1:0000752090:u0029:4-8",
+          "rejected_readings": [
+            {
+              "surface": "国見ヶ丘",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "国見ヶ丘",
+          "reading": "",
+          "source": "kana_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "国": [
+          "ごく",
+          "くに",
+          "くにの",
+          "こく"
+        ],
+        "国見": [
+          "くにみ"
+        ],
+        "見": [
+          "けん",
+          "み",
+          "みえ"
+        ],
+        "丘": [
+          "おか",
+          "たかし",
+          "きゅう"
+        ]
+      },
+      "reading_hints": {
+        "国": "ごく",
+        "国見": "くにみ",
+        "見": "けん",
+        "丘": "おか"
+      },
+      "llm_parsed": [
+        {
+          "comment": "地名の前半で、固有名の核として自然な区切り。",
+          "reading": "クニミ",
+          "surface": "国見",
+          "used_web_search": false
+        },
+        {
+          "comment": "地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。",
+          "reading": "ガオカ",
+          "surface": "ヶ丘",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"国見\",\"reading\":\"クニミ\",\"used_web_search\":false,\"comment\":\"地名の前半で、固有名の核として自然な区切り。\"},{\"surface\":\"ヶ丘\",\"reading\":\"ガオカ\",\"used_web_search\":false,\"comment\":\"地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。\"}]",
+      "llm_comments": [
+        "地名の前半で、固有名の核として自然な区切り。",
+        "地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+        "status": "applied",
+        "rejected_span": "国見ヶ丘",
+        "replacement": [
+          {
+            "surface": "国見",
+            "reading": "クニミ"
+          },
+          {
+            "surface": "ヶ丘",
+            "reading": "ガオカ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+            "surface": "国見ヶ丘",
+            "comment": "地名の前半で、固有名の核として自然な区切り。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000752090:u0029::span_group:1",
+            "surface": "国見ヶ丘",
+            "comment": "地名の後ろに付く一般的な地形語なので分け、読みは「がおか」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 6,
+      "doc_id": "ja_cc_level2_corrected_v1:0000164503",
+      "doc_seq": 10,
+      "track_doc_seq": 3510,
+      "unit_id": "ja_cc_level2_corrected_v1:0000164503:u0011",
+      "unit_seq": 11,
+      "source_file": "ja/ja_cc/level2/0015.jsonl.gz",
+      "source_line_no": 164503,
+      "text": "宝具『軍神の剣』は長剣の形状をしてはいるが、何処か、どことなく未来的な意匠を思わせる。",
+      "rendered_yomi_before": "宝/タカラ 具/グ 『/『 軍神/グンシン の/ノ 剣/ツルギ 』/』 は/ハ 長剣/チョウケン の/ノ 形状/ケイジョウ を/ヲ し/シ ては/テハ いる/イル が/ガ 、/、 何処/ドコ か/カ 、/、 どこ/ドコ と/ト なく/ナク 未来/ミライ 的/テキ な/ナ 意匠/イショウ を/ヲ 思わ/オモワ せる/セル 。/。",
+      "rendered_yomi_after": "宝具/ホウグ 『/『 軍神/グンシン の/ノ 剣/ツルギ 』/』 は/ハ 長剣/チョウケン の/ノ 形状/ケイジョウ を/ヲ し/シ ては/テハ いる/イル が/ガ 、/、 何処/ドコ か/カ 、/、 どこ/ドコ と/ト なく/ナク 未来/ミライ 的/テキ な/ナ 意匠/イショウ を/ヲ 思わ/オモワ せる/セル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "宝具",
+          "ホウグ"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "軍神",
+          "グンシン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "剣",
+          "ツルギ"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "長剣",
+          "チョウケン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "形状",
+          "ケイジョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ては",
+          "テハ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "何処",
+          "ドコ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "どこ",
+          "ドコ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なく",
+          "ナク"
+        ],
+        [
+          "未来",
+          "ミライ"
+        ],
+        [
+          "的",
+          "テキ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "意匠",
+          "イショウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "思わ",
+          "オモワ"
+        ],
+        [
+          "せる",
+          "セル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "宝具",
+          "reading": "ホウグ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝具",
+              "reading": "ほうぐ"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "軍神",
+          "reading": "グンシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "軍神",
+              "reading": "ぐんしん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "剣",
+          "reading": "ツルギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "剣",
+              "reading": "つるぎ"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "長剣",
+          "reading": "チョウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "長剣",
+              "reading": "ちょうけん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "形状",
+          "reading": "ケイジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "形状",
+              "reading": "けいじょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ては",
+          "reading": "テハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ては"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "何処",
+          "reading": "ドコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "何処",
+              "reading": "どこ"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "どこ",
+          "reading": "ドコ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どこ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なく",
+          "reading": "ナク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なく"
+            }
+          ]
+        },
+        {
+          "surface": "未来",
+          "reading": "ミライ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "未来",
+              "reading": "みらい"
+            }
+          ]
+        },
+        {
+          "surface": "的",
+          "reading": "テキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "的",
+              "reading": "てき"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "意匠",
+          "reading": "イショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "意匠",
+              "reading": "いしょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "思わ",
+          "reading": "オモワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "せる",
+          "reading": "セル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "せる"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000164503:u0011",
+          "text": "宝具『軍神の剣』は長剣の形状をしてはいるが、何処か、どことなく未来的な意匠を思わせる。",
+          "rendered_yomi_before": "宝/タカラ 具/グ 『/『 軍神/グンシン の/ノ 剣/ツルギ 』/』 は/ハ 長剣/チョウケン の/ノ 形状/ケイジョウ を/ヲ し/シ ては/テハ いる/イル が/ガ 、/、 何処/ドコ か/カ 、/、 どこ/ドコ と/ト なく/ナク 未来/ミライ 的/テキ な/ナ 意匠/イショウ を/ヲ 思わ/オモワ せる/セル 。/。",
+          "rendered_yomi_after": "宝具/ホウグ 『/『 軍神/グンシン の/ノ 剣/ツルギ 』/』 は/ハ 長剣/チョウケン の/ノ 形状/ケイジョウ を/ヲ し/シ ては/テハ いる/イル が/ガ 、/、 何処/ドコ か/カ 、/、 どこ/ドコ と/ト なく/ナク 未来/ミライ 的/テキ な/ナ 意匠/イショウ を/ヲ 思わ/オモワ せる/セル 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宝",
+              "token_surface": "宝",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たから",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宝",
+                  "reading": "たから",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "具",
+              "token_surface": "具",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぐ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "具",
+                  "reading": "ぐ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宝",
+              "token_surface": "宝",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たから",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宝",
+                  "reading": "たから",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "具",
+              "token_surface": "具",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぐ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "具",
+                  "reading": "ぐ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "宝具",
+          "reading_candidates": {
+            "宝": [
+              "たから",
+              "だから",
+              "ほう"
+            ],
+            "具": [
+              "く",
+              "ぐ"
+            ]
+          },
+          "reading_hints": {
+            "宝": "たから",
+            "具": "く"
+          },
+          "rejected_readings": [
+            {
+              "surface": "宝",
+              "reading": "たから",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "具",
+              "reading": "ぐ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"宝具\",\"reading\":\"ホウグ\",\"used_web_search\":false,\"comment\":\"文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。",
+              "reading": "ホウグ",
+              "surface": "宝具",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:1",
+            "status": "applied",
+            "rejected_span": "宝具",
+            "replacement": [
+              {
+                "surface": "宝具",
+                "reading": "ホウグ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:1",
+                "surface": "宝具",
+                "comment": "文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:2",
+          "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:2",
+          "unit_id": "ja_cc_level2_corrected_v1:0000164503:u0011",
+          "text": "宝具『軍神の剣』は長剣の形状をしてはいるが、何処か、どことなく未来的な意匠を思わせる。",
+          "rendered_yomi_before": "宝/タカラ 具/グ 『/『 軍神/グンシン の/ノ 剣/ツルギ 』/』 は/ハ 長剣/チョウケン の/ノ 形状/ケイジョウ を/ヲ し/シ ては/テハ いる/イル が/ガ 、/、 何処/ドコ か/カ 、/、 どこ/ドコ と/ト なく/ナク 未来/ミライ 的/テキ な/ナ 意匠/イショウ を/ヲ 思わ/オモワ せる/セル 。/。",
+          "rendered_yomi_after": "宝具/ホウグ 『/『 軍神/グンシン の/ノ 剣/ツルギ 』/』 は/ハ 長剣/チョウケン の/ノ 形状/ケイジョウ を/ヲ し/シ ては/テハ いる/イル が/ガ 、/、 何処/ドコ か/カ 、/、 どこ/ドコ と/ト なく/ナク 未来/ミライ 的/テキ な/ナ 意匠/イショウ を/ヲ 思わ/オモワ せる/セル 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 6,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "剣",
+              "token_surface": "剣",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つるぎ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "剣",
+                  "reading": "つるぎ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "剣",
+              "token_surface": "剣",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つるぎ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "剣",
+                  "reading": "つるぎ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "剣",
+          "reading_candidates": {
+            "剣": [
+              "けん",
+              "つるぎ",
+              "つるぎの"
+            ]
+          },
+          "reading_hints": {
+            "剣": "けん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "剣",
+              "reading": "つるぎ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"剣\",\"reading\":\"つるぎ\",\"used_web_search\":false,\"comment\":\"『軍神の剣』の語中では、武器名として「つるぎ」と読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "『軍神の剣』の語中では、武器名として「つるぎ」と読むのが自然。",
+              "reading": "つるぎ",
+              "surface": "剣",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "『軍神の剣』の語中では、武器名として「つるぎ」と読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:2",
+            "status": "applied",
+            "rejected_span": "剣",
+            "replacement": [
+              {
+                "surface": "剣",
+                "reading": "ツルギ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:2",
+                "surface": "剣",
+                "comment": "『軍神の剣』の語中では、武器名として「つるぎ」と読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "宝具",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宝",
+          "token_surface": "宝",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "たから",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宝",
+              "reading": "たから",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "具",
+          "token_surface": "具",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぐ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "具",
+              "reading": "ぐ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "宝",
+          "reading": "たから",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "具",
+          "reading": "ぐ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "宝": [
+          "たから",
+          "だから",
+          "ほう"
+        ],
+        "具": [
+          "く",
+          "ぐ"
+        ]
+      },
+      "reading_hints": {
+        "宝": "たから",
+        "具": "く"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。",
+          "reading": "ホウグ",
+          "surface": "宝具",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"宝具\",\"reading\":\"ホウグ\",\"used_web_search\":false,\"comment\":\"文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。\"}]",
+      "llm_comments": [
+        "文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:1",
+        "status": "applied",
+        "rejected_span": "宝具",
+        "replacement": [
+          {
+            "surface": "宝具",
+            "reading": "ホウグ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000164503:u0011::target_group:1",
+            "surface": "宝具",
+            "comment": "文脈上は「軍神の剣」を指す名詞で、一般語としては「宝具（ほうぐ）」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
