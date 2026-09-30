@@ -1,0 +1,5689 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1196_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1196",
+  "created_at_epoch": 1790733842,
+  "created_at": "2026-09-30T02:04:02Z",
+  "item_count": 7,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 7,
+    "queued_repair_row_count": 9,
+    "result_row_count": 9,
+    "reviewable_repair_row_count": 9,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000419834",
+      "doc_seq": 1,
+      "track_doc_seq": 3431,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0046.jsonl.gz",
+      "source_line_no": 419834,
+      "preview": "噂通り、全員歴代レッドに変身しておりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001835445",
+      "doc_seq": 2,
+      "track_doc_seq": 3432,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0230.jsonl.gz",
+      "source_line_no": 1835445,
+      "preview": "「旗本退屈男」（第１回、サイレント、1930）を弁士付き（活動弁士：澤登翠：さわと・みどり）で見た。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 4,
+      "region_count": 5,
+      "unresolved_count": 5,
+      "from_seq": 1,
+      "to_seq": 4,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 5
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001027454",
+      "doc_seq": 3,
+      "track_doc_seq": 3433,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0110.jsonl.gz",
+      "source_line_no": 1027454,
+      "preview": "※記事に関するご意見・ご感想を絶賛募集中です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001756378",
+      "doc_seq": 4,
+      "track_doc_seq": 3434,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0220.jsonl.gz",
+      "source_line_no": 1756378,
+      "preview": "やってみて、どちらがやりやすかったですか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002560030",
+      "doc_seq": 5,
+      "track_doc_seq": 3435,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0397.jsonl.gz",
+      "source_line_no": 2560030,
+      "preview": "ただ今両手が腱鞘炎。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000929765",
+      "doc_seq": 6,
+      "track_doc_seq": 3436,
+      "unit_count": 22,
+      "source_file": "ja/ja_cc/level2/0095.jsonl.gz",
+      "source_line_no": 929765,
+      "preview": "寒いとやっぱりお鍋が一番ですよね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 22,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002468190",
+      "doc_seq": 7,
+      "track_doc_seq": 3437,
+      "unit_count": 24,
+      "source_file": "ja/ja_cc/level2/0369.jsonl.gz",
+      "source_line_no": 2468190,
+      "preview": "心底気持ち悪いことに使用済みの分もチェックしていた。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 24,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000987494",
+      "doc_seq": 8,
+      "track_doc_seq": 3438,
+      "unit_count": 70,
+      "source_file": "ja/ja_cc/level2/0105.jsonl.gz",
+      "source_line_no": 987494,
+      "preview": "少しうとうとしたものの、結局そこから眠れず。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 5,
+      "to_seq": 7,
+      "reviewed_unit_count": 70,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000685229",
+      "doc_seq": 9,
+      "track_doc_seq": 3439,
+      "unit_count": 31,
+      "source_file": "ja/ja_cc/level2/0070.jsonl.gz",
+      "source_line_no": 685229,
+      "preview": "先述したプラハ～チェスキー・クルムロフ間の移動がそうだったように、個人旅行で最も気を遣った移動手段について。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 31,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001459751",
+      "doc_seq": 10,
+      "track_doc_seq": 3440,
+      "unit_count": 21,
+      "source_file": "ja/ja_cc/level2/0173.jsonl.gz",
+      "source_line_no": 1459751,
+      "preview": "壁紙カレンダーが公開されました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T00:58:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 21,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001835445:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001835445",
+      "doc_seq": 2,
+      "track_doc_seq": 3432,
+      "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0230.jsonl.gz",
+      "source_line_no": 1835445,
+      "text": "決め台詞は「この眉間に冴ゆる三日月形は天下御免の向こう傷、直参旗本早乙女主水之介、人呼んで旗本退屈男」。",
+      "rendered_yomi_before": "決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ケイ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+      "rendered_yomi_after": "決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ガタ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "決め台詞",
+          "キメゼリフ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "この",
+          "コノ"
+        ],
+        [
+          "眉間",
+          "ミケン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "冴",
+          "サ"
+        ],
+        [
+          "ゆる",
+          "ユル"
+        ],
+        [
+          "三日月",
+          "ミカヅキ"
+        ],
+        [
+          "形",
+          "ガタ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "天下",
+          "テンカ"
+        ],
+        [
+          "御免",
+          "ゴメン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "向こう傷",
+          "ムコウキズ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "直参",
+          "ジキサン"
+        ],
+        [
+          "旗本",
+          "ハタモト"
+        ],
+        [
+          "早乙女",
+          "サオトメ"
+        ],
+        [
+          "主水之介",
+          "モンドノスケ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "呼ん",
+          "ヨン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "旗本",
+          "ハタモト"
+        ],
+        [
+          "退屈男",
+          "タイクツオトコ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "決め台詞",
+          "reading": "キメゼリフ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            },
+            {
+              "type": "ruby",
+              "text": "台詞",
+              "reading": "ぜりふ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "この",
+          "reading": "コノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "この"
+            }
+          ]
+        },
+        {
+          "surface": "眉間",
+          "reading": "ミケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "眉間",
+              "reading": "みけん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "冴",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "冴",
+              "reading": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "ゆる",
+          "reading": "ユル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゆる"
+            }
+          ]
+        },
+        {
+          "surface": "三日月",
+          "reading": "ミカヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三日月",
+              "reading": "みかづき"
+            }
+          ]
+        },
+        {
+          "surface": "形",
+          "reading": "ガタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "形",
+              "reading": "がた"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "天下",
+          "reading": "テンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "天下",
+              "reading": "てんか"
+            }
+          ]
+        },
+        {
+          "surface": "御免",
+          "reading": "ゴメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "御免",
+              "reading": "ごめん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "向こう傷",
+          "reading": "ムコウキズ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "向",
+              "reading": "む"
+            },
+            {
+              "type": "text",
+              "text": "こう"
+            },
+            {
+              "type": "ruby",
+              "text": "傷",
+              "reading": "きず"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "直参",
+          "reading": "ジキサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "直参",
+              "reading": "じきさん"
+            }
+          ]
+        },
+        {
+          "surface": "旗本",
+          "reading": "ハタモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旗本",
+              "reading": "はたもと"
+            }
+          ]
+        },
+        {
+          "surface": "早乙女",
+          "reading": "サオトメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "早乙女",
+              "reading": "さおとめ"
+            }
+          ]
+        },
+        {
+          "surface": "主水之介",
+          "reading": "モンドノスケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主水之介",
+              "reading": "もんどのすけ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "呼ん",
+          "reading": "ヨン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "呼",
+              "reading": "よ"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "旗本",
+          "reading": "ハタモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旗本",
+              "reading": "はたもと"
+            }
+          ]
+        },
+        {
+          "surface": "退屈男",
+          "reading": "タイクツオトコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "退屈男",
+              "reading": "たいくつおとこ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001835445:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0006",
+          "text": "決め台詞は「この眉間に冴ゆる三日月形は天下御免の向こう傷、直参旗本早乙女主水之介、人呼んで旗本退屈男」。",
+          "rendered_yomi_before": "決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ケイ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+          "rendered_yomi_after": "決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ガタ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 17,
+            "char_end": 18,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0006:s0018-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "形",
+              "token_surface": "形",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "形",
+                  "reading": "けい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0006:s0018-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "形",
+              "token_surface": "形",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "形",
+                  "reading": "けい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "形",
+          "reading_candidates": {
+            "形": [
+              "がた",
+              "けい",
+              "かた",
+              "かたち",
+              "なり"
+            ]
+          },
+          "reading_hints": {
+            "形": "がた"
+          },
+          "rejected_readings": [
+            {
+              "surface": "形",
+              "reading": "けい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"形\",\"reading\":\"がた\",\"used_web_search\":false,\"comment\":\"「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。",
+              "reading": "がた",
+              "surface": "形",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001835445:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "形",
+            "replacement": [
+              {
+                "surface": "形",
+                "reading": "ガタ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001835445:u0006::target_group:1",
+                "surface": "形",
+                "comment": "「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "形",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0006:s0018-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "形",
+          "token_surface": "形",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "形",
+              "reading": "けい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "形",
+          "reading": "けい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "形": [
+          "がた",
+          "けい",
+          "かた",
+          "かたち",
+          "なり"
+        ]
+      },
+      "reading_hints": {
+        "形": "がた"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。",
+          "reading": "がた",
+          "surface": "形",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"形\",\"reading\":\"がた\",\"used_web_search\":false,\"comment\":\"「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。\"}]",
+      "llm_comments": [
+        "「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001835445:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "形",
+        "replacement": [
+          {
+            "surface": "形",
+            "reading": "ガタ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001835445:u0006::target_group:1",
+            "surface": "形",
+            "comment": "「三日月形」は一まとまりで「みかづきがた」と読むため、ここは「けい」ではなく「がた」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0001835445",
+      "doc_seq": 2,
+      "track_doc_seq": 3432,
+      "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0031",
+      "unit_seq": 31,
+      "source_file": "ja/ja_cc/level2/0230.jsonl.gz",
+      "source_line_no": 1835445,
+      "text": "「旗本退屈男」（1930）は、額に三日月の傷があり、決め台詞は「この眉間に冴ゆる三日月形は天下御免の向こう傷、直参旗本早乙女主水之介、人呼んで旗本退屈男」。",
+      "rendered_yomi_before": "「/「 旗本/ハタモト 退屈男/タイクツオトコ 」/」 （/（ 1930/ ）/） は/ハ 、/、 額/ヒタイ に/ニ 三/ミッ 日/カ 月/ツキ の/ノ 傷/キズ が/ガ あり/アリ 、/、 決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ケイ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+      "rendered_yomi_after": "「/「 旗本/ハタモト 退屈男/タイクツオトコ 」/」 （/（ 1930/ ）/） は/ハ 、/、 額/ヒタイ に/ニ 三日月/ミカヅキ の/ノ 傷/キズ が/ガ あり/アリ 、/、 決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ガタ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "「",
+          "「"
+        ],
+        [
+          "旗本",
+          "ハタモト"
+        ],
+        [
+          "退屈男",
+          "タイクツオトコ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "1930",
+          ""
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "額",
+          "ヒタイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "三日月",
+          "ミカヅキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "傷",
+          "キズ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "決め台詞",
+          "キメゼリフ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "この",
+          "コノ"
+        ],
+        [
+          "眉間",
+          "ミケン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "冴",
+          "サ"
+        ],
+        [
+          "ゆる",
+          "ユル"
+        ],
+        [
+          "三日月",
+          "ミカヅキ"
+        ],
+        [
+          "形",
+          "ガタ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "天下",
+          "テンカ"
+        ],
+        [
+          "御免",
+          "ゴメン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "向こう傷",
+          "ムコウキズ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "直参",
+          "ジキサン"
+        ],
+        [
+          "旗本",
+          "ハタモト"
+        ],
+        [
+          "早乙女",
+          "サオトメ"
+        ],
+        [
+          "主水之介",
+          "モンドノスケ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "呼ん",
+          "ヨン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "旗本",
+          "ハタモト"
+        ],
+        [
+          "退屈男",
+          "タイクツオトコ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "旗本",
+          "reading": "ハタモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旗本",
+              "reading": "はたもと"
+            }
+          ]
+        },
+        {
+          "surface": "退屈男",
+          "reading": "タイクツオトコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "退屈男",
+              "reading": "たいくつおとこ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "1930",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1930"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "額",
+          "reading": "ヒタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "額",
+              "reading": "ひたい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "三日月",
+          "reading": "ミカヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三日月",
+              "reading": "みかづき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "傷",
+          "reading": "キズ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "傷",
+              "reading": "きず"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "決め台詞",
+          "reading": "キメゼリフ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            },
+            {
+              "type": "ruby",
+              "text": "台詞",
+              "reading": "ぜりふ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "この",
+          "reading": "コノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "この"
+            }
+          ]
+        },
+        {
+          "surface": "眉間",
+          "reading": "ミケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "眉間",
+              "reading": "みけん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "冴",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "冴",
+              "reading": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "ゆる",
+          "reading": "ユル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゆる"
+            }
+          ]
+        },
+        {
+          "surface": "三日月",
+          "reading": "ミカヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三日月",
+              "reading": "みかづき"
+            }
+          ]
+        },
+        {
+          "surface": "形",
+          "reading": "ガタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "形",
+              "reading": "がた"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "天下",
+          "reading": "テンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "天下",
+              "reading": "てんか"
+            }
+          ]
+        },
+        {
+          "surface": "御免",
+          "reading": "ゴメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "御免",
+              "reading": "ごめん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "向こう傷",
+          "reading": "ムコウキズ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "向",
+              "reading": "む"
+            },
+            {
+              "type": "text",
+              "text": "こう"
+            },
+            {
+              "type": "ruby",
+              "text": "傷",
+              "reading": "きず"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "直参",
+          "reading": "ジキサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "直参",
+              "reading": "じきさん"
+            }
+          ]
+        },
+        {
+          "surface": "旗本",
+          "reading": "ハタモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旗本",
+              "reading": "はたもと"
+            }
+          ]
+        },
+        {
+          "surface": "早乙女",
+          "reading": "サオトメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "早乙女",
+              "reading": "さおとめ"
+            }
+          ]
+        },
+        {
+          "surface": "主水之介",
+          "reading": "モンドノスケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主水之介",
+              "reading": "もんどのすけ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "呼ん",
+          "reading": "ヨン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "呼",
+              "reading": "よ"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "旗本",
+          "reading": "ハタモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旗本",
+              "reading": "はたもと"
+            }
+          ]
+        },
+        {
+          "surface": "退屈男",
+          "reading": "タイクツオトコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "退屈男",
+              "reading": "たいくつおとこ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0031",
+          "text": "「旗本退屈男」（1930）は、額に三日月の傷があり、決め台詞は「この眉間に冴ゆる三日月形は天下御免の向こう傷、直参旗本早乙女主水之介、人呼んで旗本退屈男」。",
+          "rendered_yomi_before": "「/「 旗本/ハタモト 退屈男/タイクツオトコ 」/」 （/（ 1930/ ）/） は/ハ 、/、 額/ヒタイ に/ニ 三/ミッ 日/カ 月/ツキ の/ノ 傷/キズ が/ガ あり/アリ 、/、 決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ケイ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+          "rendered_yomi_after": "「/「 旗本/ハタモト 退屈男/タイクツオトコ 」/」 （/（ 1930/ ）/） は/ハ 、/、 額/ヒタイ に/ニ 三日月/ミカヅキ の/ノ 傷/キズ が/ガ あり/アリ 、/、 決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ガタ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 17,
+            "char_end": 20,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0018-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "みっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "日",
+              "token_surface": "日",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "か",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "日",
+                  "reading": "か",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0018-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "みっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "日",
+              "token_surface": "日",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "か",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "日",
+                  "reading": "か",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "三日月",
+          "reading_candidates": {
+            "三": [
+              "さん",
+              "み",
+              "みっ",
+              "ぞう",
+              "みい"
+            ],
+            "三日": [
+              "みっか"
+            ],
+            "三日月": [
+              "みかつき",
+              "みかづき"
+            ],
+            "日": [
+              "にち",
+              "か",
+              "じつ",
+              "び",
+              "ひ",
+              "ぴ"
+            ],
+            "日月": [
+              "あきら",
+              "じつげつ",
+              "たちもり"
+            ],
+            "月": [
+              "げつ",
+              "がつ",
+              "づき",
+              "つき",
+              "らいと",
+              "がっ",
+              "げっ",
+              "ゆえ",
+              "るな"
+            ]
+          },
+          "reading_hints": {
+            "三": "さん",
+            "三日": "みっか",
+            "三日月": "みかつき",
+            "日": "にち",
+            "日月": "あきら",
+            "月": "げつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "みっ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "日",
+              "reading": "か",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"三日月\",\"reading\":\"ミカヅキ\",\"used_web_search\":false,\"comment\":\"通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。",
+              "reading": "ミカヅキ",
+              "surface": "三日月",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:1",
+            "status": "applied",
+            "rejected_span": "三日月",
+            "replacement": [
+              {
+                "surface": "三日月",
+                "reading": "ミカヅキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:1",
+                "surface": "三日月",
+                "comment": "通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:2",
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:2",
+          "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0031",
+          "text": "「旗本退屈男」（1930）は、額に三日月の傷があり、決め台詞は「この眉間に冴ゆる三日月形は天下御免の向こう傷、直参旗本早乙女主水之介、人呼んで旗本退屈男」。",
+          "rendered_yomi_before": "「/「 旗本/ハタモト 退屈男/タイクツオトコ 」/」 （/（ 1930/ ）/） は/ハ 、/、 額/ヒタイ に/ニ 三/ミッ 日/カ 月/ツキ の/ノ 傷/キズ が/ガ あり/アリ 、/、 決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ケイ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+          "rendered_yomi_after": "「/「 旗本/ハタモト 退屈男/タイクツオトコ 」/」 （/（ 1930/ ）/） は/ハ 、/、 額/ヒタイ に/ニ 三日月/ミカヅキ の/ノ 傷/キズ が/ガ あり/アリ 、/、 決め台詞/キメゼリフ は/ハ 「/「 この/コノ 眉間/ミケン に/ニ 冴/サ ゆる/ユル 三日月/ミカヅキ 形/ガタ は/ハ 天下/テンカ 御免/ゴメン の/ノ 向こう傷/ムコウキズ 、/、 直参/ジキサン 旗本/ハタモト 早乙女/サオトメ 主水之介/モンドノスケ 、/、 人/ヒト 呼ん/ヨン で/デ 旗本/ハタモト 退屈男/タイクツオトコ 」/」 。/。",
+          "display_mapping": {
+            "start": 26,
+            "end": 27,
+            "char_start": 43,
+            "char_end": 44,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0044-0044",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "形",
+              "token_surface": "形",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "形",
+                  "reading": "けい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0044-0044",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "形",
+              "token_surface": "形",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "形",
+                  "reading": "けい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "形",
+          "reading_candidates": {
+            "形": [
+              "がた",
+              "けい",
+              "かた",
+              "かたち",
+              "なり"
+            ]
+          },
+          "reading_hints": {
+            "形": "がた"
+          },
+          "rejected_readings": [
+            {
+              "surface": "形",
+              "reading": "けい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"形\",\"reading\":\"がた\",\"used_web_search\":true,\"comment\":\"「三日月形」は辞書で「みかづきがた」とされるので、この「形」は「がた」と読む。 ([kotobank.jp](https://kotobank.jp/word/%E4%B8%89%E6%97%A5%E6%9C%88%E5%BD%A2-637256?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「三日月形」は辞書で「みかづきがた」とされるので、この「形」は「がた」と読む。 ([kotobank.jp](https://kotobank.jp/word/%E4%B8%89%E6%97%A5%E6%9C%88%E5%BD%A2-637256?utm_source=openai))",
+              "reading": "がた",
+              "surface": "形",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "「三日月形」は辞書で「みかづきがた」とされるので、この「形」は「がた」と読む。 ([kotobank.jp](https://kotobank.jp/word/%E4%B8%89%E6%97%A5%E6%9C%88%E5%BD%A2-637256?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:2",
+            "status": "applied",
+            "rejected_span": "形",
+            "replacement": [
+              {
+                "surface": "形",
+                "reading": "ガタ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:2",
+                "surface": "形",
+                "comment": "「三日月形」は辞書で「みかづきがた」とされるので、この「形」は「がた」と読む。 ([kotobank.jp](https://kotobank.jp/word/%E4%B8%89%E6%97%A5%E6%9C%88%E5%BD%A2-637256?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "三日月",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0018-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "三",
+          "token_surface": "三",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みっ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "みっ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "日",
+          "token_surface": "日",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "か",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "日",
+              "reading": "か",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031:s0020-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "月",
+          "token_surface": "月",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "三",
+          "reading": "みっ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "日",
+          "reading": "か",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "月",
+          "reading": "つき",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "三": [
+          "さん",
+          "み",
+          "みっ",
+          "ぞう",
+          "みい"
+        ],
+        "三日": [
+          "みっか"
+        ],
+        "三日月": [
+          "みかつき",
+          "みかづき"
+        ],
+        "日": [
+          "にち",
+          "か",
+          "じつ",
+          "び",
+          "ひ",
+          "ぴ"
+        ],
+        "日月": [
+          "あきら",
+          "じつげつ",
+          "たちもり"
+        ],
+        "月": [
+          "げつ",
+          "がつ",
+          "づき",
+          "つき",
+          "らいと",
+          "がっ",
+          "げっ",
+          "ゆえ",
+          "るな"
+        ]
+      },
+      "reading_hints": {
+        "三": "さん",
+        "三日": "みっか",
+        "三日月": "みかつき",
+        "日": "にち",
+        "日月": "あきら",
+        "月": "げつ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。",
+          "reading": "ミカヅキ",
+          "surface": "三日月",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"三日月\",\"reading\":\"ミカヅキ\",\"used_web_search\":false,\"comment\":\"通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。\"}]",
+      "llm_comments": [
+        "通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:1",
+        "status": "applied",
+        "rejected_span": "三日月",
+        "replacement": [
+          {
+            "surface": "三日月",
+            "reading": "ミカヅキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001835445:u0031::target_group:1",
+            "surface": "三日月",
+            "comment": "通常の語「三日月」は一語で「みかづき」と読むため、分割せずにまとめる。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0001835445",
+      "doc_seq": 2,
+      "track_doc_seq": 3432,
+      "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0032",
+      "unit_seq": 32,
+      "source_file": "ja/ja_cc/level2/0230.jsonl.gz",
+      "source_line_no": 1835445,
+      "text": "後の水戸黄門の葵（あおい）の紋章や「月光仮面」の三日月のようなものの原点かも知れない。",
+      "rendered_yomi_before": "後/ノチ の/ノ 水戸/ミト 黄門/コウモン の/ノ 葵/アオイ （/（ あおい/アオイ ）/） の/ノ 紋章/モンショウ や/ヤ 「/「 月光/ゲッコウ 仮面/カメン 」/」 の/ノ 三/ミッ 日/カ 月/ツキ の/ノ よう/ヨウ な/ナ もの/モノ の/ノ 原点/ゲンテン か/カ も/モ 知れ/シレ ない/ナイ 。/。",
+      "rendered_yomi_after": "後/ノチ の/ノ 水戸/ミト 黄門/コウモン の/ノ 葵/アオイ （/（ あおい/アオイ ）/） の/ノ 紋章/モンショウ や/ヤ 「/「 月光/ゲッコウ 仮面/カメン 」/」 の/ノ 三日月/ミカヅキ の/ノ よう/ヨウ な/ナ もの/モノ の/ノ 原点/ゲンテン か/カ も/モ 知れ/シレ ない/ナイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "後",
+          "ノチ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "水戸",
+          "ミト"
+        ],
+        [
+          "黄門",
+          "コウモン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "葵",
+          "アオイ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "あおい",
+          "アオイ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "紋章",
+          "モンショウ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "月光",
+          "ゲッコウ"
+        ],
+        [
+          "仮面",
+          "カメン"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "三日月",
+          "ミカヅキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "よう",
+          "ヨウ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "もの",
+          "モノ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "原点",
+          "ゲンテン"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "知れ",
+          "シレ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "後",
+          "reading": "ノチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "のち"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "水戸",
+          "reading": "ミト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "水戸",
+              "reading": "みと"
+            }
+          ]
+        },
+        {
+          "surface": "黄門",
+          "reading": "コウモン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "黄門",
+              "reading": "こうもん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "葵",
+          "reading": "アオイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "葵",
+              "reading": "あおい"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "あおい",
+          "reading": "アオイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あおい"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "紋章",
+          "reading": "モンショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "紋章",
+              "reading": "もんしょう"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "月光",
+          "reading": "ゲッコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月光",
+              "reading": "げっこう"
+            }
+          ]
+        },
+        {
+          "surface": "仮面",
+          "reading": "カメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "仮面",
+              "reading": "かめん"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "三日月",
+          "reading": "ミカヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三日月",
+              "reading": "みかづき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "もの",
+          "reading": "モノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もの"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "原点",
+          "reading": "ゲンテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "原点",
+              "reading": "げんてん"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "知れ",
+          "reading": "シレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "知",
+              "reading": "し"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001835445:u0032::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0032",
+          "text": "後の水戸黄門の葵（あおい）の紋章や「月光仮面」の三日月のようなものの原点かも知れない。",
+          "rendered_yomi_before": "後/ノチ の/ノ 水戸/ミト 黄門/コウモン の/ノ 葵/アオイ （/（ あおい/アオイ ）/） の/ノ 紋章/モンショウ や/ヤ 「/「 月光/ゲッコウ 仮面/カメン 」/」 の/ノ 三/ミッ 日/カ 月/ツキ の/ノ よう/ヨウ な/ナ もの/モノ の/ノ 原点/ゲンテン か/カ も/モ 知れ/シレ ない/ナイ 。/。",
+          "rendered_yomi_after": "後/ノチ の/ノ 水戸/ミト 黄門/コウモン の/ノ 葵/アオイ （/（ あおい/アオイ ）/） の/ノ 紋章/モンショウ や/ヤ 「/「 月光/ゲッコウ 仮面/カメン 」/」 の/ノ 三日月/ミカヅキ の/ノ よう/ヨウ な/ナ もの/モノ の/ノ 原点/ゲンテン か/カ も/モ 知れ/シレ ない/ナイ 。/。",
+          "display_mapping": {
+            "start": 17,
+            "end": 18,
+            "char_start": 24,
+            "char_end": 27,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0025-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "みっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0026-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "日",
+              "token_surface": "日",
+              "token_index": 18,
+              "chunk_index": 0,
+              "current_reading_hiragana": "か",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "日",
+                  "reading": "か",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0027-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0025-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "みっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0026-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "日",
+              "token_surface": "日",
+              "token_index": 18,
+              "chunk_index": 0,
+              "current_reading_hiragana": "か",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "日",
+                  "reading": "か",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0027-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "三日月",
+          "reading_candidates": {
+            "三": [
+              "さん",
+              "み",
+              "みっ",
+              "ぞう",
+              "みい"
+            ],
+            "三日": [
+              "みっか"
+            ],
+            "三日月": [
+              "みかつき",
+              "みかづき"
+            ],
+            "日": [
+              "にち",
+              "か",
+              "じつ",
+              "び",
+              "ひ",
+              "ぴ"
+            ],
+            "日月": [
+              "あきら",
+              "じつげつ",
+              "たちもり"
+            ],
+            "月": [
+              "げつ",
+              "がつ",
+              "づき",
+              "つき",
+              "らいと",
+              "がっ",
+              "げっ",
+              "ゆえ",
+              "るな"
+            ]
+          },
+          "reading_hints": {
+            "三": "さん",
+            "三日": "みっか",
+            "三日月": "みかつき",
+            "日": "にち",
+            "日月": "あきら",
+            "月": "げつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "みっ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "日",
+              "reading": "か",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"三日月\",\"reading\":\"ミカヅキ\",\"used_web_search\":false,\"comment\":\"文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。",
+              "reading": "ミカヅキ",
+              "surface": "三日月",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032::target_group:1",
+            "status": "applied",
+            "rejected_span": "三日月",
+            "replacement": [
+              {
+                "surface": "三日月",
+                "reading": "ミカヅキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001835445:u0032::target_group:1",
+                "surface": "三日月",
+                "comment": "文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "三日月",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0025-0025",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "三",
+          "token_surface": "三",
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みっ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "みっ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0026-0026",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "日",
+          "token_surface": "日",
+          "token_index": 18,
+          "chunk_index": 0,
+          "current_reading_hiragana": "か",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "日",
+              "reading": "か",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032:s0027-0027",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "月",
+          "token_surface": "月",
+          "token_index": 19,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "三",
+          "reading": "みっ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "日",
+          "reading": "か",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "月",
+          "reading": "つき",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "三": [
+          "さん",
+          "み",
+          "みっ",
+          "ぞう",
+          "みい"
+        ],
+        "三日": [
+          "みっか"
+        ],
+        "三日月": [
+          "みかつき",
+          "みかづき"
+        ],
+        "日": [
+          "にち",
+          "か",
+          "じつ",
+          "び",
+          "ひ",
+          "ぴ"
+        ],
+        "日月": [
+          "あきら",
+          "じつげつ",
+          "たちもり"
+        ],
+        "月": [
+          "げつ",
+          "がつ",
+          "づき",
+          "つき",
+          "らいと",
+          "がっ",
+          "げっ",
+          "ゆえ",
+          "るな"
+        ]
+      },
+      "reading_hints": {
+        "三": "さん",
+        "三日": "みっか",
+        "三日月": "みかつき",
+        "日": "にち",
+        "日月": "あきら",
+        "月": "げつ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。",
+          "reading": "ミカヅキ",
+          "surface": "三日月",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"三日月\",\"reading\":\"ミカヅキ\",\"used_web_search\":false,\"comment\":\"文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。\"}]",
+      "llm_comments": [
+        "文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001835445:u0032::target_group:1",
+        "status": "applied",
+        "rejected_span": "三日月",
+        "replacement": [
+          {
+            "surface": "三日月",
+            "reading": "ミカヅキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001835445:u0032::target_group:1",
+            "surface": "三日月",
+            "comment": "文脈上は「crescent moon」を表す普通名詞で、読みは「みかづき」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0001835445",
+      "doc_seq": 2,
+      "track_doc_seq": 3432,
+      "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0033",
+      "unit_seq": 33,
+      "source_file": "ja/ja_cc/level2/0230.jsonl.gz",
+      "source_line_no": 1835445,
+      "text": "物語は盗人を捕らえてみたら、前に悪事を働いていた男と分かり、主水之介が「この三日月に身をぼえがあるだろう」というもの。",
+      "rendered_yomi_before": "物語/モノガタリ は/ハ 盗人/ヌスット を/ヲ 捕らえ/トラエ て/テ み/ミ たら/タラ 、/、 前/マエ に/ニ 悪事/アクジ を/ヲ 働い/ハタライ て/テ い/イ た/タ 男/オトコ と/ト 分かり/ワカリ 、/、 主水之介/モンドノスケ が/ガ 「/「 この/コノ 三/ミッ 日/カ 月/ツキ に/ニ 身/ミ を/ヲ ぼ/ボ え/エ が/ガ ある/アル だろう/ダロウ 」/」 と/ト いう/イウ もの/モノ 。/。",
+      "rendered_yomi_after": "物語/モノガタリ は/ハ 盗人/ヌスット を/ヲ 捕らえ/トラエ て/テ み/ミ たら/タラ 、/、 前/マエ に/ニ 悪事/アクジ を/ヲ 働い/ハタライ て/テ い/イ た/タ 男/オトコ と/ト 分かり/ワカリ 、/、 主水之介/モンドノスケ が/ガ 「/「 この/コノ 三日月/ミカヅキ に/ニ 身/ミ を/ヲ ぼ/ボ え/エ が/ガ ある/アル だろう/ダロウ 」/」 と/ト いう/イウ もの/モノ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "物語",
+          "モノガタリ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "盗人",
+          "ヌスット"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "捕らえ",
+          "トラエ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "み",
+          "ミ"
+        ],
+        [
+          "たら",
+          "タラ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "前",
+          "マエ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "悪事",
+          "アクジ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "働い",
+          "ハタライ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "男",
+          "オトコ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "分かり",
+          "ワカリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "主水之介",
+          "モンドノスケ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "この",
+          "コノ"
+        ],
+        [
+          "三日月",
+          "ミカヅキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "身",
+          "ミ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "ぼ",
+          "ボ"
+        ],
+        [
+          "え",
+          "エ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "だろう",
+          "ダロウ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "もの",
+          "モノ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "物語",
+          "reading": "モノガタリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "物語",
+              "reading": "ものがたり"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "盗人",
+          "reading": "ヌスット",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "盗人",
+              "reading": "ぬすっと"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "捕らえ",
+          "reading": "トラエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "捕",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "らえ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "み",
+          "reading": "ミ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "たら",
+          "reading": "タラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たら"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "悪事",
+          "reading": "アクジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "悪事",
+              "reading": "あくじ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "働い",
+          "reading": "ハタライ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "働",
+              "reading": "はたら"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "男",
+          "reading": "オトコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "男",
+              "reading": "おとこ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "分かり",
+          "reading": "ワカリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "わ"
+            },
+            {
+              "type": "text",
+              "text": "かり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "主水之介",
+          "reading": "モンドノスケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主水之介",
+              "reading": "もんどのすけ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "この",
+          "reading": "コノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "この"
+            }
+          ]
+        },
+        {
+          "surface": "三日月",
+          "reading": "ミカヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三日月",
+              "reading": "みかづき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "身",
+          "reading": "ミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "身",
+              "reading": "み"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "ぼ",
+          "reading": "ボ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ぼ"
+            }
+          ]
+        },
+        {
+          "surface": "え",
+          "reading": "エ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "だろう",
+          "reading": "ダロウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だろう"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "もの",
+          "reading": "モノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もの"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001835445:u0033::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001835445:u0033",
+          "text": "物語は盗人を捕らえてみたら、前に悪事を働いていた男と分かり、主水之介が「この三日月に身をぼえがあるだろう」というもの。",
+          "rendered_yomi_before": "物語/モノガタリ は/ハ 盗人/ヌスット を/ヲ 捕らえ/トラエ て/テ み/ミ たら/タラ 、/、 前/マエ に/ニ 悪事/アクジ を/ヲ 働い/ハタライ て/テ い/イ た/タ 男/オトコ と/ト 分かり/ワカリ 、/、 主水之介/モンドノスケ が/ガ 「/「 この/コノ 三/ミッ 日/カ 月/ツキ に/ニ 身/ミ を/ヲ ぼ/ボ え/エ が/ガ ある/アル だろう/ダロウ 」/」 と/ト いう/イウ もの/モノ 。/。",
+          "rendered_yomi_after": "物語/モノガタリ は/ハ 盗人/ヌスット を/ヲ 捕らえ/トラエ て/テ み/ミ たら/タラ 、/、 前/マエ に/ニ 悪事/アクジ を/ヲ 働い/ハタライ て/テ い/イ た/タ 男/オトコ と/ト 分かり/ワカリ 、/、 主水之介/モンドノスケ が/ガ 「/「 この/コノ 三日月/ミカヅキ に/ニ 身/ミ を/ヲ ぼ/ボ え/エ が/ガ ある/アル だろう/ダロウ 」/」 と/ト いう/イウ もの/モノ 。/。",
+          "display_mapping": {
+            "start": 25,
+            "end": 26,
+            "char_start": 38,
+            "char_end": 41,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0039-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 25,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "みっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0040-0040",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "日",
+              "token_surface": "日",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "か",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "日",
+                  "reading": "か",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0041-0041",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0039-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 25,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "みっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0040-0040",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "日",
+              "token_surface": "日",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "か",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "日",
+                  "reading": "か",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0041-0041",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "三日月",
+          "reading_candidates": {
+            "三": [
+              "さん",
+              "み",
+              "みっ",
+              "ぞう",
+              "みい"
+            ],
+            "三日": [
+              "みっか"
+            ],
+            "三日月": [
+              "みかつき",
+              "みかづき"
+            ],
+            "日": [
+              "にち",
+              "か",
+              "じつ",
+              "び",
+              "ひ",
+              "ぴ"
+            ],
+            "日月": [
+              "あきら",
+              "じつげつ",
+              "たちもり"
+            ],
+            "月": [
+              "げつ",
+              "がつ",
+              "づき",
+              "つき",
+              "らいと",
+              "がっ",
+              "げっ",
+              "ゆえ",
+              "るな"
+            ]
+          },
+          "reading_hints": {
+            "三": "さん",
+            "三日": "みっか",
+            "三日月": "みかつき",
+            "日": "にち",
+            "日月": "あきら",
+            "月": "げつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "みっ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "日",
+              "reading": "か",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"三日月\",\"reading\":\"みかづき\",\"used_web_search\":false,\"comment\":\"文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。",
+              "reading": "みかづき",
+              "surface": "三日月",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033::target_group:1",
+            "status": "applied",
+            "rejected_span": "三日月",
+            "replacement": [
+              {
+                "surface": "三日月",
+                "reading": "ミカヅキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001835445:u0033::target_group:1",
+                "surface": "三日月",
+                "comment": "文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "三日月",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0039-0039",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "三",
+          "token_surface": "三",
+          "token_index": 25,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みっ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "みっ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0040-0040",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "日",
+          "token_surface": "日",
+          "token_index": 26,
+          "chunk_index": 0,
+          "current_reading_hiragana": "か",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "日",
+              "reading": "か",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033:s0041-0041",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "月",
+          "token_surface": "月",
+          "token_index": 27,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "三",
+          "reading": "みっ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "日",
+          "reading": "か",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "月",
+          "reading": "つき",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "三": [
+          "さん",
+          "み",
+          "みっ",
+          "ぞう",
+          "みい"
+        ],
+        "三日": [
+          "みっか"
+        ],
+        "三日月": [
+          "みかつき",
+          "みかづき"
+        ],
+        "日": [
+          "にち",
+          "か",
+          "じつ",
+          "び",
+          "ひ",
+          "ぴ"
+        ],
+        "日月": [
+          "あきら",
+          "じつげつ",
+          "たちもり"
+        ],
+        "月": [
+          "げつ",
+          "がつ",
+          "づき",
+          "つき",
+          "らいと",
+          "がっ",
+          "げっ",
+          "ゆえ",
+          "るな"
+        ]
+      },
+      "reading_hints": {
+        "三": "さん",
+        "三日": "みっか",
+        "三日月": "みかつき",
+        "日": "にち",
+        "日月": "あきら",
+        "月": "げつ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。",
+          "reading": "みかづき",
+          "surface": "三日月",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"三日月\",\"reading\":\"みかづき\",\"used_web_search\":false,\"comment\":\"文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。\"}]",
+      "llm_comments": [
+        "文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001835445:u0033::target_group:1",
+        "status": "applied",
+        "rejected_span": "三日月",
+        "replacement": [
+          {
+            "surface": "三日月",
+            "reading": "ミカヅキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001835445:u0033::target_group:1",
+            "surface": "三日月",
+            "comment": "文脈上は「みっ・か・つき」ではなく、語としての「三日月（みかづき）」が自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000987494:u0011::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0000987494",
+      "doc_seq": 8,
+      "track_doc_seq": 3438,
+      "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0011",
+      "unit_seq": 11,
+      "source_file": "ja/ja_cc/level2/0105.jsonl.gz",
+      "source_line_no": 987494,
+      "text": "募集ジョブが学から学白に拡がったところをすかさずテル。",
+      "rendered_yomi_before": "募集/ボシュウ ジョブ/ジョブ が/ガ 学/ガク から/カラ 学/ガク 白/シロ に/ニ 拡がっ/ヒロガッ た/タ ところ/トコロ を/ヲ すかさず/スカサズ テル/テル 。/。",
+      "rendered_yomi_after": "募集/ボシュウ ジョブ/ジョブ が/ガ 学/ガク から/カラ 学/ガク 白/シロ に/ニ 拡がっ/ヒロガッ た/タ ところ/トコロ を/ヲ すかさず/スカサズ テル/テル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "募集",
+          "ボシュウ"
+        ],
+        [
+          "ジョブ",
+          "ジョブ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "学",
+          "ガク"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "学",
+          "ガク"
+        ],
+        [
+          "白",
+          "シロ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "拡がっ",
+          "ヒロガッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "ところ",
+          "トコロ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "すかさず",
+          "スカサズ"
+        ],
+        [
+          "テル",
+          "テル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "募集",
+          "reading": "ボシュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "募集",
+              "reading": "ぼしゅう"
+            }
+          ]
+        },
+        {
+          "surface": "ジョブ",
+          "reading": "ジョブ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ジョブ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "学",
+          "reading": "ガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学",
+              "reading": "がく"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "学",
+          "reading": "ガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学",
+              "reading": "がく"
+            }
+          ]
+        },
+        {
+          "surface": "白",
+          "reading": "シロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "白",
+              "reading": "しろ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "拡がっ",
+          "reading": "ヒロガッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "拡",
+              "reading": "ひろ"
+            },
+            {
+              "type": "text",
+              "text": "がっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "ところ",
+          "reading": "トコロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ところ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "すかさず",
+          "reading": "スカサズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "すかさず"
+            }
+          ]
+        },
+        {
+          "surface": "テル",
+          "reading": "テル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "テル"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000987494:u0011::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0011::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0011",
+          "text": "募集ジョブが学から学白に拡がったところをすかさずテル。",
+          "rendered_yomi_before": "募集/ボシュウ ジョブ/ジョブ が/ガ 学/ガク から/カラ 学/ガク 白/シロ に/ニ 拡がっ/ヒロガッ た/タ ところ/トコロ を/ヲ すかさず/スカサズ テル/テル 。/。",
+          "rendered_yomi_after": "募集/ボシュウ ジョブ/ジョブ が/ガ 学/ガク から/カラ 学/ガク 白/シロ に/ニ 拡がっ/ヒロガッ た/タ ところ/トコロ を/ヲ すかさず/スカサズ テル/テル 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 10,
+            "char_end": 11,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0011:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "白",
+              "token_surface": "白",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しろ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "白",
+                  "reading": "しろ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0011:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "白",
+              "token_surface": "白",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しろ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "白",
+                  "reading": "しろ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "白",
+          "reading_candidates": {
+            "白": [
+              "きよし",
+              "しら",
+              "しろ",
+              "じろ",
+              "つくも",
+              "はく",
+              "はっ",
+              "ましろ"
+            ]
+          },
+          "reading_hints": {
+            "白": "きよし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "白",
+              "reading": "しろ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"白\",\"reading\":\"シロ\",\"used_web_search\":true,\"comment\":\"FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))",
+              "reading": "シロ",
+              "surface": "白",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000987494:u0011::target_group:1",
+            "status": "applied",
+            "rejected_span": "白",
+            "replacement": [
+              {
+                "surface": "白",
+                "reading": "シロ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000987494:u0011::target_group:1",
+                "surface": "白",
+                "comment": "FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "白",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0011:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "白",
+          "token_surface": "白",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しろ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "白",
+              "reading": "しろ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "白",
+          "reading": "しろ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "白": [
+          "きよし",
+          "しら",
+          "しろ",
+          "じろ",
+          "つくも",
+          "はく",
+          "はっ",
+          "ましろ"
+        ]
+      },
+      "reading_hints": {
+        "白": "きよし"
+      },
+      "llm_parsed": [
+        {
+          "comment": "FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))",
+          "reading": "シロ",
+          "surface": "白",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"白\",\"reading\":\"シロ\",\"used_web_search\":true,\"comment\":\"FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))\"}]",
+      "llm_comments": [
+        "FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000987494:u0011::target_group:1",
+        "status": "applied",
+        "rejected_span": "白",
+        "replacement": [
+          {
+            "surface": "白",
+            "reading": "シロ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000987494:u0011::target_group:1",
+            "surface": "白",
+            "comment": "FF14系の用語では「白」は白魔道士の一文字略称で「しろ」と読むため、この文脈でもその読みが自然。([na.finalfantasyxiv.com](https://na.finalfantasyxiv.com/lodestone/character/42222052/blog/5362165?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 6,
+      "doc_id": "ja_cc_level2_corrected_v1:0000987494",
+      "doc_seq": 8,
+      "track_doc_seq": 3438,
+      "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0050",
+      "unit_seq": 50,
+      "source_file": "ja/ja_cc/level2/0105.jsonl.gz",
+      "source_line_no": 987494,
+      "text": "構成は ナ忍竜白詩コ で、僕は白。",
+      "rendered_yomi_before": "構成/コウセイ は/ハ  / ナ/ナ 忍/オシ 竜/リュウ 白詩/ハクシ コ/コ  / で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+      "rendered_yomi_after": "構成/コウセイ は/ハ \\s/ ナ/ナ 忍/ニン 竜/リュウ 白詩/ハクシ コ/コ \\s/ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "構成",
+          "コウセイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "ナ",
+          "ナ"
+        ],
+        [
+          "忍",
+          "ニン"
+        ],
+        [
+          "竜",
+          "リュウ"
+        ],
+        [
+          "白詩",
+          "ハクシ"
+        ],
+        [
+          "コ",
+          "コ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "僕",
+          "ボク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "白",
+          "シロ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "構成",
+          "reading": "コウセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "構成",
+              "reading": "こうせい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "ナ",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ナ"
+            }
+          ]
+        },
+        {
+          "surface": "忍",
+          "reading": "ニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "忍",
+              "reading": "にん"
+            }
+          ]
+        },
+        {
+          "surface": "竜",
+          "reading": "リュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "竜",
+              "reading": "りゅう"
+            }
+          ]
+        },
+        {
+          "surface": "白詩",
+          "reading": "ハクシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "白詩",
+              "reading": "はくし"
+            }
+          ]
+        },
+        {
+          "surface": "コ",
+          "reading": "コ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コ"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "僕",
+          "reading": "ボク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "僕",
+              "reading": "ぼく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "白",
+          "reading": "シロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "白",
+              "reading": "しろ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0050",
+          "text": "構成は ナ忍竜白詩コ で、僕は白。",
+          "rendered_yomi_before": "構成/コウセイ は/ハ  / ナ/ナ 忍/オシ 竜/リュウ 白詩/ハクシ コ/コ  / で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "rendered_yomi_after": "構成/コウセイ は/ハ \\s/ ナ/ナ 忍/ニン 竜/リュウ 白詩/ハクシ コ/コ \\s/ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 6,
+            "char_start": 5,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "忍",
+              "token_surface": "忍",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "忍",
+                  "reading": "おし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "竜",
+              "token_surface": "竜",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "竜",
+                  "reading": "りゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "忍",
+              "token_surface": "忍",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "忍",
+                  "reading": "おし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "竜",
+              "token_surface": "竜",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "竜",
+                  "reading": "りゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "忍竜",
+          "reading_candidates": {
+            "忍": [
+              "おし",
+              "しのび",
+              "しのぶ",
+              "じん"
+            ],
+            "忍竜": [
+              "しのぶりゅう"
+            ],
+            "竜": [
+              "たつ",
+              "はじめ",
+              "りゅう",
+              "りょう"
+            ]
+          },
+          "reading_hints": {
+            "忍": "おし",
+            "忍竜": "しのぶりゅう",
+            "竜": "たつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "忍",
+              "reading": "おし",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "竜",
+              "reading": "りゅう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"忍\",\"reading\":\"ニン\",\"used_web_search\":false,\"comment\":\"「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。\"},{\"surface\":\"竜\",\"reading\":\"リュウ\",\"used_web_search\":false,\"comment\":\"「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。",
+              "reading": "ニン",
+              "surface": "忍",
+              "used_web_search": false
+            },
+            {
+              "comment": "「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。",
+              "reading": "リュウ",
+              "surface": "竜",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。",
+            "「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+            "status": "applied",
+            "rejected_span": "忍竜",
+            "replacement": [
+              {
+                "surface": "忍",
+                "reading": "ニン"
+              },
+              {
+                "surface": "竜",
+                "reading": "リュウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+                "surface": "忍竜",
+                "comment": "「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+                "surface": "忍竜",
+                "comment": "「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "忍竜",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "忍",
+          "token_surface": "忍",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "おし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "忍",
+              "reading": "おし",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "竜",
+          "token_surface": "竜",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "りゅう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "竜",
+              "reading": "りゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "忍",
+          "reading": "おし",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "竜",
+          "reading": "りゅう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "忍": [
+          "おし",
+          "しのび",
+          "しのぶ",
+          "じん"
+        ],
+        "忍竜": [
+          "しのぶりゅう"
+        ],
+        "竜": [
+          "たつ",
+          "はじめ",
+          "りゅう",
+          "りょう"
+        ]
+      },
+      "reading_hints": {
+        "忍": "おし",
+        "忍竜": "しのぶりゅう",
+        "竜": "たつ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。",
+          "reading": "ニン",
+          "surface": "忍",
+          "used_web_search": false
+        },
+        {
+          "comment": "「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。",
+          "reading": "リュウ",
+          "surface": "竜",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"忍\",\"reading\":\"ニン\",\"used_web_search\":false,\"comment\":\"「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。\"},{\"surface\":\"竜\",\"reading\":\"リュウ\",\"used_web_search\":false,\"comment\":\"「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。\"}]",
+      "llm_comments": [
+        "「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。",
+        "「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+        "status": "applied",
+        "rejected_span": "忍竜",
+        "replacement": [
+          {
+            "surface": "忍",
+            "reading": "ニン"
+          },
+          {
+            "surface": "竜",
+            "reading": "リュウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+            "surface": "忍竜",
+            "comment": "「忍者」の略字として読むのが自然なので、「おし」ではなく「ニン」に修正。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000987494:u0050::target_group:1",
+            "surface": "忍竜",
+            "comment": "「竜騎士」の略字として読むのが自然で、ここでは独立した語として扱う。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 7,
+      "doc_id": "ja_cc_level2_corrected_v1:0000987494",
+      "doc_seq": 8,
+      "track_doc_seq": 3438,
+      "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0055",
+      "unit_seq": 55,
+      "source_file": "ja/ja_cc/level2/0105.jsonl.gz",
+      "source_line_no": 987494,
+      "text": "構成はナ白黒学学風で、僕は白。",
+      "rendered_yomi_before": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+      "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "構成",
+          "コウセイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ナ",
+          "ナ"
+        ],
+        [
+          "白黒",
+          "シロクロ"
+        ],
+        [
+          "学",
+          "ガク"
+        ],
+        [
+          "学",
+          "ガク"
+        ],
+        [
+          "風",
+          "フウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "僕",
+          "ボク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "白",
+          "シロ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "構成",
+          "reading": "コウセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "構成",
+              "reading": "こうせい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ナ",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ナ"
+            }
+          ]
+        },
+        {
+          "surface": "白黒",
+          "reading": "シロクロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "白黒",
+              "reading": "しろくろ"
+            }
+          ]
+        },
+        {
+          "surface": "学",
+          "reading": "ガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学",
+              "reading": "がく"
+            }
+          ]
+        },
+        {
+          "surface": "学",
+          "reading": "ガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学",
+              "reading": "がく"
+            }
+          ]
+        },
+        {
+          "surface": "風",
+          "reading": "フウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "風",
+              "reading": "ふう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "僕",
+          "reading": "ボク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "僕",
+              "reading": "ぼく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "白",
+          "reading": "シロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "白",
+              "reading": "しろ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0055",
+          "text": "構成はナ白黒学学風で、僕は白。",
+          "rendered_yomi_before": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "白黒",
+              "token_surface": "白黒",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しろくろ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "白黒",
+                  "reading": "しろくろ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "白黒",
+              "token_surface": "白黒",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しろくろ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "白黒",
+                  "reading": "しろくろ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "白黒",
+          "reading_candidates": {
+            "白": [
+              "きよし",
+              "しら",
+              "しろ",
+              "じろ",
+              "つくも",
+              "はく",
+              "はっ",
+              "ましろ"
+            ],
+            "白黒": [
+              "しろくろ"
+            ],
+            "黒": [
+              "くろ",
+              "ぐろ",
+              "こく",
+              "こっ"
+            ]
+          },
+          "reading_hints": {
+            "白": "きよし",
+            "白黒": "しろくろ",
+            "黒": "くろ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "白黒",
+              "reading": "しろくろ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"白黒\",\"reading\":\"しろくろ\",\"used_web_search\":false,\"comment\":\"文脈上は色名の対比で、一般的な読みは「しろくろ」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上は色名の対比で、一般的な読みは「しろくろ」。",
+              "reading": "しろくろ",
+              "surface": "白黒",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "文脈上は色名の対比で、一般的な読みは「しろくろ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:1",
+            "status": "applied",
+            "rejected_span": "白黒",
+            "replacement": [
+              {
+                "surface": "白黒",
+                "reading": "シロクロ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:1",
+                "surface": "白黒",
+                "comment": "文脈上は色名の対比で、一般的な読みは「しろくろ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:2",
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:2",
+          "unit_id": "ja_cc_level2_corrected_v1:0000987494:u0055",
+          "text": "構成はナ白黒学学風で、僕は白。",
+          "rendered_yomi_before": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "rendered_yomi_after": "構成/コウセイ は/ハ ナ/ナ 白黒/シロクロ 学/ガク 学/ガク 風/フウ で/デ 、/、 僕/ボク は/ハ 白/シロ 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 13,
+            "char_end": 14,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "白",
+              "token_surface": "白",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しろ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "白",
+                  "reading": "しろ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "白",
+              "token_surface": "白",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しろ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "白",
+                  "reading": "しろ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "白",
+          "reading_candidates": {
+            "白": [
+              "きよし",
+              "しら",
+              "しろ",
+              "じろ",
+              "つくも",
+              "はく",
+              "はっ",
+              "ましろ"
+            ]
+          },
+          "reading_hints": {
+            "白": "きよし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "白",
+              "reading": "しろ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"白\",\"reading\":\"しろ\",\"used_web_search\":false,\"comment\":\"ここは「僕は白。」の単独の色名として読むので、「しろ」が自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "ここは「僕は白。」の単独の色名として読むので、「しろ」が自然です。",
+              "reading": "しろ",
+              "surface": "白",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "ここは「僕は白。」の単独の色名として読むので、「しろ」が自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:2",
+            "status": "applied",
+            "rejected_span": "白",
+            "replacement": [
+              {
+                "surface": "白",
+                "reading": "シロ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:2",
+                "surface": "白",
+                "comment": "ここは「僕は白。」の単独の色名として読むので、「しろ」が自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "白黒",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "白黒",
+          "token_surface": "白黒",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しろくろ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "白黒",
+              "reading": "しろくろ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "白黒",
+          "reading": "しろくろ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "白": [
+          "きよし",
+          "しら",
+          "しろ",
+          "じろ",
+          "つくも",
+          "はく",
+          "はっ",
+          "ましろ"
+        ],
+        "白黒": [
+          "しろくろ"
+        ],
+        "黒": [
+          "くろ",
+          "ぐろ",
+          "こく",
+          "こっ"
+        ]
+      },
+      "reading_hints": {
+        "白": "きよし",
+        "白黒": "しろくろ",
+        "黒": "くろ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上は色名の対比で、一般的な読みは「しろくろ」。",
+          "reading": "しろくろ",
+          "surface": "白黒",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"白黒\",\"reading\":\"しろくろ\",\"used_web_search\":false,\"comment\":\"文脈上は色名の対比で、一般的な読みは「しろくろ」。\"}]",
+      "llm_comments": [
+        "文脈上は色名の対比で、一般的な読みは「しろくろ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:1",
+        "status": "applied",
+        "rejected_span": "白黒",
+        "replacement": [
+          {
+            "surface": "白黒",
+            "reading": "シロクロ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000987494:u0055::target_group:1",
+            "surface": "白黒",
+            "comment": "文脈上は色名の対比で、一般的な読みは「しろくろ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}

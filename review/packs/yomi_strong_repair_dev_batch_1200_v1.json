@@ -1,0 +1,3517 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1200_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1200",
+  "created_at_epoch": 1790733846,
+  "created_at": "2026-09-30T02:04:06Z",
+  "item_count": 4,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 4,
+    "queued_repair_row_count": 4,
+    "result_row_count": 4,
+    "reviewable_repair_row_count": 4,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001914307",
+      "doc_seq": 1,
+      "track_doc_seq": 3471,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0246.jsonl.gz",
+      "source_line_no": 1914307,
+      "preview": "紅白戦に紅組の「５番・一塁」でスタメン出場。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000118696",
+      "doc_seq": 2,
+      "track_doc_seq": 3472,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0011.jsonl.gz",
+      "source_line_no": 118696,
+      "preview": "永禄10年（1567年）、今川氏との同盟を破棄して東海方面へ進出を企てた武田信玄ですが、それに怒った今川氏が北条氏とともに、武田側に塩が入らないようにしました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001437064",
+      "doc_seq": 3,
+      "track_doc_seq": 3473,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0169.jsonl.gz",
+      "source_line_no": 1437064,
+      "preview": "カウンターからは調理の様子を見ることができる。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001146722",
+      "doc_seq": 4,
+      "track_doc_seq": 3474,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0126.jsonl.gz",
+      "source_line_no": 1146722,
+      "preview": "酷暑はどうやら過ぎたようですが、まだまだ暑さの戻りがある時期です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001276748",
+      "doc_seq": 5,
+      "track_doc_seq": 3475,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0144.jsonl.gz",
+      "source_line_no": 1276748,
+      "preview": "テレビで最も大切なのは、ニュース番組だと思う。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000360073",
+      "doc_seq": 6,
+      "track_doc_seq": 3476,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0038.jsonl.gz",
+      "source_line_no": 360073,
+      "preview": "日東防疫㈱広島営業所の金曜日担当平盛です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001435786",
+      "doc_seq": 7,
+      "track_doc_seq": 3477,
+      "unit_count": 35,
+      "source_file": "ja/ja_cc/level2/0169.jsonl.gz",
+      "source_line_no": 1435786,
+      "preview": "土浦武器学校には、陸上自衛隊歴代の主力戦車や戦闘車両が展示されています。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 2,
+      "to_seq": 3,
+      "reviewed_unit_count": 35,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001316431",
+      "doc_seq": 8,
+      "track_doc_seq": 3478,
+      "unit_count": 72,
+      "source_file": "ja/ja_cc/level2/0150.jsonl.gz",
+      "source_line_no": 1316431,
+      "preview": "マクドナルドの新しいやつ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 72,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001694311",
+      "doc_seq": 9,
+      "track_doc_seq": 3479,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0210.jsonl.gz",
+      "source_line_no": 1694311,
+      "preview": "明日　カフェに並ぶパンにこんなツチノコみたいなヘソマガリパンが登場・・・歯ごたえ抜群！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002440292",
+      "doc_seq": 10,
+      "track_doc_seq": 3480,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0363.jsonl.gz",
+      "source_line_no": 2440292,
+      "preview": "会津柳津温泉は只見川のほとりにある小さな温泉です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-30T01:34:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 4,
+      "to_seq": 4,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001914307:u0011::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001914307",
+      "doc_seq": 1,
+      "track_doc_seq": 3471,
+      "unit_id": "ja_cc_level2_corrected_v1:0001914307:u0011",
+      "unit_seq": 11,
+      "source_file": "ja/ja_cc/level2/0246.jsonl.gz",
+      "source_line_no": 1914307,
+      "text": "源田壮亮(26)　UZR30.9　WAR6.0←これが代表落選してショート京田になる謎【悲報】DeNA中井大介さん「巨人は年齢層が広いから声かけも少なくて一体感が無かった」",
+      "rendered_yomi_before": "源田/ゲンダ 壮亮/ソウスケ (/( 26/ )/) 　/ UZR/ユーゼットアール 30.9/ 　/ WAR/ウォー 6.0/ ←/← これ/コレ が/ガ 代表/ダイヒョウ 落選/ラクセン し/シ て/テ ショート/ショート 京田/キョウダ に/ニ なる/ナル 謎/ナゾ 【/【 悲報/ヒホウ 】/】 DeNA/ディーエヌエー 中井/ナカイ 大介/ダイスケ さん/サン 「/「 巨人/キョジン は/ハ 年齢層/ネンレイソウ が/ガ 広い/ヒロイ から/カラ 声かけ/コエカケ も/モ 少なく/スクナク て/テ 一体感/イッタイカン が/ガ 無かっ/ナカッ た/タ 」/」",
+      "rendered_yomi_after": "源田/ゲンダ 壮亮/ソウスケ (/( 26/ )/) \\u3000/ UZR/ユーゼットアール 30.9/ \\u3000/ WAR/ウォー 6.0/ ←/← これ/コレ が/ガ 代表/ダイヒョウ 落選/ラクセン し/シ て/テ ショート/ショート 京田/キョウダ に/ニ なる/ナル 謎/ナゾ 【/【 悲報/ヒホウ 】/】 DeNA/ディーエヌエー 中井/ナカイ 大介/ダイスケ さん/サン 「/「 巨人/キョジン は/ハ 年齢層/ネンレイソウ が/ガ 広い/ヒロイ から/カラ 声かけ/コエカケ も/モ 少なく/スクナク て/テ 一体感/イッタイカン が/ガ 無かっ/ナカッ た/タ 」/」",
+      "rendered_yomi_after_tokens": [
+        [
+          "源田",
+          "ゲンダ"
+        ],
+        [
+          "壮亮",
+          "ソウスケ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "26",
+          ""
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "UZR",
+          "ユーゼットアール"
+        ],
+        [
+          "30.9",
+          ""
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "WAR",
+          "ウォー"
+        ],
+        [
+          "6.0",
+          ""
+        ],
+        [
+          "←",
+          "←"
+        ],
+        [
+          "これ",
+          "コレ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "代表",
+          "ダイヒョウ"
+        ],
+        [
+          "落選",
+          "ラクセン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "ショート",
+          "ショート"
+        ],
+        [
+          "京田",
+          "キョウダ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なる",
+          "ナル"
+        ],
+        [
+          "謎",
+          "ナゾ"
+        ],
+        [
+          "【",
+          "【"
+        ],
+        [
+          "悲報",
+          "ヒホウ"
+        ],
+        [
+          "】",
+          "】"
+        ],
+        [
+          "DeNA",
+          "ディーエヌエー"
+        ],
+        [
+          "中井",
+          "ナカイ"
+        ],
+        [
+          "大介",
+          "ダイスケ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "巨人",
+          "キョジン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "年齢層",
+          "ネンレイソウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "広い",
+          "ヒロイ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "声かけ",
+          "コエカケ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "少なく",
+          "スクナク"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "一体感",
+          "イッタイカン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "無かっ",
+          "ナカッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "」",
+          "」"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "源田",
+          "reading": "ゲンダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "源田",
+              "reading": "げんだ"
+            }
+          ]
+        },
+        {
+          "surface": "壮亮",
+          "reading": "ソウスケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "壮亮",
+              "reading": "そうすけ"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "26",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "26"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "UZR",
+          "reading": "ユーゼットアール",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "UZR",
+              "reading": "ゆーぜっとあーる"
+            }
+          ]
+        },
+        {
+          "surface": "30.9",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "30.9"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "WAR",
+          "reading": "ウォー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "WAR",
+              "reading": "うぉー"
+            }
+          ]
+        },
+        {
+          "surface": "6.0",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6.0"
+            }
+          ]
+        },
+        {
+          "surface": "←",
+          "reading": "←",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "←"
+            }
+          ]
+        },
+        {
+          "surface": "これ",
+          "reading": "コレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "これ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "代表",
+          "reading": "ダイヒョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代表",
+              "reading": "だいひょう"
+            }
+          ]
+        },
+        {
+          "surface": "落選",
+          "reading": "ラクセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "落選",
+              "reading": "らくせん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "ショート",
+          "reading": "ショート",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ショート"
+            }
+          ]
+        },
+        {
+          "surface": "京田",
+          "reading": "キョウダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "京田",
+              "reading": "きょうだ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なる",
+          "reading": "ナル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なる"
+            }
+          ]
+        },
+        {
+          "surface": "謎",
+          "reading": "ナゾ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "謎",
+              "reading": "なぞ"
+            }
+          ]
+        },
+        {
+          "surface": "【",
+          "reading": "【",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "【"
+            }
+          ]
+        },
+        {
+          "surface": "悲報",
+          "reading": "ヒホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "悲報",
+              "reading": "ひほう"
+            }
+          ]
+        },
+        {
+          "surface": "】",
+          "reading": "】",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "】"
+            }
+          ]
+        },
+        {
+          "surface": "DeNA",
+          "reading": "ディーエヌエー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "DeNA",
+              "reading": "でぃーえぬえー"
+            }
+          ]
+        },
+        {
+          "surface": "中井",
+          "reading": "ナカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中井",
+              "reading": "なかい"
+            }
+          ]
+        },
+        {
+          "surface": "大介",
+          "reading": "ダイスケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大介",
+              "reading": "だいすけ"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "巨人",
+          "reading": "キョジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "巨人",
+              "reading": "きょじん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "年齢層",
+          "reading": "ネンレイソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年齢層",
+              "reading": "ねんれいそう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "広い",
+          "reading": "ヒロイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広",
+              "reading": "ひろ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "声かけ",
+          "reading": "コエカケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "声",
+              "reading": "こえ"
+            },
+            {
+              "type": "text",
+              "text": "かけ"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "少なく",
+          "reading": "スクナク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "少",
+              "reading": "すく"
+            },
+            {
+              "type": "text",
+              "text": "なく"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "一体感",
+          "reading": "イッタイカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一体感",
+              "reading": "いったいかん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "無かっ",
+          "reading": "ナカッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "無",
+              "reading": "な"
+            },
+            {
+              "type": "text",
+              "text": "かっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001914307:u0011::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001914307:u0011::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001914307:u0011",
+          "text": "源田壮亮(26)　UZR30.9　WAR6.0←これが代表落選してショート京田になる謎【悲報】DeNA中井大介さん「巨人は年齢層が広いから声かけも少なくて一体感が無かった」",
+          "rendered_yomi_before": "源田/ゲンダ 壮亮/ソウスケ (/( 26/ )/) 　/ UZR/ユーゼットアール 30.9/ 　/ WAR/ウォー 6.0/ ←/← これ/コレ が/ガ 代表/ダイヒョウ 落選/ラクセン し/シ て/テ ショート/ショート 京田/キョウダ に/ニ なる/ナル 謎/ナゾ 【/【 悲報/ヒホウ 】/】 DeNA/ディーエヌエー 中井/ナカイ 大介/ダイスケ さん/サン 「/「 巨人/キョジン は/ハ 年齢層/ネンレイソウ が/ガ 広い/ヒロイ から/カラ 声かけ/コエカケ も/モ 少なく/スクナク て/テ 一体感/イッタイカン が/ガ 無かっ/ナカッ た/タ 」/」",
+          "rendered_yomi_after": "源田/ゲンダ 壮亮/ソウスケ (/( 26/ )/) \\u3000/ UZR/ユーゼットアール 30.9/ \\u3000/ WAR/ウォー 6.0/ ←/← これ/コレ が/ガ 代表/ダイヒョウ 落選/ラクセン し/シ て/テ ショート/ショート 京田/キョウダ に/ニ なる/ナル 謎/ナゾ 【/【 悲報/ヒホウ 】/】 DeNA/ディーエヌエー 中井/ナカイ 大介/ダイスケ さん/サン 「/「 巨人/キョジン は/ハ 年齢層/ネンレイソウ が/ガ 広い/ヒロイ から/カラ 声かけ/コエカケ も/モ 少なく/スクナク て/テ 一体感/イッタイカン が/ガ 無かっ/ナカッ た/タ 」/」",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 17,
+            "char_end": 20,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001914307:u0011:s0018-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "WAR",
+              "token_surface": "WAR",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うぉー",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "WAR",
+                  "reading": "うぉー",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001914307:u0011:s0018-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "WAR",
+              "token_surface": "WAR",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うぉー",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "WAR",
+                  "reading": "うぉー",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "WAR",
+          "reading_candidates": {
+            "W": [
+              "だぶりゅー",
+              "うっど",
+              "だぶる",
+              "わっと"
+            ],
+            "WA": [
+              "だぶりゅーえー"
+            ],
+            "WAR": [
+              "うぉー"
+            ],
+            "A": [
+              "あーる",
+              "えー",
+              "あんぺあ"
+            ],
+            "AR": [
+              "えーあーる"
+            ],
+            "R": [
+              "あーる"
+            ]
+          },
+          "reading_hints": {
+            "W": "だぶりゅー",
+            "WA": "だぶりゅーえー",
+            "WAR": "うぉー",
+            "A": "あーる",
+            "AR": "えーあーる",
+            "R": "あーる"
+          },
+          "rejected_readings": [
+            {
+              "surface": "WAR",
+              "reading": "うぉー",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"WAR\",\"reading\":\"ウォー\",\"used_web_search\":false,\"comment\":\"野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。",
+              "reading": "ウォー",
+              "surface": "WAR",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001914307:u0011::target_group:1",
+            "status": "applied",
+            "rejected_span": "WAR",
+            "replacement": [
+              {
+                "surface": "WAR",
+                "reading": "ウォー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001914307:u0011::target_group:1",
+                "surface": "WAR",
+                "comment": "野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "WAR",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001914307:u0011:s0018-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "WAR",
+          "token_surface": "WAR",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うぉー",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "WAR",
+              "reading": "うぉー",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "WAR",
+          "reading": "うぉー",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "W": [
+          "だぶりゅー",
+          "うっど",
+          "だぶる",
+          "わっと"
+        ],
+        "WA": [
+          "だぶりゅーえー"
+        ],
+        "WAR": [
+          "うぉー"
+        ],
+        "A": [
+          "あーる",
+          "えー",
+          "あんぺあ"
+        ],
+        "AR": [
+          "えーあーる"
+        ],
+        "R": [
+          "あーる"
+        ]
+      },
+      "reading_hints": {
+        "W": "だぶりゅー",
+        "WA": "だぶりゅーえー",
+        "WAR": "うぉー",
+        "A": "あーる",
+        "AR": "えーあーる",
+        "R": "あーる"
+      },
+      "llm_parsed": [
+        {
+          "comment": "野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。",
+          "reading": "ウォー",
+          "surface": "WAR",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"WAR\",\"reading\":\"ウォー\",\"used_web_search\":false,\"comment\":\"野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001914307:u0011::target_group:1",
+        "status": "applied",
+        "rejected_span": "WAR",
+        "replacement": [
+          {
+            "surface": "WAR",
+            "reading": "ウォー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001914307:u0011::target_group:1",
+            "surface": "WAR",
+            "comment": "野球指標の略称で、文脈上は英字をそのまま「ウォー」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0001435786",
+      "doc_seq": 7,
+      "track_doc_seq": 3477,
+      "unit_id": "ja_cc_level2_corrected_v1:0001435786:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0169.jsonl.gz",
+      "source_line_no": 1435786,
+      "text": "また、日本軍の車両では本土決戦に備えた三式中戦車チヌ、「ガルパン」では見せ場なく撃破されたあの戦車の唯一現存車両がありました。",
+      "rendered_yomi_before": "また/マタ 、/、 日本軍/ニッポングン の/ノ 車両/シャリョウ で/デ は/ハ 本土/ホンド 決戦/ケッセン に/ニ 備え/ソナエ た/タ 三/サン 式中/シキチュウ 戦車/センシャ チヌ/チヌ 、/、 「/「 ガル/ガル パン/パン 」/」 で/デ は/ハ 見せ場/ミセバ なく/ナク 撃破/ゲキハ さ/サ れ/レ た/タ あの/アノ 戦車/センシャ の/ノ 唯一/ユイイツ 現存/ゲンソン 車両/シャリョウ が/ガ あり/アリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "また/マタ 、/、 日本軍/ニッポングン の/ノ 車両/シャリョウ で/デ は/ハ 本土/ホンド 決戦/ケッセン に/ニ 備え/ソナエ た/タ 三式中/サンシキチュウ 戦車/センシャ チヌ/チヌ 、/、 「/「 ガル/ガル パン/パン 」/」 で/デ は/ハ 見せ場/ミセバ なく/ナク 撃破/ゲキハ さ/サ れ/レ た/タ あの/アノ 戦車/センシャ の/ノ 唯一/ユイイツ 現存/ゲンソン 車両/シャリョウ が/ガ あり/アリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "また",
+          "マタ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "日本軍",
+          "ニッポングン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "車両",
+          "シャリョウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "本土",
+          "ホンド"
+        ],
+        [
+          "決戦",
+          "ケッセン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "備え",
+          "ソナエ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "三式中",
+          "サンシキチュウ"
+        ],
+        [
+          "戦車",
+          "センシャ"
+        ],
+        [
+          "チヌ",
+          "チヌ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "ガル",
+          "ガル"
+        ],
+        [
+          "パン",
+          "パン"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "見せ場",
+          "ミセバ"
+        ],
+        [
+          "なく",
+          "ナク"
+        ],
+        [
+          "撃破",
+          "ゲキハ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "あの",
+          "アノ"
+        ],
+        [
+          "戦車",
+          "センシャ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "唯一",
+          "ユイイツ"
+        ],
+        [
+          "現存",
+          "ゲンソン"
+        ],
+        [
+          "車両",
+          "シャリョウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "また",
+          "reading": "マタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "また"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "日本軍",
+          "reading": "ニッポングン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本軍",
+              "reading": "にっぽんぐん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "車両",
+          "reading": "シャリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "車両",
+              "reading": "しゃりょう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "本土",
+          "reading": "ホンド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本土",
+              "reading": "ほんど"
+            }
+          ]
+        },
+        {
+          "surface": "決戦",
+          "reading": "ケッセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決戦",
+              "reading": "けっせん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "備え",
+          "reading": "ソナエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "備",
+              "reading": "そな"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "三式中",
+          "reading": "サンシキチュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三式中",
+              "reading": "さんしきちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "戦車",
+          "reading": "センシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦車",
+              "reading": "せんしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "チヌ",
+          "reading": "チヌ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "チヌ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "ガル",
+          "reading": "ガル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガル"
+            }
+          ]
+        },
+        {
+          "surface": "パン",
+          "reading": "パン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パン"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "見せ場",
+          "reading": "ミセバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "見",
+              "reading": "み"
+            },
+            {
+              "type": "text",
+              "text": "せ"
+            },
+            {
+              "type": "ruby",
+              "text": "場",
+              "reading": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "なく",
+          "reading": "ナク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なく"
+            }
+          ]
+        },
+        {
+          "surface": "撃破",
+          "reading": "ゲキハ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "撃破",
+              "reading": "げきは"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "あの",
+          "reading": "アノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あの"
+            }
+          ]
+        },
+        {
+          "surface": "戦車",
+          "reading": "センシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦車",
+              "reading": "せんしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "唯一",
+          "reading": "ユイイツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "唯一",
+              "reading": "ゆいいつ"
+            }
+          ]
+        },
+        {
+          "surface": "現存",
+          "reading": "ゲンソン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "現存",
+              "reading": "げんそん"
+            }
+          ]
+        },
+        {
+          "surface": "車両",
+          "reading": "シャリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "車両",
+              "reading": "しゃりょう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001435786:u0003::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001435786:u0003",
+          "text": "また、日本軍の車両では本土決戦に備えた三式中戦車チヌ、「ガルパン」では見せ場なく撃破されたあの戦車の唯一現存車両がありました。",
+          "rendered_yomi_before": "また/マタ 、/、 日本軍/ニッポングン の/ノ 車両/シャリョウ で/デ は/ハ 本土/ホンド 決戦/ケッセン に/ニ 備え/ソナエ た/タ 三/サン 式中/シキチュウ 戦車/センシャ チヌ/チヌ 、/、 「/「 ガル/ガル パン/パン 」/」 で/デ は/ハ 見せ場/ミセバ なく/ナク 撃破/ゲキハ さ/サ れ/レ た/タ あの/アノ 戦車/センシャ の/ノ 唯一/ユイイツ 現存/ゲンソン 車両/シャリョウ が/ガ あり/アリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "また/マタ 、/、 日本軍/ニッポングン の/ノ 車両/シャリョウ で/デ は/ハ 本土/ホンド 決戦/ケッセン に/ニ 備え/ソナエ た/タ 三式中/サンシキチュウ 戦車/センシャ チヌ/チヌ 、/、 「/「 ガル/ガル パン/パン 」/」 で/デ は/ハ 見せ場/ミセバ なく/ナク 撃破/ゲキハ さ/サ れ/レ た/タ あの/アノ 戦車/センシャ の/ノ 唯一/ユイイツ 現存/ゲンソン 車両/シャリョウ が/ガ あり/アリ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 12,
+            "end": 13,
+            "char_start": 19,
+            "char_end": 22,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003:s0021-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "式中",
+              "token_surface": "式中",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しきちゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "式中",
+                  "reading": "しきちゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003:s0021-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "式中",
+              "token_surface": "式中",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しきちゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "式中",
+                  "reading": "しきちゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "三式中",
+          "reading_candidates": {
+            "三": [
+              "さん",
+              "み",
+              "みっ",
+              "ぞう",
+              "みい"
+            ],
+            "式": [
+              "しき"
+            ],
+            "式中": [
+              "しきちゅう"
+            ],
+            "中": [
+              "ちゅう",
+              "なか",
+              "じゅう",
+              "あたり",
+              "あたる",
+              "うち",
+              "ただし",
+              "ぢゅう",
+              "なかば"
+            ]
+          },
+          "reading_hints": {
+            "三": "さん",
+            "式": "しき",
+            "式中": "しきちゅう",
+            "中": "ちゅう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "さん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "式中",
+              "reading": "しきちゅう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"三式中\",\"reading\":\"サンシキチュウ\",\"used_web_search\":false,\"comment\":\"「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。",
+              "reading": "サンシキチュウ",
+              "surface": "三式中",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "三式中",
+            "replacement": [
+              {
+                "surface": "三式中",
+                "reading": "サンシキチュウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001435786:u0003::target_group:1",
+                "surface": "三式中",
+                "comment": "「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "三式中",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003:s0020-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "三",
+          "token_surface": "三",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "さん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003:s0021-0022",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "式中",
+          "token_surface": "式中",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しきちゅう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "式中",
+              "reading": "しきちゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "三",
+          "reading": "さん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "式中",
+          "reading": "しきちゅう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "三": [
+          "さん",
+          "み",
+          "みっ",
+          "ぞう",
+          "みい"
+        ],
+        "式": [
+          "しき"
+        ],
+        "式中": [
+          "しきちゅう"
+        ],
+        "中": [
+          "ちゅう",
+          "なか",
+          "じゅう",
+          "あたり",
+          "あたる",
+          "うち",
+          "ただし",
+          "ぢゅう",
+          "なかば"
+        ]
+      },
+      "reading_hints": {
+        "三": "さん",
+        "式": "しき",
+        "式中": "しきちゅう",
+        "中": "ちゅう"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。",
+          "reading": "サンシキチュウ",
+          "surface": "三式中",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"三式中\",\"reading\":\"サンシキチュウ\",\"used_web_search\":false,\"comment\":\"「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。\"}]",
+      "llm_comments": [
+        "「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001435786:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "三式中",
+        "replacement": [
+          {
+            "surface": "三式中",
+            "reading": "サンシキチュウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001435786:u0003::target_group:1",
+            "surface": "三式中",
+            "comment": "「三式中戦車」の冒頭部分で、ここは一まとまりとして『さんしきちゅう』と読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001435786:u0026::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0001435786",
+      "doc_seq": 7,
+      "track_doc_seq": 3477,
+      "unit_id": "ja_cc_level2_corrected_v1:0001435786:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0169.jsonl.gz",
+      "source_line_no": 1435786,
+      "text": "旧日本陸軍が初実戦投入、あの「軍神」西住戦車長も乗っていた「八九式中戦車」。",
+      "rendered_yomi_before": "旧/キュウ 日本/ニホン 陸軍/リクグン が/ガ 初/ハツ 実戦/ジッセン 投入/トウニュウ 、/、 あの/アノ 「/「 軍神/グンシン 」/」 西住/ニシズミ 戦車/センシャ 長/チョウ も/モ 乗っ/ノッ て/テ い/イ た/タ 「/「 八九/ハチキュウ 式中/シキチュウ 戦車/センシャ 」/」 。/。",
+      "rendered_yomi_after": "旧/キュウ 日本/ニホン 陸軍/リクグン が/ガ 初/ハツ 実戦/ジッセン 投入/トウニュウ 、/、 あの/アノ 「/「 軍神/グンシン 」/」 西住/ニシズミ 戦車/センシャ 長/チョウ も/モ 乗っ/ノッ て/テ い/イ た/タ 「/「 八九/ハチキュウ 式/シキ 中/チュウ 戦車/センシャ 」/」 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "旧",
+          "キュウ"
+        ],
+        [
+          "日本",
+          "ニホン"
+        ],
+        [
+          "陸軍",
+          "リクグン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "初",
+          "ハツ"
+        ],
+        [
+          "実戦",
+          "ジッセン"
+        ],
+        [
+          "投入",
+          "トウニュウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "あの",
+          "アノ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "軍神",
+          "グンシン"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "西住",
+          "ニシズミ"
+        ],
+        [
+          "戦車",
+          "センシャ"
+        ],
+        [
+          "長",
+          "チョウ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "乗っ",
+          "ノッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "八九",
+          "ハチキュウ"
+        ],
+        [
+          "式",
+          "シキ"
+        ],
+        [
+          "中",
+          "チュウ"
+        ],
+        [
+          "戦車",
+          "センシャ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "旧",
+          "reading": "キュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旧",
+              "reading": "きゅう"
+            }
+          ]
+        },
+        {
+          "surface": "日本",
+          "reading": "ニホン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本",
+              "reading": "にほん"
+            }
+          ]
+        },
+        {
+          "surface": "陸軍",
+          "reading": "リクグン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "陸軍",
+              "reading": "りくぐん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "初",
+          "reading": "ハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "初",
+              "reading": "はつ"
+            }
+          ]
+        },
+        {
+          "surface": "実戦",
+          "reading": "ジッセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "実戦",
+              "reading": "じっせん"
+            }
+          ]
+        },
+        {
+          "surface": "投入",
+          "reading": "トウニュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投入",
+              "reading": "とうにゅう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "あの",
+          "reading": "アノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あの"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "軍神",
+          "reading": "グンシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "軍神",
+              "reading": "ぐんしん"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "西住",
+          "reading": "ニシズミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "西住",
+              "reading": "にしずみ"
+            }
+          ]
+        },
+        {
+          "surface": "戦車",
+          "reading": "センシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦車",
+              "reading": "せんしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "長",
+          "reading": "チョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "長",
+              "reading": "ちょう"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "乗っ",
+          "reading": "ノッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "乗",
+              "reading": "の"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "八九",
+          "reading": "ハチキュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八九",
+              "reading": "はちきゅう"
+            }
+          ]
+        },
+        {
+          "surface": "式",
+          "reading": "シキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "式",
+              "reading": "しき"
+            }
+          ]
+        },
+        {
+          "surface": "中",
+          "reading": "チュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中",
+              "reading": "ちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "戦車",
+          "reading": "センシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦車",
+              "reading": "せんしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001435786:u0026",
+          "text": "旧日本陸軍が初実戦投入、あの「軍神」西住戦車長も乗っていた「八九式中戦車」。",
+          "rendered_yomi_before": "旧/キュウ 日本/ニホン 陸軍/リクグン が/ガ 初/ハツ 実戦/ジッセン 投入/トウニュウ 、/、 あの/アノ 「/「 軍神/グンシン 」/」 西住/ニシズミ 戦車/センシャ 長/チョウ も/モ 乗っ/ノッ て/テ い/イ た/タ 「/「 八九/ハチキュウ 式中/シキチュウ 戦車/センシャ 」/」 。/。",
+          "rendered_yomi_after": "旧/キュウ 日本/ニホン 陸軍/リクグン が/ガ 初/ハツ 実戦/ジッセン 投入/トウニュウ 、/、 あの/アノ 「/「 軍神/グンシン 」/」 西住/ニシズミ 戦車/センシャ 長/チョウ も/モ 乗っ/ノッ て/テ い/イ た/タ 「/「 八九/ハチキュウ 式/シキ 中/チュウ 戦車/センシャ 」/」 。/。",
+          "display_mapping": {
+            "start": 22,
+            "end": 24,
+            "char_start": 32,
+            "char_end": 34,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001435786:u0026:s0033-0034",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "式中",
+              "token_surface": "式中",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しきちゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "式中",
+                  "reading": "しきちゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001435786:u0026:s0033-0034",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "式中",
+              "token_surface": "式中",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しきちゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "式中",
+                  "reading": "しきちゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "式中",
+          "reading_candidates": {
+            "式": [
+              "しき"
+            ],
+            "式中": [
+              "しきちゅう"
+            ],
+            "中": [
+              "ちゅう",
+              "なか",
+              "じゅう",
+              "あたり",
+              "あたる",
+              "うち",
+              "ただし",
+              "ぢゅう",
+              "なかば"
+            ]
+          },
+          "reading_hints": {
+            "式": "しき",
+            "式中": "しきちゅう",
+            "中": "ちゅう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "式中",
+              "reading": "しきちゅう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"式\",\"reading\":\"しき\",\"used_web_search\":false,\"comment\":\"「八九式中戦車」の「式」は型式を表すので「しき」と読む。\"},{\"surface\":\"中\",\"reading\":\"ちゅう\",\"used_web_search\":false,\"comment\":\"後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「八九式中戦車」の「式」は型式を表すので「しき」と読む。",
+              "reading": "しき",
+              "surface": "式",
+              "used_web_search": false
+            },
+            {
+              "comment": "後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。",
+              "reading": "ちゅう",
+              "surface": "中",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「八九式中戦車」の「式」は型式を表すので「しき」と読む。",
+            "後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "式中",
+            "replacement": [
+              {
+                "surface": "式",
+                "reading": "シキ"
+              },
+              {
+                "surface": "中",
+                "reading": "チュウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+                "surface": "式中",
+                "comment": "「八九式中戦車」の「式」は型式を表すので「しき」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+                "surface": "式中",
+                "comment": "後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "式中",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001435786:u0026:s0033-0034",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "式中",
+          "token_surface": "式中",
+          "token_index": 22,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しきちゅう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "式中",
+              "reading": "しきちゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "式中",
+          "reading": "しきちゅう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "式": [
+          "しき"
+        ],
+        "式中": [
+          "しきちゅう"
+        ],
+        "中": [
+          "ちゅう",
+          "なか",
+          "じゅう",
+          "あたり",
+          "あたる",
+          "うち",
+          "ただし",
+          "ぢゅう",
+          "なかば"
+        ]
+      },
+      "reading_hints": {
+        "式": "しき",
+        "式中": "しきちゅう",
+        "中": "ちゅう"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「八九式中戦車」の「式」は型式を表すので「しき」と読む。",
+          "reading": "しき",
+          "surface": "式",
+          "used_web_search": false
+        },
+        {
+          "comment": "後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。",
+          "reading": "ちゅう",
+          "surface": "中",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"式\",\"reading\":\"しき\",\"used_web_search\":false,\"comment\":\"「八九式中戦車」の「式」は型式を表すので「しき」と読む。\"},{\"surface\":\"中\",\"reading\":\"ちゅう\",\"used_web_search\":false,\"comment\":\"後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。\"}]",
+      "llm_comments": [
+        "「八九式中戦車」の「式」は型式を表すので「しき」と読む。",
+        "後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "式中",
+        "replacement": [
+          {
+            "surface": "式",
+            "reading": "シキ"
+          },
+          {
+            "surface": "中",
+            "reading": "チュウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+            "surface": "式中",
+            "comment": "「八九式中戦車」の「式」は型式を表すので「しき」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001435786:u0026::target_group:1",
+            "surface": "式中",
+            "comment": "後続の「戦車」と合わせて「中戦車（ちゅうせんしゃ）」になるため、ここは「ちゅう」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0002440292",
+      "doc_seq": 10,
+      "track_doc_seq": 3480,
+      "unit_id": "ja_cc_level2_corrected_v1:0002440292:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0363.jsonl.gz",
+      "source_line_no": 2440292,
+      "text": "地元の人にもよく利用される温泉が、町営「つきみが丘町民センター」。",
+      "rendered_yomi_before": "地元/ジモト の/ノ 人/ヒト に/ニ も/モ よく/ヨク 利用/リヨウ さ/サ れる/レル 温泉/オンセン が/ガ 、/、 町営/チョウエイ 「/「 つきみ/ツキミ が/ガ 丘町/オカマチ 民/ミン センター/センター 」/」 。/。",
+      "rendered_yomi_after": "地元/ジモト の/ノ 人/ヒト に/ニ も/モ よく/ヨク 利用/リヨウ さ/サ れる/レル 温泉/オンセン が/ガ 、/、 町営/チョウエイ 「/「 つきみ/ツキミ が/ガ 丘/オカ 町民/チョウミン センター/センター 」/」 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "地元",
+          "ジモト"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "よく",
+          "ヨク"
+        ],
+        [
+          "利用",
+          "リヨウ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れる",
+          "レル"
+        ],
+        [
+          "温泉",
+          "オンセン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "町営",
+          "チョウエイ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "つきみ",
+          "ツキミ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "丘",
+          "オカ"
+        ],
+        [
+          "町民",
+          "チョウミン"
+        ],
+        [
+          "センター",
+          "センター"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "地元",
+          "reading": "ジモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "地元",
+              "reading": "じもと"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "よく",
+          "reading": "ヨク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よく"
+            }
+          ]
+        },
+        {
+          "surface": "利用",
+          "reading": "リヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "利用",
+              "reading": "りよう"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れる",
+          "reading": "レル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れる"
+            }
+          ]
+        },
+        {
+          "surface": "温泉",
+          "reading": "オンセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "温泉",
+              "reading": "おんせん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "町営",
+          "reading": "チョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "町営",
+              "reading": "ちょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "つきみ",
+          "reading": "ツキミ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つきみ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "丘",
+          "reading": "オカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "丘",
+              "reading": "おか"
+            }
+          ]
+        },
+        {
+          "surface": "町民",
+          "reading": "チョウミン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "町民",
+              "reading": "ちょうみん"
+            }
+          ]
+        },
+        {
+          "surface": "センター",
+          "reading": "センター",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "センター"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002440292:u0006",
+          "text": "地元の人にもよく利用される温泉が、町営「つきみが丘町民センター」。",
+          "rendered_yomi_before": "地元/ジモト の/ノ 人/ヒト に/ニ も/モ よく/ヨク 利用/リヨウ さ/サ れる/レル 温泉/オンセン が/ガ 、/、 町営/チョウエイ 「/「 つきみ/ツキミ が/ガ 丘町/オカマチ 民/ミン センター/センター 」/」 。/。",
+          "rendered_yomi_after": "地元/ジモト の/ノ 人/ヒト に/ニ も/モ よく/ヨク 利用/リヨウ さ/サ れる/レル 温泉/オンセン が/ガ 、/、 町営/チョウエイ 「/「 つきみ/ツキミ が/ガ 丘/オカ 町民/チョウミン センター/センター 」/」 。/。",
+          "display_mapping": {
+            "start": 16,
+            "end": 18,
+            "char_start": 24,
+            "char_end": 27,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006:s0025-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "丘町",
+              "token_surface": "丘町",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おかまち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "丘町",
+                  "reading": "おかまち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006:s0027-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "民",
+              "token_surface": "民",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "民",
+                  "reading": "みん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006:s0025-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "丘町",
+              "token_surface": "丘町",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おかまち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "丘町",
+                  "reading": "おかまち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006:s0027-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "民",
+              "token_surface": "民",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "民",
+                  "reading": "みん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "丘町民",
+          "reading_candidates": {
+            "丘": [
+              "おか",
+              "たかし",
+              "きゅう"
+            ],
+            "丘町": [
+              "おかまち"
+            ],
+            "町": [
+              "ちょう",
+              "まち"
+            ],
+            "町民": [
+              "ちょうみん"
+            ],
+            "民": [
+              "たみ",
+              "みん"
+            ]
+          },
+          "reading_hints": {
+            "丘": "おか",
+            "丘町": "おかまち",
+            "町": "ちょう",
+            "町民": "ちょうみん",
+            "民": "たみ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "丘町",
+              "reading": "おかまち",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "民",
+              "reading": "みん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"丘\",\"reading\":\"おか\",\"used_web_search\":false,\"comment\":\"「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。\"},{\"surface\":\"町民\",\"reading\":\"ちょうみん\",\"used_web_search\":false,\"comment\":\"後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。",
+              "reading": "おか",
+              "surface": "丘",
+              "used_web_search": false
+            },
+            {
+              "comment": "後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。",
+              "reading": "ちょうみん",
+              "surface": "町民",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。",
+            "後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "丘町民",
+            "replacement": [
+              {
+                "surface": "丘",
+                "reading": "オカ"
+              },
+              {
+                "surface": "町民",
+                "reading": "チョウミン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+                "surface": "丘町民",
+                "comment": "「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+                "surface": "丘町民",
+                "comment": "後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "丘町民",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006:s0025-0026",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "丘町",
+          "token_surface": "丘町",
+          "token_index": 16,
+          "chunk_index": 0,
+          "current_reading_hiragana": "おかまち",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "丘町",
+              "reading": "おかまち",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006:s0027-0027",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "民",
+          "token_surface": "民",
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "民",
+              "reading": "みん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "丘町",
+          "reading": "おかまち",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "民",
+          "reading": "みん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "丘": [
+          "おか",
+          "たかし",
+          "きゅう"
+        ],
+        "丘町": [
+          "おかまち"
+        ],
+        "町": [
+          "ちょう",
+          "まち"
+        ],
+        "町民": [
+          "ちょうみん"
+        ],
+        "民": [
+          "たみ",
+          "みん"
+        ]
+      },
+      "reading_hints": {
+        "丘": "おか",
+        "丘町": "おかまち",
+        "町": "ちょう",
+        "町民": "ちょうみん",
+        "民": "たみ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。",
+          "reading": "おか",
+          "surface": "丘",
+          "used_web_search": false
+        },
+        {
+          "comment": "後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。",
+          "reading": "ちょうみん",
+          "surface": "町民",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"丘\",\"reading\":\"おか\",\"used_web_search\":false,\"comment\":\"「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。\"},{\"surface\":\"町民\",\"reading\":\"ちょうみん\",\"used_web_search\":false,\"comment\":\"後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。\"}]",
+      "llm_comments": [
+        "「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。",
+        "後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "丘町民",
+        "replacement": [
+          {
+            "surface": "丘",
+            "reading": "オカ"
+          },
+          {
+            "surface": "町民",
+            "reading": "チョウミン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+            "surface": "丘町民",
+            "comment": "「つきみが丘」の一部として読むため、ここは地名の「丘」=「おか」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002440292:u0006::target_group:1",
+            "surface": "丘町民",
+            "comment": "後ろの「センター」と結ぶ一般語で、「町民」=「ちょうみん」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
