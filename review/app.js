@@ -8324,6 +8324,10 @@ async function startReviewTask() {
   }
   const matchingDraft = findSavedTaskDraftByDocIds(task.doc_ids);
   if (matchingDraft) {
+    const taskLabel = localizedTaskLabel(matchingDraft.task_label || "保留中のタスク");
+    if (!window.confirm(`選択した文書は、すでに${taskLabel}に含まれています。保存済みの作業内容を引き継いで、このタスクを再開しますか？`)) {
+      return;
+    }
     await resumeTaskDraft(matchingDraft.task_id);
     showStatus(`${localizedTaskLabel(matchingDraft.task_label || "保留中のタスク")}に戻りました。`);
     return;
