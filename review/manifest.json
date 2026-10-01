@@ -323,31 +323,6 @@
       "pending_document_count": 10,
       "queue_id": "final_review",
       "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_1211",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_1211_v1",
-      "title": "詳細修正 / dev_batch_1211 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_1211_v1.json",
-      "created_at_epoch": 1790836248,
-      "item_count": 5,
-      "document_count": 10,
-      "selectable_document_count": 3,
-      "document_state_counts": {
-        "complete": 7,
-        "strong_pending": 3
-      },
-      "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0000854160",
-        "ja_cc_level2_corrected_v1:0001587695",
-        "ja_cc_level2_corrected_v1:0001866852"
-      ],
-      "pending_document_count": 3,
-      "queue_id": "strong_repair",
-      "status": "active-dev"
     }
   ],
   "stages": {
@@ -3854,8 +3829,7 @@
           "document_count": 10,
           "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 7,
-            "strong_pending": 3
+            "complete": 10
           },
           "pending_doc_ids": [],
           "pending_document_count": 0,
@@ -7439,17 +7413,12 @@
           "created_at_epoch": 1790836248,
           "item_count": 5,
           "document_count": 10,
-          "selectable_document_count": 3,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 7,
-            "strong_pending": 3
+            "complete": 10
           },
-          "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0000854160",
-            "ja_cc_level2_corrected_v1:0001587695",
-            "ja_cc_level2_corrected_v1:0001866852"
-          ],
-          "pending_document_count": 3,
+          "pending_doc_ids": [],
+          "pending_document_count": 0,
           "queue_id": "strong_repair",
           "status": "active-dev"
         }
@@ -7509,24 +7478,16 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 3587,
+        "document_count": 3590,
         "manual_correction_required_count": 0,
         "reading_warning_count": 0,
         "finalized_track_doc_seq_ranges": [
           [
             1,
-            3581
-          ],
-          [
-            3583,
-            3585
-          ],
-          [
-            3587,
-            3589
+            3590
           ]
         ],
-        "shard_count": 3587
+        "shard_count": 3590
       }
     }
   }
