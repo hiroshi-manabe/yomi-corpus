@@ -8766,17 +8766,61 @@ function showStatus(message, isError = false) {
   el.statusBanner.style.color = isError ? "var(--danger)" : "var(--warning)";
 }
 
-async function fetchJson(url) {
+async function fetchJson(url, { timeoutMs } = {}) {
   const cacheBuster = new URLSearchParams(window.location.search).get("v");
   const requestUrl = new URL(url, window.location.href);
   if (cacheBuster) {
     requestUrl.searchParams.set("v", cacheBuster);
   }
-  const response = await fetch(requestUrl, { cache: "no-store" });
+  const response = await fetch(requestUrl, {
+    cache: "no-store",
+    ...(timeoutMs ? { signal: AbortSignal.timeout(timeoutMs) } : {}),
+  });
   if (!response.ok) {
     throw new Error(`HTTP ${response.status} for ${url}`);
   }
   return response.json();
+}
+
+function issueAcknowledgmentSourceUrls() {
+  const config = state.manifest?.issue_acknowledgments;
+  if (!config?.path) return [];
+  const urls = [];
+  if (config.direct_url) {
+    urls.push(config.direct_url);
+  } else {
+    const location = new URL(window.location.href);
+    const owner = location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i)?.[1];
+    const segments = new URL(config.path, location).pathname.split("/").filter(Boolean);
+    if (owner && segments.length >= 3) {
+      const [repo, ...path] = segments;
+      urls.push(`https://raw.githubusercontent.com/${owner}/${repo}/refs/heads/gh-pages/${path.join("/")}`);
+    }
+  }
+  urls.push(config.path);
+  return [...new Set(urls)];
+}
+
+async function fetchIssueAcknowledgments() {
+  const bucket = Math.floor(Date.now() / 30000);
+  let lastError;
+  for (const path of issueAcknowledgmentSourceUrls()) {
+    try {
+      const separator = path.includes("?") ? "&" : "?";
+      const payload = await fetchJson(`${path}${separator}poll=${bucket}`, { timeoutMs: 5000 });
+      if (payload?.schema_version !== 1 || !Array.isArray(payload.records)) {
+        throw new Error("Invalid Issue acknowledgment response");
+      }
+      // A stale CDN response must not undo a newer server acknowledgment.
+      if (Number(payload.state_revision || 0) < Number(state.issueAcknowledgments?.state_revision || 0)) {
+        return state.issueAcknowledgments;
+      }
+      return payload;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError || new Error("No Issue acknowledgment URL configured");
 }
 
 async function loadIssueAcknowledgments() {
@@ -8786,7 +8830,7 @@ async function loadIssueAcknowledgments() {
     return;
   }
   try {
-    state.issueAcknowledgments = await fetchJson(path);
+    state.issueAcknowledgments = await fetchIssueAcknowledgments();
     rememberServerSubmissionReceipts(state.issueAcknowledgments);
     state.issueAcknowledgmentSignature = issueAcknowledgmentSignature(state.issueAcknowledgments);
   } catch (error) {
@@ -8811,9 +8855,7 @@ async function pollIssueAcknowledgments() {
   if (!path) {
     return false;
   }
-  const separator = path.includes("?") ? "&" : "?";
-  const bucket = Math.floor(Date.now() / 30000);
-  const payload = await fetchJson(`${path}${separator}poll=${bucket}`);
+  const payload = await fetchIssueAcknowledgments();
   rememberServerSubmissionReceipts(payload);
   const signature = issueAcknowledgmentSignature(payload);
   if (signature === state.issueAcknowledgmentSignature) {
