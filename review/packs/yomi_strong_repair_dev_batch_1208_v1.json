@@ -1,0 +1,5002 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1208_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1208",
+  "created_at_epoch": 1790831183,
+  "created_at": "2026-10-01T05:06:23Z",
+  "item_count": 6,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 6,
+    "queued_repair_row_count": 6,
+    "result_row_count": 6,
+    "reviewable_repair_row_count": 6,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002490379",
+      "doc_seq": 1,
+      "track_doc_seq": 3551,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0374.jsonl.gz",
+      "source_line_no": 2490379,
+      "preview": "ゴールデンウィークも終わり、早くも梅雨入りの季節となりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T04:36:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000362340",
+      "doc_seq": 2,
+      "track_doc_seq": 3552,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0039.jsonl.gz",
+      "source_line_no": 362340,
+      "preview": "しかし、妻は「夫源病」を患い、娘からは「アンタ」呼ばわり。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-01T04:36:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000390516",
+      "doc_seq": 3,
+      "track_doc_seq": 3553,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0042.jsonl.gz",
+      "source_line_no": 390516,
+      "preview": "様々な事業所であなたの経験を生かすことができます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T04:36:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000814389",
+      "doc_seq": 4,
+      "track_doc_seq": 3554,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0082.jsonl.gz",
+      "source_line_no": 814389,
+      "preview": "各種登記手続き、残代金の受領、お引渡しの流れは、イエステーションスタッフがお客様にわかりやすくご説明いたします。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-01T04:36:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 3,
+      "to_seq": 5,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 3
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000819285",
+      "doc_seq": 5,
+      "track_doc_seq": 3555,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0082.jsonl.gz",
+      "source_line_no": 819285,
+      "preview": "子供のころの、谷地どんが祭りで思い出すのは、八幡神社境内のお化け屋敷や、「人魚」の見世物、サーカスなどでしたが、今は、無いようです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-01T04:36:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 6,
+      "to_seq": 6,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001523221",
+      "doc_seq": 6,
+      "track_doc_seq": 3556,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0187.jsonl.gz",
+      "source_line_no": 1523221,
+      "preview": "皆さんは行かれましたか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T04:36:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001367826",
+      "doc_seq": 7,
+      "track_doc_seq": 3557,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0159.jsonl.gz",
+      "source_line_no": 1367826,
+      "preview": "パラリンピックに出場する障がい者は、身体障がい者と知的障害者です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T04:36:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001093918",
+      "doc_seq": 8,
+      "track_doc_seq": 3558,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0118.jsonl.gz",
+      "source_line_no": 1093918,
+      "preview": "奥様チョイスの小鳥さんの蛇口や明るい色味のレンガ、白い砂利などかわいい雰囲気の材料で日影のお庭が明るくなりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T04:36:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000864148",
+      "doc_seq": 9,
+      "track_doc_seq": 3559,
+      "unit_count": 2,
+      "source_file": "ja/ja_cc/level2/0089.jsonl.gz",
+      "source_line_no": 864148,
+      "preview": "中途半端な切れ端せっけん。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T04:36:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 2,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001810704",
+      "doc_seq": 10,
+      "track_doc_seq": 3560,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0228.jsonl.gz",
+      "source_line_no": 1810704,
+      "preview": "大逆転劇を生むヘッドスライディングだった。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T04:36:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000362340:u0011::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000362340",
+      "doc_seq": 2,
+      "track_doc_seq": 3552,
+      "unit_id": "ja_cc_level2_corrected_v1:0000362340:u0011",
+      "unit_seq": 11,
+      "source_file": "ja/ja_cc/level2/0039.jsonl.gz",
+      "source_line_no": 362340,
+      "text": "それこそ家族だからこそ「親しき仲にも礼儀あり」だと思います。",
+      "rendered_yomi_before": "それ/ソレ こそ/コソ 家族/カゾク だ/ダ から/カラ こそ/コソ 「/「 親しき/ 仲/ナカ に/ニ も/モ 礼儀/レイギ あり/アリ 」/」 だ/ダ と/ト 思い/オモイ ます/マス 。/。",
+      "rendered_yomi_after": "それ/ソレ こそ/コソ 家族/カゾク だ/ダ から/カラ こそ/コソ 「/「 親しき/シタシキ 仲/ナカ に/ニ も/モ 礼儀/レイギ あり/アリ 」/」 だ/ダ と/ト 思い/オモイ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "それ",
+          "ソレ"
+        ],
+        [
+          "こそ",
+          "コソ"
+        ],
+        [
+          "家族",
+          "カゾク"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "こそ",
+          "コソ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "親しき",
+          "シタシキ"
+        ],
+        [
+          "仲",
+          "ナカ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "礼儀",
+          "レイギ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "思い",
+          "オモイ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "それ",
+          "reading": "ソレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "それ"
+            }
+          ]
+        },
+        {
+          "surface": "こそ",
+          "reading": "コソ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こそ"
+            }
+          ]
+        },
+        {
+          "surface": "家族",
+          "reading": "カゾク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "家族",
+              "reading": "かぞく"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "こそ",
+          "reading": "コソ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こそ"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "親しき",
+          "reading": "シタシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "親",
+              "reading": "した"
+            },
+            {
+              "type": "text",
+              "text": "しき"
+            }
+          ]
+        },
+        {
+          "surface": "仲",
+          "reading": "ナカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "仲",
+              "reading": "なか"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "礼儀",
+          "reading": "レイギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "礼儀",
+              "reading": "れいぎ"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "思い",
+          "reading": "オモイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000362340:u0011::span_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000362340:u0011::span_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000362340:u0011",
+          "text": "それこそ家族だからこそ「親しき仲にも礼儀あり」だと思います。",
+          "rendered_yomi_before": "それ/ソレ こそ/コソ 家族/カゾク だ/ダ から/カラ こそ/コソ 「/「 親しき/ 仲/ナカ に/ニ も/モ 礼儀/レイギ あり/アリ 」/」 だ/ダ と/ト 思い/オモイ ます/マス 。/。",
+          "rendered_yomi_after": "それ/ソレ こそ/コソ 家族/カゾク だ/ダ から/カラ こそ/コソ 「/「 親しき/シタシキ 仲/ナカ に/ニ も/モ 礼儀/レイギ あり/アリ 」/」 だ/ダ と/ト 思い/オモイ ます/マス 。/。",
+          "display_mapping": {
+            "start": 7,
+            "end": 8,
+            "char_start": 12,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "kana_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "親しき",
+              "token_surface": "親しき",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1208_v1:ja_cc_level2_corrected_v1:0000362340:u0011:12-15",
+              "rejected_readings": [
+                {
+                  "surface": "親しき",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "親しき",
+              "token_surface": "親しき",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1208_v1:ja_cc_level2_corrected_v1:0000362340:u0011:12-15",
+              "rejected_readings": [
+                {
+                  "surface": "親しき",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "親しき",
+          "reading_candidates": {
+            "親": [
+              "しん",
+              "おや",
+              "したし",
+              "ちかし"
+            ],
+            "親し": [
+              "したし"
+            ],
+            "し": [
+              "し"
+            ]
+          },
+          "reading_hints": {
+            "親": "しん",
+            "親し": "したし",
+            "し": "し"
+          },
+          "rejected_readings": [
+            {
+              "surface": "親しき",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"親しき\",\"reading\":\"したしき\",\"used_web_search\":false,\"comment\":\"ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。",
+              "reading": "したしき",
+              "surface": "親しき",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000362340:u0011::span_group:1",
+            "status": "applied",
+            "rejected_span": "親しき",
+            "replacement": [
+              {
+                "surface": "親しき",
+                "reading": "シタシキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000362340:u0011::span_group:1",
+                "surface": "親しき",
+                "comment": "ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "親しき",
+      "target_escalations": [
+        {
+          "surface": "親しき",
+          "token_surface": "親しき",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_1208_v1:ja_cc_level2_corrected_v1:0000362340:u0011:12-15",
+          "rejected_readings": [
+            {
+              "surface": "親しき",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "親しき",
+          "reading": "",
+          "source": "kana_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "親": [
+          "しん",
+          "おや",
+          "したし",
+          "ちかし"
+        ],
+        "親し": [
+          "したし"
+        ],
+        "し": [
+          "し"
+        ]
+      },
+      "reading_hints": {
+        "親": "しん",
+        "親し": "したし",
+        "し": "し"
+      },
+      "llm_parsed": [
+        {
+          "comment": "ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。",
+          "reading": "したしき",
+          "surface": "親しき",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"親しき\",\"reading\":\"したしき\",\"used_web_search\":false,\"comment\":\"ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。\"}]",
+      "llm_comments": [
+        "ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000362340:u0011::span_group:1",
+        "status": "applied",
+        "rejected_span": "親しき",
+        "replacement": [
+          {
+            "surface": "親しき",
+            "reading": "シタシキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000362340:u0011::span_group:1",
+            "surface": "親しき",
+            "comment": "ことわざ「親しき仲にも礼儀あり」の「親しき」は、形容詞「親しい」の連体形で読みは「したしき」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000362340",
+      "doc_seq": 2,
+      "track_doc_seq": 3552,
+      "unit_id": "ja_cc_level2_corrected_v1:0000362340:u0015",
+      "unit_seq": 15,
+      "source_file": "ja/ja_cc/level2/0039.jsonl.gz",
+      "source_line_no": 362340,
+      "text": "『海抜ゼロメートル地帯が広がる東京都の江東５区（墨田、江東、足立、葛飾、江戸川）は２２日、大洪水を想定したハザードマップと、住民に近隣県への事前避難を求める広域避難計画を発表した。",
+      "rendered_yomi_before": "『/『 海抜/カイバツ ゼロ/ゼロ メートル/メートル 地帯/チタイ が/ガ 広がる/ヒロガル 東京都/トウキョウト の/ノ 江東/コウトウ ５/ 区/ク （/（ 墨田/スミダ 、/、 江東/コウトウ 、/、 足立/アダチ 、/、 葛飾/カツシカ 、/、 江戸/エド 川/カワ ）/） は/ハ ２２/ 日/ニチ 、/、 大洪水/ダイコウズイ を/ヲ 想定/ソウテイ し/シ た/タ ハザード/ハザード マップ/マップ と/ト 、/、 住民/ジュウミン に/ニ 近隣県/キンリンケン へ/ヘ の/ノ 事前/ジゼン 避難/ヒナン を/ヲ 求める/モトメル 広域/コウイキ 避難/ヒナン 計画/ケイカク を/ヲ 発表/ハッピョウ し/シ た/タ 。/。",
+      "rendered_yomi_after": "『/『 海抜/カイバツ ゼロ/ゼロ メートル/メートル 地帯/チタイ が/ガ 広がる/ヒロガル 東京都/トウキョウト の/ノ 江東/コウトウ ５/ 区/ク （/（ 墨田/スミダ 、/、 江東/コウトウ 、/、 足立/アダチ 、/、 葛飾/カツシカ 、/、 江戸川/エドガワ ）/） は/ハ ２２/ 日/ニチ 、/、 大洪水/ダイコウズイ を/ヲ 想定/ソウテイ し/シ た/タ ハザード/ハザード マップ/マップ と/ト 、/、 住民/ジュウミン に/ニ 近隣県/キンリンケン へ/ヘ の/ノ 事前/ジゼン 避難/ヒナン を/ヲ 求める/モトメル 広域/コウイキ 避難/ヒナン 計画/ケイカク を/ヲ 発表/ハッピョウ し/シ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "『",
+          "『"
+        ],
+        [
+          "海抜",
+          "カイバツ"
+        ],
+        [
+          "ゼロ",
+          "ゼロ"
+        ],
+        [
+          "メートル",
+          "メートル"
+        ],
+        [
+          "地帯",
+          "チタイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "広がる",
+          "ヒロガル"
+        ],
+        [
+          "東京都",
+          "トウキョウト"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "江東",
+          "コウトウ"
+        ],
+        [
+          "５",
+          ""
+        ],
+        [
+          "区",
+          "ク"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "墨田",
+          "スミダ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "江東",
+          "コウトウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "足立",
+          "アダチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "葛飾",
+          "カツシカ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "江戸川",
+          "エドガワ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "２２",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "大洪水",
+          "ダイコウズイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "想定",
+          "ソウテイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "ハザード",
+          "ハザード"
+        ],
+        [
+          "マップ",
+          "マップ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "住民",
+          "ジュウミン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "近隣県",
+          "キンリンケン"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "事前",
+          "ジゼン"
+        ],
+        [
+          "避難",
+          "ヒナン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "求める",
+          "モトメル"
+        ],
+        [
+          "広域",
+          "コウイキ"
+        ],
+        [
+          "避難",
+          "ヒナン"
+        ],
+        [
+          "計画",
+          "ケイカク"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "発表",
+          "ハッピョウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "海抜",
+          "reading": "カイバツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "海抜",
+              "reading": "かいばつ"
+            }
+          ]
+        },
+        {
+          "surface": "ゼロ",
+          "reading": "ゼロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゼロ"
+            }
+          ]
+        },
+        {
+          "surface": "メートル",
+          "reading": "メートル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メートル"
+            }
+          ]
+        },
+        {
+          "surface": "地帯",
+          "reading": "チタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "地帯",
+              "reading": "ちたい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "広がる",
+          "reading": "ヒロガル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広",
+              "reading": "ひろ"
+            },
+            {
+              "type": "text",
+              "text": "がる"
+            }
+          ]
+        },
+        {
+          "surface": "東京都",
+          "reading": "トウキョウト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東京都",
+              "reading": "とうきょうと"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "江東",
+          "reading": "コウトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "江東",
+              "reading": "こうとう"
+            }
+          ]
+        },
+        {
+          "surface": "５",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "５"
+            }
+          ]
+        },
+        {
+          "surface": "区",
+          "reading": "ク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区",
+              "reading": "く"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "墨田",
+          "reading": "スミダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "墨田",
+              "reading": "すみだ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "江東",
+          "reading": "コウトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "江東",
+              "reading": "こうとう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "足立",
+          "reading": "アダチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "足立",
+              "reading": "あだち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "葛飾",
+          "reading": "カツシカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "葛飾",
+              "reading": "かつしか"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "江戸川",
+          "reading": "エドガワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "江戸川",
+              "reading": "えどがわ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "２２",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２２"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "大洪水",
+          "reading": "ダイコウズイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大洪水",
+              "reading": "だいこうずい"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "想定",
+          "reading": "ソウテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "想定",
+              "reading": "そうてい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "ハザード",
+          "reading": "ハザード",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ハザード"
+            }
+          ]
+        },
+        {
+          "surface": "マップ",
+          "reading": "マップ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マップ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "住民",
+          "reading": "ジュウミン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "住民",
+              "reading": "じゅうみん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "近隣県",
+          "reading": "キンリンケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "近隣県",
+              "reading": "きんりんけん"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "事前",
+          "reading": "ジゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "事前",
+              "reading": "じぜん"
+            }
+          ]
+        },
+        {
+          "surface": "避難",
+          "reading": "ヒナン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "避難",
+              "reading": "ひなん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "求める",
+          "reading": "モトメル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "求",
+              "reading": "もと"
+            },
+            {
+              "type": "text",
+              "text": "める"
+            }
+          ]
+        },
+        {
+          "surface": "広域",
+          "reading": "コウイキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広域",
+              "reading": "こういき"
+            }
+          ]
+        },
+        {
+          "surface": "避難",
+          "reading": "ヒナン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "避難",
+              "reading": "ひなん"
+            }
+          ]
+        },
+        {
+          "surface": "計画",
+          "reading": "ケイカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "計画",
+              "reading": "けいかく"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "発表",
+          "reading": "ハッピョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発表",
+              "reading": "はっぴょう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000362340:u0015::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000362340:u0015",
+          "text": "『海抜ゼロメートル地帯が広がる東京都の江東５区（墨田、江東、足立、葛飾、江戸川）は２２日、大洪水を想定したハザードマップと、住民に近隣県への事前避難を求める広域避難計画を発表した。",
+          "rendered_yomi_before": "『/『 海抜/カイバツ ゼロ/ゼロ メートル/メートル 地帯/チタイ が/ガ 広がる/ヒロガル 東京都/トウキョウト の/ノ 江東/コウトウ ５/ 区/ク （/（ 墨田/スミダ 、/、 江東/コウトウ 、/、 足立/アダチ 、/、 葛飾/カツシカ 、/、 江戸/エド 川/カワ ）/） は/ハ ２２/ 日/ニチ 、/、 大洪水/ダイコウズイ を/ヲ 想定/ソウテイ し/シ た/タ ハザード/ハザード マップ/マップ と/ト 、/、 住民/ジュウミン に/ニ 近隣県/キンリンケン へ/ヘ の/ノ 事前/ジゼン 避難/ヒナン を/ヲ 求める/モトメル 広域/コウイキ 避難/ヒナン 計画/ケイカク を/ヲ 発表/ハッピョウ し/シ た/タ 。/。",
+          "rendered_yomi_after": "『/『 海抜/カイバツ ゼロ/ゼロ メートル/メートル 地帯/チタイ が/ガ 広がる/ヒロガル 東京都/トウキョウト の/ノ 江東/コウトウ ５/ 区/ク （/（ 墨田/スミダ 、/、 江東/コウトウ 、/、 足立/アダチ 、/、 葛飾/カツシカ 、/、 江戸川/エドガワ ）/） は/ハ ２２/ 日/ニチ 、/、 大洪水/ダイコウズイ を/ヲ 想定/ソウテイ し/シ た/タ ハザード/ハザード マップ/マップ と/ト 、/、 住民/ジュウミン に/ニ 近隣県/キンリンケン へ/ヘ の/ノ 事前/ジゼン 避難/ヒナン を/ヲ 求める/モトメル 広域/コウイキ 避難/ヒナン 計画/ケイカク を/ヲ 発表/ハッピョウ し/シ た/タ 。/。",
+          "display_mapping": {
+            "start": 21,
+            "end": 22,
+            "char_start": 36,
+            "char_end": 39,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015:s0037-0038",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "江戸",
+              "token_surface": "江戸",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "えど",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "江戸",
+                  "reading": "えど",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015:s0039-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "川",
+              "token_surface": "川",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かわ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "川",
+                  "reading": "かわ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015:s0037-0038",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "江戸",
+              "token_surface": "江戸",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "えど",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "江戸",
+                  "reading": "えど",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015:s0039-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "川",
+              "token_surface": "川",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かわ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "川",
+                  "reading": "かわ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "江戸川",
+          "reading_candidates": {
+            "江": [
+              "ごう",
+              "え",
+              "こう"
+            ],
+            "江戸": [
+              "えど"
+            ],
+            "江戸川": [
+              "えどがわ"
+            ],
+            "戸": [
+              "ど",
+              "こ",
+              "と",
+              "との"
+            ],
+            "戸川": [
+              "とかわ",
+              "とがわ"
+            ],
+            "川": [
+              "がわ",
+              "かわ",
+              "せん"
+            ]
+          },
+          "reading_hints": {
+            "江": "ごう",
+            "江戸": "えど",
+            "江戸川": "えどがわ",
+            "戸": "ど",
+            "戸川": "とかわ",
+            "川": "がわ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "江戸",
+              "reading": "えど",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "川",
+              "reading": "かわ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"江戸川\",\"reading\":\"エドガワ\",\"used_web_search\":false,\"comment\":\"東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。",
+              "reading": "エドガワ",
+              "surface": "江戸川",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015::target_group:1",
+            "status": "applied",
+            "rejected_span": "江戸川",
+            "replacement": [
+              {
+                "surface": "江戸川",
+                "reading": "エドガワ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000362340:u0015::target_group:1",
+                "surface": "江戸川",
+                "comment": "東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "江戸川",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015:s0037-0038",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "江戸",
+          "token_surface": "江戸",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "えど",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "江戸",
+              "reading": "えど",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015:s0039-0039",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "川",
+          "token_surface": "川",
+          "token_index": 22,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かわ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "川",
+              "reading": "かわ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "江戸",
+          "reading": "えど",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "川",
+          "reading": "かわ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "江": [
+          "ごう",
+          "え",
+          "こう"
+        ],
+        "江戸": [
+          "えど"
+        ],
+        "江戸川": [
+          "えどがわ"
+        ],
+        "戸": [
+          "ど",
+          "こ",
+          "と",
+          "との"
+        ],
+        "戸川": [
+          "とかわ",
+          "とがわ"
+        ],
+        "川": [
+          "がわ",
+          "かわ",
+          "せん"
+        ]
+      },
+      "reading_hints": {
+        "江": "ごう",
+        "江戸": "えど",
+        "江戸川": "えどがわ",
+        "戸": "ど",
+        "戸川": "とかわ",
+        "川": "がわ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。",
+          "reading": "エドガワ",
+          "surface": "江戸川",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"江戸川\",\"reading\":\"エドガワ\",\"used_web_search\":false,\"comment\":\"東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。\"}]",
+      "llm_comments": [
+        "東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000362340:u0015::target_group:1",
+        "status": "applied",
+        "rejected_span": "江戸川",
+        "replacement": [
+          {
+            "surface": "江戸川",
+            "reading": "エドガワ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000362340:u0015::target_group:1",
+            "surface": "江戸川",
+            "comment": "東京都の区名・地名としては「えどがわ」と読むのが自然なので、2語に分けず一語でまとめる。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000814389",
+      "doc_seq": 4,
+      "track_doc_seq": 3554,
+      "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0082.jsonl.gz",
+      "source_line_no": 814389,
+      "text": "マンション等の管理費・修繕積立金も月額を日割りで計算して清算金を買主様より受領します。",
+      "rendered_yomi_before": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積/セキ 立金/リュウキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積立金/ツミタテキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "マンション",
+          "マンション"
+        ],
+        [
+          "等",
+          "トウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "管理費",
+          "カンリヒ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "修繕",
+          "シュウゼン"
+        ],
+        [
+          "積立金",
+          "ツミタテキン"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "月額",
+          "ゲツガク"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "日割り",
+          "ヒワリ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "計算",
+          "ケイサン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "清算",
+          "セイサン"
+        ],
+        [
+          "金",
+          "キン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "買主",
+          "カイヌシ"
+        ],
+        [
+          "様",
+          "サマ"
+        ],
+        [
+          "より",
+          "ヨリ"
+        ],
+        [
+          "受領",
+          "ジュリョウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "マンション",
+          "reading": "マンション",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マンション"
+            }
+          ]
+        },
+        {
+          "surface": "等",
+          "reading": "トウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "等",
+              "reading": "とう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "管理費",
+          "reading": "カンリヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "管理費",
+              "reading": "かんりひ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "修繕",
+          "reading": "シュウゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "修繕",
+              "reading": "しゅうぜん"
+            }
+          ]
+        },
+        {
+          "surface": "積立金",
+          "reading": "ツミタテキン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "積立金",
+              "reading": "つみたてきん"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "月額",
+          "reading": "ゲツガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月額",
+              "reading": "げつがく"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "日割り",
+          "reading": "ヒワリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日割",
+              "reading": "ひわ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "計算",
+          "reading": "ケイサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "計算",
+              "reading": "けいさん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "清算",
+          "reading": "セイサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "清算",
+              "reading": "せいさん"
+            }
+          ]
+        },
+        {
+          "surface": "金",
+          "reading": "キン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "金",
+              "reading": "きん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "買主",
+          "reading": "カイヌシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "買主",
+              "reading": "かいぬし"
+            }
+          ]
+        },
+        {
+          "surface": "様",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様",
+              "reading": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "より",
+          "reading": "ヨリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "より"
+            }
+          ]
+        },
+        {
+          "surface": "受領",
+          "reading": "ジュリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "受領",
+              "reading": "じゅりょう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000814389:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0006",
+          "text": "マンション等の管理費・修繕積立金も月額を日割りで計算して清算金を買主様より受領します。",
+          "rendered_yomi_before": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積/セキ 立金/リュウキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積立金/ツミタテキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 13,
+            "char_end": 16,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "積",
+              "token_surface": "積",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "積",
+                  "reading": "せき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006:s0015-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "立金",
+              "token_surface": "立金",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りゅうきん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "立金",
+                  "reading": "りゅうきん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "積",
+              "token_surface": "積",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "積",
+                  "reading": "せき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006:s0015-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "立金",
+              "token_surface": "立金",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りゅうきん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "立金",
+                  "reading": "りゅうきん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "積立金",
+          "reading_candidates": {
+            "積": [
+              "せき",
+              "つみ",
+              "つむ",
+              "つもる"
+            ],
+            "積立": [
+              "つみたて"
+            ],
+            "積立金": [
+              "つみたてきん"
+            ],
+            "立": [
+              "たち",
+              "たつ",
+              "たつる",
+              "たて",
+              "だち",
+              "だて",
+              "りっ",
+              "りつ",
+              "りゅう"
+            ],
+            "立金": [
+              "たつがね",
+              "りゅうきん"
+            ],
+            "金": [
+              "きむ",
+              "きん",
+              "かね",
+              "がね",
+              "こん"
+            ]
+          },
+          "reading_hints": {
+            "積": "せき",
+            "積立": "つみたて",
+            "積立金": "つみたてきん",
+            "立": "たち",
+            "立金": "たつがね",
+            "金": "きむ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "積",
+              "reading": "せき",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "立金",
+              "reading": "りゅうきん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"積立金\",\"reading\":\"つみたてきん\",\"used_web_search\":false,\"comment\":\"「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。",
+              "reading": "つみたてきん",
+              "surface": "積立金",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "積立金",
+            "replacement": [
+              {
+                "surface": "積立金",
+                "reading": "ツミタテキン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000814389:u0006::target_group:1",
+                "surface": "積立金",
+                "comment": "「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "積立金",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006:s0014-0014",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "積",
+          "token_surface": "積",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "せき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "積",
+              "reading": "せき",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006:s0015-0016",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "立金",
+          "token_surface": "立金",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "りゅうきん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "立金",
+              "reading": "りゅうきん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "積",
+          "reading": "せき",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "立金",
+          "reading": "りゅうきん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "積": [
+          "せき",
+          "つみ",
+          "つむ",
+          "つもる"
+        ],
+        "積立": [
+          "つみたて"
+        ],
+        "積立金": [
+          "つみたてきん"
+        ],
+        "立": [
+          "たち",
+          "たつ",
+          "たつる",
+          "たて",
+          "だち",
+          "だて",
+          "りっ",
+          "りつ",
+          "りゅう"
+        ],
+        "立金": [
+          "たつがね",
+          "りゅうきん"
+        ],
+        "金": [
+          "きむ",
+          "きん",
+          "かね",
+          "がね",
+          "こん"
+        ]
+      },
+      "reading_hints": {
+        "積": "せき",
+        "積立": "つみたて",
+        "積立金": "つみたてきん",
+        "立": "たち",
+        "立金": "たつがね",
+        "金": "きむ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。",
+          "reading": "つみたてきん",
+          "surface": "積立金",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"積立金\",\"reading\":\"つみたてきん\",\"used_web_search\":false,\"comment\":\"「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。\"}]",
+      "llm_comments": [
+        "「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000814389:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "積立金",
+        "replacement": [
+          {
+            "surface": "積立金",
+            "reading": "ツミタテキン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000814389:u0006::target_group:1",
+            "surface": "積立金",
+            "comment": "「修繕積立金」で一まとまりの不動産用語。ここでは「積立金」を自然に「つみたてきん」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0000814389",
+      "doc_seq": 4,
+      "track_doc_seq": 3554,
+      "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0082.jsonl.gz",
+      "source_line_no": 814389,
+      "text": "抵当権抹消登記などの諸費用を支払います。",
+      "rendered_yomi_before": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費/ショヒ 用/ヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
+      "rendered_yomi_after": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費用/ショヒヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "抵当権",
+          "テイトウケン"
+        ],
+        [
+          "抹消",
+          "マッショウ"
+        ],
+        [
+          "登記",
+          "トウキ"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "諸費用",
+          "ショヒヨウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "支払い",
+          "シハライ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "抵当権",
+          "reading": "テイトウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "抵当権",
+              "reading": "ていとうけん"
+            }
+          ]
+        },
+        {
+          "surface": "抹消",
+          "reading": "マッショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "抹消",
+              "reading": "まっしょう"
+            }
+          ]
+        },
+        {
+          "surface": "登記",
+          "reading": "トウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登記",
+              "reading": "とうき"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "諸費用",
+          "reading": "ショヒヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "諸費用",
+              "reading": "しょひよう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "支払い",
+          "reading": "シハライ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "支払",
+              "reading": "しはら"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000814389:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0007",
+          "text": "抵当権抹消登記などの諸費用を支払います。",
+          "rendered_yomi_before": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費/ショヒ 用/ヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
+          "rendered_yomi_after": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費用/ショヒヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
+          "display_mapping": {
+            "start": 5,
+            "end": 6,
+            "char_start": 10,
+            "char_end": 13,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007:s0011-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "諸費",
+              "token_surface": "諸費",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょひ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "諸費",
+                  "reading": "しょひ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "用",
+              "token_surface": "用",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "用",
+                  "reading": "よう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007:s0011-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "諸費",
+              "token_surface": "諸費",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょひ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "諸費",
+                  "reading": "しょひ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "用",
+              "token_surface": "用",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "用",
+                  "reading": "よう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "諸費用",
+          "reading_candidates": {
+            "諸": [
+              "しょ",
+              "もろ"
+            ],
+            "諸費": [
+              "しょひ"
+            ],
+            "諸費用": [
+              "しょひよう"
+            ],
+            "費": [
+              "ひ"
+            ],
+            "費用": [
+              "ひよう"
+            ],
+            "用": [
+              "よう"
+            ]
+          },
+          "reading_hints": {
+            "諸": "しょ",
+            "諸費": "しょひ",
+            "諸費用": "しょひよう",
+            "費": "ひ",
+            "費用": "ひよう",
+            "用": "よう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "諸費",
+              "reading": "しょひ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "用",
+              "reading": "よう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"諸費用\",\"reading\":\"ショヒヨウ\",\"used_web_search\":false,\"comment\":\"「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。",
+              "reading": "ショヒヨウ",
+              "surface": "諸費用",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "諸費用",
+            "replacement": [
+              {
+                "surface": "諸費用",
+                "reading": "ショヒヨウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000814389:u0007::target_group:1",
+                "surface": "諸費用",
+                "comment": "「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "諸費用",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007:s0011-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "諸費",
+          "token_surface": "諸費",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しょひ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "諸費",
+              "reading": "しょひ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "用",
+          "token_surface": "用",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "よう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "用",
+              "reading": "よう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "諸費",
+          "reading": "しょひ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "用",
+          "reading": "よう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "諸": [
+          "しょ",
+          "もろ"
+        ],
+        "諸費": [
+          "しょひ"
+        ],
+        "諸費用": [
+          "しょひよう"
+        ],
+        "費": [
+          "ひ"
+        ],
+        "費用": [
+          "ひよう"
+        ],
+        "用": [
+          "よう"
+        ]
+      },
+      "reading_hints": {
+        "諸": "しょ",
+        "諸費": "しょひ",
+        "諸費用": "しょひよう",
+        "費": "ひ",
+        "費用": "ひよう",
+        "用": "よう"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。",
+          "reading": "ショヒヨウ",
+          "surface": "諸費用",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"諸費用\",\"reading\":\"ショヒヨウ\",\"used_web_search\":false,\"comment\":\"「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000814389:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "諸費用",
+        "replacement": [
+          {
+            "surface": "諸費用",
+            "reading": "ショヒヨウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000814389:u0007::target_group:1",
+            "surface": "諸費用",
+            "comment": "「諸費用」はひとかたまりで「しょひよう」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0000814389",
+      "doc_seq": 4,
+      "track_doc_seq": 3554,
+      "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0082.jsonl.gz",
+      "source_line_no": 814389,
+      "text": "※残代金の受領日の前に、イエステーションスタッフから、所有権移転登記申請に必要な書類や諸費用等を書面にした「決済と引渡しのご案内」が届きます。",
+      "rendered_yomi_before": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費/ショヒ 用/ヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
+      "rendered_yomi_after": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費用/ショヒヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "※",
+          "※"
+        ],
+        [
+          "残",
+          "ザン"
+        ],
+        [
+          "代金",
+          "ダイキン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "受領",
+          "ジュリョウ"
+        ],
+        [
+          "日",
+          "ヒ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "前",
+          "マエ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "イエ",
+          "イエ"
+        ],
+        [
+          "ステーション",
+          "ステーション"
+        ],
+        [
+          "スタッフ",
+          "スタッフ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "所有権",
+          "ショユウケン"
+        ],
+        [
+          "移転",
+          "イテン"
+        ],
+        [
+          "登記",
+          "トウキ"
+        ],
+        [
+          "申請",
+          "シンセイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "必要",
+          "ヒツヨウ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "書類",
+          "ショルイ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "諸費用",
+          "ショヒヨウ"
+        ],
+        [
+          "等",
+          "トウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "書面",
+          "ショメン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "決済",
+          "ケッサイ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "引渡し",
+          "ヒキワタシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ご",
+          "ゴ"
+        ],
+        [
+          "案内",
+          "アンナイ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "届き",
+          "トドキ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "※",
+          "reading": "※",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "※"
+            }
+          ]
+        },
+        {
+          "surface": "残",
+          "reading": "ザン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "残",
+              "reading": "ざん"
+            }
+          ]
+        },
+        {
+          "surface": "代金",
+          "reading": "ダイキン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代金",
+              "reading": "だいきん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "受領",
+          "reading": "ジュリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "受領",
+              "reading": "じゅりょう"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "ひ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "イエ",
+          "reading": "イエ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "イエ"
+            }
+          ]
+        },
+        {
+          "surface": "ステーション",
+          "reading": "ステーション",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ステーション"
+            }
+          ]
+        },
+        {
+          "surface": "スタッフ",
+          "reading": "スタッフ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スタッフ"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "所有権",
+          "reading": "ショユウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "所有権",
+              "reading": "しょゆうけん"
+            }
+          ]
+        },
+        {
+          "surface": "移転",
+          "reading": "イテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "移転",
+              "reading": "いてん"
+            }
+          ]
+        },
+        {
+          "surface": "登記",
+          "reading": "トウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登記",
+              "reading": "とうき"
+            }
+          ]
+        },
+        {
+          "surface": "申請",
+          "reading": "シンセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "申請",
+              "reading": "しんせい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "必要",
+          "reading": "ヒツヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "必要",
+              "reading": "ひつよう"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "書類",
+          "reading": "ショルイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "書類",
+              "reading": "しょるい"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "諸費用",
+          "reading": "ショヒヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "諸費用",
+              "reading": "しょひよう"
+            }
+          ]
+        },
+        {
+          "surface": "等",
+          "reading": "トウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "等",
+              "reading": "とう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "書面",
+          "reading": "ショメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "書面",
+              "reading": "しょめん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "決済",
+          "reading": "ケッサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決済",
+              "reading": "けっさい"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "引渡し",
+          "reading": "ヒキワタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "引渡",
+              "reading": "ひきわた"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ご",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "案内",
+          "reading": "アンナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "案内",
+              "reading": "あんない"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "届き",
+          "reading": "トドキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "届",
+              "reading": "とど"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000814389:u0008::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0008",
+          "text": "※残代金の受領日の前に、イエステーションスタッフから、所有権移転登記申請に必要な書類や諸費用等を書面にした「決済と引渡しのご案内」が届きます。",
+          "rendered_yomi_before": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費/ショヒ 用/ヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
+          "rendered_yomi_after": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費用/ショヒヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
+          "display_mapping": {
+            "start": 24,
+            "end": 25,
+            "char_start": 43,
+            "char_end": 46,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008:s0044-0045",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "諸費",
+              "token_surface": "諸費",
+              "token_index": 24,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょひ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "諸費",
+                  "reading": "しょひ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008:s0046-0046",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "用",
+              "token_surface": "用",
+              "token_index": 25,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "用",
+                  "reading": "よう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008:s0044-0045",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "諸費",
+              "token_surface": "諸費",
+              "token_index": 24,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょひ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "諸費",
+                  "reading": "しょひ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008:s0046-0046",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "用",
+              "token_surface": "用",
+              "token_index": 25,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "用",
+                  "reading": "よう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "諸費用",
+          "reading_candidates": {
+            "諸": [
+              "しょ",
+              "もろ"
+            ],
+            "諸費": [
+              "しょひ"
+            ],
+            "諸費用": [
+              "しょひよう"
+            ],
+            "費": [
+              "ひ"
+            ],
+            "費用": [
+              "ひよう"
+            ],
+            "用": [
+              "よう"
+            ]
+          },
+          "reading_hints": {
+            "諸": "しょ",
+            "諸費": "しょひ",
+            "諸費用": "しょひよう",
+            "費": "ひ",
+            "費用": "ひよう",
+            "用": "よう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "諸費",
+              "reading": "しょひ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "用",
+              "reading": "よう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"諸費用\",\"reading\":\"しょひよう\",\"used_web_search\":false,\"comment\":\"一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。",
+              "reading": "しょひよう",
+              "surface": "諸費用",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "諸費用",
+            "replacement": [
+              {
+                "surface": "諸費用",
+                "reading": "ショヒヨウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000814389:u0008::target_group:1",
+                "surface": "諸費用",
+                "comment": "一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "諸費用",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008:s0044-0045",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "諸費",
+          "token_surface": "諸費",
+          "token_index": 24,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しょひ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "諸費",
+              "reading": "しょひ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008:s0046-0046",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "用",
+          "token_surface": "用",
+          "token_index": 25,
+          "chunk_index": 0,
+          "current_reading_hiragana": "よう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "用",
+              "reading": "よう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "諸費",
+          "reading": "しょひ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "用",
+          "reading": "よう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "諸": [
+          "しょ",
+          "もろ"
+        ],
+        "諸費": [
+          "しょひ"
+        ],
+        "諸費用": [
+          "しょひよう"
+        ],
+        "費": [
+          "ひ"
+        ],
+        "費用": [
+          "ひよう"
+        ],
+        "用": [
+          "よう"
+        ]
+      },
+      "reading_hints": {
+        "諸": "しょ",
+        "諸費": "しょひ",
+        "諸費用": "しょひよう",
+        "費": "ひ",
+        "費用": "ひよう",
+        "用": "よう"
+      },
+      "llm_parsed": [
+        {
+          "comment": "一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。",
+          "reading": "しょひよう",
+          "surface": "諸費用",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"諸費用\",\"reading\":\"しょひよう\",\"used_web_search\":false,\"comment\":\"一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。\"}]",
+      "llm_comments": [
+        "一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000814389:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "諸費用",
+        "replacement": [
+          {
+            "surface": "諸費用",
+            "reading": "ショヒヨウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000814389:u0008::target_group:1",
+            "surface": "諸費用",
+            "comment": "一般的な語で「諸費＋用」ではなく一語で読むため、まとめて修正。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 6,
+      "doc_id": "ja_cc_level2_corrected_v1:0000819285",
+      "doc_seq": 5,
+      "track_doc_seq": 3555,
+      "unit_id": "ja_cc_level2_corrected_v1:0000819285:u0016",
+      "unit_seq": 16,
+      "source_file": "ja/ja_cc/level2/0082.jsonl.gz",
+      "source_line_no": 819285,
+      "text": "「豆打（ずだ）」が語源らしいですが、要するに枝豆をすりつぶし、砂糖を混ぜて甘くした枝豆ペーストで、宮城・山形・福島県の郷土料理です。",
+      "rendered_yomi_before": "「/「 豆/マメ 打/ダ （/（ ず/ズ だ/ダ ）/） 」/」 が/ガ 語源/ゴゲン らしい/ラシイ です/デス が/ガ 、/、 要する/ヨウスル に/ニ 枝豆/エダマメ を/ヲ すりつぶし/スリツブシ 、/、 砂糖/サトウ を/ヲ 混ぜ/マゼ て/テ 甘く/アマク し/シ た/タ 枝豆/エダマメ ペースト/ペースト で/デ 、/、 宮城/ミヤギ ・/・ 山形/ヤマガタ ・/・ 福島県/フクシマケン の/ノ 郷土/キョウド 料理/リョウリ です/デス 。/。",
+      "rendered_yomi_after": "「/「 豆打/ズダ （/（ ず/ズ だ/ダ ）/） 」/」 が/ガ 語源/ゴゲン らしい/ラシイ です/デス が/ガ 、/、 要する/ヨウスル に/ニ 枝豆/エダマメ を/ヲ すりつぶし/スリツブシ 、/、 砂糖/サトウ を/ヲ 混ぜ/マゼ て/テ 甘く/アマク し/シ た/タ 枝豆/エダマメ ペースト/ペースト で/デ 、/、 宮城/ミヤギ ・/・ 山形/ヤマガタ ・/・ 福島県/フクシマケン の/ノ 郷土/キョウド 料理/リョウリ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "「",
+          "「"
+        ],
+        [
+          "豆打",
+          "ズダ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "ず",
+          "ズ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "語源",
+          "ゴゲン"
+        ],
+        [
+          "らしい",
+          "ラシイ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "要する",
+          "ヨウスル"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "枝豆",
+          "エダマメ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "すりつぶし",
+          "スリツブシ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "砂糖",
+          "サトウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "混ぜ",
+          "マゼ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "甘く",
+          "アマク"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "枝豆",
+          "エダマメ"
+        ],
+        [
+          "ペースト",
+          "ペースト"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "宮城",
+          "ミヤギ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "山形",
+          "ヤマガタ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "福島県",
+          "フクシマケン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "郷土",
+          "キョウド"
+        ],
+        [
+          "料理",
+          "リョウリ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "豆打",
+          "reading": "ズダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "豆打",
+              "reading": "ずだ"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "ず",
+          "reading": "ズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ず"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "語源",
+          "reading": "ゴゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "語源",
+              "reading": "ごげん"
+            }
+          ]
+        },
+        {
+          "surface": "らしい",
+          "reading": "ラシイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "らしい"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "要する",
+          "reading": "ヨウスル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "要",
+              "reading": "よう"
+            },
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "枝豆",
+          "reading": "エダマメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "枝豆",
+              "reading": "えだまめ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "すりつぶし",
+          "reading": "スリツブシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "すりつぶし"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "砂糖",
+          "reading": "サトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "砂糖",
+              "reading": "さとう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "混ぜ",
+          "reading": "マゼ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "混",
+              "reading": "ま"
+            },
+            {
+              "type": "text",
+              "text": "ぜ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "甘く",
+          "reading": "アマク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "甘",
+              "reading": "あま"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "枝豆",
+          "reading": "エダマメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "枝豆",
+              "reading": "えだまめ"
+            }
+          ]
+        },
+        {
+          "surface": "ペースト",
+          "reading": "ペースト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ペースト"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "宮城",
+          "reading": "ミヤギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宮城",
+              "reading": "みやぎ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "山形",
+          "reading": "ヤマガタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山形",
+              "reading": "やまがた"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "福島県",
+          "reading": "フクシマケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "福島県",
+              "reading": "ふくしまけん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "郷土",
+          "reading": "キョウド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "郷土",
+              "reading": "きょうど"
+            }
+          ]
+        },
+        {
+          "surface": "料理",
+          "reading": "リョウリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "料理",
+              "reading": "りょうり"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000819285:u0016::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000819285:u0016",
+          "text": "「豆打（ずだ）」が語源らしいですが、要するに枝豆をすりつぶし、砂糖を混ぜて甘くした枝豆ペーストで、宮城・山形・福島県の郷土料理です。",
+          "rendered_yomi_before": "「/「 豆/マメ 打/ダ （/（ ず/ズ だ/ダ ）/） 」/」 が/ガ 語源/ゴゲン らしい/ラシイ です/デス が/ガ 、/、 要する/ヨウスル に/ニ 枝豆/エダマメ を/ヲ すりつぶし/スリツブシ 、/、 砂糖/サトウ を/ヲ 混ぜ/マゼ て/テ 甘く/アマク し/シ た/タ 枝豆/エダマメ ペースト/ペースト で/デ 、/、 宮城/ミヤギ ・/・ 山形/ヤマガタ ・/・ 福島県/フクシマケン の/ノ 郷土/キョウド 料理/リョウリ です/デス 。/。",
+          "rendered_yomi_after": "「/「 豆打/ズダ （/（ ず/ズ だ/ダ ）/） 」/」 が/ガ 語源/ゴゲン らしい/ラシイ です/デス が/ガ 、/、 要する/ヨウスル に/ニ 枝豆/エダマメ を/ヲ すりつぶし/スリツブシ 、/、 砂糖/サトウ を/ヲ 混ぜ/マゼ て/テ 甘く/アマク し/シ た/タ 枝豆/エダマメ ペースト/ペースト で/デ 、/、 宮城/ミヤギ ・/・ 山形/ヤマガタ ・/・ 福島県/フクシマケン の/ノ 郷土/キョウド 料理/リョウリ です/デス 。/。",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 1,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "豆",
+              "token_surface": "豆",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まめ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "豆",
+                  "reading": "まめ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "打",
+              "token_surface": "打",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "打",
+                  "reading": "だ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "豆",
+              "token_surface": "豆",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まめ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "豆",
+                  "reading": "まめ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "打",
+              "token_surface": "打",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "打",
+                  "reading": "だ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "豆打",
+          "reading_candidates": {
+            "豆": [
+              "とう",
+              "まめ"
+            ],
+            "打": [
+              "うち",
+              "うつ",
+              "だ",
+              "ぶっ",
+              "ぶつ"
+            ]
+          },
+          "reading_hints": {
+            "豆": "とう",
+            "打": "うち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "豆",
+              "reading": "まめ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "打",
+              "reading": "だ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"豆打\",\"reading\":\"ズダ\",\"used_web_search\":true,\"comment\":\"文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))",
+              "reading": "ズダ",
+              "surface": "豆打",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "豆打",
+            "replacement": [
+              {
+                "surface": "豆打",
+                "reading": "ズダ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000819285:u0016::target_group:1",
+                "surface": "豆打",
+                "comment": "文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "豆打",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "豆",
+          "token_surface": "豆",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "まめ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "豆",
+              "reading": "まめ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "打",
+          "token_surface": "打",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "だ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "打",
+              "reading": "だ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "豆",
+          "reading": "まめ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "打",
+          "reading": "だ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "豆": [
+          "とう",
+          "まめ"
+        ],
+        "打": [
+          "うち",
+          "うつ",
+          "だ",
+          "ぶっ",
+          "ぶつ"
+        ]
+      },
+      "reading_hints": {
+        "豆": "とう",
+        "打": "うち"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))",
+          "reading": "ズダ",
+          "surface": "豆打",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"豆打\",\"reading\":\"ズダ\",\"used_web_search\":true,\"comment\":\"文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))\"}]",
+      "llm_comments": [
+        "文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000819285:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "豆打",
+        "replacement": [
+          {
+            "surface": "豆打",
+            "reading": "ズダ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000819285:u0016::target_group:1",
+            "surface": "豆打",
+            "comment": "文脈の「豆打（ずだ）」に合わせ、郷土料理資料でも同表記が確認できるため、ここは1語で「ズダ」と読む。([crd.ndl.go.jp](https://crd.ndl.go.jp/reference/entry/reference/show?asc=desc&fi=3_%E6%96%87%E7%8C%AE%E7%B4%B9%E4%BB%8B+2_3+6_0+8_51&id=1000185117&kg1=99&kg2=6&kg3=6&kg4=13&kg5=1&kw2=%E5%AD%A6%E7%A0%94%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%B7%E3%83%B3&kw_b=2&kw_lk1=1&kw_lk2=2&ldtl=1&mcmd=25&page=ref_view&pg=2&schup_btn=%E6%A4%9C%E7%B4%A2&st=score))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
