@@ -10,10 +10,9 @@
   "item_count": 10,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 10,
     "queued_repair_row_count": 14,
@@ -31,12 +30,12 @@
       "source_line_no": 1149020,
       "preview": "井上貫道老師語録 in Twitterー坐禅とは、坐禅のやり方神戸坐禅会・坐る会様のtwitter が立ち上がりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-01T06:16:10Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T06:55:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 6,
@@ -135,12 +134,12 @@
       "source_line_no": 2563585,
       "preview": "この2つの記事は、読書人ウェブ内でも多くのアクセス数を集め、編集部一同、改めて、当時の状況を検証することの重要性を痛感した。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-01T06:16:10Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T06:55:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -239,12 +238,12 @@
       "source_line_no": 2169292,
       "preview": "北崎へリハビリに行った（４月１２日）・・・証拠写真を撮っておこうと、迎えの車が来るまで歩く。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-01T06:16:10Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T06:55:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -297,7 +296,7 @@
       "source_line_no": 1149020,
       "text": "井上貫道老師語録 in Twitterー坐禅とは、坐禅のやり方神戸坐禅会・坐る会様のtwitter が立ち上がりました。",
       "rendered_yomi_before": "井上/イノウエ 貫道/カンドウ 老師/ロウシ 語録/ゴロク  / in/イン  / Twitterー/ 坐禅/ザゼン と/ト は/ハ 、/、 坐禅/ザゼン の/ノ やり方/ヤリカタ 神戸/コウベ 坐禅/ザゼン 会/カイ ・/・ 坐る/スワル 会/カイ 様/サマ の/ノ twitter/ツイッター  / が/ガ 立ち上がり/タチアガリ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "井上/イノウエ 貫道/カンドウ 老師/ロウシ 語録/ゴロク \\s/ in/イン \\s/ Twitterー/ツイッター 坐禅/ザゼン と/ト は/ハ 、/、 坐禅/ザゼン の/ノ やり方/ヤリカタ 神戸/コウベ 坐禅/ザゼン 会/カイ ・/・ 坐る/スワル 会/カイ 様/サマ の/ノ twitter/ツイッター \\s/ が/ガ 立ち上がり/タチアガリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "井上/イノウエ 貫道/カンドウ 老師/ロウシ 語録/ゴロク \\s/ in/イン \\s/ Twitter/ツイッター ー/ー 坐禅/ザゼン と/ト は/ハ 、/、 坐禅/ザゼン の/ノ やり方/ヤリカタ 神戸/コウベ 坐禅/ザゼン 会/カイ ・/・ 坐る/スワル 会/カイ 様/サマ の/ノ twitter/ツイッター \\s/ が/ガ 立ち上がり/タチアガリ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "井上",
@@ -328,8 +327,12 @@
           ""
         ],
         [
-          "Twitterー",
+          "Twitter",
           "ツイッター"
+        ],
+        [
+          "ー",
+          "ー"
         ],
         [
           "坐禅",
@@ -499,14 +502,20 @@
           ]
         },
         {
-          "surface": "Twitterー",
+          "surface": "Twitter",
           "reading": "ツイッター",
           "nodes": [
             {
               "type": "ruby",
               "text": "Twitter",
-              "reading": "ついった"
-            },
+              "reading": "ついったー"
+            }
+          ]
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "nodes": [
             {
               "type": "text",
               "text": "ー"
@@ -779,14 +788,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001149020:u0001",
           "text": "井上貫道老師語録 in Twitterー坐禅とは、坐禅のやり方神戸坐禅会・坐る会様のtwitter が立ち上がりました。",
           "rendered_yomi_before": "井上/イノウエ 貫道/カンドウ 老師/ロウシ 語録/ゴロク  / in/イン  / Twitterー/ 坐禅/ザゼン と/ト は/ハ 、/、 坐禅/ザゼン の/ノ やり方/ヤリカタ 神戸/コウベ 坐禅/ザゼン 会/カイ ・/・ 坐る/スワル 会/カイ 様/サマ の/ノ twitter/ツイッター  / が/ガ 立ち上がり/タチアガリ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "井上/イノウエ 貫道/カンドウ 老師/ロウシ 語録/ゴロク \\s/ in/イン \\s/ Twitterー/ツイッター 坐禅/ザゼン と/ト は/ハ 、/、 坐禅/ザゼン の/ノ やり方/ヤリカタ 神戸/コウベ 坐禅/ザゼン 会/カイ ・/・ 坐る/スワル 会/カイ 様/サマ の/ノ twitter/ツイッター \\s/ が/ガ 立ち上がり/タチアガリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "井上/イノウエ 貫道/カンドウ 老師/ロウシ 語録/ゴロク \\s/ in/イン \\s/ Twitter/ツイッター ー/ー 坐禅/ザゼン と/ト は/ハ 、/、 坐禅/ザゼン の/ノ やり方/ヤリカタ 神戸/コウベ 坐禅/ザゼン 会/カイ ・/・ 坐る/スワル 会/カイ 様/サマ の/ノ twitter/ツイッター \\s/ が/ガ 立ち上がり/タチアガリ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 7,
-            "end": 8,
+            "end": 9,
             "char_start": 12,
             "char_end": 20,
             "start_offset": 0,
-            "end_offset": 8,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -9525,7 +9534,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0002563585:u0005::strong_repair",
-      "initial_disposition": "Keep",
+      "initial_disposition": "Skip",
       "seq": 7,
       "doc_id": "ja_cc_level2_corrected_v1:0002563585",
       "doc_seq": 5,
