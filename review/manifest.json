@@ -1,50 +1,19 @@
 {
   "schema_version": 1,
-  "default_stage": "yomi_strong_repair_review",
+  "default_stage": "yomi_final_review",
   "current_tracks": {
     "dev": {
       "track_name": "dev",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_1206_v1",
-      "title": "詳細修正 / dev_batch_1206 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_1206_v1.json",
-      "created_at_epoch": 1790821040,
-      "item_count": 37
+      "review_stage": "yomi_final_review",
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_batch_1217_v1",
+      "title": "一括レビュー / dev_batch_1217 / v1",
+      "path": "./packs/yomi_final_dev_batch_1217_v1.json",
+      "created_at_epoch": 1790828847,
+      "item_count": 145
     }
   },
   "current_review_queues": [
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_1207",
-      "review_stage": "yomi_final_review",
-      "label": "一括レビュー",
-      "pack_id": "yomi_final_dev_batch_1207_v1",
-      "title": "一括レビュー / dev_batch_1207 / v1",
-      "path": "./packs/yomi_final_dev_batch_1207_v1.json",
-      "created_at_epoch": 1790733284,
-      "item_count": 146,
-      "document_count": 10,
-      "selectable_document_count": 10,
-      "document_state_counts": {
-        "final_pending": 10
-      },
-      "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0001756419",
-        "ja_cc_level2_corrected_v1:0000198890",
-        "ja_cc_level2_corrected_v1:0002122529",
-        "ja_cc_level2_corrected_v1:0001673442",
-        "ja_cc_level2_corrected_v1:0002147708",
-        "ja_cc_level2_corrected_v1:0000250055",
-        "ja_cc_level2_corrected_v1:0000438705",
-        "ja_cc_level2_corrected_v1:0001191047",
-        "ja_cc_level2_corrected_v1:0000896230",
-        "ja_cc_level2_corrected_v1:0000074165"
-      ],
-      "pending_document_count": 10,
-      "queue_id": "final_review",
-      "status": "active-dev"
-    },
     {
       "track_name": "dev",
       "batch_name": "dev_batch_1208",
@@ -326,53 +295,33 @@
     },
     {
       "track_name": "dev",
-      "batch_name": "dev_batch_1205",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_1205_v1",
-      "title": "詳細修正 / dev_batch_1205 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_1205_v1.json",
-      "created_at_epoch": 1790817689,
-      "item_count": 4,
+      "batch_name": "dev_batch_1217",
+      "review_stage": "yomi_final_review",
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_batch_1217_v1",
+      "title": "一括レビュー / dev_batch_1217 / v1",
+      "path": "./packs/yomi_final_dev_batch_1217_v1.json",
+      "created_at_epoch": 1790828847,
+      "item_count": 145,
       "document_count": 10,
-      "selectable_document_count": 3,
+      "selectable_document_count": 10,
       "document_state_counts": {
-        "strong_pending": 3,
-        "complete": 7
+        "final_pending": 10
       },
       "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0001106082",
-        "ja_cc_level2_corrected_v1:0002351773",
-        "ja_cc_level2_corrected_v1:0000213594"
+        "ja_cc_level2_corrected_v1:0001351628",
+        "ja_cc_level2_corrected_v1:0001600021",
+        "ja_cc_level2_corrected_v1:0000762481",
+        "ja_cc_level2_corrected_v1:0000521918",
+        "ja_cc_level2_corrected_v1:0002385881",
+        "ja_cc_level2_corrected_v1:0000964805",
+        "ja_cc_level2_corrected_v1:0000645983",
+        "ja_cc_level2_corrected_v1:0001814580",
+        "ja_cc_level2_corrected_v1:0000303611",
+        "ja_cc_level2_corrected_v1:0001306932"
       ],
-      "pending_document_count": 3,
-      "queue_id": "strong_repair",
-      "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_1206",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_1206_v1",
-      "title": "詳細修正 / dev_batch_1206 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_1206_v1.json",
-      "created_at_epoch": 1790821040,
-      "item_count": 37,
-      "document_count": 10,
-      "selectable_document_count": 4,
-      "document_state_counts": {
-        "complete": 6,
-        "strong_pending": 4
-      },
-      "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0001242579",
-        "ja_cc_level2_corrected_v1:0001311544",
-        "ja_cc_level2_corrected_v1:0001759416",
-        "ja_cc_level2_corrected_v1:0002205234"
-      ],
-      "pending_document_count": 4,
-      "queue_id": "strong_repair",
+      "pending_document_count": 10,
+      "queue_id": "final_review",
       "status": "active-dev"
     }
   ],
@@ -380,9 +329,9 @@
     "yomi_final_review": {
       "review_stage": "yomi_final_review",
       "label": "一括レビュー",
-      "latest_pack_id": "yomi_final_dev_batch_1216_v1",
+      "latest_pack_id": "yomi_final_dev_batch_1217_v1",
       "latest_pack_ids_by_track": {
-        "dev": "yomi_final_dev_batch_1216_v1"
+        "dev": "yomi_final_dev_batch_1217_v1"
       },
       "packs": [
         {
@@ -3772,8 +3721,7 @@
           "document_count": 10,
           "selectable_document_count": 0,
           "document_state_counts": {
-            "strong_pending": 3,
-            "complete": 7
+            "complete": 10
           },
           "pending_doc_ids": [],
           "pending_document_count": 0,
@@ -3791,8 +3739,7 @@
           "document_count": 10,
           "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 6,
-            "strong_pending": 4
+            "complete": 10
           },
           "pending_doc_ids": [],
           "pending_document_count": 0,
@@ -3808,23 +3755,13 @@
           "created_at_epoch": 1790733284,
           "item_count": 146,
           "document_count": 10,
-          "selectable_document_count": 10,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "final_pending": 10
+            "complete": 7,
+            "strong_pending": 3
           },
-          "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0001756419",
-            "ja_cc_level2_corrected_v1:0000198890",
-            "ja_cc_level2_corrected_v1:0002122529",
-            "ja_cc_level2_corrected_v1:0001673442",
-            "ja_cc_level2_corrected_v1:0002147708",
-            "ja_cc_level2_corrected_v1:0000250055",
-            "ja_cc_level2_corrected_v1:0000438705",
-            "ja_cc_level2_corrected_v1:0001191047",
-            "ja_cc_level2_corrected_v1:0000896230",
-            "ja_cc_level2_corrected_v1:0000074165"
-          ],
-          "pending_document_count": 10,
+          "pending_doc_ids": [],
+          "pending_document_count": 0,
           "queue_id": "final_review",
           "status": "archived"
         },
@@ -4084,6 +4021,35 @@
             "ja_cc_level2_corrected_v1:0001996957",
             "ja_cc_level2_corrected_v1:0002228094",
             "ja_cc_level2_corrected_v1:0000424998"
+          ],
+          "pending_document_count": 10,
+          "queue_id": "final_review",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_final_dev_batch_1217_v1",
+          "title": "一括レビュー / dev_batch_1217 / v1",
+          "path": "./packs/yomi_final_dev_batch_1217_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_1217",
+          "created_at_epoch": 1790828847,
+          "item_count": 145,
+          "document_count": 10,
+          "selectable_document_count": 10,
+          "document_state_counts": {
+            "final_pending": 10
+          },
+          "pending_doc_ids": [
+            "ja_cc_level2_corrected_v1:0001351628",
+            "ja_cc_level2_corrected_v1:0001600021",
+            "ja_cc_level2_corrected_v1:0000762481",
+            "ja_cc_level2_corrected_v1:0000521918",
+            "ja_cc_level2_corrected_v1:0002385881",
+            "ja_cc_level2_corrected_v1:0000964805",
+            "ja_cc_level2_corrected_v1:0000645983",
+            "ja_cc_level2_corrected_v1:0001814580",
+            "ja_cc_level2_corrected_v1:0000303611",
+            "ja_cc_level2_corrected_v1:0001306932"
           ],
           "pending_document_count": 10,
           "queue_id": "final_review",
@@ -7268,17 +7234,12 @@
           "created_at_epoch": 1790817689,
           "item_count": 4,
           "document_count": 10,
-          "selectable_document_count": 3,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "strong_pending": 3,
-            "complete": 7
+            "complete": 10
           },
-          "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0001106082",
-            "ja_cc_level2_corrected_v1:0002351773",
-            "ja_cc_level2_corrected_v1:0000213594"
-          ],
-          "pending_document_count": 3,
+          "pending_doc_ids": [],
+          "pending_document_count": 0,
           "queue_id": "strong_repair",
           "status": "archived"
         },
@@ -7291,18 +7252,12 @@
           "created_at_epoch": 1790821040,
           "item_count": 37,
           "document_count": 10,
-          "selectable_document_count": 4,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 6,
-            "strong_pending": 4
+            "complete": 10
           },
-          "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0001242579",
-            "ja_cc_level2_corrected_v1:0001311544",
-            "ja_cc_level2_corrected_v1:0001759416",
-            "ja_cc_level2_corrected_v1:0002205234"
-          ],
-          "pending_document_count": 4,
+          "pending_doc_ids": [],
+          "pending_document_count": 0,
           "queue_id": "strong_repair",
           "status": "active-dev"
         }
@@ -7362,36 +7317,20 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 3533,
-        "manual_correction_required_count": 1,
+        "document_count": 3547,
+        "manual_correction_required_count": 2,
         "reading_warning_count": 0,
         "finalized_track_doc_seq_ranges": [
           [
             1,
-            3520
+            3545
           ],
           [
-            3523,
-            3526
-          ],
-          [
-            3528,
-            3531
-          ],
-          [
-            3533,
-            3533
-          ],
-          [
-            3536,
-            3536
-          ],
-          [
-            3538,
-            3540
+            3547,
+            3548
           ]
         ],
-        "shard_count": 3533
+        "shard_count": 3547
       }
     }
   }
