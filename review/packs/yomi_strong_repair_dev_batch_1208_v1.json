@@ -10,10 +10,9 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 6,
@@ -57,12 +56,12 @@
       "source_line_no": 362340,
       "preview": "しかし、妻は「夫源病」を患い、娘からは「アンタ」呼ばわり。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-01T04:36:50Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T05:47:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -109,12 +108,12 @@
       "source_line_no": 814389,
       "preview": "各種登記手続き、残代金の受領、お引渡しの流れは、イエステーションスタッフがお客様にわかりやすくご説明いたします。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-01T04:36:50Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T05:47:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -135,12 +134,12 @@
       "source_line_no": 819285,
       "preview": "子供のころの、谷地どんが祭りで思い出すのは、八幡神社境内のお化け屋敷や、「人魚」の見世物、サーカスなどでしたが、今は、無いようです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-01T04:36:50Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-01T05:47:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1925,7 +1924,7 @@
       "source_line_no": 814389,
       "text": "マンション等の管理費・修繕積立金も月額を日割りで計算して清算金を買主様より受領します。",
       "rendered_yomi_before": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積/セキ 立金/リュウキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
-      "rendered_yomi_after": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積立金/ツミタテキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積立/ツミタテ 金/キン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "マンション",
@@ -1952,8 +1951,12 @@
           "シュウゼン"
         ],
         [
-          "積立金",
-          "ツミタテキン"
+          "積立",
+          "ツミタテ"
+        ],
+        [
+          "金",
+          "キン"
         ],
         [
           "も",
@@ -2095,13 +2098,24 @@
           ]
         },
         {
-          "surface": "積立金",
-          "reading": "ツミタテキン",
+          "surface": "積立",
+          "reading": "ツミタテ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "積立金",
-              "reading": "つみたてきん"
+              "text": "積立",
+              "reading": "つみたて"
+            }
+          ]
+        },
+        {
+          "surface": "金",
+          "reading": "キン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "金",
+              "reading": "きん"
             }
           ]
         },
@@ -2311,14 +2325,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0006",
           "text": "マンション等の管理費・修繕積立金も月額を日割りで計算して清算金を買主様より受領します。",
           "rendered_yomi_before": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積/セキ 立金/リュウキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
-          "rendered_yomi_after": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積立金/ツミタテキン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "マンション/マンション 等/トウ の/ノ 管理費/カンリヒ ・/・ 修繕/シュウゼン 積立/ツミタテ 金/キン も/モ 月額/ゲツガク を/ヲ 日割り/ヒワリ で/デ 計算/ケイサン し/シ て/テ 清算/セイサン 金/キン を/ヲ 買主/カイヌシ 様/サマ より/ヨリ 受領/ジュリョウ し/シ ます/マス 。/。",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 13,
             "char_end": 16,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -2659,7 +2673,7 @@
       "source_line_no": 814389,
       "text": "抵当権抹消登記などの諸費用を支払います。",
       "rendered_yomi_before": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費/ショヒ 用/ヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
-      "rendered_yomi_after": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費用/ショヒヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
+      "rendered_yomi_after": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸/ショ 費用/ヒヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "抵当権",
@@ -2682,8 +2696,12 @@
           "ノ"
         ],
         [
-          "諸費用",
-          "ショヒヨウ"
+          "諸",
+          "ショ"
+        ],
+        [
+          "費用",
+          "ヒヨウ"
         ],
         [
           "を",
@@ -2759,13 +2777,24 @@
           ]
         },
         {
-          "surface": "諸費用",
-          "reading": "ショヒヨウ",
+          "surface": "諸",
+          "reading": "ショ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "諸費用",
-              "reading": "しょひよう"
+              "text": "諸",
+              "reading": "しょ"
+            }
+          ]
+        },
+        {
+          "surface": "費用",
+          "reading": "ヒヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "費用",
+              "reading": "ひよう"
             }
           ]
         },
@@ -2828,14 +2857,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0007",
           "text": "抵当権抹消登記などの諸費用を支払います。",
           "rendered_yomi_before": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費/ショヒ 用/ヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
-          "rendered_yomi_after": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸費用/ショヒヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
+          "rendered_yomi_after": "抵当権/テイトウケン 抹消/マッショウ 登記/トウキ など/ナド の/ノ 諸/ショ 費用/ヒヨウ を/ヲ 支払い/シハライ ます/マス 。/。",
           "display_mapping": {
             "start": 5,
-            "end": 6,
+            "end": 7,
             "char_start": 10,
             "char_end": 13,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -3146,7 +3175,7 @@
       "source_line_no": 814389,
       "text": "※残代金の受領日の前に、イエステーションスタッフから、所有権移転登記申請に必要な書類や諸費用等を書面にした「決済と引渡しのご案内」が届きます。",
       "rendered_yomi_before": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費/ショヒ 用/ヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
-      "rendered_yomi_after": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費用/ショヒヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
+      "rendered_yomi_after": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸/ショ 費用/ヒヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "※",
@@ -3245,8 +3274,12 @@
           "ヤ"
         ],
         [
-          "諸費用",
-          "ショヒヨウ"
+          "諸",
+          "ショ"
+        ],
+        [
+          "費用",
+          "ヒヨウ"
         ],
         [
           "等",
@@ -3576,13 +3609,24 @@
           ]
         },
         {
-          "surface": "諸費用",
-          "reading": "ショヒヨウ",
+          "surface": "諸",
+          "reading": "ショ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "諸費用",
-              "reading": "しょひよう"
+              "text": "諸",
+              "reading": "しょ"
+            }
+          ]
+        },
+        {
+          "surface": "費用",
+          "reading": "ヒヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "費用",
+              "reading": "ひよう"
             }
           ]
         },
@@ -3794,14 +3838,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000814389:u0008",
           "text": "※残代金の受領日の前に、イエステーションスタッフから、所有権移転登記申請に必要な書類や諸費用等を書面にした「決済と引渡しのご案内」が届きます。",
           "rendered_yomi_before": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費/ショヒ 用/ヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
-          "rendered_yomi_after": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸費用/ショヒヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
+          "rendered_yomi_after": "※/※ 残/ザン 代金/ダイキン の/ノ 受領/ジュリョウ 日/ヒ の/ノ 前/マエ に/ニ 、/、 イエ/イエ ステーション/ステーション スタッフ/スタッフ から/カラ 、/、 所有権/ショユウケン 移転/イテン 登記/トウキ 申請/シンセイ に/ニ 必要/ヒツヨウ な/ナ 書類/ショルイ や/ヤ 諸/ショ 費用/ヒヨウ 等/トウ を/ヲ 書面/ショメン に/ニ し/シ た/タ 「/「 決済/ケッサイ と/ト 引渡し/ヒキワタシ の/ノ ご/ゴ 案内/アンナイ 」/」 が/ガ 届き/トドキ ます/マス 。/。",
           "display_mapping": {
             "start": 24,
-            "end": 25,
+            "end": 26,
             "char_start": 43,
             "char_end": 46,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
