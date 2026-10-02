@@ -1,0 +1,1100 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1217_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1217",
+  "created_at_epoch": 1790928891,
+  "created_at": "2026-10-02T08:14:51Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 1,
+    "document_state_counts": {
+      "complete": 9,
+      "strong_pending": 1
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 2,
+    "result_row_count": 2,
+    "reviewable_repair_row_count": 2,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001351628",
+      "doc_seq": 1,
+      "track_doc_seq": 3641,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0156.jsonl.gz",
+      "source_line_no": 1351628,
+      "preview": "こんばんは、お久しぶりです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001600021",
+      "doc_seq": 2,
+      "track_doc_seq": 3642,
+      "unit_count": 21,
+      "source_file": "ja/ja_cc/level2/0199.jsonl.gz",
+      "source_line_no": 1600021,
+      "preview": "九州の天草の島々には、キリスト教を信じる沢山の人々がおった。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 21,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000762481",
+      "doc_seq": 3,
+      "track_doc_seq": 3643,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0078.jsonl.gz",
+      "source_line_no": 762481,
+      "preview": "どうでもいいですけど、「旧帝国大学」というのが何のことなのか高校入学当初は分からなかったのです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000521918",
+      "doc_seq": 4,
+      "track_doc_seq": 3644,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0058.jsonl.gz",
+      "source_line_no": 521918,
+      "preview": "最近、書いてなかったけど、学士（看護学）取得関連の話。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002385881",
+      "doc_seq": 5,
+      "track_doc_seq": 3645,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0352.jsonl.gz",
+      "source_line_no": 2385881,
+      "preview": "改定されることもなかったらしいね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000964805",
+      "doc_seq": 6,
+      "track_doc_seq": 3646,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0100.jsonl.gz",
+      "source_line_no": 964805,
+      "preview": "一貫した腎不全医療等、専門知識の習得！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000645983",
+      "doc_seq": 7,
+      "track_doc_seq": 3647,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0065.jsonl.gz",
+      "source_line_no": 645983,
+      "preview": "『弱小空軍の戦い方』、『北欧空戦史』、『雪中の奇跡』、『流血の夏』と読んできたフィンランド冬戦争物。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001814580",
+      "doc_seq": 8,
+      "track_doc_seq": 3648,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0229.jsonl.gz",
+      "source_line_no": 1814580,
+      "preview": "ボブでも”編み込みアレンジ”はできる？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000303611",
+      "doc_seq": 9,
+      "track_doc_seq": 3649,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0032.jsonl.gz",
+      "source_line_no": 303611,
+      "preview": "２７日午前１１時頃、東京都大田区羽田空港２、京浜急行の新駅の建設工事現場で、「黒煙が上がっている」と１１９番があった。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001306932",
+      "doc_seq": 10,
+      "track_doc_seq": 3650,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0149.jsonl.gz",
+      "source_line_no": 1306932,
+      "preview": "「後期研修を途中でドロップアウトした」「忙しすぎて、勤務していた病院を辞めた」など、いわゆる”ドロッポ医”の先生方も少なくないと思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T07:13:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000762481:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000762481",
+      "doc_seq": 3,
+      "track_doc_seq": 3643,
+      "unit_id": "ja_cc_level2_corrected_v1:0000762481:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0078.jsonl.gz",
+      "source_line_no": 762481,
+      "text": "部活の、七帝戦のときくらいかなあ。",
+      "rendered_yomi_before": "部活/ブカツ の/ノ 、/、 七/ナナ 帝/テイ 戦/セン の/ノ とき/トキ くらい/クライ か/カ なあ/ナア 。/。",
+      "rendered_yomi_after": "部活/ブカツ の/ノ 、/、 七/ナナ 帝/テイ 戦/セン の/ノ とき/トキ くらい/クライ か/カ なあ/ナア 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "部活",
+          "ブカツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "七",
+          "ナナ"
+        ],
+        [
+          "帝",
+          "テイ"
+        ],
+        [
+          "戦",
+          "セン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "とき",
+          "トキ"
+        ],
+        [
+          "くらい",
+          "クライ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "なあ",
+          "ナア"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "部活",
+          "reading": "ブカツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "部活",
+              "reading": "ぶかつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "七",
+          "reading": "ナナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "七",
+              "reading": "なな"
+            }
+          ]
+        },
+        {
+          "surface": "帝",
+          "reading": "テイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "帝",
+              "reading": "てい"
+            }
+          ]
+        },
+        {
+          "surface": "戦",
+          "reading": "セン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦",
+              "reading": "せん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "とき",
+          "reading": "トキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "とき"
+            }
+          ]
+        },
+        {
+          "surface": "くらい",
+          "reading": "クライ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "くらい"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "なあ",
+          "reading": "ナア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なあ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000762481:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000762481:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000762481:u0006",
+          "text": "部活の、七帝戦のときくらいかなあ。",
+          "rendered_yomi_before": "部活/ブカツ の/ノ 、/、 七/ナナ 帝/テイ 戦/セン の/ノ とき/トキ くらい/クライ か/カ なあ/ナア 。/。",
+          "rendered_yomi_after": "部活/ブカツ の/ノ 、/、 七/ナナ 帝/テイ 戦/セン の/ノ とき/トキ くらい/クライ か/カ なあ/ナア 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 5,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000762481:u0006:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "七",
+              "token_surface": "七",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "七",
+                  "reading": "なな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000762481:u0006:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "七",
+              "token_surface": "七",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "七",
+                  "reading": "なな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "七",
+          "reading_candidates": {
+            "七": [
+              "しち",
+              "なな",
+              "なの"
+            ]
+          },
+          "reading_hints": {
+            "七": "しち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "七",
+              "reading": "なな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"七帝\",\"reading\":\"シチテイ\",\"used_web_search\":false,\"comment\":\"「七帝戦」は「しちていせん」。旧七帝大を指す「七帝」を一まとまりとし、「戦」と分ける。\"}]",
+          "llm_parsed": [],
+          "llm_comments": [],
+          "llm_parse_error": "Yomi repair surface mismatch: expected '七', got '七帝'.",
+          "used_web_search": false,
+          "repair_status": "parse_error",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000762481:u0006::target_group:1",
+            "status": "parse_error",
+            "parse_error": "Yomi repair surface mismatch: expected '七', got '七帝'."
+          }
+        }
+      ],
+      "rejected_span": "七",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000762481:u0006:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "七",
+          "token_surface": "七",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "なな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "七",
+              "reading": "なな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "七",
+          "reading": "なな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "七": [
+          "しち",
+          "なな",
+          "なの"
+        ]
+      },
+      "reading_hints": {
+        "七": "しち"
+      },
+      "llm_parsed": [],
+      "llm_raw_text": "[{\"surface\":\"七帝\",\"reading\":\"シチテイ\",\"used_web_search\":false,\"comment\":\"「七帝戦」は「しちていせん」。旧七帝大を指す「七帝」を一まとまりとし、「戦」と分ける。\"}]",
+      "llm_comments": [],
+      "llm_parse_error": "Yomi repair surface mismatch: expected '七', got '七帝'.",
+      "used_web_search": false,
+      "repair_status": "parse_error",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000762481:u0006::target_group:1",
+        "status": "parse_error",
+        "parse_error": "Yomi repair surface mismatch: expected '七', got '七帝'."
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000762481:u0007::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000762481",
+      "doc_seq": 3,
+      "track_doc_seq": 3643,
+      "unit_id": "ja_cc_level2_corrected_v1:0000762481:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0078.jsonl.gz",
+      "source_line_no": 762481,
+      "text": "七帝戦の前に辞めちゃったから何ともだけど。",
+      "rendered_yomi_before": "七/ナナ 帝/テイ 戦/セン の/ノ 前/マエ に/ニ 辞め/ヤメ ちゃっ/チャッ た/タ から/カラ 何/ナン と/ト も/モ だ/ダ けど/ケド 。/。",
+      "rendered_yomi_after": "七/シチ 帝/テイ 戦/セン の/ノ 前/マエ に/ニ 辞め/ヤメ ちゃっ/チャッ た/タ から/カラ 何/ナン と/ト も/モ だ/ダ けど/ケド 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "七",
+          "シチ"
+        ],
+        [
+          "帝",
+          "テイ"
+        ],
+        [
+          "戦",
+          "セン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "前",
+          "マエ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "辞め",
+          "ヤメ"
+        ],
+        [
+          "ちゃっ",
+          "チャッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "何",
+          "ナン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "けど",
+          "ケド"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "七",
+          "reading": "シチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "七",
+              "reading": "しち"
+            }
+          ]
+        },
+        {
+          "surface": "帝",
+          "reading": "テイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "帝",
+              "reading": "てい"
+            }
+          ]
+        },
+        {
+          "surface": "戦",
+          "reading": "セン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦",
+              "reading": "せん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "辞め",
+          "reading": "ヤメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "辞",
+              "reading": "や"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "ちゃっ",
+          "reading": "チャッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ちゃっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "何",
+          "reading": "ナン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "何",
+              "reading": "なん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "けど",
+          "reading": "ケド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "けど"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000762481:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000762481:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000762481:u0007",
+          "text": "七帝戦の前に辞めちゃったから何ともだけど。",
+          "rendered_yomi_before": "七/ナナ 帝/テイ 戦/セン の/ノ 前/マエ に/ニ 辞め/ヤメ ちゃっ/チャッ た/タ から/カラ 何/ナン と/ト も/モ だ/ダ けど/ケド 。/。",
+          "rendered_yomi_after": "七/シチ 帝/テイ 戦/セン の/ノ 前/マエ に/ニ 辞め/ヤメ ちゃっ/チャッ た/タ から/カラ 何/ナン と/ト も/モ だ/ダ けど/ケド 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 1,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000762481:u0007:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "七",
+              "token_surface": "七",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "七",
+                  "reading": "なな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000762481:u0007:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "七",
+              "token_surface": "七",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "七",
+                  "reading": "なな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "七",
+          "reading_candidates": {
+            "七": [
+              "しち",
+              "なな",
+              "なの"
+            ]
+          },
+          "reading_hints": {
+            "七": "しち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "七",
+              "reading": "なな",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"七\",\"reading\":\"シチ\",\"used_web_search\":false,\"comment\":\"「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。",
+              "reading": "シチ",
+              "surface": "七",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000762481:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "七",
+            "replacement": [
+              {
+                "surface": "七",
+                "reading": "シチ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000762481:u0007::target_group:1",
+                "surface": "七",
+                "comment": "「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "七",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000762481:u0007:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "七",
+          "token_surface": "七",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "なな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "七",
+              "reading": "なな",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "七",
+          "reading": "なな",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "七": [
+          "しち",
+          "なな",
+          "なの"
+        ]
+      },
+      "reading_hints": {
+        "七": "しち"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。",
+          "reading": "シチ",
+          "surface": "七",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"七\",\"reading\":\"シチ\",\"used_web_search\":false,\"comment\":\"「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。\"}]",
+      "llm_comments": [
+        "「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000762481:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "七",
+        "replacement": [
+          {
+            "surface": "七",
+            "reading": "シチ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000762481:u0007::target_group:1",
+            "surface": "七",
+            "comment": "「七帝戦」は「シチテイセン」と読むため、この「七」は「シチ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
