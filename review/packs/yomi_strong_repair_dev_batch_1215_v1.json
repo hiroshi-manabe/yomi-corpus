@@ -10,10 +10,9 @@
   "item_count": 13,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 6,
-      "strong_pending": 4
+      "complete": 10
     },
     "repaired_item_count": 13,
     "queued_repair_row_count": 13,
@@ -31,12 +30,12 @@
       "source_line_no": 1415735,
       "preview": "郡上おどりを見て踊るのは岐阜の郡上ですが、折角ならもう一つの目玉、全国花火大会も一緒に日程を合わせてはいかがでしょうか？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-02T04:37:54Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T06:10:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -57,12 +56,12 @@
       "source_line_no": 1777731,
       "preview": "現在船橋では、コロナ感染防護ガウンを生産しております。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-02T04:37:54Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T06:10:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 7,
@@ -135,12 +134,12 @@
       "source_line_no": 1844954,
       "preview": "高岡大仏前にて満賀が霧野涼子の逢引き現場を目撃、そして・・・。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-02T04:37:54Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T06:10:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -239,12 +238,12 @@
       "source_line_no": 959496,
       "preview": "で、　金使いすぎじゃー！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-02T04:37:54Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-02T06:10:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1002,17 +1001,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"郡上\",\"reading\":\"グジョウ\",\"used_web_search\":false,\"comment\":\"「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。\"}]",
+          "llm_raw_text": "[{\"surface\":\"郡上\",\"reading\":\"グジョウ\",\"used_web_search\":false,\"comment\":\"岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。\"}]",
           "llm_parsed": [
             {
-              "comment": "「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。",
+              "comment": "岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。",
               "reading": "グジョウ",
               "surface": "郡上",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。"
+            "岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -1031,7 +1030,7 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001415735:u0001::target_group:1",
                 "surface": "郡上",
-                "comment": "「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。",
+                "comment": "岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -1126,15 +1125,15 @@
       },
       "llm_parsed": [
         {
-          "comment": "「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。",
+          "comment": "岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。",
           "reading": "グジョウ",
           "surface": "郡上",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"郡上\",\"reading\":\"グジョウ\",\"used_web_search\":false,\"comment\":\"「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。\"}]",
+      "llm_raw_text": "[{\"surface\":\"郡上\",\"reading\":\"グジョウ\",\"used_web_search\":false,\"comment\":\"岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。\"}]",
       "llm_comments": [
-        "「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。"
+        "岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -1153,7 +1152,7 @@
           {
             "region_id": "ja_cc_level2_corrected_v1:0001415735:u0001::target_group:1",
             "surface": "郡上",
-            "comment": "「郡上おどり」の地名で、郡＝ぐん・上＝じょうではなく固有地名として「グジョウ」と読む。",
+            "comment": "岐阜県の地名「郡上」は「ぐじょう」と読む。一語の地名なので漢字ごとには分割しない。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -1173,7 +1172,7 @@
       "source_line_no": 1415735,
       "text": "調理するときは半解凍で！",
       "rendered_yomi_before": "調理/チョウリ する/スル とき/トキ は/ハ 半解/ハンカイ 凍/ で/デ ！/！",
-      "rendered_yomi_after": "調理/チョウリ する/スル とき/トキ は/ハ 半解凍/ハンカイトウ で/デ ！/！",
+      "rendered_yomi_after": "調理/チョウリ する/スル とき/トキ は/ハ 半/ハン 解凍/カイトウ で/デ ！/！",
       "rendered_yomi_after_tokens": [
         [
           "調理",
@@ -1192,8 +1191,12 @@
           "ハ"
         ],
         [
-          "半解凍",
-          "ハンカイトウ"
+          "半",
+          "ハン"
+        ],
+        [
+          "解凍",
+          "カイトウ"
         ],
         [
           "で",
@@ -1249,13 +1252,24 @@
           ]
         },
         {
-          "surface": "半解凍",
-          "reading": "ハンカイトウ",
+          "surface": "半",
+          "reading": "ハン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "半解凍",
-              "reading": "はんかいとう"
+              "text": "半",
+              "reading": "はん"
+            }
+          ]
+        },
+        {
+          "surface": "解凍",
+          "reading": "カイトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "解凍",
+              "reading": "かいとう"
             }
           ]
         },
@@ -1293,14 +1307,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001415735:u0030",
           "text": "調理するときは半解凍で！",
           "rendered_yomi_before": "調理/チョウリ する/スル とき/トキ は/ハ 半解/ハンカイ 凍/ で/デ ！/！",
-          "rendered_yomi_after": "調理/チョウリ する/スル とき/トキ は/ハ 半解凍/ハンカイトウ で/デ ！/！",
+          "rendered_yomi_after": "調理/チョウリ する/スル とき/トキ は/ハ 半/ハン 解凍/カイトウ で/デ ！/！",
           "display_mapping": {
             "start": 4,
-            "end": 5,
+            "end": 6,
             "char_start": 7,
             "char_end": 10,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -1419,17 +1433,24 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"半解凍\",\"reading\":\"ハンカイトウ\",\"used_web_search\":false,\"comment\":\"「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。\"}]",
+          "llm_raw_text": "[{\"surface\":\"半\",\"reading\":\"ハン\",\"used_web_search\":false,\"comment\":\"不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。\"},{\"surface\":\"解凍\",\"reading\":\"カイトウ\",\"used_web_search\":false,\"comment\":\"凍った食品をとかす意味の一語。「解」と「凍」は分けない。\"}]",
           "llm_parsed": [
             {
-              "comment": "「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。",
-              "reading": "ハンカイトウ",
-              "surface": "半解凍",
+              "comment": "不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。",
+              "reading": "ハン",
+              "surface": "半",
+              "used_web_search": false
+            },
+            {
+              "comment": "凍った食品をとかす意味の一語。「解」と「凍」は分けない。",
+              "reading": "カイトウ",
+              "surface": "解凍",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。"
+            "不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。",
+            "凍った食品をとかす意味の一語。「解」と「凍」は分けない。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -1440,15 +1461,26 @@
             "rejected_span": "半解凍",
             "replacement": [
               {
-                "surface": "半解凍",
-                "reading": "ハンカイトウ"
+                "surface": "半",
+                "reading": "ハン"
+              },
+              {
+                "surface": "解凍",
+                "reading": "カイトウ"
               }
             ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001415735:u0030::target_group:1",
                 "surface": "半解凍",
-                "comment": "「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。",
+                "comment": "不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001415735:u0030::target_group:1",
+                "surface": "半解凍",
+                "comment": "凍った食品をとかす意味の一語。「解」と「凍」は分けない。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -1531,15 +1563,22 @@
       },
       "llm_parsed": [
         {
-          "comment": "「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。",
-          "reading": "ハンカイトウ",
-          "surface": "半解凍",
+          "comment": "不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。",
+          "reading": "ハン",
+          "surface": "半",
+          "used_web_search": false
+        },
+        {
+          "comment": "凍った食品をとかす意味の一語。「解」と「凍」は分けない。",
+          "reading": "カイトウ",
+          "surface": "解凍",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"半解凍\",\"reading\":\"ハンカイトウ\",\"used_web_search\":false,\"comment\":\"「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。\"}]",
+      "llm_raw_text": "[{\"surface\":\"半\",\"reading\":\"ハン\",\"used_web_search\":false,\"comment\":\"不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。\"},{\"surface\":\"解凍\",\"reading\":\"カイトウ\",\"used_web_search\":false,\"comment\":\"凍った食品をとかす意味の一語。「解」と「凍」は分けない。\"}]",
       "llm_comments": [
-        "「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。"
+        "不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。",
+        "凍った食品をとかす意味の一語。「解」と「凍」は分けない。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -1550,15 +1589,26 @@
         "rejected_span": "半解凍",
         "replacement": [
           {
-            "surface": "半解凍",
-            "reading": "ハンカイトウ"
+            "surface": "半",
+            "reading": "ハン"
+          },
+          {
+            "surface": "解凍",
+            "reading": "カイトウ"
           }
         ],
         "evidence": [
           {
             "region_id": "ja_cc_level2_corrected_v1:0001415735:u0030::target_group:1",
             "surface": "半解凍",
-            "comment": "「半解凍」は一般に「はんかいとう」と読むため、1語としてまとめるのが自然です。",
+            "comment": "不完全な程度を表す接頭辞で、「解凍」との自然な境界で分ける。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001415735:u0030::target_group:1",
+            "surface": "半解凍",
+            "comment": "凍った食品をとかす意味の一語。「解」と「凍」は分けない。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -1959,24 +2009,24 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"芝桜\",\"reading\":\"シバザクラ\",\"used_web_search\":false,\"comment\":\"「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。\"},{\"surface\":\"まつり\",\"reading\":\"マツリ\",\"used_web_search\":false,\"comment\":\"「まつり」は独立語なので「マツリ」と読むのが適切です。\"}]",
+          "llm_raw_text": "[{\"surface\":\"芝桜\",\"reading\":\"シバザクラ\",\"used_web_search\":false,\"comment\":\"植物名「芝桜」は一語で「しばざくら」と読み、連濁する。\"},{\"surface\":\"まつり\",\"reading\":\"マツリ\",\"used_web_search\":false,\"comment\":\"催事を表す「まつり」を植物名から分け、既存の読みを保持する。\"}]",
           "llm_parsed": [
             {
-              "comment": "「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。",
+              "comment": "植物名「芝桜」は一語で「しばざくら」と読み、連濁する。",
               "reading": "シバザクラ",
               "surface": "芝桜",
               "used_web_search": false
             },
             {
-              "comment": "「まつり」は独立語なので「マツリ」と読むのが適切です。",
+              "comment": "催事を表す「まつり」を植物名から分け、既存の読みを保持する。",
               "reading": "マツリ",
               "surface": "まつり",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。",
-            "「まつり」は独立語なので「マツリ」と読むのが適切です。"
+            "植物名「芝桜」は一語で「しばざくら」と読み、連濁する。",
+            "催事を表す「まつり」を植物名から分け、既存の読みを保持する。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -1999,14 +2049,14 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001415735:u0033::target_group:1",
                 "surface": "芝桜まつり",
-                "comment": "「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。",
+                "comment": "植物名「芝桜」は一語で「しばざくら」と読み、連濁する。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               },
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001415735:u0033::target_group:1",
                 "surface": "芝桜まつり",
-                "comment": "「まつり」は独立語なので「マツリ」と読むのが適切です。",
+                "comment": "催事を表す「まつり」を植物名から分け、既存の読みを保持する。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -2095,22 +2145,22 @@
       },
       "llm_parsed": [
         {
-          "comment": "「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。",
+          "comment": "植物名「芝桜」は一語で「しばざくら」と読み、連濁する。",
           "reading": "シバザクラ",
           "surface": "芝桜",
           "used_web_search": false
         },
         {
-          "comment": "「まつり」は独立語なので「マツリ」と読むのが適切です。",
+          "comment": "催事を表す「まつり」を植物名から分け、既存の読みを保持する。",
           "reading": "マツリ",
           "surface": "まつり",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"芝桜\",\"reading\":\"シバザクラ\",\"used_web_search\":false,\"comment\":\"「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。\"},{\"surface\":\"まつり\",\"reading\":\"マツリ\",\"used_web_search\":false,\"comment\":\"「まつり」は独立語なので「マツリ」と読むのが適切です。\"}]",
+      "llm_raw_text": "[{\"surface\":\"芝桜\",\"reading\":\"シバザクラ\",\"used_web_search\":false,\"comment\":\"植物名「芝桜」は一語で「しばざくら」と読み、連濁する。\"},{\"surface\":\"まつり\",\"reading\":\"マツリ\",\"used_web_search\":false,\"comment\":\"催事を表す「まつり」を植物名から分け、既存の読みを保持する。\"}]",
       "llm_comments": [
-        "「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。",
-        "「まつり」は独立語なので「マツリ」と読むのが適切です。"
+        "植物名「芝桜」は一語で「しばざくら」と読み、連濁する。",
+        "催事を表す「まつり」を植物名から分け、既存の読みを保持する。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -2133,14 +2183,14 @@
           {
             "region_id": "ja_cc_level2_corrected_v1:0001415735:u0033::target_group:1",
             "surface": "芝桜まつり",
-            "comment": "「芝桜」は一語で「シバザクラ」と読むため、ここで切るのが自然です。",
+            "comment": "植物名「芝桜」は一語で「しばざくら」と読み、連濁する。",
             "used_web_search": false,
             "surface_occurrence_index": null
           },
           {
             "region_id": "ja_cc_level2_corrected_v1:0001415735:u0033::target_group:1",
             "surface": "芝桜まつり",
-            "comment": "「まつり」は独立語なので「マツリ」と読むのが適切です。",
+            "comment": "催事を表す「まつり」を植物名から分け、既存の読みを保持する。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -2160,7 +2210,7 @@
       "source_line_no": 1777731,
       "text": "現在船橋では、コロナ感染防護ガウンを生産しております。",
       "rendered_yomi_before": "現在/ゲンザイ 船橋/フナバシ で/デ は/ハ 、/、 コロナ/コロナ 感染/カンセン 防護/ボウゴ ガウン/ガウン を/ヲ 生産/セイサン し/シ て/テ おり/オリ ます/マス 。/。",
-      "rendered_yomi_after": "現在/ゲンザイ 船橋/フナバシ で/デ は/ハ 、/、 コロナ/コロナ 感染/カンセン 防護/ボウゴ ガウン/ガウン を/ヲ 生産/セイサン し/シ て/テ おり/オリ ます/マス 。/。",
+      "rendered_yomi_after": "現在/ゲンザイ 船橋/フナハシ で/デ は/ハ 、/、 コロナ/コロナ 感染/カンセン 防護/ボウゴ ガウン/ガウン を/ヲ 生産/セイサン し/シ て/テ おり/オリ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "現在",
@@ -2168,7 +2218,7 @@
         ],
         [
           "船橋",
-          "フナバシ"
+          "フナハシ"
         ],
         [
           "で",
@@ -2243,12 +2293,12 @@
         },
         {
           "surface": "船橋",
-          "reading": "フナバシ",
+          "reading": "フナハシ",
           "nodes": [
             {
               "type": "ruby",
               "text": "船橋",
-              "reading": "ふなばし"
+              "reading": "ふなはし"
             }
           ]
         },
@@ -2409,7 +2459,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001777731:u0001",
           "text": "現在船橋では、コロナ感染防護ガウンを生産しております。",
           "rendered_yomi_before": "現在/ゲンザイ 船橋/フナバシ で/デ は/ハ 、/、 コロナ/コロナ 感染/カンセン 防護/ボウゴ ガウン/ガウン を/ヲ 生産/セイサン し/シ て/テ おり/オリ ます/マス 。/。",
-          "rendered_yomi_after": "現在/ゲンザイ 船橋/フナバシ で/デ は/ハ 、/、 コロナ/コロナ 感染/カンセン 防護/ボウゴ ガウン/ガウン を/ヲ 生産/セイサン し/シ て/テ おり/オリ ます/マス 。/。",
+          "rendered_yomi_after": "現在/ゲンザイ 船橋/フナハシ で/デ は/ハ 、/、 コロナ/コロナ 感染/カンセン 防護/ボウゴ ガウン/ガウン を/ヲ 生産/セイサン し/シ て/テ おり/オリ ます/マス 。/。",
           "display_mapping": {
             "start": 1,
             "end": 2,
@@ -2503,17 +2553,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"地名の「船橋市」を指す用法なので、読みは「ふなばし」。\"}]",
+          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナバシ\",\"used_web_search\":false,\"comment\":\"文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。\"}]",
           "llm_parsed": [
             {
-              "comment": "地名の「船橋市」を指す用法なので、読みは「ふなばし」。",
-              "reading": "ふなばし",
+              "comment": "文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。",
+              "reading": "フナバシ",
               "surface": "船橋",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "地名の「船橋市」を指す用法なので、読みは「ふなばし」。"
+            "文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -2532,7 +2582,7 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001777731:u0001::target_group:1",
                 "surface": "船橋",
-                "comment": "地名の「船橋市」を指す用法なので、読みは「ふなばし」。",
+                "comment": "文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -2597,15 +2647,15 @@
       },
       "llm_parsed": [
         {
-          "comment": "地名の「船橋市」を指す用法なので、読みは「ふなばし」。",
-          "reading": "ふなばし",
+          "comment": "文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。",
+          "reading": "フナバシ",
           "surface": "船橋",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"地名の「船橋市」を指す用法なので、読みは「ふなばし」。\"}]",
+      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナバシ\",\"used_web_search\":false,\"comment\":\"文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。\"}]",
       "llm_comments": [
-        "地名の「船橋市」を指す用法なので、読みは「ふなばし」。"
+        "文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -2624,7 +2674,7 @@
           {
             "region_id": "ja_cc_level2_corrected_v1:0001777731:u0001::target_group:1",
             "surface": "船橋",
-            "comment": "地名の「船橋市」を指す用法なので、読みは「ふなばし」。",
+            "comment": "文脈上は地名の「船橋（ふなばし）」と判断できる。自然な語境界はなく、既存の読みと一語の区切りを維持する。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -2644,11 +2694,11 @@
       "source_line_no": 1777731,
       "text": "船橋株式会社は大正10年の創業から、防水に関する製品づくりに試行錯誤を重ねてきました。",
       "rendered_yomi_before": "船橋/フナバシ 株式/カブシキ 会社/ガイシャ は/ハ 大正/タイショウ 10/ 年/ネン の/ノ 創業/ソウギョウ から/カラ 、/、 防水/ボウスイ に/ニ 関する/カンスル 製品/セイヒン づくり/ヅクリ に/ニ 試行/シコウ 錯誤/サクゴ を/ヲ 重ね/カサネ て/テ き/キ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "船橋/フナバシ 株式/カブシキ 会社/ガイシャ は/ハ 大正/タイショウ 10/ 年/ネン の/ノ 創業/ソウギョウ から/カラ 、/、 防水/ボウスイ に/ニ 関する/カンスル 製品/セイヒン づくり/ヅクリ に/ニ 試行/シコウ 錯誤/サクゴ を/ヲ 重ね/カサネ て/テ き/キ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "船橋/フナハシ 株式/カブシキ 会社/ガイシャ は/ハ 大正/タイショウ 10/ 年/ネン の/ノ 創業/ソウギョウ から/カラ 、/、 防水/ボウスイ に/ニ 関する/カンスル 製品/セイヒン づくり/ヅクリ に/ニ 試行/シコウ 錯誤/サクゴ を/ヲ 重ね/カサネ て/テ き/キ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "船橋",
-          "フナバシ"
+          "フナハシ"
         ],
         [
           "株式",
@@ -2756,12 +2806,12 @@
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "船橋",
-          "reading": "フナバシ",
+          "reading": "フナハシ",
           "nodes": [
             {
               "type": "ruby",
               "text": "船橋",
-              "reading": "ふなばし"
+              "reading": "ふなはし"
             }
           ]
         },
@@ -3048,7 +3098,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001777731:u0003",
           "text": "船橋株式会社は大正10年の創業から、防水に関する製品づくりに試行錯誤を重ねてきました。",
           "rendered_yomi_before": "船橋/フナバシ 株式/カブシキ 会社/ガイシャ は/ハ 大正/タイショウ 10/ 年/ネン の/ノ 創業/ソウギョウ から/カラ 、/、 防水/ボウスイ に/ニ 関する/カンスル 製品/セイヒン づくり/ヅクリ に/ニ 試行/シコウ 錯誤/サクゴ を/ヲ 重ね/カサネ て/テ き/キ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "船橋/フナバシ 株式/カブシキ 会社/ガイシャ は/ハ 大正/タイショウ 10/ 年/ネン の/ノ 創業/ソウギョウ から/カラ 、/、 防水/ボウスイ に/ニ 関する/カンスル 製品/セイヒン づくり/ヅクリ に/ニ 試行/シコウ 錯誤/サクゴ を/ヲ 重ね/カサネ て/テ き/キ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "船橋/フナハシ 株式/カブシキ 会社/ガイシャ は/ハ 大正/タイショウ 10/ 年/ネン の/ノ 創業/ソウギョウ から/カラ 、/、 防水/ボウスイ に/ニ 関する/カンスル 製品/セイヒン づくり/ヅクリ に/ニ 試行/シコウ 錯誤/サクゴ を/ヲ 重ね/カサネ て/テ き/キ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 0,
             "end": 1,
@@ -3142,20 +3192,20 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"会社名の先頭部分として自然に「ふなばし」と読む。\"}]",
+          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html\"}]",
           "llm_parsed": [
             {
-              "comment": "会社名の先頭部分として自然に「ふなばし」と読む。",
-              "reading": "ふなばし",
+              "comment": "公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html",
+              "reading": "フナハシ",
               "surface": "船橋",
-              "used_web_search": false
+              "used_web_search": true
             }
           ],
           "llm_comments": [
-            "会社名の先頭部分として自然に「ふなばし」と読む。"
+            "公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html"
           ],
           "llm_parse_error": null,
-          "used_web_search": false,
+          "used_web_search": true,
           "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2_corrected_v1:0001777731:u0003::target_group:1",
@@ -3164,15 +3214,15 @@
             "replacement": [
               {
                 "surface": "船橋",
-                "reading": "フナバシ"
+                "reading": "フナハシ"
               }
             ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001777731:u0003::target_group:1",
                 "surface": "船橋",
-                "comment": "会社名の先頭部分として自然に「ふなばし」と読む。",
-                "used_web_search": false,
+                "comment": "公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html",
+                "used_web_search": true,
                 "surface_occurrence_index": null
               }
             ]
@@ -3236,18 +3286,18 @@
       },
       "llm_parsed": [
         {
-          "comment": "会社名の先頭部分として自然に「ふなばし」と読む。",
-          "reading": "ふなばし",
+          "comment": "公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html",
+          "reading": "フナハシ",
           "surface": "船橋",
-          "used_web_search": false
+          "used_web_search": true
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"会社名の先頭部分として自然に「ふなばし」と読む。\"}]",
+      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html\"}]",
       "llm_comments": [
-        "会社名の先頭部分として自然に「ふなばし」と読む。"
+        "公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html"
       ],
       "llm_parse_error": null,
-      "used_web_search": false,
+      "used_web_search": true,
       "repair_status": "applied",
       "repair_log": {
         "item_id": "ja_cc_level2_corrected_v1:0001777731:u0003::target_group:1",
@@ -3256,15 +3306,15 @@
         "replacement": [
           {
             "surface": "船橋",
-            "reading": "フナバシ"
+            "reading": "フナハシ"
           }
         ],
         "evidence": [
           {
             "region_id": "ja_cc_level2_corrected_v1:0001777731:u0003::target_group:1",
             "surface": "船橋",
-            "comment": "会社名の先頭部分として自然に「ふなばし」と読む。",
-            "used_web_search": false,
+            "comment": "公式サイトで大正10年創業の防水製品メーカーと確認。企業情報に「船橋株式会社（フナハシ）」と明記されているため、社名の固有部分を分割せず読む。https://2784.co.jp/company/ https://cnavi.g-search.or.jp/detail/4180001032533.html",
+            "used_web_search": true,
             "surface_occurrence_index": null
           }
         ]
@@ -3283,11 +3333,11 @@
       "source_line_no": 1777731,
       "text": "船橋は、防水衣料の機能性と幅広いサイズ展開で、着心地の良さを追求し、雨天時や夜間でも安心・快適に作業していただけるレインウェア（業務用雨合羽）を開発しております。",
       "rendered_yomi_before": "船橋/フナバシ は/ハ 、/、 防水/ボウスイ 衣料/イリョウ の/ノ 機能性/キノウセイ と/ト 幅広い/ハバヒロイ サイズ/サイズ 展開/テンカイ で/デ 、/、 着心地/キゴコチ の/ノ 良/ヨ さ/サ を/ヲ 追求/ツイキュウ し/シ 、/、 雨天/ウテン 時/ジ や/ヤ 夜間/ヤカン で/デ も/モ 安心/アンシン ・/・ 快適/カイテキ に/ニ 作業/サギョウ し/シ て/テ いただける/イタダケル レイン/レイン ウェア/ウェア （/（ 業務用/ギョウムヨウ 雨合羽/アマガッパ ）/） を/ヲ 開発/カイハツ し/シ て/テ おり/オリ ます/マス 。/。",
-      "rendered_yomi_after": "船橋/フナバシ は/ハ 、/、 防水/ボウスイ 衣料/イリョウ の/ノ 機能性/キノウセイ と/ト 幅広い/ハバヒロイ サイズ/サイズ 展開/テンカイ で/デ 、/、 着心地/キゴコチ の/ノ 良/ヨ さ/サ を/ヲ 追求/ツイキュウ し/シ 、/、 雨天/ウテン 時/ジ や/ヤ 夜間/ヤカン で/デ も/モ 安心/アンシン ・/・ 快適/カイテキ に/ニ 作業/サギョウ し/シ て/テ いただける/イタダケル レイン/レイン ウェア/ウェア （/（ 業務用/ギョウムヨウ 雨合羽/アマガッパ ）/） を/ヲ 開発/カイハツ し/シ て/テ おり/オリ ます/マス 。/。",
+      "rendered_yomi_after": "船橋/フナハシ は/ハ 、/、 防水/ボウスイ 衣料/イリョウ の/ノ 機能性/キノウセイ と/ト 幅広い/ハバヒロイ サイズ/サイズ 展開/テンカイ で/デ 、/、 着心地/キゴコチ の/ノ 良/ヨ さ/サ を/ヲ 追求/ツイキュウ し/シ 、/、 雨天/ウテン 時/ジ や/ヤ 夜間/ヤカン で/デ も/モ 安心/アンシン ・/・ 快適/カイテキ に/ニ 作業/サギョウ し/シ て/テ いただける/イタダケル レイン/レイン ウェア/ウェア （/（ 業務用/ギョウムヨウ 雨合羽/アマガッパ ）/） を/ヲ 開発/カイハツ し/シ て/テ おり/オリ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "船橋",
-          "フナバシ"
+          "フナハシ"
         ],
         [
           "は",
@@ -3483,12 +3533,12 @@
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "船橋",
-          "reading": "フナバシ",
+          "reading": "フナハシ",
           "nodes": [
             {
               "type": "ruby",
               "text": "船橋",
-              "reading": "ふなばし"
+              "reading": "ふなはし"
             }
           ]
         },
@@ -3997,7 +4047,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001777731:u0008",
           "text": "船橋は、防水衣料の機能性と幅広いサイズ展開で、着心地の良さを追求し、雨天時や夜間でも安心・快適に作業していただけるレインウェア（業務用雨合羽）を開発しております。",
           "rendered_yomi_before": "船橋/フナバシ は/ハ 、/、 防水/ボウスイ 衣料/イリョウ の/ノ 機能性/キノウセイ と/ト 幅広い/ハバヒロイ サイズ/サイズ 展開/テンカイ で/デ 、/、 着心地/キゴコチ の/ノ 良/ヨ さ/サ を/ヲ 追求/ツイキュウ し/シ 、/、 雨天/ウテン 時/ジ や/ヤ 夜間/ヤカン で/デ も/モ 安心/アンシン ・/・ 快適/カイテキ に/ニ 作業/サギョウ し/シ て/テ いただける/イタダケル レイン/レイン ウェア/ウェア （/（ 業務用/ギョウムヨウ 雨合羽/アマガッパ ）/） を/ヲ 開発/カイハツ し/シ て/テ おり/オリ ます/マス 。/。",
-          "rendered_yomi_after": "船橋/フナバシ は/ハ 、/、 防水/ボウスイ 衣料/イリョウ の/ノ 機能性/キノウセイ と/ト 幅広い/ハバヒロイ サイズ/サイズ 展開/テンカイ で/デ 、/、 着心地/キゴコチ の/ノ 良/ヨ さ/サ を/ヲ 追求/ツイキュウ し/シ 、/、 雨天/ウテン 時/ジ や/ヤ 夜間/ヤカン で/デ も/モ 安心/アンシン ・/・ 快適/カイテキ に/ニ 作業/サギョウ し/シ て/テ いただける/イタダケル レイン/レイン ウェア/ウェア （/（ 業務用/ギョウムヨウ 雨合羽/アマガッパ ）/） を/ヲ 開発/カイハツ し/シ て/テ おり/オリ ます/マス 。/。",
+          "rendered_yomi_after": "船橋/フナハシ は/ハ 、/、 防水/ボウスイ 衣料/イリョウ の/ノ 機能性/キノウセイ と/ト 幅広い/ハバヒロイ サイズ/サイズ 展開/テンカイ で/デ 、/、 着心地/キゴコチ の/ノ 良/ヨ さ/サ を/ヲ 追求/ツイキュウ し/シ 、/、 雨天/ウテン 時/ジ や/ヤ 夜間/ヤカン で/デ も/モ 安心/アンシン ・/・ 快適/カイテキ に/ニ 作業/サギョウ し/シ て/テ いただける/イタダケル レイン/レイン ウェア/ウェア （/（ 業務用/ギョウムヨウ 雨合羽/アマガッパ ）/） を/ヲ 開発/カイハツ し/シ て/テ おり/オリ ます/マス 。/。",
           "display_mapping": {
             "start": 0,
             "end": 1,
@@ -4091,20 +4141,20 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。\"}]",
+          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000\"}]",
           "llm_parsed": [
             {
-              "comment": "文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。",
-              "reading": "ふなばし",
+              "comment": "文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000",
+              "reading": "フナハシ",
               "surface": "船橋",
-              "used_web_search": false
+              "used_web_search": true
             }
           ],
           "llm_comments": [
-            "文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。"
+            "文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000"
           ],
           "llm_parse_error": null,
-          "used_web_search": false,
+          "used_web_search": true,
           "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2_corrected_v1:0001777731:u0008::target_group:1",
@@ -4113,15 +4163,15 @@
             "replacement": [
               {
                 "surface": "船橋",
-                "reading": "フナバシ"
+                "reading": "フナハシ"
               }
             ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001777731:u0008::target_group:1",
                 "surface": "船橋",
-                "comment": "文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。",
-                "used_web_search": false,
+                "comment": "文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000",
+                "used_web_search": true,
                 "surface_occurrence_index": null
               }
             ]
@@ -4185,18 +4235,18 @@
       },
       "llm_parsed": [
         {
-          "comment": "文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。",
-          "reading": "ふなばし",
+          "comment": "文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000",
+          "reading": "フナハシ",
           "surface": "船橋",
-          "used_web_search": false
+          "used_web_search": true
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。\"}]",
+      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000\"}]",
       "llm_comments": [
-        "文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。"
+        "文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000"
       ],
       "llm_parse_error": null,
-      "used_web_search": false,
+      "used_web_search": true,
       "repair_status": "applied",
       "repair_log": {
         "item_id": "ja_cc_level2_corrected_v1:0001777731:u0008::target_group:1",
@@ -4205,15 +4255,15 @@
         "replacement": [
           {
             "surface": "船橋",
-            "reading": "フナバシ"
+            "reading": "フナハシ"
           }
         ],
         "evidence": [
           {
             "region_id": "ja_cc_level2_corrected_v1:0001777731:u0008::target_group:1",
             "surface": "船橋",
-            "comment": "文脈上は企業名・地名いずれでも通常『ふなばし』と読むため、そのままの読みでよい。",
-            "used_web_search": false,
+            "comment": "文脈はレインウェアメーカーの船橋を指す。販売店の商品表記「船橋│フナハシ」で読みを確認。名称内部に自然な分割境界はない。https://www.alberotto.com/fs/alberotto/funahashi06000",
+            "used_web_search": true,
             "surface_occurrence_index": null
           }
         ]
@@ -4232,11 +4282,11 @@
       "source_line_no": 1777731,
       "text": "船橋は、日本で初めて食肉加工業専用の作業着を開発しており、60年以上の実績がございます。",
       "rendered_yomi_before": "船橋/フナバシ は/ハ 、/、 日本/ニホン で/デ 初めて/ハジメテ 食肉/ショクニク 加工業/カコウギョウ 専用/センヨウ の/ノ 作業着/サギョウギ を/ヲ 開発/カイハツ し/シ て/テ おり/オリ 、/、 60/ 年/ネン 以上/イジョウ の/ノ 実績/ジッセキ が/ガ ござい/ゴザイ ます/マス 。/。",
-      "rendered_yomi_after": "船橋/フナバシ は/ハ 、/、 日本/ニホン で/デ 初めて/ハジメテ 食肉/ショクニク 加工業/カコウギョウ 専用/センヨウ の/ノ 作業着/サギョウギ を/ヲ 開発/カイハツ し/シ て/テ おり/オリ 、/、 60/ 年/ネン 以上/イジョウ の/ノ 実績/ジッセキ が/ガ ござい/ゴザイ ます/マス 。/。",
+      "rendered_yomi_after": "船橋/フナハシ は/ハ 、/、 日本/ニホン で/デ 初めて/ハジメテ 食肉/ショクニク 加工業/カコウギョウ 専用/センヨウ の/ノ 作業着/サギョウギ を/ヲ 開発/カイハツ し/シ て/テ おり/オリ 、/、 60/ 年/ネン 以上/イジョウ の/ノ 実績/ジッセキ が/ガ ござい/ゴザイ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "船橋",
-          "フナバシ"
+          "フナハシ"
         ],
         [
           "は",
@@ -4344,12 +4394,12 @@
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "船橋",
-          "reading": "フナバシ",
+          "reading": "フナハシ",
           "nodes": [
             {
               "type": "ruby",
               "text": "船橋",
-              "reading": "ふなばし"
+              "reading": "ふなはし"
             }
           ]
         },
@@ -4631,7 +4681,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001777731:u0014",
           "text": "船橋は、日本で初めて食肉加工業専用の作業着を開発しており、60年以上の実績がございます。",
           "rendered_yomi_before": "船橋/フナバシ は/ハ 、/、 日本/ニホン で/デ 初めて/ハジメテ 食肉/ショクニク 加工業/カコウギョウ 専用/センヨウ の/ノ 作業着/サギョウギ を/ヲ 開発/カイハツ し/シ て/テ おり/オリ 、/、 60/ 年/ネン 以上/イジョウ の/ノ 実績/ジッセキ が/ガ ござい/ゴザイ ます/マス 。/。",
-          "rendered_yomi_after": "船橋/フナバシ は/ハ 、/、 日本/ニホン で/デ 初めて/ハジメテ 食肉/ショクニク 加工業/カコウギョウ 専用/センヨウ の/ノ 作業着/サギョウギ を/ヲ 開発/カイハツ し/シ て/テ おり/オリ 、/、 60/ 年/ネン 以上/イジョウ の/ノ 実績/ジッセキ が/ガ ござい/ゴザイ ます/マス 。/。",
+          "rendered_yomi_after": "船橋/フナハシ は/ハ 、/、 日本/ニホン で/デ 初めて/ハジメテ 食肉/ショクニク 加工業/カコウギョウ 専用/センヨウ の/ノ 作業着/サギョウギ を/ヲ 開発/カイハツ し/シ て/テ おり/オリ 、/、 60/ 年/ネン 以上/イジョウ の/ノ 実績/ジッセキ が/ガ ござい/ゴザイ ます/マス 。/。",
           "display_mapping": {
             "start": 0,
             "end": 1,
@@ -4725,20 +4775,20 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。\"}]",
+          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/\"}]",
           "llm_parsed": [
             {
-              "comment": "文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。",
-              "reading": "ふなばし",
+              "comment": "食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/",
+              "reading": "フナハシ",
               "surface": "船橋",
-              "used_web_search": false
+              "used_web_search": true
             }
           ],
           "llm_comments": [
-            "文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。"
+            "食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/"
           ],
           "llm_parse_error": null,
-          "used_web_search": false,
+          "used_web_search": true,
           "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2_corrected_v1:0001777731:u0014::target_group:1",
@@ -4747,15 +4797,15 @@
             "replacement": [
               {
                 "surface": "船橋",
-                "reading": "フナバシ"
+                "reading": "フナハシ"
               }
             ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001777731:u0014::target_group:1",
                 "surface": "船橋",
-                "comment": "文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。",
-                "used_web_search": false,
+                "comment": "食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/",
+                "used_web_search": true,
                 "surface_occurrence_index": null
               }
             ]
@@ -4819,18 +4869,18 @@
       },
       "llm_parsed": [
         {
-          "comment": "文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。",
-          "reading": "ふなばし",
+          "comment": "食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/",
+          "reading": "フナハシ",
           "surface": "船橋",
-          "used_web_search": false
+          "used_web_search": true
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。\"}]",
+      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/\"}]",
       "llm_comments": [
-        "文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。"
+        "食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/"
       ],
       "llm_parse_error": null,
-      "used_web_search": false,
+      "used_web_search": true,
       "repair_status": "applied",
       "repair_log": {
         "item_id": "ja_cc_level2_corrected_v1:0001777731:u0014::target_group:1",
@@ -4839,15 +4889,15 @@
         "replacement": [
           {
             "surface": "船橋",
-            "reading": "フナバシ"
+            "reading": "フナハシ"
           }
         ],
         "evidence": [
           {
             "region_id": "ja_cc_level2_corrected_v1:0001777731:u0014::target_group:1",
             "surface": "船橋",
-            "comment": "文脈上は名称としての「船橋」で、読みは一般的に「ふなばし」。この範囲はこれ以上分けないのが自然です。",
-            "used_web_search": false,
+            "comment": "食肉加工業専用の作業着を開発した船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/product_cat/apron/",
+            "used_web_search": true,
             "surface_occurrence_index": null
           }
         ]
@@ -4866,11 +4916,11 @@
       "source_line_no": 1777731,
       "text": "船橋の次の100年を創りませんか？",
       "rendered_yomi_before": "船橋/フナバシ の/ノ 次/ツギ の/ノ 100/ 年/ネン を/ヲ 創り/ツクリ ませ/マセ ん/ン か/カ ？/？",
-      "rendered_yomi_after": "船橋/フナバシ の/ノ 次/ツギ の/ノ 100/ 年/ネン を/ヲ 創り/ツクリ ませ/マセ ん/ン か/カ ？/？",
+      "rendered_yomi_after": "船橋/フナハシ の/ノ 次/ツギ の/ノ 100/ 年/ネン を/ヲ 創り/ツクリ ませ/マセ ん/ン か/カ ？/？",
       "rendered_yomi_after_tokens": [
         [
           "船橋",
-          "フナバシ"
+          "フナハシ"
         ],
         [
           "の",
@@ -4922,12 +4972,12 @@
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "船橋",
-          "reading": "フナバシ",
+          "reading": "フナハシ",
           "nodes": [
             {
               "type": "ruby",
               "text": "船橋",
-              "reading": "ふなばし"
+              "reading": "ふなはし"
             }
           ]
         },
@@ -5062,7 +5112,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001777731:u0016",
           "text": "船橋の次の100年を創りませんか？",
           "rendered_yomi_before": "船橋/フナバシ の/ノ 次/ツギ の/ノ 100/ 年/ネン を/ヲ 創り/ツクリ ませ/マセ ん/ン か/カ ？/？",
-          "rendered_yomi_after": "船橋/フナバシ の/ノ 次/ツギ の/ノ 100/ 年/ネン を/ヲ 創り/ツクリ ませ/マセ ん/ン か/カ ？/？",
+          "rendered_yomi_after": "船橋/フナハシ の/ノ 次/ツギ の/ノ 100/ 年/ネン を/ヲ 創り/ツクリ ませ/マセ ん/ン か/カ ？/？",
           "display_mapping": {
             "start": 0,
             "end": 1,
@@ -5156,17 +5206,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。\"}]",
+          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナバシ\",\"used_web_search\":false,\"comment\":\"文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。\"}]",
           "llm_parsed": [
             {
-              "comment": "地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。",
-              "reading": "ふなばし",
+              "comment": "文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。",
+              "reading": "フナバシ",
               "surface": "船橋",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。"
+            "文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -5185,7 +5235,7 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001777731:u0016::target_group:1",
                 "surface": "船橋",
-                "comment": "地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。",
+                "comment": "文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -5250,15 +5300,15 @@
       },
       "llm_parsed": [
         {
-          "comment": "地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。",
-          "reading": "ふなばし",
+          "comment": "文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。",
+          "reading": "フナバシ",
           "surface": "船橋",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。\"}]",
+      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナバシ\",\"used_web_search\":false,\"comment\":\"文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。\"}]",
       "llm_comments": [
-        "地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。"
+        "文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -5277,7 +5327,7 @@
           {
             "region_id": "ja_cc_level2_corrected_v1:0001777731:u0016::target_group:1",
             "surface": "船橋",
-            "comment": "地名・固有名として「ふなばし」と読むのが自然。ここでは一語で扱う。",
+            "comment": "文脈では地名の船橋（ふなばし）。内部に自然な語境界はないため、一語として既存の読みを保持する。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -6192,17 +6242,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなはし\",\"used_web_search\":true,\"comment\":\"公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。\"}]",
+          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/\"}]",
           "llm_parsed": [
             {
-              "comment": "公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。",
-              "reading": "ふなはし",
+              "comment": "1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/",
+              "reading": "フナハシ",
               "surface": "船橋",
               "used_web_search": true
             }
           ],
           "llm_comments": [
-            "公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。"
+            "1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/"
           ],
           "llm_parse_error": null,
           "used_web_search": true,
@@ -6221,7 +6271,7 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001777731:u0018::target_group:1",
                 "surface": "船橋",
-                "comment": "公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。",
+                "comment": "1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/",
                 "used_web_search": true,
                 "surface_occurrence_index": null
               }
@@ -6286,15 +6336,15 @@
       },
       "llm_parsed": [
         {
-          "comment": "公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。",
-          "reading": "ふなはし",
+          "comment": "1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/",
+          "reading": "フナハシ",
           "surface": "船橋",
           "used_web_search": true
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなはし\",\"used_web_search\":true,\"comment\":\"公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。\"}]",
+      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナハシ\",\"used_web_search\":true,\"comment\":\"1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/\"}]",
       "llm_comments": [
-        "公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。"
+        "1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/"
       ],
       "llm_parse_error": null,
       "used_web_search": true,
@@ -6313,7 +6363,7 @@
           {
             "region_id": "ja_cc_level2_corrected_v1:0001777731:u0018::target_group:1",
             "surface": "船橋",
-            "comment": "公式サイトの英字表記が「FUNAHASHI co ltd.」で、会社名としては「ふなはし」と読むのが自然です。",
+            "comment": "1921年創業のレインウェアメーカー船橋株式会社を指す。公式サイトの「ふなはし通信」で読みを確認。社名の固有部分として分割しない。https://2784.co.jp/blog/ https://2784.co.jp/history/",
             "used_web_search": true,
             "surface_occurrence_index": null
           }
@@ -6333,11 +6383,11 @@
       "source_line_no": 1777731,
       "text": "船橋や、当社のプロジェクトにご興味をお持ちいただける方は、ぜひご連絡ください！",
       "rendered_yomi_before": "船橋/フナバシ や/ヤ 、/、 当社/トウシャ の/ノ プロジェクト/プロジェクト に/ニ ご/ゴ 興味/キョウミ を/ヲ お/オ 持ち/モチ いただける/イタダケル 方/カタ は/ハ 、/、 ぜひ/ゼヒ ご/ゴ 連絡/レンラク ください/クダサイ ！/！",
-      "rendered_yomi_after": "船橋/フナバシ や/ヤ 、/、 当社/トウシャ の/ノ プロジェクト/プロジェクト に/ニ ご/ゴ 興味/キョウミ を/ヲ お/オ 持ち/モチ いただける/イタダケル 方/カタ は/ハ 、/、 ぜひ/ゼヒ ご/ゴ 連絡/レンラク ください/クダサイ ！/！",
+      "rendered_yomi_after": "船橋/フナハシ や/ヤ 、/、 当社/トウシャ の/ノ プロジェクト/プロジェクト に/ニ ご/ゴ 興味/キョウミ を/ヲ お/オ 持ち/モチ いただける/イタダケル 方/カタ は/ハ 、/、 ぜひ/ゼヒ ご/ゴ 連絡/レンラク ください/クダサイ ！/！",
       "rendered_yomi_after_tokens": [
         [
           "船橋",
-          "フナバシ"
+          "フナハシ"
         ],
         [
           "や",
@@ -6425,12 +6475,12 @@
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "船橋",
-          "reading": "フナバシ",
+          "reading": "フナハシ",
           "nodes": [
             {
               "type": "ruby",
               "text": "船橋",
-              "reading": "ふなばし"
+              "reading": "ふなはし"
             }
           ]
         },
@@ -6657,7 +6707,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001777731:u0019",
           "text": "船橋や、当社のプロジェクトにご興味をお持ちいただける方は、ぜひご連絡ください！",
           "rendered_yomi_before": "船橋/フナバシ や/ヤ 、/、 当社/トウシャ の/ノ プロジェクト/プロジェクト に/ニ ご/ゴ 興味/キョウミ を/ヲ お/オ 持ち/モチ いただける/イタダケル 方/カタ は/ハ 、/、 ぜひ/ゼヒ ご/ゴ 連絡/レンラク ください/クダサイ ！/！",
-          "rendered_yomi_after": "船橋/フナバシ や/ヤ 、/、 当社/トウシャ の/ノ プロジェクト/プロジェクト に/ニ ご/ゴ 興味/キョウミ を/ヲ お/オ 持ち/モチ いただける/イタダケル 方/カタ は/ハ 、/、 ぜひ/ゼヒ ご/ゴ 連絡/レンラク ください/クダサイ ！/！",
+          "rendered_yomi_after": "船橋/フナハシ や/ヤ 、/、 当社/トウシャ の/ノ プロジェクト/プロジェクト に/ニ ご/ゴ 興味/キョウミ を/ヲ お/オ 持ち/モチ いただける/イタダケル 方/カタ は/ハ 、/、 ぜひ/ゼヒ ご/ゴ 連絡/レンラク ください/クダサイ ！/！",
           "display_mapping": {
             "start": 0,
             "end": 1,
@@ -6751,17 +6801,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。\"}]",
+          "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナバシ\",\"used_web_search\":false,\"comment\":\"文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。\"}]",
           "llm_parsed": [
             {
-              "comment": "地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。",
-              "reading": "ふなばし",
+              "comment": "文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。",
+              "reading": "フナバシ",
               "surface": "船橋",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。"
+            "文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -6780,7 +6830,7 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001777731:u0019::target_group:1",
                 "surface": "船橋",
-                "comment": "地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。",
+                "comment": "文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -6845,15 +6895,15 @@
       },
       "llm_parsed": [
         {
-          "comment": "地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。",
-          "reading": "ふなばし",
+          "comment": "文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。",
+          "reading": "フナバシ",
           "surface": "船橋",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"ふなばし\",\"used_web_search\":false,\"comment\":\"地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。\"}]",
+      "llm_raw_text": "[{\"surface\":\"船橋\",\"reading\":\"フナバシ\",\"used_web_search\":false,\"comment\":\"文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。\"}]",
       "llm_comments": [
-        "地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。"
+        "文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -6872,7 +6922,7 @@
           {
             "region_id": "ja_cc_level2_corrected_v1:0001777731:u0019::target_group:1",
             "surface": "船橋",
-            "comment": "地名・姓としての通常の読みは「ふなばし」。文脈上も固有名詞の一部として自然です。",
+            "comment": "文脈上は人名の姓と考えられ、一般的な読みは「ふなばし」。別の読みを示す情報はなく、姓を分割せず既存の読みを維持する。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -6892,7 +6942,7 @@
       "source_line_no": 1844954,
       "text": "高岡大仏前にて満賀が霧野涼子の逢引き現場を目撃、そして・・・。",
       "rendered_yomi_before": "高岡/タカオカ 大仏/ダイブツ 前/マエ にて/ニテ 満/マン 賀/ガ が/ガ 霧野/キリノ 涼子/リョウコ の/ノ 逢引き/アイビキ 現場/ゲンバ を/ヲ 目撃/モクゲキ 、/、 そして/ソシテ ・/・ ・/・ ・/・ 。/。",
-      "rendered_yomi_after": "高岡/タカオカ 大仏/ダイブツ 前/マエ にて/ニテ 満賀/マンガ が/ガ 霧野/キリノ 涼子/リョウコ の/ノ 逢引き/アイビキ 現場/ゲンバ を/ヲ 目撃/モクゲキ 、/、 そして/ソシテ ・/・ ・/・ ・/・ 。/。",
+      "rendered_yomi_after": "高岡/タカオカ 大仏/ダイブツ 前/マエ にて/ニテ 満賀/マガ が/ガ 霧野/キリノ 涼子/リョウコ の/ノ 逢引き/アイビキ 現場/ゲンバ を/ヲ 目撃/モクゲキ 、/、 そして/ソシテ ・/・ ・/・ ・/・ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "高岡",
@@ -6912,7 +6962,7 @@
         ],
         [
           "満賀",
-          "マンガ"
+          "マガ"
         ],
         [
           "が",
@@ -7019,12 +7069,12 @@
         },
         {
           "surface": "満賀",
-          "reading": "マンガ",
+          "reading": "マガ",
           "nodes": [
             {
               "type": "ruby",
               "text": "満賀",
-              "reading": "まんが"
+              "reading": "まが"
             }
           ]
         },
@@ -7191,7 +7241,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001844954:u0001",
           "text": "高岡大仏前にて満賀が霧野涼子の逢引き現場を目撃、そして・・・。",
           "rendered_yomi_before": "高岡/タカオカ 大仏/ダイブツ 前/マエ にて/ニテ 満/マン 賀/ガ が/ガ 霧野/キリノ 涼子/リョウコ の/ノ 逢引き/アイビキ 現場/ゲンバ を/ヲ 目撃/モクゲキ 、/、 そして/ソシテ ・/・ ・/・ ・/・ 。/。",
-          "rendered_yomi_after": "高岡/タカオカ 大仏/ダイブツ 前/マエ にて/ニテ 満賀/マンガ が/ガ 霧野/キリノ 涼子/リョウコ の/ノ 逢引き/アイビキ 現場/ゲンバ を/ヲ 目撃/モクゲキ 、/、 そして/ソシテ ・/・ ・/・ ・/・ 。/。",
+          "rendered_yomi_after": "高岡/タカオカ 大仏/ダイブツ 前/マエ にて/ニテ 満賀/マガ が/ガ 霧野/キリノ 涼子/リョウコ の/ノ 逢引き/アイビキ 現場/ゲンバ を/ヲ 目撃/モクゲキ 、/、 そして/ソシテ ・/・ ・/・ ・/・ 。/。",
           "display_mapping": {
             "start": 4,
             "end": 5,
@@ -7325,17 +7375,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"マンガ\",\"used_web_search\":false,\"comment\":\"人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。\"}]",
+          "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"マガ\",\"used_web_search\":false,\"comment\":\"『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。\"}]",
           "llm_parsed": [
             {
-              "comment": "人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。",
-              "reading": "マンガ",
+              "comment": "『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。",
+              "reading": "マガ",
               "surface": "満賀",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。"
+            "『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -7347,14 +7397,14 @@
             "replacement": [
               {
                 "surface": "満賀",
-                "reading": "マンガ"
+                "reading": "マガ"
               }
             ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001844954:u0001::target_group:1",
                 "surface": "満賀",
-                "comment": "人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。",
+                "comment": "『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -7438,15 +7488,15 @@
       },
       "llm_parsed": [
         {
-          "comment": "人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。",
-          "reading": "マンガ",
+          "comment": "『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。",
+          "reading": "マガ",
           "surface": "満賀",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"マンガ\",\"used_web_search\":false,\"comment\":\"人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。\"}]",
+      "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"マガ\",\"used_web_search\":false,\"comment\":\"『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。\"}]",
       "llm_comments": [
-        "人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。"
+        "『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -7458,14 +7508,14 @@
         "replacement": [
           {
             "surface": "満賀",
-            "reading": "マンガ"
+            "reading": "マガ"
           }
         ],
         "evidence": [
           {
             "region_id": "ja_cc_level2_corrected_v1:0001844954:u0001::target_group:1",
             "surface": "満賀",
-            "comment": "人名の姓としては「まんが」と読むので、2字をひとかたまりで修正する。",
+            "comment": "『まんが道』の登場人物・満賀道雄（まが みちお）の姓。姓全体で一語とし、「マガ」と読む。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -7485,7 +7535,7 @@
       "source_line_no": 1844954,
       "text": "立山新聞社の図案部の一員として働きはじめた満賀は、この先どうなっていくのか。",
       "rendered_yomi_before": "立山/タテヤマ 新聞社/シンブンシャ の/ノ 図案/ズアン 部/ブ の/ノ 一員/イチイン と/ト し/シ て/テ 働き/ハタラキ はじめ/ハジメ た/タ 満/マン 賀/ガ は/ハ 、/、 この先/コノサキ どう/ドウ なっ/ナッ て/テ いく/イク の/ノ か/カ 。/。",
-      "rendered_yomi_after": "立山/タテヤマ 新聞社/シンブンシャ の/ノ 図案/ズアン 部/ブ の/ノ 一員/イチイン と/ト し/シ て/テ 働き/ハタラキ はじめ/ハジメ た/タ 満賀/マンガ は/ハ 、/、 この先/コノサキ どう/ドウ なっ/ナッ て/テ いく/イク の/ノ か/カ 。/。",
+      "rendered_yomi_after": "立山/タテヤマ 新聞社/シンブンシャ の/ノ 図案/ズアン 部/ブ の/ノ 一員/イチイン と/ト し/シ て/テ 働き/ハタラキ はじめ/ハジメ た/タ 満賀/マガ は/ハ 、/、 この先/コノサキ どう/ドウ なっ/ナッ て/テ いく/イク の/ノ か/カ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "立山",
@@ -7541,7 +7591,7 @@
         ],
         [
           "満賀",
-          "マンガ"
+          "マガ"
         ],
         [
           "は",
@@ -7729,12 +7779,12 @@
         },
         {
           "surface": "満賀",
-          "reading": "マンガ",
+          "reading": "マガ",
           "nodes": [
             {
               "type": "ruby",
               "text": "満賀",
-              "reading": "まんが"
+              "reading": "まが"
             }
           ]
         },
@@ -7857,7 +7907,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001844954:u0006",
           "text": "立山新聞社の図案部の一員として働きはじめた満賀は、この先どうなっていくのか。",
           "rendered_yomi_before": "立山/タテヤマ 新聞社/シンブンシャ の/ノ 図案/ズアン 部/ブ の/ノ 一員/イチイン と/ト し/シ て/テ 働き/ハタラキ はじめ/ハジメ た/タ 満/マン 賀/ガ は/ハ 、/、 この先/コノサキ どう/ドウ なっ/ナッ て/テ いく/イク の/ノ か/カ 。/。",
-          "rendered_yomi_after": "立山/タテヤマ 新聞社/シンブンシャ の/ノ 図案/ズアン 部/ブ の/ノ 一員/イチイン と/ト し/シ て/テ 働き/ハタラキ はじめ/ハジメ た/タ 満賀/マンガ は/ハ 、/、 この先/コノサキ どう/ドウ なっ/ナッ て/テ いく/イク の/ノ か/カ 。/。",
+          "rendered_yomi_after": "立山/タテヤマ 新聞社/シンブンシャ の/ノ 図案/ズアン 部/ブ の/ノ 一員/イチイン と/ト し/シ て/テ 働き/ハタラキ はじめ/ハジメ た/タ 満賀/マガ は/ハ 、/、 この先/コノサキ どう/ドウ なっ/ナッ て/テ いく/イク の/ノ か/カ 。/。",
           "display_mapping": {
             "start": 13,
             "end": 14,
@@ -7991,17 +8041,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"まんが\",\"used_web_search\":false,\"comment\":\"作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。\"}]",
+          "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"マガ\",\"used_web_search\":false,\"comment\":\"『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。\"}]",
           "llm_parsed": [
             {
-              "comment": "作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。",
-              "reading": "まんが",
+              "comment": "『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。",
+              "reading": "マガ",
               "surface": "満賀",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。"
+            "『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -8013,14 +8063,14 @@
             "replacement": [
               {
                 "surface": "満賀",
-                "reading": "マンガ"
+                "reading": "マガ"
               }
             ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001844954:u0006::target_group:1",
                 "surface": "満賀",
-                "comment": "作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。",
+                "comment": "『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -8104,15 +8154,15 @@
       },
       "llm_parsed": [
         {
-          "comment": "作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。",
-          "reading": "まんが",
+          "comment": "『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。",
+          "reading": "マガ",
           "surface": "満賀",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"まんが\",\"used_web_search\":false,\"comment\":\"作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。\"}]",
+      "llm_raw_text": "[{\"surface\":\"満賀\",\"reading\":\"マガ\",\"used_web_search\":false,\"comment\":\"『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。\"}]",
       "llm_comments": [
-        "作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。"
+        "『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -8124,14 +8174,14 @@
         "replacement": [
           {
             "surface": "満賀",
-            "reading": "マンガ"
+            "reading": "マガ"
           }
         ],
         "evidence": [
           {
             "region_id": "ja_cc_level2_corrected_v1:0001844954:u0006::target_group:1",
             "surface": "満賀",
-            "comment": "作中人物名の姓として読む。文脈上「満賀は」で一続きの人名の一部で、読みは「まんが」。",
+            "comment": "『まんが道』の主人公・満賀道雄（まが みちお）の姓。姓全体で「まが」と読み、漢字ごとには分割しない。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
@@ -8151,7 +8201,7 @@
       "source_line_no": 959496,
       "text": "で、　金使いすぎじゃー！",
       "rendered_yomi_before": "で/デ 、/、 　/ 金使い/カネヅカイ すぎ/スギ じゃー/ジャー ！/！",
-      "rendered_yomi_after": "で/デ 、/、 \\u3000/ 金使い/カネヅカイ すぎ/スギ じゃー/ジャー ！/！",
+      "rendered_yomi_after": "で/デ 、/、 \\u3000/ 金/カネ 使い/ツカイ すぎ/スギ じゃー/ジャー ！/！",
       "rendered_yomi_after_tokens": [
         [
           "で",
@@ -8166,8 +8216,12 @@
           ""
         ],
         [
-          "金使い",
-          "カネヅカイ"
+          "金",
+          "カネ"
+        ],
+        [
+          "使い",
+          "ツカイ"
         ],
         [
           "すぎ",
@@ -8216,13 +8270,24 @@
           ]
         },
         {
-          "surface": "金使い",
-          "reading": "カネヅカイ",
+          "surface": "金",
+          "reading": "カネ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "金使",
-              "reading": "かねづか"
+              "text": "金",
+              "reading": "かね"
+            }
+          ]
+        },
+        {
+          "surface": "使い",
+          "reading": "ツカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "使",
+              "reading": "つか"
             },
             {
               "type": "text",
@@ -8274,14 +8339,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000959496:u0001",
           "text": "で、　金使いすぎじゃー！",
           "rendered_yomi_before": "で/デ 、/、 　/ 金使い/カネヅカイ すぎ/スギ じゃー/ジャー ！/！",
-          "rendered_yomi_after": "で/デ 、/、 \\u3000/ 金使い/カネヅカイ すぎ/スギ じゃー/ジャー ！/！",
+          "rendered_yomi_after": "で/デ 、/、 \\u3000/ 金/カネ 使い/ツカイ すぎ/スギ じゃー/ジャー ！/！",
           "display_mapping": {
             "start": 3,
-            "end": 4,
+            "end": 5,
             "char_start": 3,
             "char_end": 6,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -8372,17 +8437,24 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"金使い\",\"reading\":\"かねづかい\",\"used_web_search\":false,\"comment\":\"『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。\"}]",
+          "llm_raw_text": "[{\"surface\":\"金\",\"reading\":\"カネ\",\"used_web_search\":false,\"comment\":\"「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。\"},{\"surface\":\"使い\",\"reading\":\"ツカイ\",\"used_web_search\":false,\"comment\":\"「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。\"}]",
           "llm_parsed": [
             {
-              "comment": "『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。",
-              "reading": "かねづかい",
-              "surface": "金使い",
+              "comment": "「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。",
+              "reading": "カネ",
+              "surface": "金",
+              "used_web_search": false
+            },
+            {
+              "comment": "「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。",
+              "reading": "ツカイ",
+              "surface": "使い",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。"
+            "「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。",
+            "「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -8393,15 +8465,26 @@
             "rejected_span": "金使い",
             "replacement": [
               {
-                "surface": "金使い",
-                "reading": "カネヅカイ"
+                "surface": "金",
+                "reading": "カネ"
+              },
+              {
+                "surface": "使い",
+                "reading": "ツカイ"
               }
             ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0000959496:u0001::target_group:1",
                 "surface": "金使い",
-                "comment": "『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。",
+                "comment": "「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000959496:u0001::target_group:1",
+                "surface": "金使い",
+                "comment": "「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -8470,15 +8553,22 @@
       },
       "llm_parsed": [
         {
-          "comment": "『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。",
-          "reading": "かねづかい",
-          "surface": "金使い",
+          "comment": "「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。",
+          "reading": "カネ",
+          "surface": "金",
+          "used_web_search": false
+        },
+        {
+          "comment": "「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。",
+          "reading": "ツカイ",
+          "surface": "使い",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"金使い\",\"reading\":\"かねづかい\",\"used_web_search\":false,\"comment\":\"『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。\"}]",
+      "llm_raw_text": "[{\"surface\":\"金\",\"reading\":\"カネ\",\"used_web_search\":false,\"comment\":\"「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。\"},{\"surface\":\"使い\",\"reading\":\"ツカイ\",\"used_web_search\":false,\"comment\":\"「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。\"}]",
       "llm_comments": [
-        "『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。"
+        "「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。",
+        "「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -8489,15 +8579,26 @@
         "rejected_span": "金使い",
         "replacement": [
           {
-            "surface": "金使い",
-            "reading": "カネヅカイ"
+            "surface": "金",
+            "reading": "カネ"
+          },
+          {
+            "surface": "使い",
+            "reading": "ツカイ"
           }
         ],
         "evidence": [
           {
             "region_id": "ja_cc_level2_corrected_v1:0000959496:u0001::target_group:1",
             "surface": "金使い",
-            "comment": "『金使い』は慣用的に「かねづかい」と読む名詞で、この文脈でも「金遣いがすぎる」の意味。",
+            "comment": "「金を使いすぎ」の助詞「を」が省略された表現で、名詞「金」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000959496:u0001::target_group:1",
+            "surface": "金使い",
+            "comment": "「使いすぎ」の動詞「使う」の連用形。名詞「金遣い」ではないため連濁しない。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
