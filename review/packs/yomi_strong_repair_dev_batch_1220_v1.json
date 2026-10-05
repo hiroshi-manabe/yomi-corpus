@@ -1,0 +1,3348 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1220_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1220",
+  "created_at_epoch": 1791164507,
+  "created_at": "2026-10-05T01:41:47Z",
+  "item_count": 4,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 4,
+    "queued_repair_row_count": 4,
+    "result_row_count": 4,
+    "reviewable_repair_row_count": 4,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002490522",
+      "doc_seq": 1,
+      "track_doc_seq": 3671,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0374.jsonl.gz",
+      "source_line_no": 2490522,
+      "preview": "霜降り明星のラジオ番組『霜降り明星のオールナイトニッポン０』で、せいやさんは、自分のトーク中、スタッフがなにやらメモを取っていることに敏感に反応。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-05T01:27:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002445168",
+      "doc_seq": 2,
+      "track_doc_seq": 3672,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0364.jsonl.gz",
+      "source_line_no": 2445168,
+      "preview": "景品などで1万五千円まで実費を抑えられました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-05T01:27:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000426179",
+      "doc_seq": 3,
+      "track_doc_seq": 3673,
+      "unit_count": 62,
+      "source_file": "ja/ja_cc/level2/0046.jsonl.gz",
+      "source_line_no": 426179,
+      "preview": "という情報があるということです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-05T01:27:08Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 62,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001741647",
+      "doc_seq": 4,
+      "track_doc_seq": 3674,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0218.jsonl.gz",
+      "source_line_no": 1741647,
+      "preview": "色白で艶々、スレンダー、いいねいいね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-05T01:27:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002001640",
+      "doc_seq": 5,
+      "track_doc_seq": 3675,
+      "unit_count": 29,
+      "source_file": "ja/ja_cc/level2/0260.jsonl.gz",
+      "source_line_no": 2001640,
+      "preview": "こんにちは、ブン太です！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-05T01:27:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 29,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000567197",
+      "doc_seq": 6,
+      "track_doc_seq": 3676,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0061.jsonl.gz",
+      "source_line_no": 567197,
+      "preview": "その他の候補になりそうな機体？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-05T01:27:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 3,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001257049",
+      "doc_seq": 7,
+      "track_doc_seq": 3677,
+      "unit_count": 32,
+      "source_file": "ja/ja_cc/level2/0142.jsonl.gz",
+      "source_line_no": 1257049,
+      "preview": "貿易もここで行われていたそう。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-05T01:27:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 32,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001182130",
+      "doc_seq": 8,
+      "track_doc_seq": 3678,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0132.jsonl.gz",
+      "source_line_no": 1182130,
+      "preview": "きょうは「建国記念の日」で祝日。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-05T01:27:08Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000221168",
+      "doc_seq": 9,
+      "track_doc_seq": 3679,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0022.jsonl.gz",
+      "source_line_no": 221168,
+      "preview": "こんばんは、夢釣人です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-05T01:27:08Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 4,
+      "to_seq": 4,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002485324",
+      "doc_seq": 10,
+      "track_doc_seq": 3680,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0373.jsonl.gz",
+      "source_line_no": 2485324,
+      "preview": "『ごんぎつね』というと、小学校の時に誰もが国語の授業で教わったことがあると思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-05T01:27:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000426179",
+      "doc_seq": 3,
+      "track_doc_seq": 3673,
+      "unit_id": "ja_cc_level2_corrected_v1:0000426179:u0024",
+      "unit_seq": 24,
+      "source_file": "ja/ja_cc/level2/0046.jsonl.gz",
+      "source_line_no": 426179,
+      "text": "第一版権など持ってない日テレも同じでしょうに。",
+      "rendered_yomi_before": "第/ダイ 一版/イッパン 権/ケン など/ナド 持っ/モッ て/テ ない/ナイ 日テレ/ニッテレ も/モ 同じ/オナジ でしょう/デショウ に/ニ 。/。",
+      "rendered_yomi_after": "第一/ダイイチ 版権/ハンケン など/ナド 持っ/モッ て/テ ない/ナイ 日テレ/ニッテレ も/モ 同じ/オナジ でしょう/デショウ に/ニ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "第一",
+          "ダイイチ"
+        ],
+        [
+          "版権",
+          "ハンケン"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "持っ",
+          "モッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "日テレ",
+          "ニッテレ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "同じ",
+          "オナジ"
+        ],
+        [
+          "でしょう",
+          "デショウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "第一",
+          "reading": "ダイイチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第一",
+              "reading": "だいいち"
+            }
+          ]
+        },
+        {
+          "surface": "版権",
+          "reading": "ハンケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "版権",
+              "reading": "はんけん"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "持っ",
+          "reading": "モッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "持",
+              "reading": "も"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "日テレ",
+          "reading": "ニッテレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にっ"
+            },
+            {
+              "type": "text",
+              "text": "テレ"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "同じ",
+          "reading": "オナジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同",
+              "reading": "おな"
+            },
+            {
+              "type": "text",
+              "text": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "でしょう",
+          "reading": "デショウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でしょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000426179:u0024",
+          "text": "第一版権など持ってない日テレも同じでしょうに。",
+          "rendered_yomi_before": "第/ダイ 一版/イッパン 権/ケン など/ナド 持っ/モッ て/テ ない/ナイ 日テレ/ニッテレ も/モ 同じ/オナジ でしょう/デショウ に/ニ 。/。",
+          "rendered_yomi_after": "第一/ダイイチ 版権/ハンケン など/ナド 持っ/モッ て/テ ない/ナイ 日テレ/ニッテレ も/モ 同じ/オナジ でしょう/デショウ に/ニ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 4,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "第",
+              "token_surface": "第",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "第",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一版",
+              "token_surface": "一版",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いっぱん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "一版",
+                  "reading": "いっぱん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "権",
+              "token_surface": "権",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "権",
+                  "reading": "けん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "第",
+              "token_surface": "第",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "第",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一版",
+              "token_surface": "一版",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いっぱん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "一版",
+                  "reading": "いっぱん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "権",
+              "token_surface": "権",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "権",
+                  "reading": "けん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "第一版権",
+          "reading_candidates": {
+            "第": [
+              "だい"
+            ],
+            "第一": [
+              "だいいち"
+            ],
+            "一": [
+              "いっ",
+              "いち",
+              "ひと",
+              "いつ",
+              "はじめ",
+              "かず",
+              "しん",
+              "にのまえ",
+              "はじむ",
+              "ひ",
+              "ひい",
+              "ひとし",
+              "ひとつ",
+              "びと",
+              "まこと"
+            ],
+            "一版": [
+              "いっぱん"
+            ],
+            "版": [
+              "はん",
+              "ばん",
+              "ぱん"
+            ],
+            "版権": [
+              "はんけん"
+            ],
+            "権": [
+              "けん",
+              "ごん",
+              "ごんの"
+            ]
+          },
+          "reading_hints": {
+            "第": "だい",
+            "第一": "だいいち",
+            "一": "いっ",
+            "一版": "いっぱん",
+            "版": "はん",
+            "版権": "はんけん",
+            "権": "けん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "第",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "一版",
+              "reading": "いっぱん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "権",
+              "reading": "けん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"第一\",\"reading\":\"ダイイチ\",\"used_web_search\":false,\"comment\":\"文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。\"},{\"surface\":\"版権\",\"reading\":\"ハンケン\",\"used_web_search\":false,\"comment\":\"出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。",
+              "reading": "ダイイチ",
+              "surface": "第一",
+              "used_web_search": false
+            },
+            {
+              "comment": "出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。",
+              "reading": "ハンケン",
+              "surface": "版権",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。",
+            "出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+            "status": "applied",
+            "rejected_span": "第一版権",
+            "replacement": [
+              {
+                "surface": "第一",
+                "reading": "ダイイチ"
+              },
+              {
+                "surface": "版権",
+                "reading": "ハンケン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+                "surface": "第一版権",
+                "comment": "文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+                "surface": "第一版権",
+                "comment": "出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "第一版権",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "第",
+          "token_surface": "第",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "だい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "第",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0002-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "一版",
+          "token_surface": "一版",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いっぱん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "一版",
+              "reading": "いっぱん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024:s0004-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "権",
+          "token_surface": "権",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "権",
+              "reading": "けん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "第",
+          "reading": "だい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "一版",
+          "reading": "いっぱん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "権",
+          "reading": "けん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "第": [
+          "だい"
+        ],
+        "第一": [
+          "だいいち"
+        ],
+        "一": [
+          "いっ",
+          "いち",
+          "ひと",
+          "いつ",
+          "はじめ",
+          "かず",
+          "しん",
+          "にのまえ",
+          "はじむ",
+          "ひ",
+          "ひい",
+          "ひとし",
+          "ひとつ",
+          "びと",
+          "まこと"
+        ],
+        "一版": [
+          "いっぱん"
+        ],
+        "版": [
+          "はん",
+          "ばん",
+          "ぱん"
+        ],
+        "版権": [
+          "はんけん"
+        ],
+        "権": [
+          "けん",
+          "ごん",
+          "ごんの"
+        ]
+      },
+      "reading_hints": {
+        "第": "だい",
+        "第一": "だいいち",
+        "一": "いっ",
+        "一版": "いっぱん",
+        "版": "はん",
+        "版権": "はんけん",
+        "権": "けん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。",
+          "reading": "ダイイチ",
+          "surface": "第一",
+          "used_web_search": false
+        },
+        {
+          "comment": "出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。",
+          "reading": "ハンケン",
+          "surface": "版権",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"第一\",\"reading\":\"ダイイチ\",\"used_web_search\":false,\"comment\":\"文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。\"},{\"surface\":\"版権\",\"reading\":\"ハンケン\",\"used_web_search\":false,\"comment\":\"出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。\"}]",
+      "llm_comments": [
+        "文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。",
+        "出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+        "status": "applied",
+        "rejected_span": "第一版権",
+        "replacement": [
+          {
+            "surface": "第一",
+            "reading": "ダイイチ"
+          },
+          {
+            "surface": "版権",
+            "reading": "ハンケン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+            "surface": "第一版権",
+            "comment": "文脈上「そもそも」の意味の副詞「第一」であり、「版権」と分ける。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000426179:u0024::target_group:1",
+            "surface": "第一版権",
+            "comment": "出版・放送などに関する権利を指す一語。「版」と「権」は分割しない。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000426179",
+      "doc_seq": 3,
+      "track_doc_seq": 3673,
+      "unit_id": "ja_cc_level2_corrected_v1:0000426179:u0050",
+      "unit_seq": 50,
+      "source_file": "ja/ja_cc/level2/0046.jsonl.gz",
+      "source_line_no": 426179,
+      "text": "流通業界で静かな侵略がはじまってます。",
+      "rendered_yomi_before": "流通業/リュウツウギョウ 界/カイ で/デ 静か/シズカ な/ナ 侵略/シンリャク が/ガ はじまっ/ハジマッ て/テ ます/マス 。/。",
+      "rendered_yomi_after": "流通/リュウツウ 業界/ギョウカイ で/デ 静か/シズカ な/ナ 侵略/シンリャク が/ガ はじまっ/ハジマッ て/テ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "流通",
+          "リュウツウ"
+        ],
+        [
+          "業界",
+          "ギョウカイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "静か",
+          "シズカ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "侵略",
+          "シンリャク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "はじまっ",
+          "ハジマッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "流通",
+          "reading": "リュウツウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "流通",
+              "reading": "りゅうつう"
+            }
+          ]
+        },
+        {
+          "surface": "業界",
+          "reading": "ギョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "業界",
+              "reading": "ぎょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "静か",
+          "reading": "シズカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "静",
+              "reading": "しず"
+            },
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "侵略",
+          "reading": "シンリャク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "侵略",
+              "reading": "しんりゃく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "はじまっ",
+          "reading": "ハジマッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "はじまっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000426179:u0050",
+          "text": "流通業界で静かな侵略がはじまってます。",
+          "rendered_yomi_before": "流通業/リュウツウギョウ 界/カイ で/デ 静か/シズカ な/ナ 侵略/シンリャク が/ガ はじまっ/ハジマッ て/テ ます/マス 。/。",
+          "rendered_yomi_after": "流通/リュウツウ 業界/ギョウカイ で/デ 静か/シズカ な/ナ 侵略/シンリャク が/ガ はじまっ/ハジマッ て/テ ます/マス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 4,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050:s0001-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "流通業",
+              "token_surface": "流通業",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りゅうつうぎょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "流通業",
+                  "reading": "りゅうつうぎょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "界",
+              "token_surface": "界",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "界",
+                  "reading": "かい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050:s0001-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "流通業",
+              "token_surface": "流通業",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りゅうつうぎょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "流通業",
+                  "reading": "りゅうつうぎょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "界",
+              "token_surface": "界",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "界",
+                  "reading": "かい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "流通業界",
+          "reading_candidates": {
+            "流": [
+              "ながる",
+              "ながれ",
+              "りゅう",
+              "るい"
+            ],
+            "流通": [
+              "りゅうつう",
+              "るずう"
+            ],
+            "流通業": [
+              "りゅうつうぎょう"
+            ],
+            "通": [
+              "どお",
+              "かよい",
+              "つう",
+              "とお",
+              "とおり",
+              "とおる",
+              "どおり",
+              "みち"
+            ],
+            "業": [
+              "かるま",
+              "ぎょう",
+              "ごう",
+              "なりわい",
+              "わざ"
+            ],
+            "業界": [
+              "ぎょうかい"
+            ],
+            "界": [
+              "かい",
+              "さかい",
+              "ざかい"
+            ]
+          },
+          "reading_hints": {
+            "流": "ながる",
+            "流通": "りゅうつう",
+            "流通業": "りゅうつうぎょう",
+            "通": "どお",
+            "業": "かるま",
+            "業界": "ぎょうかい",
+            "界": "かい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "流通業",
+              "reading": "りゅうつうぎょう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "界",
+              "reading": "かい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"流通\",\"reading\":\"リュウツウ\",\"used_web_search\":false,\"comment\":\"商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。\"},{\"surface\":\"業界\",\"reading\":\"ギョウカイ\",\"used_web_search\":false,\"comment\":\"同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。",
+              "reading": "リュウツウ",
+              "surface": "流通",
+              "used_web_search": false
+            },
+            {
+              "comment": "同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。",
+              "reading": "ギョウカイ",
+              "surface": "業界",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。",
+            "同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+            "status": "applied",
+            "rejected_span": "流通業界",
+            "replacement": [
+              {
+                "surface": "流通",
+                "reading": "リュウツウ"
+              },
+              {
+                "surface": "業界",
+                "reading": "ギョウカイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+                "surface": "流通業界",
+                "comment": "商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+                "surface": "流通業界",
+                "comment": "同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "流通業界",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050:s0001-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "流通業",
+          "token_surface": "流通業",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "りゅうつうぎょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "流通業",
+              "reading": "りゅうつうぎょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050:s0004-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "界",
+          "token_surface": "界",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "界",
+              "reading": "かい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "流通業",
+          "reading": "りゅうつうぎょう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "界",
+          "reading": "かい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "流": [
+          "ながる",
+          "ながれ",
+          "りゅう",
+          "るい"
+        ],
+        "流通": [
+          "りゅうつう",
+          "るずう"
+        ],
+        "流通業": [
+          "りゅうつうぎょう"
+        ],
+        "通": [
+          "どお",
+          "かよい",
+          "つう",
+          "とお",
+          "とおり",
+          "とおる",
+          "どおり",
+          "みち"
+        ],
+        "業": [
+          "かるま",
+          "ぎょう",
+          "ごう",
+          "なりわい",
+          "わざ"
+        ],
+        "業界": [
+          "ぎょうかい"
+        ],
+        "界": [
+          "かい",
+          "さかい",
+          "ざかい"
+        ]
+      },
+      "reading_hints": {
+        "流": "ながる",
+        "流通": "りゅうつう",
+        "流通業": "りゅうつうぎょう",
+        "通": "どお",
+        "業": "かるま",
+        "業界": "ぎょうかい",
+        "界": "かい"
+      },
+      "llm_parsed": [
+        {
+          "comment": "商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。",
+          "reading": "リュウツウ",
+          "surface": "流通",
+          "used_web_search": false
+        },
+        {
+          "comment": "同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。",
+          "reading": "ギョウカイ",
+          "surface": "業界",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"流通\",\"reading\":\"リュウツウ\",\"used_web_search\":false,\"comment\":\"商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。\"},{\"surface\":\"業界\",\"reading\":\"ギョウカイ\",\"used_web_search\":false,\"comment\":\"同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。\"}]",
+      "llm_comments": [
+        "商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。",
+        "同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+        "status": "applied",
+        "rejected_span": "流通業界",
+        "replacement": [
+          {
+            "surface": "流通",
+            "reading": "リュウツウ"
+          },
+          {
+            "surface": "業界",
+            "reading": "ギョウカイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+            "surface": "流通業界",
+            "comment": "商品の移動・販売を指す「流通」で、後続の「業界」を修飾する。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000426179:u0050::target_group:1",
+            "surface": "流通業界",
+            "comment": "同じ事業分野を指す一語。「流通業／界」ではなく「流通／業界」と区切る。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0001182130",
+      "doc_seq": 8,
+      "track_doc_seq": 3678,
+      "unit_id": "ja_cc_level2_corrected_v1:0001182130:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0132.jsonl.gz",
+      "source_line_no": 1182130,
+      "text": "伊勢神宮の「朔旦冬至」のように月の満ち欠けと太陽の公転周期から１月１日を決めるといった拘りが欲しい。",
+      "rendered_yomi_before": "伊勢/イセ 神宮/ジングウ の/ノ 「/「 朔/サク 旦/アキラ 冬至/トウジ 」/」 の/ノ よう/ヨウ に/ニ 月/ツキ の/ノ 満ち欠け/ミチカケ と/ト 太陽/タイヨウ の/ノ 公転/コウテン 周期/シュウキ から/カラ １/ 月/ガツ １日/ツイタチ を/ヲ 決める/キメル と/ト いっ/イッ た/タ 拘り/コダワリ が/ガ 欲しい/ホシイ 。/。",
+      "rendered_yomi_after": "伊勢/イセ 神宮/ジングウ の/ノ 「/「 朔旦/サクタン 冬至/トウジ 」/」 の/ノ よう/ヨウ に/ニ 月/ツキ の/ノ 満ち欠け/ミチカケ と/ト 太陽/タイヨウ の/ノ 公転/コウテン 周期/シュウキ から/カラ １/ 月/ガツ １日/ツイタチ を/ヲ 決める/キメル と/ト いっ/イッ た/タ 拘り/コダワリ が/ガ 欲しい/ホシイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "伊勢",
+          "イセ"
+        ],
+        [
+          "神宮",
+          "ジングウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "朔旦",
+          "サクタン"
+        ],
+        [
+          "冬至",
+          "トウジ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "よう",
+          "ヨウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "月",
+          "ツキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "満ち欠け",
+          "ミチカケ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "太陽",
+          "タイヨウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "公転",
+          "コウテン"
+        ],
+        [
+          "周期",
+          "シュウキ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "１",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "１日",
+          "ツイタチ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "決める",
+          "キメル"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いっ",
+          "イッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "拘り",
+          "コダワリ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "欲しい",
+          "ホシイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "伊勢",
+          "reading": "イセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "伊勢",
+              "reading": "いせ"
+            }
+          ]
+        },
+        {
+          "surface": "神宮",
+          "reading": "ジングウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神宮",
+              "reading": "じんぐう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "朔旦",
+          "reading": "サクタン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "朔旦",
+              "reading": "さくたん"
+            }
+          ]
+        },
+        {
+          "surface": "冬至",
+          "reading": "トウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "冬至",
+              "reading": "とうじ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ツキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "つき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "満ち欠け",
+          "reading": "ミチカケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "満",
+              "reading": "み"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            },
+            {
+              "type": "ruby",
+              "text": "欠",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "け"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "太陽",
+          "reading": "タイヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "太陽",
+              "reading": "たいよう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "公転",
+          "reading": "コウテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "公転",
+              "reading": "こうてん"
+            }
+          ]
+        },
+        {
+          "surface": "周期",
+          "reading": "シュウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "周期",
+              "reading": "しゅうき"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "１",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "１"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "１日",
+          "reading": "ツイタチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "１日",
+              "reading": "ついたち"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "決める",
+          "reading": "キメル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "める"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いっ",
+          "reading": "イッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "拘り",
+          "reading": "コダワリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "拘",
+              "reading": "こだわ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "欲しい",
+          "reading": "ホシイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "欲",
+              "reading": "ほ"
+            },
+            {
+              "type": "text",
+              "text": "しい"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001182130:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001182130:u0006",
+          "text": "伊勢神宮の「朔旦冬至」のように月の満ち欠けと太陽の公転周期から１月１日を決めるといった拘りが欲しい。",
+          "rendered_yomi_before": "伊勢/イセ 神宮/ジングウ の/ノ 「/「 朔/サク 旦/アキラ 冬至/トウジ 」/」 の/ノ よう/ヨウ に/ニ 月/ツキ の/ノ 満ち欠け/ミチカケ と/ト 太陽/タイヨウ の/ノ 公転/コウテン 周期/シュウキ から/カラ １/ 月/ガツ １日/ツイタチ を/ヲ 決める/キメル と/ト いっ/イッ た/タ 拘り/コダワリ が/ガ 欲しい/ホシイ 。/。",
+          "rendered_yomi_after": "伊勢/イセ 神宮/ジングウ の/ノ 「/「 朔旦/サクタン 冬至/トウジ 」/」 の/ノ よう/ヨウ に/ニ 月/ツキ の/ノ 満ち欠け/ミチカケ と/ト 太陽/タイヨウ の/ノ 公転/コウテン 周期/シュウキ から/カラ １/ 月/ガツ １日/ツイタチ を/ヲ 決める/キメル と/ト いっ/イッ た/タ 拘り/コダワリ が/ガ 欲しい/ホシイ 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 6,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "朔",
+              "token_surface": "朔",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "朔",
+                  "reading": "さく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "旦",
+              "token_surface": "旦",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あきら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "旦",
+                  "reading": "あきら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "朔",
+              "token_surface": "朔",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "朔",
+                  "reading": "さく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "旦",
+              "token_surface": "旦",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あきら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "旦",
+                  "reading": "あきら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "朔旦",
+          "reading_candidates": {
+            "朔": [
+              "さく",
+              "ついたち",
+              "はじめ"
+            ],
+            "旦": [
+              "あき",
+              "あきら",
+              "たん",
+              "だん"
+            ]
+          },
+          "reading_hints": {
+            "朔": "さく",
+            "旦": "あき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "朔",
+              "reading": "さく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "旦",
+              "reading": "あきら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"朔旦\",\"reading\":\"サクタン\",\"used_web_search\":false,\"comment\":\"「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。",
+              "reading": "サクタン",
+              "surface": "朔旦",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "朔旦",
+            "replacement": [
+              {
+                "surface": "朔旦",
+                "reading": "サクタン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001182130:u0006::target_group:1",
+                "surface": "朔旦",
+                "comment": "「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "朔旦",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "朔",
+          "token_surface": "朔",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "朔",
+              "reading": "さく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006:s0008-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "旦",
+          "token_surface": "旦",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あきら",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "旦",
+              "reading": "あきら",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "朔",
+          "reading": "さく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "旦",
+          "reading": "あきら",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "朔": [
+          "さく",
+          "ついたち",
+          "はじめ"
+        ],
+        "旦": [
+          "あき",
+          "あきら",
+          "たん",
+          "だん"
+        ]
+      },
+      "reading_hints": {
+        "朔": "さく",
+        "旦": "あき"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。",
+          "reading": "サクタン",
+          "surface": "朔旦",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"朔旦\",\"reading\":\"サクタン\",\"used_web_search\":false,\"comment\":\"「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。\"}]",
+      "llm_comments": [
+        "「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001182130:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "朔旦",
+        "replacement": [
+          {
+            "surface": "朔旦",
+            "reading": "サクタン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001182130:u0006::target_group:1",
+            "surface": "朔旦",
+            "comment": "「朔旦冬至」は「サクタントウジ」。朔旦は月の初日の朝を表す一語なので分割せず、「旦」は「タン」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0000221168",
+      "doc_seq": 9,
+      "track_doc_seq": 3679,
+      "unit_id": "ja_cc_level2_corrected_v1:0000221168:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0022.jsonl.gz",
+      "source_line_no": 221168,
+      "text": "海は･･･明日夜の竹芝発便がかなりデンジャラスで、20日朝は八丈島に向かわず、三宅島から竹芝戻り（着発ですね）になるのではないでしょうか？",
+      "rendered_yomi_before": "海/ウミ は/ハ ･/･ ･/･ ･/･ 明日/アシタ 夜/ヨル の/ノ 竹芝/タケシバ 発/ハツ 便/ビン が/ガ かなり/カナリ デンジャラス/デンジャラス で/デ 、/、 20日/ハツカ 朝/アサ は/ハ 八丈/ハチジョウ 島/トウ に/ニ 向かわ/ムカワ ず/ズ 、/、 三宅島/ミヤケジマ から/カラ 竹芝/タケシバ 戻り/モドリ （/（ 着発/チャクハツ です/デス ね/ネ ）/） に/ニ なる/ナル の/ノ で/デ は/ハ ない/ナイ でしょう/デショウ か/カ ？/？",
+      "rendered_yomi_after": "海/ウミ は/ハ ･/･ ･/･ ･/･ 明日/アシタ 夜/ヨル の/ノ 竹芝/タケシバ 発/ハツ 便/ビン が/ガ かなり/カナリ デンジャラス/デンジャラス で/デ 、/、 20日/ハツカ 朝/アサ は/ハ 八丈/ハチジョウ 島/ジマ に/ニ 向かわ/ムカワ ず/ズ 、/、 三宅島/ミヤケジマ から/カラ 竹芝/タケシバ 戻り/モドリ （/（ 着発/チャクハツ です/デス ね/ネ ）/） に/ニ なる/ナル の/ノ で/デ は/ハ ない/ナイ でしょう/デショウ か/カ ？/？",
+      "rendered_yomi_after_tokens": [
+        [
+          "海",
+          "ウミ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "･",
+          "･"
+        ],
+        [
+          "･",
+          "･"
+        ],
+        [
+          "･",
+          "･"
+        ],
+        [
+          "明日",
+          "アシタ"
+        ],
+        [
+          "夜",
+          "ヨル"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "竹芝",
+          "タケシバ"
+        ],
+        [
+          "発",
+          "ハツ"
+        ],
+        [
+          "便",
+          "ビン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "かなり",
+          "カナリ"
+        ],
+        [
+          "デンジャラス",
+          "デンジャラス"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "20日",
+          "ハツカ"
+        ],
+        [
+          "朝",
+          "アサ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "八丈",
+          "ハチジョウ"
+        ],
+        [
+          "島",
+          "ジマ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "向かわ",
+          "ムカワ"
+        ],
+        [
+          "ず",
+          "ズ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "三宅島",
+          "ミヤケジマ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "竹芝",
+          "タケシバ"
+        ],
+        [
+          "戻り",
+          "モドリ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "着発",
+          "チャクハツ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "ね",
+          "ネ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なる",
+          "ナル"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "でしょう",
+          "デショウ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "？",
+          "？"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "海",
+          "reading": "ウミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "海",
+              "reading": "うみ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "･",
+          "reading": "･",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "･"
+            }
+          ]
+        },
+        {
+          "surface": "･",
+          "reading": "･",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "･"
+            }
+          ]
+        },
+        {
+          "surface": "･",
+          "reading": "･",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "･"
+            }
+          ]
+        },
+        {
+          "surface": "明日",
+          "reading": "アシタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "明日",
+              "reading": "あした"
+            }
+          ]
+        },
+        {
+          "surface": "夜",
+          "reading": "ヨル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夜",
+              "reading": "よる"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "竹芝",
+          "reading": "タケシバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "竹芝",
+              "reading": "たけしば"
+            }
+          ]
+        },
+        {
+          "surface": "発",
+          "reading": "ハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発",
+              "reading": "はつ"
+            }
+          ]
+        },
+        {
+          "surface": "便",
+          "reading": "ビン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "便",
+              "reading": "びん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "かなり",
+          "reading": "カナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かなり"
+            }
+          ]
+        },
+        {
+          "surface": "デンジャラス",
+          "reading": "デンジャラス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "デンジャラス"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "20日",
+          "reading": "ハツカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "20日",
+              "reading": "はつか"
+            }
+          ]
+        },
+        {
+          "surface": "朝",
+          "reading": "アサ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "朝",
+              "reading": "あさ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "八丈",
+          "reading": "ハチジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八丈",
+              "reading": "はちじょう"
+            }
+          ]
+        },
+        {
+          "surface": "島",
+          "reading": "ジマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "島",
+              "reading": "じま"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "向かわ",
+          "reading": "ムカワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "向",
+              "reading": "む"
+            },
+            {
+              "type": "text",
+              "text": "かわ"
+            }
+          ]
+        },
+        {
+          "surface": "ず",
+          "reading": "ズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ず"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "三宅島",
+          "reading": "ミヤケジマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三宅島",
+              "reading": "みやけじま"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "竹芝",
+          "reading": "タケシバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "竹芝",
+              "reading": "たけしば"
+            }
+          ]
+        },
+        {
+          "surface": "戻り",
+          "reading": "モドリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戻",
+              "reading": "もど"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "着発",
+          "reading": "チャクハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "着発",
+              "reading": "ちゃくはつ"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "ね",
+          "reading": "ネ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ね"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なる",
+          "reading": "ナル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なる"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "でしょう",
+          "reading": "デショウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でしょう"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "？",
+          "reading": "？",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "？"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000221168:u0003",
+          "text": "海は･･･明日夜の竹芝発便がかなりデンジャラスで、20日朝は八丈島に向かわず、三宅島から竹芝戻り（着発ですね）になるのではないでしょうか？",
+          "rendered_yomi_before": "海/ウミ は/ハ ･/･ ･/･ ･/･ 明日/アシタ 夜/ヨル の/ノ 竹芝/タケシバ 発/ハツ 便/ビン が/ガ かなり/カナリ デンジャラス/デンジャラス で/デ 、/、 20日/ハツカ 朝/アサ は/ハ 八丈/ハチジョウ 島/トウ に/ニ 向かわ/ムカワ ず/ズ 、/、 三宅島/ミヤケジマ から/カラ 竹芝/タケシバ 戻り/モドリ （/（ 着発/チャクハツ です/デス ね/ネ ）/） に/ニ なる/ナル の/ノ で/デ は/ハ ない/ナイ でしょう/デショウ か/カ ？/？",
+          "rendered_yomi_after": "海/ウミ は/ハ ･/･ ･/･ ･/･ 明日/アシタ 夜/ヨル の/ノ 竹芝/タケシバ 発/ハツ 便/ビン が/ガ かなり/カナリ デンジャラス/デンジャラス で/デ 、/、 20日/ハツカ 朝/アサ は/ハ 八丈/ハチジョウ 島/ジマ に/ニ 向かわ/ムカワ ず/ズ 、/、 三宅島/ミヤケジマ から/カラ 竹芝/タケシバ 戻り/モドリ （/（ 着発/チャクハツ です/デス ね/ネ ）/） に/ニ なる/ナル の/ノ で/デ は/ハ ない/ナイ でしょう/デショウ か/カ ？/？",
+          "display_mapping": {
+            "start": 19,
+            "end": 21,
+            "char_start": 30,
+            "char_end": 33,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003:s0031-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八丈",
+              "token_surface": "八丈",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はちじょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八丈",
+                  "reading": "はちじょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003:s0033-0033",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "島",
+              "token_surface": "島",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "島",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003:s0031-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八丈",
+              "token_surface": "八丈",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はちじょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八丈",
+                  "reading": "はちじょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003:s0033-0033",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "島",
+              "token_surface": "島",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "島",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "八丈島",
+          "reading_candidates": {
+            "八": [
+              "はっ",
+              "はち",
+              "ぱち",
+              "ぱっ",
+              "や",
+              "やあ",
+              "やっ",
+              "よう"
+            ],
+            "八丈": [
+              "はちじょう",
+              "やたけ"
+            ],
+            "八丈島": [
+              "はちじょうじま"
+            ],
+            "丈": [
+              "じょう",
+              "たけ",
+              "たけし",
+              "だけ"
+            ],
+            "丈島": [
+              "じょうじま"
+            ],
+            "島": [
+              "じま",
+              "とう",
+              "しま"
+            ]
+          },
+          "reading_hints": {
+            "八": "はっ",
+            "八丈": "はちじょう",
+            "八丈島": "はちじょうじま",
+            "丈": "じょう",
+            "丈島": "じょうじま",
+            "島": "じま"
+          },
+          "rejected_readings": [
+            {
+              "surface": "八丈",
+              "reading": "はちじょう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "島",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"八丈\",\"reading\":\"ハチジョウ\",\"used_web_search\":false,\"comment\":\"地名の固有部分で、既存の読みは正しい。\"},{\"surface\":\"島\",\"reading\":\"ジマ\",\"used_web_search\":false,\"comment\":\"八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "地名の固有部分で、既存の読みは正しい。",
+              "reading": "ハチジョウ",
+              "surface": "八丈",
+              "used_web_search": false
+            },
+            {
+              "comment": "八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。",
+              "reading": "ジマ",
+              "surface": "島",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "地名の固有部分で、既存の読みは正しい。",
+            "八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "八丈島",
+            "replacement": [
+              {
+                "surface": "八丈",
+                "reading": "ハチジョウ"
+              },
+              {
+                "surface": "島",
+                "reading": "ジマ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+                "surface": "八丈島",
+                "comment": "地名の固有部分で、既存の読みは正しい。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+                "surface": "八丈島",
+                "comment": "八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "八丈島",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003:s0031-0032",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "八丈",
+          "token_surface": "八丈",
+          "token_index": 19,
+          "chunk_index": 0,
+          "current_reading_hiragana": "はちじょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "八丈",
+              "reading": "はちじょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003:s0033-0033",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "島",
+          "token_surface": "島",
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "島",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "八丈",
+          "reading": "はちじょう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "島",
+          "reading": "とう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "八": [
+          "はっ",
+          "はち",
+          "ぱち",
+          "ぱっ",
+          "や",
+          "やあ",
+          "やっ",
+          "よう"
+        ],
+        "八丈": [
+          "はちじょう",
+          "やたけ"
+        ],
+        "八丈島": [
+          "はちじょうじま"
+        ],
+        "丈": [
+          "じょう",
+          "たけ",
+          "たけし",
+          "だけ"
+        ],
+        "丈島": [
+          "じょうじま"
+        ],
+        "島": [
+          "じま",
+          "とう",
+          "しま"
+        ]
+      },
+      "reading_hints": {
+        "八": "はっ",
+        "八丈": "はちじょう",
+        "八丈島": "はちじょうじま",
+        "丈": "じょう",
+        "丈島": "じょうじま",
+        "島": "じま"
+      },
+      "llm_parsed": [
+        {
+          "comment": "地名の固有部分で、既存の読みは正しい。",
+          "reading": "ハチジョウ",
+          "surface": "八丈",
+          "used_web_search": false
+        },
+        {
+          "comment": "八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。",
+          "reading": "ジマ",
+          "surface": "島",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"八丈\",\"reading\":\"ハチジョウ\",\"used_web_search\":false,\"comment\":\"地名の固有部分で、既存の読みは正しい。\"},{\"surface\":\"島\",\"reading\":\"ジマ\",\"used_web_search\":false,\"comment\":\"八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。\"}]",
+      "llm_comments": [
+        "地名の固有部分で、既存の読みは正しい。",
+        "八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "八丈島",
+        "replacement": [
+          {
+            "surface": "八丈",
+            "reading": "ハチジョウ"
+          },
+          {
+            "surface": "島",
+            "reading": "ジマ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+            "surface": "八丈島",
+            "comment": "地名の固有部分で、既存の読みは正しい。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000221168:u0003::target_group:1",
+            "surface": "八丈島",
+            "comment": "八丈島は「はちじょうじま」と読むため、地形を示す接尾辞は「ジマ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
