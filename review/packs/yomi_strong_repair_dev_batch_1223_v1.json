@@ -1,0 +1,1637 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1223_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1223",
+  "created_at_epoch": 1791253600,
+  "created_at": "2026-10-06T02:26:40Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001321243",
+      "doc_seq": 1,
+      "track_doc_seq": 3701,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0151.jsonl.gz",
+      "source_line_no": 1321243,
+      "preview": "てか普通に終業が２３時とかありえないんすけど。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001560702",
+      "doc_seq": 2,
+      "track_doc_seq": 3702,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0193.jsonl.gz",
+      "source_line_no": 1560702,
+      "preview": "東京の土曜は、日曜ほどではなかったにしろ、雨をたっぷり含んでの不良馬場。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-06T01:28:42Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000191409",
+      "doc_seq": 3,
+      "track_doc_seq": 3703,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0018.jsonl.gz",
+      "source_line_no": 191409,
+      "preview": "ところで、本書の版元である現代書館は、「書籍」を大事に長持ちさせることでは、わが国の出版界でも屈指の存在であろう。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-06T01:28:42Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000399592",
+      "doc_seq": 4,
+      "track_doc_seq": 3704,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0043.jsonl.gz",
+      "source_line_no": 399592,
+      "preview": "まだまだ見るだけのニャンコ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001424376",
+      "doc_seq": 5,
+      "track_doc_seq": 3705,
+      "unit_count": 53,
+      "source_file": "ja/ja_cc/level2/0168.jsonl.gz",
+      "source_line_no": 1424376,
+      "preview": "チョット思ったりもします。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 53,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002350239",
+      "doc_seq": 6,
+      "track_doc_seq": 3706,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0345.jsonl.gz",
+      "source_line_no": 2350239,
+      "preview": "トヨタ神戸自動車大学校は、即戦力となる自動車整備士を育成している専門学校だ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000248479",
+      "doc_seq": 7,
+      "track_doc_seq": 3707,
+      "unit_count": 42,
+      "source_file": "ja/ja_cc/level2/0026.jsonl.gz",
+      "source_line_no": 248479,
+      "preview": "昨年まで主役だっや人から・・・　来た。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 42,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002255429",
+      "doc_seq": 8,
+      "track_doc_seq": 3708,
+      "unit_count": 49,
+      "source_file": "ja/ja_cc/level2/0326.jsonl.gz",
+      "source_line_no": 2255429,
+      "preview": "福岡最後の晩餐は福岡空港内の『因幡うどん』で決まり。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 49,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001962811",
+      "doc_seq": 9,
+      "track_doc_seq": 3709,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0253.jsonl.gz",
+      "source_line_no": 1962811,
+      "preview": "※以下、ページ内の画像はイメージです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001862353",
+      "doc_seq": 10,
+      "track_doc_seq": 3710,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0234.jsonl.gz",
+      "source_line_no": 1862353,
+      "preview": "と言いますが、本当に、そうなのか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T01:28:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001560702",
+      "doc_seq": 2,
+      "track_doc_seq": 3702,
+      "unit_id": "ja_cc_level2_corrected_v1:0001560702:u0021",
+      "unit_seq": 21,
+      "source_file": "ja/ja_cc/level2/0193.jsonl.gz",
+      "source_line_no": 1560702,
+      "text": "大学卒業後に入社し、当時（１馬）の看板評論家であった清水成駿に師事。",
+      "rendered_yomi_before": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成/セイ 駿/シュン に/ニ 師事/シジ 。/。",
+      "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "大学",
+          "ダイガク"
+        ],
+        [
+          "卒業後",
+          "ソツギョウゴ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "入社",
+          "ニュウシャ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "当時",
+          "トウジ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "１",
+          ""
+        ],
+        [
+          "馬",
+          "バ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "看板",
+          "カンバン"
+        ],
+        [
+          "評論家",
+          "ヒョウロンカ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "あっ",
+          "アッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "清水",
+          "シミズ"
+        ],
+        [
+          "成駿",
+          "セイシュン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "師事",
+          "シジ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "大学",
+          "reading": "ダイガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大学",
+              "reading": "だいがく"
+            }
+          ]
+        },
+        {
+          "surface": "卒業後",
+          "reading": "ソツギョウゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "卒業後",
+              "reading": "そつぎょうご"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "入社",
+          "reading": "ニュウシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入社",
+              "reading": "にゅうしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "当時",
+          "reading": "トウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当時",
+              "reading": "とうじ"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "１",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "１"
+            }
+          ]
+        },
+        {
+          "surface": "馬",
+          "reading": "バ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "馬",
+              "reading": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "看板",
+          "reading": "カンバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "看板",
+              "reading": "かんばん"
+            }
+          ]
+        },
+        {
+          "surface": "評論家",
+          "reading": "ヒョウロンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "評論家",
+              "reading": "ひょうろんか"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "あっ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "清水",
+          "reading": "シミズ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "清水",
+              "reading": "しみず"
+            }
+          ]
+        },
+        {
+          "surface": "成駿",
+          "reading": "セイシュン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "成駿",
+              "reading": "せいしゅん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "師事",
+          "reading": "シジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "師事",
+              "reading": "しじ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001560702:u0021",
+          "text": "大学卒業後に入社し、当時（１馬）の看板評論家であった清水成駿に師事。",
+          "rendered_yomi_before": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成/セイ 駿/シュン に/ニ 師事/シジ 。/。",
+          "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 14,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "馬",
+              "token_surface": "馬",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ば",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "馬",
+                  "reading": "ば",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "馬",
+              "token_surface": "馬",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ば",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "馬",
+                  "reading": "ば",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "馬",
+          "reading_candidates": {
+            "馬": [
+              "ば",
+              "うま",
+              "ま"
+            ]
+          },
+          "reading_hints": {
+            "馬": "ば"
+          },
+          "rejected_readings": [
+            {
+              "surface": "馬",
+              "reading": "ば",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"１馬\",\"reading\":\"イチウマ\",\"used_web_search\":false,\"comment\":\"清水成駿が所属した競馬専門紙「１馬（いちうま）」の名称。数字と「馬」を合わせて一語として読む。\"}]",
+          "llm_parsed": [],
+          "llm_comments": [],
+          "llm_parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'.",
+          "used_web_search": false,
+          "repair_status": "parse_error",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
+            "status": "parse_error",
+            "parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'."
+          }
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:2",
+          "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:2",
+          "unit_id": "ja_cc_level2_corrected_v1:0001560702:u0021",
+          "text": "大学卒業後に入社し、当時（１馬）の看板評論家であった清水成駿に師事。",
+          "rendered_yomi_before": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成/セイ 駿/シュン に/ニ 師事/シジ 。/。",
+          "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
+          "display_mapping": {
+            "start": 18,
+            "end": 19,
+            "char_start": 28,
+            "char_end": 30,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021:s0029-0029",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "成",
+              "token_surface": "成",
+              "token_index": 18,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "成",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021:s0030-0030",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "駿",
+              "token_surface": "駿",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "駿",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021:s0029-0029",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "成",
+              "token_surface": "成",
+              "token_index": 18,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "成",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021:s0030-0030",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "駿",
+              "token_surface": "駿",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "駿",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "成駿",
+          "reading_candidates": {
+            "成": [
+              "おさむ",
+              "しげる",
+              "じょう",
+              "せい",
+              "なり",
+              "なりと",
+              "なる"
+            ],
+            "駿": [
+              "しゅん",
+              "すぐる",
+              "すん",
+              "たかし",
+              "はやお"
+            ]
+          },
+          "reading_hints": {
+            "成": "おさむ",
+            "駿": "しゅん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "成",
+              "reading": "せい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "駿",
+              "reading": "しゅん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"成駿\",\"reading\":\"セイシュン\",\"used_web_search\":false,\"comment\":\"競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。",
+              "reading": "セイシュン",
+              "surface": "成駿",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:2",
+            "status": "applied",
+            "rejected_span": "成駿",
+            "replacement": [
+              {
+                "surface": "成駿",
+                "reading": "セイシュン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:2",
+                "surface": "成駿",
+                "comment": "競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "馬",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021:s0015-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "馬",
+          "token_surface": "馬",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ば",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "馬",
+              "reading": "ば",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "馬",
+          "reading": "ば",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "馬": [
+          "ば",
+          "うま",
+          "ま"
+        ]
+      },
+      "reading_hints": {
+        "馬": "ば"
+      },
+      "llm_parsed": [],
+      "llm_raw_text": "[{\"surface\":\"１馬\",\"reading\":\"イチウマ\",\"used_web_search\":false,\"comment\":\"清水成駿が所属した競馬専門紙「１馬（いちうま）」の名称。数字と「馬」を合わせて一語として読む。\"}]",
+      "llm_comments": [],
+      "llm_parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'.",
+      "used_web_search": false,
+      "repair_status": "parse_error",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
+        "status": "parse_error",
+        "parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'."
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000191409:u0008::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000191409",
+      "doc_seq": 3,
+      "track_doc_seq": 3703,
+      "unit_id": "ja_cc_level2_corrected_v1:0000191409:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0018.jsonl.gz",
+      "source_line_no": 191409,
+      "text": "山口昌男さん的本の馬鹿買いほどではないが、ちょっと、洋書読みにはうらやましく思える、そんな個所。",
+      "rendered_yomi_before": "山口/ヤマグチ 昌男/マサオ さん/サン 的本/マトモト の/ノ 馬鹿/バカ 買い/ガイ ほど/ホド で/デ は/ハ ない/ナイ が/ガ 、/、 ちょっと/チョット 、/、 洋書/ヨウショ 読み/ヨミ に/ニ は/ハ うらやましく/ウラヤマシク 思える/オモエル 、/、 そんな/ソンナ 個所/カショ 。/。",
+      "rendered_yomi_after": "山口/ヤマグチ 昌男/マサオ さん/サン 的/テキ 本/ホン の/ノ 馬鹿/バカ 買い/ガイ ほど/ホド で/デ は/ハ ない/ナイ が/ガ 、/、 ちょっと/チョット 、/、 洋書/ヨウショ 読み/ヨミ に/ニ は/ハ うらやましく/ウラヤマシク 思える/オモエル 、/、 そんな/ソンナ 個所/カショ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "山口",
+          "ヤマグチ"
+        ],
+        [
+          "昌男",
+          "マサオ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "的",
+          "テキ"
+        ],
+        [
+          "本",
+          "ホン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "馬鹿",
+          "バカ"
+        ],
+        [
+          "買い",
+          "ガイ"
+        ],
+        [
+          "ほど",
+          "ホド"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ちょっと",
+          "チョット"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "洋書",
+          "ヨウショ"
+        ],
+        [
+          "読み",
+          "ヨミ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "うらやましく",
+          "ウラヤマシク"
+        ],
+        [
+          "思える",
+          "オモエル"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "そんな",
+          "ソンナ"
+        ],
+        [
+          "個所",
+          "カショ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "山口",
+          "reading": "ヤマグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山口",
+              "reading": "やまぐち"
+            }
+          ]
+        },
+        {
+          "surface": "昌男",
+          "reading": "マサオ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昌男",
+              "reading": "まさお"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "的",
+          "reading": "テキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "的",
+              "reading": "てき"
+            }
+          ]
+        },
+        {
+          "surface": "本",
+          "reading": "ホン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本",
+              "reading": "ほん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "馬鹿",
+          "reading": "バカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "馬鹿",
+              "reading": "ばか"
+            }
+          ]
+        },
+        {
+          "surface": "買い",
+          "reading": "ガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "買",
+              "reading": "が"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ほど",
+          "reading": "ホド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ほど"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ちょっと",
+          "reading": "チョット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ちょっと"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "洋書",
+          "reading": "ヨウショ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "洋書",
+              "reading": "ようしょ"
+            }
+          ]
+        },
+        {
+          "surface": "読み",
+          "reading": "ヨミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "読",
+              "reading": "よ"
+            },
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "うらやましく",
+          "reading": "ウラヤマシク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "うらやましく"
+            }
+          ]
+        },
+        {
+          "surface": "思える",
+          "reading": "オモエル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "える"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "そんな",
+          "reading": "ソンナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そんな"
+            }
+          ]
+        },
+        {
+          "surface": "個所",
+          "reading": "カショ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "個所",
+              "reading": "かしょ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000191409:u0008",
+          "text": "山口昌男さん的本の馬鹿買いほどではないが、ちょっと、洋書読みにはうらやましく思える、そんな個所。",
+          "rendered_yomi_before": "山口/ヤマグチ 昌男/マサオ さん/サン 的本/マトモト の/ノ 馬鹿/バカ 買い/ガイ ほど/ホド で/デ は/ハ ない/ナイ が/ガ 、/、 ちょっと/チョット 、/、 洋書/ヨウショ 読み/ヨミ に/ニ は/ハ うらやましく/ウラヤマシク 思える/オモエル 、/、 そんな/ソンナ 個所/カショ 。/。",
+          "rendered_yomi_after": "山口/ヤマグチ 昌男/マサオ さん/サン 的/テキ 本/ホン の/ノ 馬鹿/バカ 買い/ガイ ほど/ホド で/デ は/ハ ない/ナイ が/ガ 、/、 ちょっと/チョット 、/、 洋書/ヨウショ 読み/ヨミ に/ニ は/ハ うらやましく/ウラヤマシク 思える/オモエル 、/、 そんな/ソンナ 個所/カショ 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 5,
+            "char_start": 6,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000191409:u0008:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "的本",
+              "token_surface": "的本",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まともと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "的本",
+                  "reading": "まともと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000191409:u0008:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "的本",
+              "token_surface": "的本",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まともと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "的本",
+                  "reading": "まともと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "的本",
+          "reading_candidates": {
+            "的": [
+              "てき",
+              "いくわ",
+              "まと"
+            ],
+            "的本": [
+              "まともと"
+            ],
+            "本": [
+              "ぽん",
+              "ぼん",
+              "ほん",
+              "もと"
+            ]
+          },
+          "reading_hints": {
+            "的": "てき",
+            "的本": "まともと",
+            "本": "ぽん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "的本",
+              "reading": "まともと",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"的\",\"reading\":\"テキ\",\"used_web_search\":false,\"comment\":\"「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。\"},{\"surface\":\"本\",\"reading\":\"ホン\",\"used_web_search\":false,\"comment\":\"「本の馬鹿買い」の「本」で、書籍を意味する名詞。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+              "reading": "テキ",
+              "surface": "的",
+              "used_web_search": false
+            },
+            {
+              "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+              "reading": "ホン",
+              "surface": "本",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+            "「本の馬鹿買い」の「本」で、書籍を意味する名詞。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "的本",
+            "replacement": [
+              {
+                "surface": "的",
+                "reading": "テキ"
+              },
+              {
+                "surface": "本",
+                "reading": "ホン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+                "surface": "的本",
+                "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+                "surface": "的本",
+                "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "的本",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000191409:u0008:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "的本",
+          "token_surface": "的本",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "まともと",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "的本",
+              "reading": "まともと",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "的本",
+          "reading": "まともと",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "的": [
+          "てき",
+          "いくわ",
+          "まと"
+        ],
+        "的本": [
+          "まともと"
+        ],
+        "本": [
+          "ぽん",
+          "ぼん",
+          "ほん",
+          "もと"
+        ]
+      },
+      "reading_hints": {
+        "的": "てき",
+        "的本": "まともと",
+        "本": "ぽん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+          "reading": "テキ",
+          "surface": "的",
+          "used_web_search": false
+        },
+        {
+          "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+          "reading": "ホン",
+          "surface": "本",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"的\",\"reading\":\"テキ\",\"used_web_search\":false,\"comment\":\"「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。\"},{\"surface\":\"本\",\"reading\":\"ホン\",\"used_web_search\":false,\"comment\":\"「本の馬鹿買い」の「本」で、書籍を意味する名詞。\"}]",
+      "llm_comments": [
+        "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+        "「本の馬鹿買い」の「本」で、書籍を意味する名詞。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "的本",
+        "replacement": [
+          {
+            "surface": "的",
+            "reading": "テキ"
+          },
+          {
+            "surface": "本",
+            "reading": "ホン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+            "surface": "的本",
+            "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
+            "surface": "的本",
+            "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
