@@ -10,10 +10,9 @@
   "item_count": 8,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 8,
     "queued_repair_row_count": 8,
@@ -135,12 +134,12 @@
       "source_line_no": 1331586,
       "preview": "七五三を迎えられた皆様、おめでとうございます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T06:35:00Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T07:20:01Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -239,12 +238,12 @@
       "source_line_no": 2071858,
       "preview": "雪を頂いているような部分は重晶石。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T06:35:00Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T07:20:01Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -265,12 +264,12 @@
       "source_line_no": 549561,
       "preview": "昨日の0月30日金曜日の晩御飯＊くたくたネギとあさりの炒め蒸し＊小松菜入りの肉巻き団子&トマト＊味噌汁長ネギを2本分、たっぷり使って。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T06:35:00Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T07:20:01Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -297,15 +296,11 @@
       "source_line_no": 1331586,
       "text": "古々屋と　SORA　studio におまかせください！",
       "rendered_yomi_before": "古々/ 屋/ヤ と/ト 　/ SORA/ソラ 　/ studio/スタジオ  / に/ニ お/オ まかせ/マカセ ください/クダサイ ！/！",
-      "rendered_yomi_after": "古々/ココ 屋/ヤ と/ト \\u3000/ SORA/ソラ \\u3000/ studio/スタジオ \\s/ に/ニ お/オ まかせ/マカセ ください/クダサイ ！/！",
+      "rendered_yomi_after": "古々屋/ココヤ と/ト \\u3000/ SORA/ソラ \\u3000/ studio/スタジオ \\s/ に/ニ お/オ まかせ/マカセ ください/クダサイ ！/！",
       "rendered_yomi_after_tokens": [
         [
-          "古々",
-          "ココ"
-        ],
-        [
-          "屋",
-          "ヤ"
+          "古々屋",
+          "ココヤ"
         ],
         [
           "と",
@@ -356,24 +351,13 @@
       "reading_warning_acknowledgements": [],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "古々",
-          "reading": "ココ",
+          "surface": "古々屋",
+          "reading": "ココヤ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "古々",
-              "reading": "ここ"
-            }
-          ]
-        },
-        {
-          "surface": "屋",
-          "reading": "ヤ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "屋",
-              "reading": "や"
+              "text": "古々屋",
+              "reading": "ここや"
             }
           ]
         },
@@ -503,14 +487,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001331586:u0005",
           "text": "古々屋と　SORA　studio におまかせください！",
           "rendered_yomi_before": "古々/ 屋/ヤ と/ト 　/ SORA/ソラ 　/ studio/スタジオ  / に/ニ お/オ まかせ/マカセ ください/クダサイ ！/！",
-          "rendered_yomi_after": "古々/ココ 屋/ヤ と/ト \\u3000/ SORA/ソラ \\u3000/ studio/スタジオ \\s/ に/ニ お/オ まかせ/マカセ ください/クダサイ ！/！",
+          "rendered_yomi_after": "古々屋/ココヤ と/ト \\u3000/ SORA/ソラ \\u3000/ studio/スタジオ \\s/ に/ニ お/オ まかせ/マカセ ください/クダサイ ！/！",
           "display_mapping": {
             "start": 0,
-            "end": 2,
+            "end": 1,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
