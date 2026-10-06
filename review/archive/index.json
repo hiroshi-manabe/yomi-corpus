@@ -4,14 +4,10 @@
   "tracks": {
     "dev": {
       "track_name": "dev",
-      "document_count": 3760,
+      "document_count": 3761,
       "finalized_track_doc_seq_ranges": [
         [
           1,
-          3695
-        ],
-        [
-          3697,
           3740
         ],
         [
@@ -39,7 +35,7 @@
           3769
         ]
       ],
-      "manual_correction_required_count": 1,
+      "manual_correction_required_count": 2,
       "reading_warning_count": 0,
       "shard_size": 1,
       "shards": [
@@ -33293,6 +33289,15 @@
           "path": "./archive/dev/docs_003695_003695.json",
           "start_track_doc_seq": 3695,
           "end_track_doc_seq": 3695,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1222"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_003696_003696.json",
+          "start_track_doc_seq": 3696,
+          "end_track_doc_seq": 3696,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1222"
@@ -108926,6 +108931,26 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_003695_003695.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 3696,
+          "doc_id": "ja_cc_level2_corrected_v1:0002540653",
+          "batch_name": "dev_batch_1222",
+          "unit_count": 2,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 1,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "「築港ランプ出口」を降り、出口の信号を左折、２つ目の信号の右手にある「印刷会館」様を右折、一方通行の突き当りをＵターンし約６０ｍ先の左手にございます。",
+          "archive_revision": "d15a9451f05ce92d",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1222_v1__2026-10-06T01:10:23.338Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_003696_003696.json"
         },
         {
           "track_name": "dev",

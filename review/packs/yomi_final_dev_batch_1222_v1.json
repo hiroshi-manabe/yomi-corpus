@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_apply_failed": 1
+      "complete": 10
     },
     "unresolved_item_count": 25,
     "unresolved_target_count": 38,
@@ -160,33 +159,14 @@
       "source_line_no": 2540653,
       "preview": "「築港ランプ出口」を降り、出口の信号を左折、２つ目の信号の右手にある「印刷会館」様を右折、一方通行の突き当りをＵターンし約６０ｍ先の左手にございます。",
       "queue_id": "final_review",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-10-06T06:34:28Z",
-      "application_failure_count": 2,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:2",
-          "doc_id": "ja_cc_level2_corrected_v1:0002540653",
-          "unit_id": "ja_cc_level2_corrected_v1:0002540653:u0002",
-          "submission_id": "yomi_strong_repair_dev_batch_1222_v1__2026-10-06T05:35:13.181Z",
-          "status": "surface_mismatch",
-          "reason": "manual rejected span is not unique in rendered yomi",
-          "rejected_span": "那の津"
-        },
-        {
-          "item_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:3",
-          "doc_id": "ja_cc_level2_corrected_v1:0002540653",
-          "unit_id": "ja_cc_level2_corrected_v1:0002540653:u0002",
-          "submission_id": "yomi_strong_repair_dev_batch_1222_v1__2026-10-06T05:35:13.181Z",
-          "status": "surface_mismatch",
-          "reason": "manual rejected span is not unique in rendered yomi",
-          "rejected_span": "那の津"
-        }
-      ],
+      "state_updated_at": "2026-10-06T06:50:12Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 2,
       "region_count": 0,
       "unresolved_count": 3,

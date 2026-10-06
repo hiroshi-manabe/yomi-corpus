@@ -10,16 +10,15 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_apply_failed": 1
+      "complete": 10
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 8,
     "result_row_count": 8,
     "reviewable_repair_row_count": 8,
-    "mapping_error_count": 2
+    "mapping_error_count": 0
   },
   "documents": [
     {
@@ -161,33 +160,14 @@
       "source_line_no": 2540653,
       "preview": "「築港ランプ出口」を降り、出口の信号を左折、２つ目の信号の右手にある「印刷会館」様を右折、一方通行の突き当りをＵターンし約６０ｍ先の左手にございます。",
       "queue_id": "strong_repair",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T06:34:28Z",
-      "application_failure_count": 2,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:2",
-          "doc_id": "ja_cc_level2_corrected_v1:0002540653",
-          "unit_id": "ja_cc_level2_corrected_v1:0002540653:u0002",
-          "submission_id": "yomi_strong_repair_dev_batch_1222_v1__2026-10-06T05:35:13.181Z",
-          "status": "surface_mismatch",
-          "reason": "manual rejected span is not unique in rendered yomi",
-          "rejected_span": "那の津"
-        },
-        {
-          "item_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:3",
-          "doc_id": "ja_cc_level2_corrected_v1:0002540653",
-          "unit_id": "ja_cc_level2_corrected_v1:0002540653:u0002",
-          "submission_id": "yomi_strong_repair_dev_batch_1222_v1__2026-10-06T05:35:13.181Z",
-          "status": "surface_mismatch",
-          "reason": "manual rejected span is not unique in rendered yomi",
-          "rejected_span": "那の津"
-        }
-      ],
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-06T06:50:12Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 1,
       "region_count": 3,
       "unresolved_count": 3,
@@ -446,6 +426,7 @@
             "prefix": "",
             "suffix": ""
           },
+          "surface_occurrence_index": 0,
           "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
@@ -1496,6 +1477,7 @@
             "prefix": "",
             "suffix": ""
           },
+          "surface_occurrence_index": 0,
           "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
@@ -2053,6 +2035,7 @@
             "prefix": "",
             "suffix": ""
           },
+          "surface_occurrence_index": 0,
           "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
@@ -2820,6 +2803,7 @@
             "prefix": "",
             "suffix": ""
           },
+          "surface_occurrence_index": 0,
           "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
@@ -3062,7 +3046,7 @@
       "source_line_no": 2540653,
       "text": "「天神北ランプ出口」を降り、３つ目の信号「那の津口」を左折、那の津大橋を渡ってすぐの3つ目の信号「那の津大橋」を左折、一つ目の角(一方通行)を右折し約６０ｍ先の左手にございます。",
       "rendered_yomi_before": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津口/ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
-      "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
+      "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那の津/ナノツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "「",
@@ -3145,16 +3129,8 @@
           "、"
         ],
         [
-          "那",
-          ""
-        ],
-        [
-          "の",
-          "ノ"
-        ],
-        [
-          "津",
-          "ツ"
+          "那の津",
+          "ナノツ"
         ],
         [
           "大橋",
@@ -3201,16 +3177,8 @@
           "「"
         ],
         [
-          "那",
-          ""
-        ],
-        [
-          "の",
-          "ノ"
-        ],
-        [
-          "津",
-          "ツ"
+          "那の津",
+          "ナノツ"
         ],
         [
           "大橋",
@@ -3321,20 +3289,7 @@
           "。"
         ]
       ],
-      "reading_warnings": [
-        {
-          "token_index": 20,
-          "surface": "那",
-          "reading": "",
-          "message": "kanji or alphabetic surfaces need a kana reading"
-        },
-        {
-          "token_index": 34,
-          "surface": "那",
-          "reading": "",
-          "message": "kanji or alphabetic surfaces need a kana reading"
-        }
-      ],
+      "reading_warnings": [],
       "reading_warning_acknowledgements": [],
       "rendered_yomi_after_ruby_tokens": [
         {
@@ -3565,29 +3520,18 @@
           ]
         },
         {
-          "surface": "那",
-          "reading": "",
+          "surface": "那の津",
+          "reading": "ナノツ",
           "nodes": [
             {
-              "type": "text",
-              "text": "那"
-            }
-          ]
-        },
-        {
-          "surface": "の",
-          "reading": "ノ",
-          "nodes": [
+              "type": "ruby",
+              "text": "那",
+              "reading": "な"
+            },
             {
               "type": "text",
               "text": "の"
-            }
-          ]
-        },
-        {
-          "surface": "津",
-          "reading": "ツ",
-          "nodes": [
+            },
             {
               "type": "ruby",
               "text": "津",
@@ -3719,29 +3663,18 @@
           ]
         },
         {
-          "surface": "那",
-          "reading": "",
+          "surface": "那の津",
+          "reading": "ナノツ",
           "nodes": [
             {
-              "type": "text",
-              "text": "那"
-            }
-          ]
-        },
-        {
-          "surface": "の",
-          "reading": "ノ",
-          "nodes": [
+              "type": "ruby",
+              "text": "那",
+              "reading": "な"
+            },
             {
               "type": "text",
               "text": "の"
-            }
-          ]
-        },
-        {
-          "surface": "津",
-          "reading": "ツ",
-          "nodes": [
+            },
             {
               "type": "ruby",
               "text": "津",
@@ -4047,17 +3980,8 @@
         "submission_id": "yomi_strong_repair_dev_batch_1222_v1__2026-10-06T05:35:13.181Z",
         "generated_at_epoch": 1791264913
       },
-      "mapping_error_count": 2,
-      "mapping_errors": [
-        {
-          "region_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:2",
-          "error": "rejected span '那の津' is ambiguous in canonical yomi surfaces"
-        },
-        {
-          "region_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:3",
-          "error": "rejected span '那の津' is ambiguous in canonical yomi surfaces"
-        }
-      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
       "repair_scope": "sentence_regions",
       "region_count": 3,
       "regions": [
@@ -4067,7 +3991,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002540653:u0002",
           "text": "「天神北ランプ出口」を降り、３つ目の信号「那の津口」を左折、那の津大橋を渡ってすぐの3つ目の信号「那の津大橋」を左折、一つ目の角(一方通行)を右折し約６０ｍ先の左手にございます。",
           "rendered_yomi_before": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津口/ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
-          "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
+          "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那の津/ナノツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
           "display_mapping": {
             "start": 14,
             "end": 16,
@@ -4078,6 +4002,7 @@
             "prefix": "",
             "suffix": ""
           },
+          "surface_occurrence_index": 0,
           "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
@@ -4217,9 +4142,19 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002540653:u0002",
           "text": "「天神北ランプ出口」を降り、３つ目の信号「那の津口」を左折、那の津大橋を渡ってすぐの3つ目の信号「那の津大橋」を左折、一つ目の角(一方通行)を右折し約６０ｍ先の左手にございます。",
           "rendered_yomi_before": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津口/ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
-          "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
-          "display_mapping": null,
-          "mapping_error": "rejected span '那の津' is ambiguous in canonical yomi surfaces",
+          "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那の津/ナノツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
+          "display_mapping": {
+            "start": 20,
+            "end": 21,
+            "char_start": 30,
+            "char_end": 33,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "surface_occurrence_index": 1,
+          "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
             "kana_merge_no_reading"
@@ -4300,12 +4235,17 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "surface_mismatch",
+          "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:2",
-            "status": "surface_mismatch",
-            "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
+            "status": "applied",
             "rejected_span": "那の津",
+            "replacement": [
+              {
+                "surface": "那の津",
+                "reading": "ナノツ"
+              }
+            ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:2",
@@ -4323,9 +4263,19 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002540653:u0002",
           "text": "「天神北ランプ出口」を降り、３つ目の信号「那の津口」を左折、那の津大橋を渡ってすぐの3つ目の信号「那の津大橋」を左折、一つ目の角(一方通行)を右折し約６０ｍ先の左手にございます。",
           "rendered_yomi_before": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津口/ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
-          "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那/ の/ノ 津/ツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那/ の/ノ 津/ツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
-          "display_mapping": null,
-          "mapping_error": "rejected span '那の津' is ambiguous in canonical yomi surfaces",
+          "rendered_yomi_after": "「/「 天神/テンジン 北/キタ ランプ/ランプ 出口/デグチ 」/」 を/ヲ 降り/オリ 、/、 ３つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 口/グチ 」/」 を/ヲ 左折/サセツ 、/、 那の津/ナノツ 大橋/オオハシ を/ヲ 渡っ/ワタッ て/テ すぐ/スグ の/ノ 3つ/ミッツ 目/メ の/ノ 信号/シンゴウ 「/「 那の津/ナノツ 大橋/オオハシ 」/」 を/ヲ 左折/サセツ 、/、 一/ヒト つ/ツ 目/メ の/ノ 角/カド (/( 一方/イッポウ 通行/ツウコウ )/) を/ヲ 右折/ウセツ し/シ 約/ヤク ６０/ ｍ/メートル 先/サキ の/ノ 左手/ヒダリテ に/ニ ござい/ゴザイ ます/マス 。/。",
+          "display_mapping": {
+            "start": 32,
+            "end": 33,
+            "char_start": 49,
+            "char_end": 52,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "surface_occurrence_index": 2,
+          "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
             "kana_merge_no_reading"
@@ -4406,12 +4356,17 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "surface_mismatch",
+          "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:3",
-            "status": "surface_mismatch",
-            "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
+            "status": "applied",
             "rejected_span": "那の津",
+            "replacement": [
+              {
+                "surface": "那の津",
+                "reading": "ナノツ"
+              }
+            ],
             "evidence": [
               {
                 "region_id": "ja_cc_level2_corrected_v1:0002540653:u0002::span_group:3",
@@ -4966,6 +4921,7 @@
             "prefix": "",
             "suffix": ""
           },
+          "surface_occurrence_index": 0,
           "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
