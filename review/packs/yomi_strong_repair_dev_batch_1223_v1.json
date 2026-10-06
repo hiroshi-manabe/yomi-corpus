@@ -297,7 +297,7 @@
       "source_line_no": 1560702,
       "text": "大学卒業後に入社し、当時（１馬）の看板評論家であった清水成駿に師事。",
       "rendered_yomi_before": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成/セイ 駿/シュン に/ニ 師事/シジ 。/。",
-      "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
+      "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/ウマ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "大学",
@@ -337,7 +337,7 @@
         ],
         [
           "馬",
-          "バ"
+          "ウマ"
         ],
         [
           "）",
@@ -487,12 +487,12 @@
         },
         {
           "surface": "馬",
-          "reading": "バ",
+          "reading": "ウマ",
           "nodes": [
             {
               "type": "ruby",
               "text": "馬",
-              "reading": "ば"
+              "reading": "うま"
             }
           ]
         },
@@ -635,7 +635,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001560702:u0021",
           "text": "大学卒業後に入社し、当時（１馬）の看板評論家であった清水成駿に師事。",
           "rendered_yomi_before": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成/セイ 駿/シュン に/ニ 師事/シジ 。/。",
-          "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
+          "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/ウマ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
           "display_mapping": {
             "start": 9,
             "end": 10,
@@ -715,16 +715,40 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"１馬\",\"reading\":\"イチウマ\",\"used_web_search\":false,\"comment\":\"清水成駿が所属した競馬専門紙「１馬（いちうま）」の名称。数字と「馬」を合わせて一語として読む。\"}]",
-          "llm_parsed": [],
-          "llm_comments": [],
-          "llm_parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'.",
+          "llm_raw_text": "[{\"surface\":\"馬\",\"reading\":\"ウマ\",\"used_web_search\":false,\"comment\":\"競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。",
+              "reading": "ウマ",
+              "surface": "馬",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。"
+          ],
+          "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "parse_error",
+          "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
-            "status": "parse_error",
-            "parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'."
+            "status": "applied",
+            "rejected_span": "馬",
+            "replacement": [
+              {
+                "surface": "馬",
+                "reading": "ウマ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
+                "surface": "馬",
+                "comment": "競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
           }
         },
         {
@@ -733,7 +757,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001560702:u0021",
           "text": "大学卒業後に入社し、当時（１馬）の看板評論家であった清水成駿に師事。",
           "rendered_yomi_before": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成/セイ 駿/シュン に/ニ 師事/シジ 。/。",
-          "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/バ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
+          "rendered_yomi_after": "大学/ダイガク 卒業後/ソツギョウゴ に/ニ 入社/ニュウシャ し/シ 、/、 当時/トウジ （/（ １/ 馬/ウマ ）/） の/ノ 看板/カンバン 評論家/ヒョウロンカ で/デ あっ/アッ た/タ 清水/シミズ 成駿/セイシュン に/ニ 師事/シジ 。/。",
           "display_mapping": {
             "start": 18,
             "end": 19,
@@ -872,17 +896,17 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"成駿\",\"reading\":\"セイシュン\",\"used_web_search\":false,\"comment\":\"競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。\"}]",
+          "llm_raw_text": "[{\"surface\":\"成駿\",\"reading\":\"セイシュン\",\"used_web_search\":false,\"comment\":\"競馬評論家・清水成駿（しみず せいしゅん）の名。名全体を一項目とする。\"}]",
           "llm_parsed": [
             {
-              "comment": "競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。",
+              "comment": "競馬評論家・清水成駿（しみず せいしゅん）の名。名全体を一項目とする。",
               "reading": "セイシュン",
               "surface": "成駿",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。"
+            "競馬評論家・清水成駿（しみず せいしゅん）の名。名全体を一項目とする。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -901,7 +925,7 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:2",
                 "surface": "成駿",
-                "comment": "競馬評論家・清水成駿（しみずせいしゅん）の名。既存の読みは正しく、名の「成駿」を分割せず一項目にまとめる。",
+                "comment": "競馬評論家・清水成駿（しみず せいしゅん）の名。名全体を一項目とする。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -950,16 +974,40 @@
       "reading_hints": {
         "馬": "ば"
       },
-      "llm_parsed": [],
-      "llm_raw_text": "[{\"surface\":\"１馬\",\"reading\":\"イチウマ\",\"used_web_search\":false,\"comment\":\"清水成駿が所属した競馬専門紙「１馬（いちうま）」の名称。数字と「馬」を合わせて一語として読む。\"}]",
-      "llm_comments": [],
-      "llm_parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'.",
+      "llm_parsed": [
+        {
+          "comment": "競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。",
+          "reading": "ウマ",
+          "surface": "馬",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"馬\",\"reading\":\"ウマ\",\"used_web_search\":false,\"comment\":\"競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。\"}]",
+      "llm_comments": [
+        "競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。"
+      ],
+      "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "parse_error",
+      "repair_status": "applied",
       "repair_log": {
         "item_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
-        "status": "parse_error",
-        "parse_error": "Yomi repair surface mismatch: expected '馬', got '１馬'."
+        "status": "applied",
+        "rejected_span": "馬",
+        "replacement": [
+          {
+            "surface": "馬",
+            "reading": "ウマ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001560702:u0021::target_group:1",
+            "surface": "馬",
+            "comment": "競馬新聞「１馬（いちうま）」の一部なので、指定範囲の「馬」は「ウマ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
       }
     },
     {
@@ -1472,24 +1520,24 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"的\",\"reading\":\"テキ\",\"used_web_search\":false,\"comment\":\"「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。\"},{\"surface\":\"本\",\"reading\":\"ホン\",\"used_web_search\":false,\"comment\":\"「本の馬鹿買い」の「本」で、書籍を意味する名詞。\"}]",
+          "llm_raw_text": "[{\"surface\":\"的\",\"reading\":\"テキ\",\"used_web_search\":false,\"comment\":\"「山口昌男さん的」の接尾辞で、「てき」と読む。\"},{\"surface\":\"本\",\"reading\":\"ホン\",\"used_web_search\":false,\"comment\":\"「本の馬鹿買い」の「本」で、「ほん」と読む。\"}]",
           "llm_parsed": [
             {
-              "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+              "comment": "「山口昌男さん的」の接尾辞で、「てき」と読む。",
               "reading": "テキ",
               "surface": "的",
               "used_web_search": false
             },
             {
-              "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+              "comment": "「本の馬鹿買い」の「本」で、「ほん」と読む。",
               "reading": "ホン",
               "surface": "本",
               "used_web_search": false
             }
           ],
           "llm_comments": [
-            "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
-            "「本の馬鹿買い」の「本」で、書籍を意味する名詞。"
+            "「山口昌男さん的」の接尾辞で、「てき」と読む。",
+            "「本の馬鹿買い」の「本」で、「ほん」と読む。"
           ],
           "llm_parse_error": null,
           "used_web_search": false,
@@ -1512,14 +1560,14 @@
               {
                 "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
                 "surface": "的本",
-                "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+                "comment": "「山口昌男さん的」の接尾辞で、「てき」と読む。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               },
               {
                 "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
                 "surface": "的本",
-                "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+                "comment": "「本の馬鹿買い」の「本」で、「ほん」と読む。",
                 "used_web_search": false,
                 "surface_occurrence_index": null
               }
@@ -1581,22 +1629,22 @@
       },
       "llm_parsed": [
         {
-          "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+          "comment": "「山口昌男さん的」の接尾辞で、「てき」と読む。",
           "reading": "テキ",
           "surface": "的",
           "used_web_search": false
         },
         {
-          "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+          "comment": "「本の馬鹿買い」の「本」で、「ほん」と読む。",
           "reading": "ホン",
           "surface": "本",
           "used_web_search": false
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"的\",\"reading\":\"テキ\",\"used_web_search\":false,\"comment\":\"「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。\"},{\"surface\":\"本\",\"reading\":\"ホン\",\"used_web_search\":false,\"comment\":\"「本の馬鹿買い」の「本」で、書籍を意味する名詞。\"}]",
+      "llm_raw_text": "[{\"surface\":\"的\",\"reading\":\"テキ\",\"used_web_search\":false,\"comment\":\"「山口昌男さん的」の接尾辞で、「てき」と読む。\"},{\"surface\":\"本\",\"reading\":\"ホン\",\"used_web_search\":false,\"comment\":\"「本の馬鹿買い」の「本」で、「ほん」と読む。\"}]",
       "llm_comments": [
-        "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
-        "「本の馬鹿買い」の「本」で、書籍を意味する名詞。"
+        "「山口昌男さん的」の接尾辞で、「てき」と読む。",
+        "「本の馬鹿買い」の「本」で、「ほん」と読む。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
@@ -1619,14 +1667,14 @@
           {
             "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
             "surface": "的本",
-            "comment": "「山口昌男さん的」で「山口昌男さんのような」という意味を表す接尾辞。",
+            "comment": "「山口昌男さん的」の接尾辞で、「てき」と読む。",
             "used_web_search": false,
             "surface_occurrence_index": null
           },
           {
             "region_id": "ja_cc_level2_corrected_v1:0000191409:u0008::target_group:1",
             "surface": "的本",
-            "comment": "「本の馬鹿買い」の「本」で、書籍を意味する名詞。",
+            "comment": "「本の馬鹿買い」の「本」で、「ほん」と読む。",
             "used_web_search": false,
             "surface_occurrence_index": null
           }
