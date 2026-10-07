@@ -3579,12 +3579,23 @@ function renderSavedTaskDrafts(docs) {
     savedTasks.filter((record) => taskRecordStatus(record) === "deferred"),
     docs,
   );
-  renderSavedTaskGroup(
-    "提出済みのローカルタスク",
-    savedTasks.filter((record) => taskRecordStatus(record) === "submitted"
-      && !savedTaskIsFullyServerAcknowledged(record)),
-    docs,
-  );
+  const delayed = savedTasks.filter((record) => submittedTaskAcknowledgmentIsDelayed(record));
+  if (delayed.length) {
+    const notice = document.createElement("details");
+    const summary = document.createElement("summary");
+    summary.textContent = `サーバーの受付確認が遅れています（${delayed.length}件）`;
+    notice.append(summary);
+    el.taskDraftList.append(notice);
+    renderSavedTaskGroup("提出内容を確認", delayed, docs, notice);
+  }
+}
+
+function submittedTaskAcknowledgmentIsDelayed(record, now = Math.floor(Date.now() / 1000)) {
+  const submittedAt = Number(record.submitted_at_epoch);
+  return taskRecordStatus(record) === "submitted"
+    && Number.isFinite(submittedAt) && submittedAt > 0
+    && now - submittedAt >= 15 * 60
+    && !savedTaskIsFullyServerAcknowledged(record);
 }
 
 function savedTaskIsFullyServerAcknowledged(record) {
@@ -3604,14 +3615,14 @@ function savedTaskIsFullyServerAcknowledged(record) {
   });
 }
 
-function renderSavedTaskGroup(titleText, records, docs) {
+function renderSavedTaskGroup(titleText, records, docs, container = el.taskDraftList) {
   if (!records.length) {
     return;
   }
   const heading = document.createElement("div");
   heading.className = "task-draft-heading muted";
   heading.textContent = titleText;
-  el.taskDraftList.append(heading);
+  container.append(heading);
 
   for (const record of records) {
     const row = document.createElement("article");
@@ -3647,7 +3658,7 @@ function renderSavedTaskGroup(titleText, records, docs) {
     });
 
     row.append(body, button);
-    el.taskDraftList.append(row);
+    container.append(row);
   }
 }
 
