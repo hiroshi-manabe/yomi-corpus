@@ -2488,6 +2488,11 @@ function validateRenderedYomiReading(surface, reading) {
       ? { ok: true }
       : { ok: false, error: "単独の〇にはそのままの記号かカタカナの読みが必要です。" };
   }
+  if (/^[〇○]{2,}$/u.test(surface)) {
+    return reading === surface || (reading === "カオモジ" && isSymbolicKaomojiCorrectionSurface(surface))
+      ? { ok: true }
+      : { ok: false, error: `読みは ${surface} にしてください。` };
+  }
   if (compatibilityUnitReading(surface)) {
     return reading && /^[ァ-ヺー]+$/u.test(reading)
       ? { ok: true }
@@ -2594,6 +2599,10 @@ function isNumericOnlySurface(surface) {
   }
   if (!/^[〇○零一二三四五六七八九]+$/u.test(value)) {
     return true;
+  }
+  // Circle-only runs are redaction/placeholder marks, not numeral sequences.
+  if (/^[〇○]+$/u.test(value)) {
+    return false;
   }
   return [...value].length >= 2;
 }
