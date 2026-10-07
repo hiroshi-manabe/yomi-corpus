@@ -4,26 +4,14 @@
   "tracks": {
     "dev": {
       "track_name": "dev",
-      "document_count": 3817,
+      "document_count": 3820,
       "finalized_track_doc_seq_ranges": [
         [
           1,
-          3797
-        ],
-        [
-          3799,
-          3799
-        ],
-        [
-          3801,
-          3811
-        ],
-        [
-          3813,
           3820
         ]
       ],
-      "manual_correction_required_count": 2,
+      "manual_correction_required_count": 3,
       "reading_warning_count": 0,
       "shard_size": 1,
       "shards": [
@@ -34201,9 +34189,27 @@
           ]
         },
         {
+          "path": "./archive/dev/docs_003798_003798.json",
+          "start_track_doc_seq": 3798,
+          "end_track_doc_seq": 3798,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1232"
+          ]
+        },
+        {
           "path": "./archive/dev/docs_003799_003799.json",
           "start_track_doc_seq": 3799,
           "end_track_doc_seq": 3799,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1232"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_003800_003800.json",
+          "start_track_doc_seq": 3800,
+          "end_track_doc_seq": 3800,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1232"
@@ -34303,6 +34309,15 @@
           "path": "./archive/dev/docs_003811_003811.json",
           "start_track_doc_seq": 3811,
           "end_track_doc_seq": 3811,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1234"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_003812_003812.json",
+          "start_track_doc_seq": 3812,
+          "end_track_doc_seq": 3812,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1234"
@@ -75193,18 +75208,20 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000001994",
           "batch_name": "dev_batch_1052",
           "unit_count": 183,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
           "manual_correction_required_count": 0,
           "reading_warning_count": 0,
           "skipped_unit_count": 0,
           "excluded_unit_count": 0,
           "text_preview": "昨日にひきつづいて、NHKの朝ドラ『ひよっこ』について書いてみる。",
-          "archive_revision": "26b94af9366c2235",
+          "archive_revision": "5195c745cf503403",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1052_v1__2026-09-08T00:36:18.001Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__client__dev_1994__db7396b8b4b144338d8ad455874f11b9"
+          ],
           "shard_path": "./archive/dev/docs_001994_001994.json"
         },
         {
@@ -111471,6 +111488,26 @@
         },
         {
           "track_name": "dev",
+          "track_doc_seq": 3798,
+          "doc_id": "ja_cc_level2_corrected_v1:0000332674",
+          "batch_name": "dev_batch_1232",
+          "unit_count": 75,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 1,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 1,
+          "excluded_unit_count": 0,
+          "text_preview": "「取り組んで１９年…」という水と光によるインスタレーションの『雫を聴く』シリーズの作品を会場いっぱいに展示、幻想的な情緒を広げている。",
+          "archive_revision": "daf6093e9034eb0f",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1232_v1__2026-10-06T07:13:55.702Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_003798_003798.json"
+        },
+        {
+          "track_name": "dev",
           "track_doc_seq": 3799,
           "doc_id": "ja_cc_level2_corrected_v1:0001981481",
           "batch_name": "dev_batch_1232",
@@ -111488,6 +111525,26 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_003799_003799.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 3800,
+          "doc_id": "ja_cc_level2_corrected_v1:0001752322",
+          "batch_name": "dev_batch_1232",
+          "unit_count": 17,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "かもしれませんが、ＨＣ変種アカムさんです！",
+          "archive_revision": "b2bd9bdbe73952a7",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1232_v1__2026-10-06T07:13:55.702Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_003800_003800.json"
         },
         {
           "track_name": "dev",
@@ -111708,6 +111765,26 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_003811_003811.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 3812,
+          "doc_id": "ja_cc_level2_corrected_v1:0000581405",
+          "batch_name": "dev_batch_1234",
+          "unit_count": 32,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "reading_warning_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "豊川市は愛知県の南東部、東三河地方のほぼ中央に位置しています。",
+          "archive_revision": "fd63b40eabef3a42",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1234_v1__2026-10-06T07:26:32.119Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_003812_003812.json"
         },
         {
           "track_name": "dev",
