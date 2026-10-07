@@ -547,6 +547,20 @@ button:disabled {
   padding: 4px 0;
 }
 
+.corpus-map-attention-shortcuts {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(180, 70, 50, 0.2);
+  border-radius: 8px;
+  background: rgba(180, 70, 50, 0.04);
+}
+
+.corpus-map-attention-shortcuts h3 {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+}
+
 .corpus-map-tile {
   position: relative;
   cursor: pointer;

@@ -860,7 +860,29 @@ function renderArchiveBrowserPanel() {
     el.taskSummary.append(backButton);
   }
   el.taskDocList.append(renderArchiveSearchPanel(track));
+  const attentionShortcuts = renderCorpusMapAttentionShortcuts(docs);
+  if (attentionShortcuts) {
+    el.taskDocList.append(attentionShortcuts);
+  }
   el.taskDocList.append(renderCorpusMapTileGrid(docs));
+}
+
+function corpusMapAttentionCount(doc) {
+  return Number(doc.manual_correction_required_count || 0) + Number(doc.reading_warning_count || 0);
+}
+
+function renderCorpusMapAttentionShortcuts(docs) {
+  const flagged = docs.filter((doc) => corpusMapAttentionCount(doc) > 0);
+  if (!flagged.length) {
+    return null;
+  }
+  const section = document.createElement("section");
+  section.className = "corpus-map-attention-shortcuts";
+  section.setAttribute("aria-label", "要確認の文書へのショートカット");
+  const heading = document.createElement("h3");
+  heading.textContent = `要確認（${flagged.length}文書）`;
+  section.append(heading, renderCorpusMapTileGrid(flagged));
+  return section;
 }
 
 function renderArchiveSearchPanel(track) {
@@ -1356,7 +1378,7 @@ function renderCorpusMapTileGrid(docs) {
     tile.type = "button";
     const correctionCount = Number(doc.finalized_correction_count || 0);
     const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-    const manualCorrectionCount = Number(doc.manual_correction_required_count || 0) + Number(doc.reading_warning_count || 0);
+    const manualCorrectionCount = corpusMapAttentionCount(doc);
     const localCorrection = archiveCorrectionRecordForDoc(doc);
     const correctionProcessing = archiveCorrectionIsProcessing(doc, localCorrection);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
