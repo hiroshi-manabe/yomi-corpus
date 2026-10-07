@@ -10,10 +10,9 @@
   "item_count": 20,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 5,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 5,
-      "strong_pending": 5
+      "complete": 10
     },
     "repaired_item_count": 20,
     "queued_repair_row_count": 25,
@@ -31,12 +30,12 @@
       "source_line_no": 896439,
       "preview": "16日の午後以降にいただいた受注商品は、22日以降の発送になります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T07:35:32Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T00:37:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -57,12 +56,12 @@
       "source_line_no": 1178061,
       "preview": "５章の裁判パートの途中まで。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T07:35:32Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T00:37:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -83,12 +82,12 @@
       "source_line_no": 1198583,
       "preview": "霧島神宮の本殿隣に小さな神社がありますが、それが税所神社です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T07:35:32Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T00:37:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 10,
@@ -135,12 +134,12 @@
       "source_line_no": 1857184,
       "preview": "そういうことなのでしょう。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T07:35:32Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T00:37:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -265,12 +264,12 @@
       "source_line_no": 540749,
       "preview": "『ＫＩＸベースボールクラブ・２１』の掲示板です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-06T07:35:32Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T00:37:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -3279,7 +3278,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001198583:u0009::strong_repair",
-      "initial_disposition": "Keep",
+      "initial_disposition": "Skip",
       "seq": 5,
       "doc_id": "ja_cc_level2_corrected_v1:0001198583",
       "doc_seq": 3,
@@ -4968,8 +4967,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_1231_v1__2026-10-07T00:24:11.911Z",
+            "generated_at_epoch": 1791332651
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_1231_v1__2026-10-07T00:24:11.911Z",
+        "generated_at_epoch": 1791332651
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
@@ -6086,8 +6098,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_1231_v1__2026-10-07T00:24:11.911Z",
+            "generated_at_epoch": 1791332651
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_1231_v1__2026-10-07T00:24:11.911Z",
+        "generated_at_epoch": 1791332651
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
@@ -6474,7 +6499,7 @@
       "source_line_no": 1198583,
       "text": "この宮の御祭神は、倭建命(日本武尊)である。",
       "rendered_yomi_before": "この/コノ 宮/ミヤ の/ノ 御/ゴ 祭神/サイジン は/ハ 、/、 倭建命/ヤマトタケルノミコト (/( 日本/ニホン 武尊/ホタカ )/) で/デ ある/アル 。/。",
-      "rendered_yomi_after": "この/コノ 宮/ミヤ の/ノ 御/ゴ 祭神/サイジン は/ハ 、/、 倭建命/ヤマトタケルノミコト (/( 日本/ヤマト 武/タケル 尊/ノミコト )/) で/デ ある/アル 。/。",
+      "rendered_yomi_after": "この/コノ 宮/ミヤ の/ノ 御/ゴ 祭神/サイジン は/ハ 、/、 倭建命/ヤマトタケルノミコト (/( 日本武尊/ヤマトタケルノミコト )/) で/デ ある/アル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "この",
@@ -6513,16 +6538,8 @@
           "("
         ],
         [
-          "日本",
-          "ヤマト"
-        ],
-        [
-          "武",
-          "タケル"
-        ],
-        [
-          "尊",
-          "ノミコト"
+          "日本武尊",
+          "ヤマトタケルノミコト"
         ],
         [
           ")",
@@ -6639,35 +6656,13 @@
           ]
         },
         {
-          "surface": "日本",
-          "reading": "ヤマト",
+          "surface": "日本武尊",
+          "reading": "ヤマトタケルノミコト",
           "nodes": [
             {
               "type": "ruby",
-              "text": "日本",
-              "reading": "やまと"
-            }
-          ]
-        },
-        {
-          "surface": "武",
-          "reading": "タケル",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "武",
-              "reading": "たける"
-            }
-          ]
-        },
-        {
-          "surface": "尊",
-          "reading": "ノミコト",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "尊",
-              "reading": "のみこと"
+              "text": "日本武尊",
+              "reading": "やまとたけるのみこと"
             }
           ]
         },
@@ -6725,14 +6720,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001198583:u0025",
           "text": "この宮の御祭神は、倭建命(日本武尊)である。",
           "rendered_yomi_before": "この/コノ 宮/ミヤ の/ノ 御/ゴ 祭神/サイジン は/ハ 、/、 倭建命/ヤマトタケルノミコト (/( 日本/ニホン 武尊/ホタカ )/) で/デ ある/アル 。/。",
-          "rendered_yomi_after": "この/コノ 宮/ミヤ の/ノ 御/ゴ 祭神/サイジン は/ハ 、/、 倭建命/ヤマトタケルノミコト (/( 日本/ヤマト 武/タケル 尊/ノミコト )/) で/デ ある/アル 。/。",
+          "rendered_yomi_after": "この/コノ 宮/ミヤ の/ノ 御/ゴ 祭神/サイジン は/ハ 、/、 倭建命/ヤマトタケルノミコト (/( 日本武尊/ヤマトタケルノミコト )/) で/デ ある/アル 。/。",
           "display_mapping": {
             "start": 9,
-            "end": 12,
+            "end": 10,
             "char_start": 13,
             "char_end": 17,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 4,
             "prefix": "",
             "suffix": ""
           },
@@ -7178,7 +7173,7 @@
       "source_line_no": 1198583,
       "text": "古事記、日本書紀に日本武尊が東征の折、甲斐国「酒折宮」に滞在したとある。",
       "rendered_yomi_before": "古事記/コジキ 、/、 日本/ニホン 書紀/ショキ に/ニ 日本/ニホン 武尊/ホタカ が/ガ 東征/トウセイ の/ノ 折/オリ 、/、 甲斐国/カイノクニ 「/「 酒折宮/サカオリノミヤ 」/」 に/ニ 滞在/タイザイ し/シ た/タ と/ト ある/アル 。/。",
-      "rendered_yomi_after": "古事記/コジキ 、/、 日本/ニホン 書紀/ショキ に/ニ 日本/ヤマト 武/タケル 尊/ノミコト が/ガ 東征/トウセイ の/ノ 折/オリ 、/、 甲斐国/カイノクニ 「/「 酒折宮/サカオリノミヤ 」/」 に/ニ 滞在/タイザイ し/シ た/タ と/ト ある/アル 。/。",
+      "rendered_yomi_after": "古事記/コジキ 、/、 日本/ニホン 書紀/ショキ に/ニ 日本武尊/ヤマトタケルノミコト が/ガ 東征/トウセイ の/ノ 折/オリ 、/、 甲斐国/カイノクニ 「/「 酒折宮/サカオリノミヤ 」/」 に/ニ 滞在/タイザイ し/シ た/タ と/ト ある/アル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "古事記",
@@ -7201,16 +7196,8 @@
           "ニ"
         ],
         [
-          "日本",
-          "ヤマト"
-        ],
-        [
-          "武",
-          "タケル"
-        ],
-        [
-          "尊",
-          "ノミコト"
+          "日本武尊",
+          "ヤマトタケルノミコト"
         ],
         [
           "が",
@@ -7334,35 +7321,13 @@
           ]
         },
         {
-          "surface": "日本",
-          "reading": "ヤマト",
+          "surface": "日本武尊",
+          "reading": "ヤマトタケルノミコト",
           "nodes": [
             {
               "type": "ruby",
-              "text": "日本",
-              "reading": "やまと"
-            }
-          ]
-        },
-        {
-          "surface": "武",
-          "reading": "タケル",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "武",
-              "reading": "たける"
-            }
-          ]
-        },
-        {
-          "surface": "尊",
-          "reading": "ノミコト",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "尊",
-              "reading": "のみこと"
+              "text": "日本武尊",
+              "reading": "やまとたけるのみこと"
             }
           ]
         },
@@ -7545,14 +7510,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001198583:u0026",
           "text": "古事記、日本書紀に日本武尊が東征の折、甲斐国「酒折宮」に滞在したとある。",
           "rendered_yomi_before": "古事記/コジキ 、/、 日本/ニホン 書紀/ショキ に/ニ 日本/ニホン 武尊/ホタカ が/ガ 東征/トウセイ の/ノ 折/オリ 、/、 甲斐国/カイノクニ 「/「 酒折宮/サカオリノミヤ 」/」 に/ニ 滞在/タイザイ し/シ た/タ と/ト ある/アル 。/。",
-          "rendered_yomi_after": "古事記/コジキ 、/、 日本/ニホン 書紀/ショキ に/ニ 日本/ヤマト 武/タケル 尊/ノミコト が/ガ 東征/トウセイ の/ノ 折/オリ 、/、 甲斐国/カイノクニ 「/「 酒折宮/サカオリノミヤ 」/」 に/ニ 滞在/タイザイ し/シ た/タ と/ト ある/アル 。/。",
+          "rendered_yomi_after": "古事記/コジキ 、/、 日本/ニホン 書紀/ショキ に/ニ 日本武尊/ヤマトタケルノミコト が/ガ 東征/トウセイ の/ノ 折/オリ 、/、 甲斐国/カイノクニ 「/「 酒折宮/サカオリノミヤ 」/」 に/ニ 滞在/タイザイ し/シ た/タ と/ト ある/アル 。/。",
           "display_mapping": {
             "start": 5,
-            "end": 8,
+            "end": 6,
             "char_start": 9,
             "char_end": 13,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 4,
             "prefix": "",
             "suffix": ""
           },
