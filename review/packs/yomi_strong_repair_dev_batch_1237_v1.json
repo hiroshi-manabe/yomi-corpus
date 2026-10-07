@@ -1,0 +1,2587 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1237_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1237",
+  "created_at_epoch": 1791341565,
+  "created_at": "2026-10-07T02:52:45Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000890537",
+      "doc_seq": 1,
+      "track_doc_seq": 3841,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0090.jsonl.gz",
+      "source_line_no": 890537,
+      "preview": "ミャンマー第二の都市マンダレーにあるマンダレーヒルズは階段や坂を上がるごとに仏像が現れる不思議な建物である。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000190060",
+      "doc_seq": 2,
+      "track_doc_seq": 3842,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0018.jsonl.gz",
+      "source_line_no": 190060,
+      "preview": "物語序盤は小さな笑いが起こるようなボケがあって、どこか緊張感に欠ける、村特有の停滞と閉塞が描かれている。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000764962",
+      "doc_seq": 3,
+      "track_doc_seq": 3843,
+      "unit_count": 35,
+      "source_file": "ja/ja_cc/level2/0079.jsonl.gz",
+      "source_line_no": 764962,
+      "preview": "→　ステンレス混合水栓　汚れが激落ち！",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 35,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001657391",
+      "doc_seq": 4,
+      "track_doc_seq": 3844,
+      "unit_count": 31,
+      "source_file": "ja/ja_cc/level2/0203.jsonl.gz",
+      "source_line_no": 1657391,
+      "preview": "私は1971年に新設された京都大学工学部の情報工学科の1期生です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 31,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000647250",
+      "doc_seq": 5,
+      "track_doc_seq": 3845,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0065.jsonl.gz",
+      "source_line_no": 647250,
+      "preview": "イラストやカラーペーパーなどでデコレーションするクラフトのこと。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001471337",
+      "doc_seq": 6,
+      "track_doc_seq": 3846,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0175.jsonl.gz",
+      "source_line_no": 1471337,
+      "preview": "とあるデザイン会社で勤務していた際、ほとんど霊感のない私でもハッキリ見えた、全然怖くない幽霊のように透明な男性のことなのですが、いったいどんな人物でどうして現れていたのでしょうか。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001861630",
+      "doc_seq": 7,
+      "track_doc_seq": 3847,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0234.jsonl.gz",
+      "source_line_no": 1861630,
+      "preview": "今日、共謀罪”の法案は、野党が反対するなか衆議院の委員会で可決された。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001418570",
+      "doc_seq": 8,
+      "track_doc_seq": 3848,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0167.jsonl.gz",
+      "source_line_no": 1418570,
+      "preview": "生まれ育った広島の家は庭がある一戸建なのですが、親元を離れてから、東京でもドイツでも一戸建に住んだ経験はありません。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001148570",
+      "doc_seq": 9,
+      "track_doc_seq": 3849,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0126.jsonl.gz",
+      "source_line_no": 1148570,
+      "preview": "昔から、週末の夕方にやってる料理番組が何でも好きで～。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000658165",
+      "doc_seq": 10,
+      "track_doc_seq": 3850,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0066.jsonl.gz",
+      "source_line_no": 658165,
+      "preview": "これは何に使うんでしょうか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T02:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000764962:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000764962",
+      "doc_seq": 3,
+      "track_doc_seq": 3843,
+      "unit_id": "ja_cc_level2_corrected_v1:0000764962:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0079.jsonl.gz",
+      "source_line_no": 764962,
+      "text": "長年使っていた混合水栓は、外観はピカピカでも、中はやっぱり少し錆（さ）びもあったので。",
+      "rendered_yomi_before": "長年/ナガネン 使っ/ツカッ て/テ い/イ た/タ 混合/コンゴウ 水栓/スイセン は/ハ 、/、 外観/ガイカン は/ハ ピカピカ/ピカピカ で/デ も/モ 、/、 中/ナカ は/ハ やっぱり/ヤッパリ 少し/スコシ 錆/サビ （/（ さ/サ ）/） び/ビ も/モ あっ/アッ た/タ の/ノ で/デ 。/。",
+      "rendered_yomi_after": "長年/ナガネン 使っ/ツカッ て/テ い/イ た/タ 混合/コンゴウ 水栓/スイセン は/ハ 、/、 外観/ガイカン は/ハ ピカピカ/ピカピカ で/デ も/モ 、/、 中/ナカ は/ハ やっぱり/ヤッパリ 少し/スコシ 錆/サ （/（ さ/サ ）/） び/ビ も/モ あっ/アッ た/タ の/ノ で/デ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "長年",
+          "ナガネン"
+        ],
+        [
+          "使っ",
+          "ツカッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "混合",
+          "コンゴウ"
+        ],
+        [
+          "水栓",
+          "スイセン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "外観",
+          "ガイカン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ピカピカ",
+          "ピカピカ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "中",
+          "ナカ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "やっぱり",
+          "ヤッパリ"
+        ],
+        [
+          "少し",
+          "スコシ"
+        ],
+        [
+          "錆",
+          "サ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "び",
+          "ビ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "あっ",
+          "アッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "長年",
+          "reading": "ナガネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "長年",
+              "reading": "ながねん"
+            }
+          ]
+        },
+        {
+          "surface": "使っ",
+          "reading": "ツカッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "使",
+              "reading": "つか"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "混合",
+          "reading": "コンゴウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "混合",
+              "reading": "こんごう"
+            }
+          ]
+        },
+        {
+          "surface": "水栓",
+          "reading": "スイセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "水栓",
+              "reading": "すいせん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "外観",
+          "reading": "ガイカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "外観",
+              "reading": "がいかん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ピカピカ",
+          "reading": "ピカピカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ピカピカ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "中",
+          "reading": "ナカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中",
+              "reading": "なか"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "やっぱり",
+          "reading": "ヤッパリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "やっぱり"
+            }
+          ]
+        },
+        {
+          "surface": "少し",
+          "reading": "スコシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "少",
+              "reading": "すこ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "錆",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "錆",
+              "reading": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "び",
+          "reading": "ビ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "び"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "あっ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000764962:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000764962:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000764962:u0006",
+          "text": "長年使っていた混合水栓は、外観はピカピカでも、中はやっぱり少し錆（さ）びもあったので。",
+          "rendered_yomi_before": "長年/ナガネン 使っ/ツカッ て/テ い/イ た/タ 混合/コンゴウ 水栓/スイセン は/ハ 、/、 外観/ガイカン は/ハ ピカピカ/ピカピカ で/デ も/モ 、/、 中/ナカ は/ハ やっぱり/ヤッパリ 少し/スコシ 錆/サビ （/（ さ/サ ）/） び/ビ も/モ あっ/アッ た/タ の/ノ で/デ 。/。",
+          "rendered_yomi_after": "長年/ナガネン 使っ/ツカッ て/テ い/イ た/タ 混合/コンゴウ 水栓/スイセン は/ハ 、/、 外観/ガイカン は/ハ ピカピカ/ピカピカ で/デ も/モ 、/、 中/ナカ は/ハ やっぱり/ヤッパリ 少し/スコシ 錆/サ （/（ さ/サ ）/） び/ビ も/モ あっ/アッ た/タ の/ノ で/デ 。/。",
+          "display_mapping": {
+            "start": 19,
+            "end": 20,
+            "char_start": 31,
+            "char_end": 32,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "surface_occurrence_index": 0,
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000764962:u0006:s0032-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "錆",
+              "token_surface": "錆",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さび",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "錆",
+                  "reading": "さび",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000764962:u0006:s0032-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "錆",
+              "token_surface": "錆",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さび",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "錆",
+                  "reading": "さび",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "錆",
+          "reading_candidates": {
+            "錆": [
+              "さび"
+            ]
+          },
+          "reading_hints": {
+            "錆": "さび"
+          },
+          "rejected_readings": [
+            {
+              "surface": "錆",
+              "reading": "さび",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"錆\",\"reading\":\"サ\",\"used_web_search\":false,\"comment\":\"本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。",
+              "reading": "サ",
+              "surface": "錆",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000764962:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "錆",
+            "replacement": [
+              {
+                "surface": "錆",
+                "reading": "サ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000764962:u0006::target_group:1",
+                "surface": "錆",
+                "comment": "本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "錆",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000764962:u0006:s0032-0032",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "錆",
+          "token_surface": "錆",
+          "token_index": 19,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さび",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "錆",
+              "reading": "さび",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "錆",
+          "reading": "さび",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "錆": [
+          "さび"
+        ]
+      },
+      "reading_hints": {
+        "錆": "さび"
+      },
+      "llm_parsed": [
+        {
+          "comment": "本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。",
+          "reading": "サ",
+          "surface": "錆",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"錆\",\"reading\":\"サ\",\"used_web_search\":false,\"comment\":\"本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。\"}]",
+      "llm_comments": [
+        "本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000764962:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "錆",
+        "replacement": [
+          {
+            "surface": "錆",
+            "reading": "サ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000764962:u0006::target_group:1",
+            "surface": "錆",
+            "comment": "本文は「錆（さ）び」で、ルビ「さ」と後続の送り仮名「び」により「さび」と読むため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0001657391",
+      "doc_seq": 4,
+      "track_doc_seq": 3844,
+      "unit_id": "ja_cc_level2_corrected_v1:0001657391:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0203.jsonl.gz",
+      "source_line_no": 1657391,
+      "text": "先生が出学されているかどうかはその専用区域に愛車が止まっているかどうかで分かりました。",
+      "rendered_yomi_before": "先生/センセイ が/ガ 出/デ 学/ガク さ/サ れ/レ て/テ いる/イル か/カ どう/ドウ か/カ は/ハ その/ソノ 専用/センヨウ 区域/クイキ に/ニ 愛車/アイシャ が/ガ 止まっ/トマッ て/テ いる/イル か/カ どう/ドウ か/カ で/デ 分かり/ワカリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "先生/センセイ が/ガ 出学/シュツガク さ/サ れ/レ て/テ いる/イル か/カ どう/ドウ か/カ は/ハ その/ソノ 専用/センヨウ 区域/クイキ に/ニ 愛車/アイシャ が/ガ 止まっ/トマッ て/テ いる/イル か/カ どう/ドウ か/カ で/デ 分かり/ワカリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "先生",
+          "センセイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "出学",
+          "シュツガク"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "どう",
+          "ドウ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "専用",
+          "センヨウ"
+        ],
+        [
+          "区域",
+          "クイキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "愛車",
+          "アイシャ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "止まっ",
+          "トマッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "どう",
+          "ドウ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "分かり",
+          "ワカリ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "先生",
+          "reading": "センセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先生",
+              "reading": "せんせい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "出学",
+          "reading": "シュツガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出学",
+              "reading": "しゅつがく"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "どう",
+          "reading": "ドウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どう"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "専用",
+          "reading": "センヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "専用",
+              "reading": "せんよう"
+            }
+          ]
+        },
+        {
+          "surface": "区域",
+          "reading": "クイキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区域",
+              "reading": "くいき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "愛車",
+          "reading": "アイシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "愛車",
+              "reading": "あいしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "止まっ",
+          "reading": "トマッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "止",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "まっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "どう",
+          "reading": "ドウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どう"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "分かり",
+          "reading": "ワカリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "わ"
+            },
+            {
+              "type": "text",
+              "text": "かり"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001657391:u0026::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001657391:u0026",
+          "text": "先生が出学されているかどうかはその専用区域に愛車が止まっているかどうかで分かりました。",
+          "rendered_yomi_before": "先生/センセイ が/ガ 出/デ 学/ガク さ/サ れ/レ て/テ いる/イル か/カ どう/ドウ か/カ は/ハ その/ソノ 専用/センヨウ 区域/クイキ に/ニ 愛車/アイシャ が/ガ 止まっ/トマッ て/テ いる/イル か/カ どう/ドウ か/カ で/デ 分かり/ワカリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "先生/センセイ が/ガ 出学/シュツガク さ/サ れ/レ て/テ いる/イル か/カ どう/ドウ か/カ は/ハ その/ソノ 専用/センヨウ 区域/クイキ に/ニ 愛車/アイシャ が/ガ 止まっ/トマッ て/テ いる/イル か/カ どう/ドウ か/カ で/デ 分かり/ワカリ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 3,
+            "char_end": 5,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "surface_occurrence_index": 0,
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "出",
+              "token_surface": "出",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "で",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "出",
+                  "reading": "で",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "学",
+              "token_surface": "学",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "がく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "学",
+                  "reading": "がく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "出",
+              "token_surface": "出",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "で",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "出",
+                  "reading": "で",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "学",
+              "token_surface": "学",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "がく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "学",
+                  "reading": "がく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "出学",
+          "reading_candidates": {
+            "出": [
+              "で",
+              "しゅつ",
+              "いずる",
+              "いづ",
+              "いづる",
+              "いで"
+            ],
+            "学": [
+              "あきら",
+              "おさむ",
+              "がく",
+              "がっ",
+              "さとる",
+              "まこと",
+              "まなび",
+              "まなぶ"
+            ]
+          },
+          "reading_hints": {
+            "出": "で",
+            "学": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "出",
+              "reading": "で",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "学",
+              "reading": "がく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"出学\",\"reading\":\"シュツガク\",\"used_web_search\":true,\"comment\":\"文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。",
+              "reading": "シュツガク",
+              "surface": "出学",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "出学",
+            "replacement": [
+              {
+                "surface": "出学",
+                "reading": "シュツガク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001657391:u0026::target_group:1",
+                "surface": "出学",
+                "comment": "文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "出学",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026:s0004-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "出",
+          "token_surface": "出",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "で",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "出",
+              "reading": "で",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "学",
+          "token_surface": "学",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "がく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "学",
+              "reading": "がく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "出",
+          "reading": "で",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "学",
+          "reading": "がく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "出": [
+          "で",
+          "しゅつ",
+          "いずる",
+          "いづ",
+          "いづる",
+          "いで"
+        ],
+        "学": [
+          "あきら",
+          "おさむ",
+          "がく",
+          "がっ",
+          "さとる",
+          "まこと",
+          "まなび",
+          "まなぶ"
+        ]
+      },
+      "reading_hints": {
+        "出": "で",
+        "学": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。",
+          "reading": "シュツガク",
+          "surface": "出学",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"出学\",\"reading\":\"シュツガク\",\"used_web_search\":true,\"comment\":\"文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。\"}]",
+      "llm_comments": [
+        "文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001657391:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "出学",
+        "replacement": [
+          {
+            "surface": "出学",
+            "reading": "シュツガク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001657391:u0026::target_group:1",
+            "surface": "出学",
+            "comment": "文脈上、大学へ出る意味の一語と推定。「デ／ガク」とは分割しない。検索では読みの確証が得られず、音読みから推定。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000647250",
+      "doc_seq": 5,
+      "track_doc_seq": 3845,
+      "unit_id": "ja_cc_level2_corrected_v1:0000647250:u0010",
+      "unit_seq": 10,
+      "source_file": "ja/ja_cc/level2/0065.jsonl.gz",
+      "source_line_no": 647250,
+      "text": "信州の夏の風物詩「諏訪湖祭湖上花火大会」。",
+      "rendered_yomi_before": "信州/シンシュウ の/ノ 夏/ナツ の/ノ 風物詩/フウブツシ 「/「 諏訪/スワ 湖/コ 祭/サイ 湖/コ 上/ジョウ 花火/ハナビ 大会/タイカイ 」/」 。/。",
+      "rendered_yomi_after": "信州/シンシュウ の/ノ 夏/ナツ の/ノ 風物詩/フウブツシ 「/「 諏訪/スワ 湖/コ 祭/サイ 湖上/コジョウ 花火/ハナビ 大会/タイカイ 」/」 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "信州",
+          "シンシュウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "夏",
+          "ナツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "風物詩",
+          "フウブツシ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "諏訪",
+          "スワ"
+        ],
+        [
+          "湖",
+          "コ"
+        ],
+        [
+          "祭",
+          "サイ"
+        ],
+        [
+          "湖上",
+          "コジョウ"
+        ],
+        [
+          "花火",
+          "ハナビ"
+        ],
+        [
+          "大会",
+          "タイカイ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "reading_warnings": [],
+      "reading_warning_acknowledgements": [],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "信州",
+          "reading": "シンシュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "信州",
+              "reading": "しんしゅう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "夏",
+          "reading": "ナツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夏",
+              "reading": "なつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "風物詩",
+          "reading": "フウブツシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "風物詩",
+              "reading": "ふうぶつし"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "諏訪",
+          "reading": "スワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "諏訪",
+              "reading": "すわ"
+            }
+          ]
+        },
+        {
+          "surface": "湖",
+          "reading": "コ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "湖",
+              "reading": "こ"
+            }
+          ]
+        },
+        {
+          "surface": "祭",
+          "reading": "サイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祭",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "湖上",
+          "reading": "コジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "湖上",
+              "reading": "こじょう"
+            }
+          ]
+        },
+        {
+          "surface": "花火",
+          "reading": "ハナビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "花火",
+              "reading": "はなび"
+            }
+          ]
+        },
+        {
+          "surface": "大会",
+          "reading": "タイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大会",
+              "reading": "たいかい"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000647250:u0010",
+          "text": "信州の夏の風物詩「諏訪湖祭湖上花火大会」。",
+          "rendered_yomi_before": "信州/シンシュウ の/ノ 夏/ナツ の/ノ 風物詩/フウブツシ 「/「 諏訪/スワ 湖/コ 祭/サイ 湖/コ 上/ジョウ 花火/ハナビ 大会/タイカイ 」/」 。/。",
+          "rendered_yomi_after": "信州/シンシュウ の/ノ 夏/ナツ の/ノ 風物詩/フウブツシ 「/「 諏訪/スワ 湖/コ 祭/サイ 湖上/コジョウ 花火/ハナビ 大会/タイカイ 」/」 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 10,
+            "char_start": 9,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "surface_occurrence_index": 0,
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0010-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "諏訪",
+              "token_surface": "諏訪",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すわ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "諏訪",
+                  "reading": "すわ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "湖",
+              "token_surface": "湖",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "湖",
+                  "reading": "こ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "祭",
+              "token_surface": "祭",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "祭",
+                  "reading": "さい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "湖",
+              "token_surface": "湖",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "湖",
+                  "reading": "こ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0010-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "諏訪",
+              "token_surface": "諏訪",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "すわ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "諏訪",
+                  "reading": "すわ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "湖",
+              "token_surface": "湖",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "湖",
+                  "reading": "こ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "祭",
+              "token_surface": "祭",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "祭",
+                  "reading": "さい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "湖",
+              "token_surface": "湖",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "湖",
+                  "reading": "こ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "諏訪湖祭湖上",
+          "reading_candidates": {
+            "諏訪": [
+              "すわ"
+            ],
+            "諏訪湖": [
+              "すわこ"
+            ],
+            "訪": [
+              "ほう"
+            ],
+            "湖": [
+              "うみ",
+              "こ",
+              "みずうみ"
+            ],
+            "祭": [
+              "さい",
+              "はれ",
+              "まつり"
+            ],
+            "湖上": [
+              "こじょう"
+            ],
+            "上": [
+              "じょう",
+              "うえ",
+              "うわ",
+              "かみ",
+              "あげ",
+              "かみの",
+              "かむら",
+              "たかし",
+              "たてまつ",
+              "のぼる"
+            ]
+          },
+          "reading_hints": {
+            "諏訪": "すわ",
+            "諏訪湖": "すわこ",
+            "訪": "ほう",
+            "湖": "うみ",
+            "祭": "さい",
+            "湖上": "こじょう",
+            "上": "じょう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "諏訪",
+              "reading": "すわ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "湖",
+              "reading": "こ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "祭",
+              "reading": "さい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "湖",
+              "reading": "こ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"諏訪\",\"reading\":\"スワ\",\"used_web_search\":false,\"comment\":\"地名「諏訪」の読み。\"},{\"surface\":\"湖\",\"reading\":\"コ\",\"used_web_search\":false,\"comment\":\"「諏訪湖」の接尾辞として分割。\"},{\"surface\":\"祭\",\"reading\":\"サイ\",\"used_web_search\":false,\"comment\":\"祭典名を作る接尾辞として分割。\"},{\"surface\":\"湖上\",\"reading\":\"コジョウ\",\"used_web_search\":false,\"comment\":\"「湖の上」を表す複合語として保持。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "地名「諏訪」の読み。",
+              "reading": "スワ",
+              "surface": "諏訪",
+              "used_web_search": false
+            },
+            {
+              "comment": "「諏訪湖」の接尾辞として分割。",
+              "reading": "コ",
+              "surface": "湖",
+              "used_web_search": false
+            },
+            {
+              "comment": "祭典名を作る接尾辞として分割。",
+              "reading": "サイ",
+              "surface": "祭",
+              "used_web_search": false
+            },
+            {
+              "comment": "「湖の上」を表す複合語として保持。",
+              "reading": "コジョウ",
+              "surface": "湖上",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "地名「諏訪」の読み。",
+            "「諏訪湖」の接尾辞として分割。",
+            "祭典名を作る接尾辞として分割。",
+            "「湖の上」を表す複合語として保持。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+            "status": "applied",
+            "rejected_span": "諏訪湖祭湖上",
+            "replacement": [
+              {
+                "surface": "諏訪",
+                "reading": "スワ"
+              },
+              {
+                "surface": "湖",
+                "reading": "コ"
+              },
+              {
+                "surface": "祭",
+                "reading": "サイ"
+              },
+              {
+                "surface": "湖上",
+                "reading": "コジョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+                "surface": "諏訪湖祭湖上",
+                "comment": "地名「諏訪」の読み。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+                "surface": "諏訪湖祭湖上",
+                "comment": "「諏訪湖」の接尾辞として分割。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+                "surface": "諏訪湖祭湖上",
+                "comment": "祭典名を作る接尾辞として分割。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+                "surface": "諏訪湖祭湖上",
+                "comment": "「湖の上」を表す複合語として保持。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "諏訪湖祭湖上",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0010-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "諏訪",
+          "token_surface": "諏訪",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "すわ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "諏訪",
+              "reading": "すわ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "湖",
+          "token_surface": "湖",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "こ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "湖",
+              "reading": "こ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "祭",
+          "token_surface": "祭",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "祭",
+              "reading": "さい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0014-0014",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "湖",
+          "token_surface": "湖",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "こ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "湖",
+              "reading": "こ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010:s0015-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "上",
+          "token_surface": "上",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "諏訪",
+          "reading": "すわ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "湖",
+          "reading": "こ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "祭",
+          "reading": "さい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "湖",
+          "reading": "こ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "上",
+          "reading": "じょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "諏訪": [
+          "すわ"
+        ],
+        "諏訪湖": [
+          "すわこ"
+        ],
+        "訪": [
+          "ほう"
+        ],
+        "湖": [
+          "うみ",
+          "こ",
+          "みずうみ"
+        ],
+        "祭": [
+          "さい",
+          "はれ",
+          "まつり"
+        ],
+        "湖上": [
+          "こじょう"
+        ],
+        "上": [
+          "じょう",
+          "うえ",
+          "うわ",
+          "かみ",
+          "あげ",
+          "かみの",
+          "かむら",
+          "たかし",
+          "たてまつ",
+          "のぼる"
+        ]
+      },
+      "reading_hints": {
+        "諏訪": "すわ",
+        "諏訪湖": "すわこ",
+        "訪": "ほう",
+        "湖": "うみ",
+        "祭": "さい",
+        "湖上": "こじょう",
+        "上": "じょう"
+      },
+      "llm_parsed": [
+        {
+          "comment": "地名「諏訪」の読み。",
+          "reading": "スワ",
+          "surface": "諏訪",
+          "used_web_search": false
+        },
+        {
+          "comment": "「諏訪湖」の接尾辞として分割。",
+          "reading": "コ",
+          "surface": "湖",
+          "used_web_search": false
+        },
+        {
+          "comment": "祭典名を作る接尾辞として分割。",
+          "reading": "サイ",
+          "surface": "祭",
+          "used_web_search": false
+        },
+        {
+          "comment": "「湖の上」を表す複合語として保持。",
+          "reading": "コジョウ",
+          "surface": "湖上",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"諏訪\",\"reading\":\"スワ\",\"used_web_search\":false,\"comment\":\"地名「諏訪」の読み。\"},{\"surface\":\"湖\",\"reading\":\"コ\",\"used_web_search\":false,\"comment\":\"「諏訪湖」の接尾辞として分割。\"},{\"surface\":\"祭\",\"reading\":\"サイ\",\"used_web_search\":false,\"comment\":\"祭典名を作る接尾辞として分割。\"},{\"surface\":\"湖上\",\"reading\":\"コジョウ\",\"used_web_search\":false,\"comment\":\"「湖の上」を表す複合語として保持。\"}]",
+      "llm_comments": [
+        "地名「諏訪」の読み。",
+        "「諏訪湖」の接尾辞として分割。",
+        "祭典名を作る接尾辞として分割。",
+        "「湖の上」を表す複合語として保持。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+        "status": "applied",
+        "rejected_span": "諏訪湖祭湖上",
+        "replacement": [
+          {
+            "surface": "諏訪",
+            "reading": "スワ"
+          },
+          {
+            "surface": "湖",
+            "reading": "コ"
+          },
+          {
+            "surface": "祭",
+            "reading": "サイ"
+          },
+          {
+            "surface": "湖上",
+            "reading": "コジョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+            "surface": "諏訪湖祭湖上",
+            "comment": "地名「諏訪」の読み。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+            "surface": "諏訪湖祭湖上",
+            "comment": "「諏訪湖」の接尾辞として分割。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+            "surface": "諏訪湖祭湖上",
+            "comment": "祭典名を作る接尾辞として分割。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000647250:u0010::target_group:1",
+            "surface": "諏訪湖祭湖上",
+            "comment": "「湖の上」を表す複合語として保持。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
