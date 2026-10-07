@@ -10,10 +10,9 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 6,
@@ -109,12 +108,12 @@
       "source_line_no": 510737,
       "preview": "と小さな声で教えてくれました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-07T06:02:47Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T07:17:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -161,12 +160,12 @@
       "source_line_no": 315503,
       "preview": "都議選北区選挙区で、現職と元職の「プロ」６人を相手に４人の枠を争うことになった、おときた（音喜多）駿氏。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-07T06:02:47Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T07:17:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -213,12 +212,12 @@
       "source_line_no": 148015,
       "preview": "1度も入った事がないお店。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-07T06:02:47Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-07T07:17:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -297,7 +296,7 @@
       "source_line_no": 510737,
       "text": "どうやら、しばらく前にテレビで見た、剣士のように一本結びにしたいらしいです。",
       "rendered_yomi_before": "どう/ドウ やら/ヤラ 、/、 しばらく/シバラク 前/マエ に/ニ テレビ/テレビ で/デ 見/ミ た/タ 、/、 剣士/ケンシ の/ノ よう/ヨウ に/ニ 一/イッ 本結び/ホンムスビ に/ニ し/シ たい/タイ らしい/ラシイ です/デス 。/。",
-      "rendered_yomi_after": "どう/ドウ やら/ヤラ 、/、 しばらく/シバラク 前/マエ に/ニ テレビ/テレビ で/デ 見/ミ た/タ 、/、 剣士/ケンシ の/ノ よう/ヨウ に/ニ 一本結び/イッポンムスビ に/ニ し/シ たい/タイ らしい/ラシイ です/デス 。/。",
+      "rendered_yomi_after": "どう/ドウ やら/ヤラ 、/、 しばらく/シバラク 前/マエ に/ニ テレビ/テレビ で/デ 見/ミ た/タ 、/、 剣士/ケンシ の/ノ よう/ヨウ に/ニ 一/イッ 本/ポン 結び/ムスビ に/ニ し/シ たい/タイ らしい/ラシイ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "どう",
@@ -360,8 +359,16 @@
           "ニ"
         ],
         [
-          "一本結び",
-          "イッポンムスビ"
+          "一",
+          "イッ"
+        ],
+        [
+          "本",
+          "ポン"
+        ],
+        [
+          "結び",
+          "ムスビ"
         ],
         [
           "に",
@@ -545,13 +552,35 @@
           ]
         },
         {
-          "surface": "一本結び",
-          "reading": "イッポンムスビ",
+          "surface": "一",
+          "reading": "イッ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "一本結",
-              "reading": "いっぽんむす"
+              "text": "一",
+              "reading": "いっ"
+            }
+          ]
+        },
+        {
+          "surface": "本",
+          "reading": "ポン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本",
+              "reading": "ぽん"
+            }
+          ]
+        },
+        {
+          "surface": "結び",
+          "reading": "ムスビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "結",
+              "reading": "むす"
             },
             {
               "type": "text",
@@ -633,14 +662,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000510737:u0002",
           "text": "どうやら、しばらく前にテレビで見た、剣士のように一本結びにしたいらしいです。",
           "rendered_yomi_before": "どう/ドウ やら/ヤラ 、/、 しばらく/シバラク 前/マエ に/ニ テレビ/テレビ で/デ 見/ミ た/タ 、/、 剣士/ケンシ の/ノ よう/ヨウ に/ニ 一/イッ 本結び/ホンムスビ に/ニ し/シ たい/タイ らしい/ラシイ です/デス 。/。",
-          "rendered_yomi_after": "どう/ドウ やら/ヤラ 、/、 しばらく/シバラク 前/マエ に/ニ テレビ/テレビ で/デ 見/ミ た/タ 、/、 剣士/ケンシ の/ノ よう/ヨウ に/ニ 一本結び/イッポンムスビ に/ニ し/シ たい/タイ らしい/ラシイ です/デス 。/。",
+          "rendered_yomi_after": "どう/ドウ やら/ヤラ 、/、 しばらく/シバラク 前/マエ に/ニ テレビ/テレビ で/デ 見/ミ た/タ 、/、 剣士/ケンシ の/ノ よう/ヨウ に/ニ 一/イッ 本/ポン 結び/ムスビ に/ニ し/シ たい/タイ らしい/ラシイ です/デス 。/。",
           "display_mapping": {
             "start": 15,
-            "end": 16,
+            "end": 18,
             "char_start": 24,
             "char_end": 28,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -1002,7 +1031,7 @@
       "source_line_no": 510737,
       "text": "お友達の言葉は気になるようですが、ロン毛になって剣士の様な一本結びをするという息子の意志は固いようで揺らぎませんでした。",
       "rendered_yomi_before": "お/オ 友達/トモダチ の/ノ 言葉/コトバ は/ハ 気/キ に/ニ なる/ナル よう/ヨウ です/デス が/ガ 、/、 ロン/ロン 毛/ゲ に/ニ なっ/ナッ て/テ 剣士/ケンシ の/ノ 様/ヨウ な/ナ 一/イッ 本結び/ホンムスビ を/ヲ する/スル と/ト いう/イウ 息子/ムスコ の/ノ 意志/イシ は/ハ 固い/カタイ よう/ヨウ で/デ 揺らぎ/ユラギ ませ/マセ ん/ン でし/デシ た/タ 。/。",
-      "rendered_yomi_after": "お/オ 友達/トモダチ の/ノ 言葉/コトバ は/ハ 気/キ に/ニ なる/ナル よう/ヨウ です/デス が/ガ 、/、 ロン/ロン 毛/ゲ に/ニ なっ/ナッ て/テ 剣士/ケンシ の/ノ 様/ヨウ な/ナ 一本結び/イッポンムスビ を/ヲ する/スル と/ト いう/イウ 息子/ムスコ の/ノ 意志/イシ は/ハ 固い/カタイ よう/ヨウ で/デ 揺らぎ/ユラギ ませ/マセ ん/ン でし/デシ た/タ 。/。",
+      "rendered_yomi_after": "お/オ 友達/トモダチ の/ノ 言葉/コトバ は/ハ 気/キ に/ニ なる/ナル よう/ヨウ です/デス が/ガ 、/、 ロン/ロン 毛/ゲ に/ニ なっ/ナッ て/テ 剣士/ケンシ の/ノ 様/ヨウ な/ナ 一/イッ 本/ポン 結び/ムスビ を/ヲ する/スル と/ト いう/イウ 息子/ムスコ の/ノ 意志/イシ は/ハ 固い/カタイ よう/ヨウ で/デ 揺らぎ/ユラギ ませ/マセ ん/ン でし/デシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "お",
@@ -1089,8 +1118,16 @@
           "ナ"
         ],
         [
-          "一本結び",
-          "イッポンムスビ"
+          "一",
+          "イッ"
+        ],
+        [
+          "本",
+          "ポン"
+        ],
+        [
+          "結び",
+          "ムスビ"
         ],
         [
           "を",
@@ -1381,13 +1418,35 @@
           ]
         },
         {
-          "surface": "一本結び",
-          "reading": "イッポンムスビ",
+          "surface": "一",
+          "reading": "イッ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "一本結",
-              "reading": "いっぽんむす"
+              "text": "一",
+              "reading": "いっ"
+            }
+          ]
+        },
+        {
+          "surface": "本",
+          "reading": "ポン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本",
+              "reading": "ぽん"
+            }
+          ]
+        },
+        {
+          "surface": "結び",
+          "reading": "ムスビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "結",
+              "reading": "むす"
             },
             {
               "type": "text",
@@ -1591,14 +1650,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000510737:u0008",
           "text": "お友達の言葉は気になるようですが、ロン毛になって剣士の様な一本結びをするという息子の意志は固いようで揺らぎませんでした。",
           "rendered_yomi_before": "お/オ 友達/トモダチ の/ノ 言葉/コトバ は/ハ 気/キ に/ニ なる/ナル よう/ヨウ です/デス が/ガ 、/、 ロン/ロン 毛/ゲ に/ニ なっ/ナッ て/テ 剣士/ケンシ の/ノ 様/ヨウ な/ナ 一/イッ 本結び/ホンムスビ を/ヲ する/スル と/ト いう/イウ 息子/ムスコ の/ノ 意志/イシ は/ハ 固い/カタイ よう/ヨウ で/デ 揺らぎ/ユラギ ませ/マセ ん/ン でし/デシ た/タ 。/。",
-          "rendered_yomi_after": "お/オ 友達/トモダチ の/ノ 言葉/コトバ は/ハ 気/キ に/ニ なる/ナル よう/ヨウ です/デス が/ガ 、/、 ロン/ロン 毛/ゲ に/ニ なっ/ナッ て/テ 剣士/ケンシ の/ノ 様/ヨウ な/ナ 一本結び/イッポンムスビ を/ヲ する/スル と/ト いう/イウ 息子/ムスコ の/ノ 意志/イシ は/ハ 固い/カタイ よう/ヨウ で/デ 揺らぎ/ユラギ ませ/マセ ん/ン でし/デシ た/タ 。/。",
+          "rendered_yomi_after": "お/オ 友達/トモダチ の/ノ 言葉/コトバ は/ハ 気/キ に/ニ なる/ナル よう/ヨウ です/デス が/ガ 、/、 ロン/ロン 毛/ゲ に/ニ なっ/ナッ て/テ 剣士/ケンシ の/ノ 様/ヨウ な/ナ 一/イッ 本/ポン 結び/ムスビ を/ヲ する/スル と/ト いう/イウ 息子/ムスコ の/ノ 意志/イシ は/ハ 固い/カタイ よう/ヨウ で/デ 揺らぎ/ユラギ ませ/マセ ん/ン でし/デシ た/タ 。/。",
           "display_mapping": {
             "start": 21,
-            "end": 22,
+            "end": 24,
             "char_start": 29,
             "char_end": 33,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -3761,7 +3820,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000148015:u0015::strong_repair",
-      "initial_disposition": "Keep",
+      "initial_disposition": "Skip",
       "seq": 6,
       "doc_id": "ja_cc_level2_corrected_v1:0000148015",
       "doc_seq": 8,
