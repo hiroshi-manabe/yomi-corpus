@@ -5512,10 +5512,11 @@ function renderYomiItem({ node, item, override, editable }) {
     directEditButton.type = "button";
     directEditButton.className = "yomi-direct-edit-button";
     directEditButton.textContent = "🔧";
-    directEditButton.title = hasDirectEdit ? "この文の読みデータを再編集します" : "この文の読みデータを直接編集します";
+    directEditButton.title = "この文の読みデータの編集を開く／閉じる";
     directEditButton.setAttribute("aria-label", directEditButton.title);
+    directEditButton.setAttribute("aria-expanded", "false");
     directEditButton.addEventListener("click", () => {
-      openYomiDirectEditor(node, item);
+      toggleYomiDirectEditor(node, item);
     });
     rubyLine.append(directEditButton);
   }
@@ -5592,6 +5593,18 @@ function renderYomiDirectEditor(node, item, savedTokens) {
   return editor;
 }
 
+function toggleYomiDirectEditor(node, item) {
+  const editor = node.querySelector(".yomi-direct-edit-editor");
+  if (!editor) {
+    return;
+  }
+  if (editor.classList.contains("hidden")) {
+    openYomiDirectEditor(node, item);
+  } else {
+    cancelYomiDirectEdit(node, item);
+  }
+}
+
 function openYomiDirectEditor(node, item) {
   const editor = node.querySelector(".yomi-direct-edit-editor");
   const textarea = editor?.querySelector(".yomi-direct-edit-textarea");
@@ -5608,6 +5621,7 @@ function openYomiDirectEditor(node, item) {
     }
   }
   editor.classList.remove("hidden");
+  node.querySelector(".yomi-direct-edit-button")?.setAttribute("aria-expanded", "true");
   textarea.focus();
 }
 
@@ -5680,6 +5694,7 @@ function cancelYomiDirectEdit(node, item) {
     }
   }
   editor.classList.add("hidden");
+  node.querySelector(".yomi-direct-edit-button")?.setAttribute("aria-expanded", "false");
 }
 
 function revertYomiDirectEdit(item, { confirmSaved = true } = {}) {

@@ -1526,6 +1526,11 @@ button:disabled {
   vertical-align: middle;
 }
 
+.yomi-direct-edit-button[aria-expanded="true"] {
+  border-color: rgba(45, 106, 79, 0.5);
+  background: rgba(45, 106, 79, 0.12);
+}
+
 .yomi-direct-edit-saved,
 .yomi-direct-edit-editor {
   grid-column: 2;
