@@ -10,10 +10,9 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 6,
@@ -57,12 +56,12 @@
       "source_line_no": 97231,
       "preview": "デイリーニュースオンラインソース。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-07T07:31:53Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-08T00:53:16Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +186,12 @@
       "source_line_no": 2550925,
       "preview": "アライが港署に引っ張られたのは、大晦日の夕方だった。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-07T07:31:53Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-08T00:53:16Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -265,12 +264,12 @@
       "source_line_no": 362244,
       "preview": "株式会社日本海洋科学は、日本郵船グループ各社など15団体と共同で、国土交通省が目標と定める2025年までの自動運航船の実用化に向けた取組みの一環である、「操船支援機能と遠隔からの操船等を活用した船舶の実証事業」（注1）としてタグボートを使用した遠隔操船実船試験を共同実施者と行い、成功しました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-07T07:31:53Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-08T00:53:17Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -1459,7 +1458,7 @@
       "source_line_no": 2550925,
       "text": "僕は、旨い鴨汁蕎麦と、気の抜けた鴨汁蕎麦を食べて（とはいえ、美味しい）店を出た。",
       "rendered_yomi_before": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨/カモ 汁蕎麦/ツユソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨/カモ 汁蕎麦/ツユソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
-      "rendered_yomi_after": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨汁蕎麦/カモジルソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨汁蕎麦/カモジルソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
+      "rendered_yomi_after": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨汁/カモジル 蕎麦/ソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨汁/カモジル 蕎麦/ソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "僕",
@@ -1478,8 +1477,12 @@
           "ウマイ"
         ],
         [
-          "鴨汁蕎麦",
-          "カモジルソバ"
+          "鴨汁",
+          "カモジル"
+        ],
+        [
+          "蕎麦",
+          "ソバ"
         ],
         [
           "と",
@@ -1506,8 +1509,12 @@
           "タ"
         ],
         [
-          "鴨汁蕎麦",
-          "カモジルソバ"
+          "鴨汁",
+          "カモジル"
+        ],
+        [
+          "蕎麦",
+          "ソバ"
         ],
         [
           "を",
@@ -1620,13 +1627,24 @@
           ]
         },
         {
-          "surface": "鴨汁蕎麦",
-          "reading": "カモジルソバ",
+          "surface": "鴨汁",
+          "reading": "カモジル",
           "nodes": [
             {
               "type": "ruby",
-              "text": "鴨汁蕎麦",
-              "reading": "かもじるそば"
+              "text": "鴨汁",
+              "reading": "かもじる"
+            }
+          ]
+        },
+        {
+          "surface": "蕎麦",
+          "reading": "ソバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "蕎麦",
+              "reading": "そば"
             }
           ]
         },
@@ -1697,13 +1715,24 @@
           ]
         },
         {
-          "surface": "鴨汁蕎麦",
-          "reading": "カモジルソバ",
+          "surface": "鴨汁",
+          "reading": "カモジル",
           "nodes": [
             {
               "type": "ruby",
-              "text": "鴨汁蕎麦",
-              "reading": "かもじるそば"
+              "text": "鴨汁",
+              "reading": "かもじる"
+            }
+          ]
+        },
+        {
+          "surface": "蕎麦",
+          "reading": "ソバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "蕎麦",
+              "reading": "そば"
             }
           ]
         },
@@ -1883,14 +1912,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002550925:u0085",
           "text": "僕は、旨い鴨汁蕎麦と、気の抜けた鴨汁蕎麦を食べて（とはいえ、美味しい）店を出た。",
           "rendered_yomi_before": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨/カモ 汁蕎麦/ツユソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨/カモ 汁蕎麦/ツユソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
-          "rendered_yomi_after": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨汁蕎麦/カモジルソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨汁蕎麦/カモジルソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
+          "rendered_yomi_after": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨汁/カモジル 蕎麦/ソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨汁/カモジル 蕎麦/ソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
           "display_mapping": {
             "start": 4,
-            "end": 5,
+            "end": 6,
             "char_start": 5,
             "char_end": 9,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -2074,14 +2103,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002550925:u0085",
           "text": "僕は、旨い鴨汁蕎麦と、気の抜けた鴨汁蕎麦を食べて（とはいえ、美味しい）店を出た。",
           "rendered_yomi_before": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨/カモ 汁蕎麦/ツユソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨/カモ 汁蕎麦/ツユソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
-          "rendered_yomi_after": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨汁蕎麦/カモジルソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨汁蕎麦/カモジルソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
+          "rendered_yomi_after": "僕/ボク は/ハ 、/、 旨い/ウマイ 鴨汁/カモジル 蕎麦/ソバ と/ト 、/、 気/キ の/ノ 抜け/ヌケ た/タ 鴨汁/カモジル 蕎麦/ソバ を/ヲ 食べ/タベ て/テ （/（ と/ト は/ハ いえ/イエ 、/、 美味しい/オイシイ ）/） 店/ミセ を/ヲ 出/デ た/タ 。/。",
           "display_mapping": {
-            "start": 11,
-            "end": 12,
+            "start": 12,
+            "end": 14,
             "char_start": 16,
             "char_end": 20,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
