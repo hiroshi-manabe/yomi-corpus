@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 11484,
-  "generated_at": "2026-10-08T12:10:45Z",
-  "generated_at_epoch": 1791461445,
+  "state_revision": 11485,
+  "generated_at": "2026-10-08T12:24:36Z",
+  "generated_at_epoch": 1791462276,
   "last_successful_sync": "2026-10-08T12:10:45Z",
   "last_successful_sync_epoch": 1791461445,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1791461364,
     "interval_seconds": 300,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "RemoteDisconnected: Remote end closed connection without response",
   "observed": {
-    "started_at_epoch": 1791461364,
-    "completed_at_epoch": 1791461445,
-    "drift_seconds": 131
+    "started_at_epoch": 1791462276,
+    "completed_at_epoch": 1791462276,
+    "drift_seconds": 12
   },
   "client_polling": {
     "normal_seconds": 60,
