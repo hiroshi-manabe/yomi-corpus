@@ -10,10 +10,9 @@
   "item_count": 2,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "repaired_item_count": 2,
     "queued_repair_row_count": 2,
@@ -239,12 +238,12 @@
       "source_line_no": 795690,
       "preview": "ソフトボールといえば・・・2020年の夏のオリンピックでの復活が期待されていますね。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-08T01:05:31Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-08T04:08:56Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -265,12 +264,12 @@
       "source_line_no": 1053228,
       "preview": "総絞りにした模様が小鹿の背のまだらに似ていることからその名で呼ばれています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-10-08T01:05:31Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-10-08T04:08:56Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -297,7 +296,7 @@
       "source_line_no": 795690,
       "text": "③投球は下手投げ限定です。",
       "rendered_yomi_before": "③/ 投球/トウキュウ は/ハ 下/シタ 手投げ/テナゲ 限定/ゲンテイ です/デス 。/。",
-      "rendered_yomi_after": "③/ 投球/トウキュウ は/ハ 下手投げ/シタテナゲ 限定/ゲンテイ です/デス 。/。",
+      "rendered_yomi_after": "③/ 投球/トウキュウ は/ハ 下手/シタテ 投げ/ナゲ 限定/ゲンテイ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "③",
@@ -312,8 +311,12 @@
           "ハ"
         ],
         [
-          "下手投げ",
-          "シタテナゲ"
+          "下手",
+          "シタテ"
+        ],
+        [
+          "投げ",
+          "ナゲ"
         ],
         [
           "限定",
@@ -363,13 +366,24 @@
           ]
         },
         {
-          "surface": "下手投げ",
-          "reading": "シタテナゲ",
+          "surface": "下手",
+          "reading": "シタテ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "下手投",
-              "reading": "したてな"
+              "text": "下手",
+              "reading": "したて"
+            }
+          ]
+        },
+        {
+          "surface": "投げ",
+          "reading": "ナゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投",
+              "reading": "な"
             },
             {
               "type": "text",
@@ -422,14 +436,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000795690:u0005",
           "text": "③投球は下手投げ限定です。",
           "rendered_yomi_before": "③/ 投球/トウキュウ は/ハ 下/シタ 手投げ/テナゲ 限定/ゲンテイ です/デス 。/。",
-          "rendered_yomi_after": "③/ 投球/トウキュウ は/ハ 下手投げ/シタテナゲ 限定/ゲンテイ です/デス 。/。",
+          "rendered_yomi_after": "③/ 投球/トウキュウ は/ハ 下手/シタテ 投げ/ナゲ 限定/ゲンテイ です/デス 。/。",
           "display_mapping": {
             "start": 3,
-            "end": 4,
+            "end": 5,
             "char_start": 4,
             "char_end": 8,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -756,7 +770,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001053228:u0011::strong_repair",
-      "initial_disposition": "Keep",
+      "initial_disposition": "Skip",
       "seq": 2,
       "doc_id": "ja_cc_level2_corrected_v1:0001053228",
       "doc_seq": 10,
