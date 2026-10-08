@@ -2589,6 +2589,7 @@ function isNumericOnlySurface(surface) {
   // they are ambiguous. Single Japanese numeral kanji stay lexical, while
   // multi-character digit runs belong to the numeric layer.
   const value = String(surface || "");
+  if (/^[0-9]\uFE0F?\u20E3$/u.test(value)) return true;
   if (/^[0-9０-９]+\/[0-9０-９]+$/u.test(value)) return true;
   // Keep decimal/grouping syntax aligned with FORMATTED_ARABIC_NUMBER_RE.
   if (/^[+＋\-－−]?(?:[0-9０-９]{1,3}(?:[,，][0-9０-９]{3})+|[0-9０-９]+)(?:[.．][0-9０-９]+)?$/u.test(value)) {
