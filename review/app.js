@@ -2264,7 +2264,7 @@ function readingWarningsForPairs(pairs, acknowledgements = []) {
     const check = validateRenderedYomiReading(surface, reading);
     if (accepted.has(JSON.stringify([surface, reading]))) return [];
     if (!check.ok) return [{surface, reading, message: check.error}];
-    return isNumericOnlySurface(surface) && reading
+    return isNumericOnlySurface(surface) && /[0-9０-９]/u.test(surface) && reading
       ? [{surface, reading, message: "数字だけの表記に読みが付いています。意図した例外か確認してください。"}]
       : [];
   });
@@ -2498,9 +2498,9 @@ function validateRenderedYomiReading(surface, reading) {
       ? { ok: true }
       : { ok: false, error: "単位記号にはカタカナの読みが必要です。" };
   }
-  if (/^[ \u00a0\u3000]+$/u.test(surface)) {
-      return reading && !/^[ \u00a0\u3000]+$/u.test(reading)
-      ? { ok: false, error: "空白トークンの読みは空または空白である必要があります。" }
+  if (/^[\s\u0085\u001c-\u001f]+$/u.test(surface) && !/\uFEFF/u.test(surface)) {
+      return reading
+      ? { ok: false, error: "空白トークンの読みは空である必要があります。" }
       : { ok: true };
   }
   if (isNumericOnlySurface(surface)) {
