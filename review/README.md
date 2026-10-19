@@ -36,6 +36,11 @@ Disposition changes invalidate unsubmitted receipts whose eligible set changed.
 
 Coverage, settings, immutable submission drafts, and pending receipts are stored
 in IndexedDB, independently of the existing editor's localStorage quota. The
+playback bookmark is saved per document range by sentence revision and token
+position. Reloading or returning to a range resumes paused; width changes map the
+token to its new frame. A changed sentence resumes at its beginning, and a removed
+sentence falls back to the beginning of the range. The restart button explicitly
+returns to the first frame without clearing viewing coverage. The
 partial-document action gathers unseen frames across visited
 documents. Submit complete documents as `rapid_review_receipt` JSON in an Issue
 (inline or attached). Mark the draft submitted only after creating the Issue.

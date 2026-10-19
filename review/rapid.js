@@ -1,9 +1,10 @@
-const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches} =
+const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches, playbackBookmark, restorePlaybackCursor} =
   await import(`./rapid-core.mjs${new URL(import.meta.url).search}`);
 
 const $ = id => document.getElementById(id);
 const key = "yomi-corpus:rapid-review:v1";
 let saved, index, server = {}, docs = [], frames = [], cursor = 0, timer = null, busy = false;
+let positionKey="", partialMode=false;
 let database, dirty=false, writing=false, storageFailed=false, persistence=Promise.resolve();
 const defaults = {speed:700,width:18,size:52,kanji:115,ruby:65,gothic:true,red:true};
 function status(text, error = false) { if(storageFailed && !error) return; $("status").textContent = text; $("status").classList.toggle("error", error); }
@@ -91,6 +92,8 @@ function render() {
   if (!document.hidden) markFrame(unit,frame,saved.coverage);
   saved.visitedDocuments ||= {};
   saved.visitedDocuments[doc.track_doc_seq] = true;
+  saved.positions ||= {};
+  if(positionKey) saved.positions[positionKey] = playbackBookmark(frame);
   persist();
   refreshCoverage();
 }
@@ -105,7 +108,7 @@ function fitLine() {
   }
 }
 window.addEventListener("resize",fitLine);
-function rebuild(partial = false) {
+function rebuild(partial = partialMode, bookmark = null) {
   pause();
   const old = frames[cursor];
   frames = docs.flatMap(doc => {
@@ -116,7 +119,7 @@ function rebuild(partial = false) {
         Array.from({length:f.end-f.start},(_,i) => i+f.start).some(i => !saved.coverage[unit.unit_id].seen.includes(i)))
       .map(f => ({...f,doc,unit})));
   });
-  cursor = partial ? 0 : Math.max(0,frames.findIndex(f => f.unit.unit_id === old?.unit.unit_id && f.start <= old.start && f.end > old.start));
+  cursor = restorePlaybackCursor(frames, bookmark || playbackBookmark(old));
   render();
 }
 async function load(partial = false) {
@@ -145,7 +148,11 @@ async function load(partial = false) {
       alert("読みデータまたはスキップ・排除の状態が変わったため、未提出のチェック記録を作り直します。変更のない文の閲覧記録は保持します。");
     }
     docs = loaded.filter(doc=>doc.units.length).sort((a,b) => a.track_doc_seq-b.track_doc_seq);
-    saved.range = [from,to]; persist(); frames=[]; cursor=0; rebuild(partial);
+    partialMode=partial;
+    positionKey=partial ? "partial" : `range:${from}:${to}`;
+    saved.range = [from,to]; saved.mode=partial ? "partial" : "range";
+    const bookmark=saved.positions?.[positionKey];
+    persist(); frames=[]; cursor=0; rebuild(partial,bookmark);
     status(`${docs.length}文書を読み込みました。非表示のタブでは再生・記録を停止します。`);
   } catch (e) { status(`読み込みに失敗しました: ${e.message}`,true); }
   finally { busy = false; $("load").disabled = false; }
@@ -188,6 +195,7 @@ async function prepare() {
 $("load").onclick = () => load();
 $("partial").onclick = () => load(true);
 $("previous").onclick = () => { pause(); if (cursor>0) cursor--; render(); };
+$("restart").onclick = () => { pause(); cursor=0; render(); };
 $("next").onclick = () => { pause(); if (cursor<frames.length-1) cursor++; render(); };
 $("play").onclick = () => { if(timer !== null) pause(); else if(frames.length) { $("play").textContent="停止"; tick(); } };
 document.addEventListener("visibilitychange",pause);
@@ -258,7 +266,7 @@ async function boot() {
     settings();
     index = await json("./archive/index.json");
     await synchronize();
-    await load();
+    await load(saved.mode === "partial");
     setInterval(() => { if(!document.hidden) synchronize(); },60000);
   } catch(e) { status(`初期化できません: ${e.message}`,true); }
 }
