@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>通読チェック · yomi-corpus</title>
-<link rel="stylesheet" href="./rapid.css?v=cc50e21fad2e">
+<link rel="stylesheet" href="./rapid.css?v=27a8071d9659">
 <header><a href="./?stage=archive_browser&pack=archive_browser">← コーパスマップ</a><h1>通読チェック</h1><p>読むためだけの画面です。訂正はコーパスマップで行ってください。</p></header>
 <main>
 <section class="toolbar">
@@ -17,7 +17,8 @@
 <nav><button id="restart">先頭へ</button><button id="previous" aria-label="コマ戻し">◀</button><button id="play">再生</button><button id="next" aria-label="コマ送り">▶</button></nav>
 </section>
 <section class="settings">
-<label>切替間隔 <input id="speed" type="range" min="80" max="3000" step="20" value="700"><output></output></label>
+<label>基本表示時間 <input id="speed" type="range" min="80" max="3000" step="20" value="700"><output></output></label>
+<label>ルビ1文字の追加時間 <input id="rubyTime" type="range" min="0" max="200" step="5" value="0"><output></output></label>
 <label>幅（文字数）<input id="width" type="range" min="6" max="40" value="18"><output></output></label>
 <label>文字サイズ <input id="size" type="range" min="24" max="100" value="52"><output></output></label>
 <label>漢字の倍率 <input id="kanji" type="range" min="100" max="160" value="115"><output></output></label>
@@ -27,6 +28,7 @@
 </section>
 <section class="receipts"><h2>チェック記録</h2>
 <p id="coverage"></p><p id="pending"></p>
+<p id="global-coverage" title="このブラウザに保存された閲覧記録と、各文書を最後に読み込んだ時点の対象文に基づく集計です。提出時にサーバーで再確認します。"></p>
 <label>確認待ちの記録 <select id="pending-select"></select></label><button id="resend">選んだ記録を再コピー</button>
 <button id="submit">チェック記録のJSONをコピーしてIssueを開く</button>
 <button id="download">提出用JSONをダウンロード</button>
@@ -34,5 +36,5 @@
 <button id="cancel-draft" hidden>提出案を取り消す（閲覧記録は残す）</button>
 <p>スキップ・排除の文は対象外です。対象の全文を見た文書だけ提出できます。対象の文がない文書は省略します。表示したコマは速度にかかわらず記録します。1回の提出につき各文書の回数は1回だけ増えます。記録はこのブラウザに保存されます。</p>
 </section>
-</main><script type="module" src="./rapid.js?v=7aa6f41f3594"></script>
+</main><script type="module" src="./rapid.js?v=9241b589b683"></script>
 </html>

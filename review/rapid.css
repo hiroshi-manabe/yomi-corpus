@@ -1,4 +1,12 @@
 :root{color-scheme:light;--ink:#243b38;--paper:#f6f4ec;--accent:#176f66;--size:52px;--kanji:1.15;--ruby:.65}
 #line { text-align: center; }
 .stage nav { flex-wrap: wrap; }
+.stage #line {
+  /* Reserve a full ruby line using selected sizes, not per-frame fitted sizes. */
+  height: calc(var(--size) * (2.4 * var(--kanji) + 2 * var(--ruby)) + 48px);
+  min-height: 0;
+  flex: 0 0 auto;
+  line-height: calc(var(--size) * 2.4 * var(--kanji));
+}
+#line rt { line-height: 1; }
 *{box-sizing:border-box}body{margin:0;color:var(--ink);background:radial-gradient(ellipse at top,#e2eee7,transparent 65%),var(--paper);font-family:"Noto Serif JP","Yu Mincho",serif}header,main{max-width:1250px;margin:auto;padding:20px 28px}header h1{margin:18px 0 8px}a{color:var(--accent)}p{line-height:1.7}button,input{font:inherit}button{border:1px solid #aac2ba;border-radius:7px;padding:10px 16px;background:#fffdf7;color:var(--ink);cursor:pointer}button:disabled{opacity:.4;cursor:default}button:hover:enabled{background:#e0eee8}input[type=number]{width:7em;padding:8px}.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.stage{margin:20px 0;background:#fffdf9;border:1px solid #c4d3c8;border-radius:16px;min-height:45vh;display:flex;flex-direction:column;justify-content:space-between;padding:22px 32px;box-shadow:0 10px 40px #183b3310}.stage nav{display:flex;justify-content:center;gap:18px}#position{font-size:15px;color:#526d66;margin:0}#line{font-size:var(--size);line-height:2.4;white-space:nowrap;overflow-x:auto;min-height:3em;padding:24px 0;letter-spacing:.03em}#line .han{font-size:calc(1em * var(--kanji))}.gothic .han{font-family:"Noto Sans JP","Yu Gothic",sans-serif}rt{font-size:calc(1em * var(--ruby));letter-spacing:0}.red rt{color:#ae302b}.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:18px 0}.settings label{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.settings input[type=range]{flex:1;min-width:100px}.settings output{font-size:13px}.receipts{margin-top:24px;border-top:1px solid #bbc9bf;padding-top:12px}.receipts p{font-size:14px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden}#status.error{color:#a82020;font-weight:bold}.rapid-review-count-badge{background:#e0eee5;color:#186447;padding:2px 5px;border-radius:5px;font-size:12px}@media(max-width:600px){header,main{padding:15px}.stage{padding:15px;min-height:45vh}#line{padding:20px 0}.toolbar{gap:7px}}

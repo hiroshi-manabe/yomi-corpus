@@ -33,6 +33,13 @@ of `[text, yomi_tokens]`. Hidden tabs pause playback. Speed is not a qualificati
 criterion. Skip and Exclude sentences are omitted. Completion requires all and
 only the current eligible sentences; documents with none cannot earn a count.
 Disposition changes invalidate unsubmitted receipts whose eligible set changed.
+Frame timing is the base interval plus an optional per-character delay for
+displayed ruby annotation text (not base-text characters or unannotated kana).
+The extra delay defaults to zero to preserve existing playback speed and is saved
+with the other browser settings.
+The playback line reserves a fixed height from the selected base, kanji, and ruby
+sizes. Character types, ruby presence, and per-frame horizontal fitting do not
+move the playback controls or settings below it.
 
 Coverage, settings, immutable submission drafts, and pending receipts are stored
 in IndexedDB, independently of the existing editor's localStorage quota. The
@@ -41,6 +48,11 @@ position. Reloading or returning to a range resumes paused; width changes map th
 token to its new frame. A changed sentence resumes at its beginning, and a removed
 sentence falls back to the beginning of the range. The restart button explicitly
 returns to the first frame without clearing viewing coverage. The
+global ready-to-submit count uses compact eligible-sentence summaries across all
+loaded ranges, not only the displayed range. Older browser coverage is backfilled
+from previously visited documents. Counts use the last loaded document revisions;
+the server revalidates them on submission. Submission still targets the displayed
+range. The
 partial-document action gathers unseen frames across visited
 documents. Submit complete documents as `rapid_review_receipt` JSON in an Issue
 (inline or attached). Mark the draft submitted only after creating the Issue.

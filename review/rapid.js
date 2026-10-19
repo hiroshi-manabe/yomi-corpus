@@ -1,12 +1,13 @@
-const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches, playbackBookmark, restorePlaybackCursor} =
+const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches, playbackBookmark, restorePlaybackCursor, coverageSummary, completedDocumentCount, frameDelay} =
   await import(`./rapid-core.mjs${new URL(import.meta.url).search}`);
 
 const $ = id => document.getElementById(id);
 const key = "yomi-corpus:rapid-review:v1";
 let saved, index, server = {}, docs = [], frames = [], cursor = 0, timer = null, busy = false;
 let positionKey="", partialMode=false;
+let catalogLoading=false;
 let database, dirty=false, writing=false, storageFailed=false, persistence=Promise.resolve();
-const defaults = {speed:700,width:18,size:52,kanji:115,ruby:65,gothic:true,red:true};
+const defaults = {speed:700,rubyTime:0,width:18,size:52,kanji:115,ruby:65,gothic:true,red:true};
 function status(text, error = false) { if(storageFailed && !error) return; $("status").textContent = text; $("status").classList.toggle("error", error); }
 function persist() {
   if(storageFailed) { pause(); return false; }
@@ -53,6 +54,7 @@ function refreshCoverage() {
   const complete = readyDocs();
   const count = docs.reduce((n,d) => n + d.units.filter(u => isCovered(u,saved.coverage)).length, 0);
   $("coverage").textContent = `この範囲: ${count}文を確認 · 提出可能 ${complete.length}文書`;
+  $("global-coverage").textContent = `全範囲の提出可能: ${completedDocumentCount(saved.catalog || {},saved.coverage)}文書${catalogLoading ? "（以前の閲覧分を再集計中）" : ""}`;
   $("pending").textContent = `提出待ち・確認待ち: ${saved.pending.length}件${saved.pending.length ? "（確認されるまで記録を保持します）" : ""}`;
   const selected = $("pending-select").value;
   $("pending-select").replaceChildren(...saved.pending.map(s => {
@@ -137,6 +139,8 @@ async function load(partial = false) {
       for (const doc of payload.documents.filter(d => wanted(d.track_doc_seq))) {
         doc.units = eligibleUnits(doc);
         for (const unit of doc.units) unit.revision = await revision(unit);
+        saved.catalog ||= {};
+        saved.catalog[doc.doc_id] = coverageSummary(doc);
         loaded.push(doc);
       }
     }
@@ -162,14 +166,14 @@ function tick() {
     if (document.hidden || cursor >= frames.length-1) { pause(); return; }
     cursor++; render();
     if (timer !== null) tick();
-  },Number($("speed").value));
+  },frameDelay(frames[cursor],Number($("speed").value),Number($("rubyTime").value)));
 }
 function settings() {
   for (const name of Object.keys(defaults)) {
     const input = $(name);
     saved.settings[name] = input.type === "checkbox" ? input.checked : Number(input.value);
     const output = input.parentElement.querySelector("output");
-    if (output) output.textContent = input.value + (name === "speed" ? " ms" : name === "size" ? " px" : ["kanji","ruby"].includes(name) ? "%" : "");
+    if (output) output.textContent = input.value + (name === "speed" ? " ms" : name === "rubyTime" ? " ms/字" : name === "size" ? " px" : ["kanji","ruby"].includes(name) ? "%" : "");
   }
   document.documentElement.style.setProperty("--size",`${$("size").value}px`);
   document.documentElement.style.setProperty("--kanji", Number($("kanji").value)/100);
@@ -205,7 +209,11 @@ document.addEventListener("keydown",e => {
   if (e.code === "ArrowRight") $("next").click();
   if (e.code === "ArrowLeft") $("previous").click();
 });
-for(const name of Object.keys(defaults)) $(name).oninput = () => { settings(); if(name === "width") rebuild(); };
+for(const name of Object.keys(defaults)) $(name).oninput = () => {
+  settings();
+  if(name === "width") rebuild();
+  else if(timer !== null && ["speed","rubyTime"].includes(name)) { clearTimeout(timer); tick(); }
+};
 $("submit").onclick = async () => {
   try {
     const body = await prepare(); await navigator.clipboard.writeText(body);
@@ -267,7 +275,27 @@ async function boot() {
     index = await json("./archive/index.json");
     await synchronize();
     await load(saved.mode === "partial");
+    await backfillCatalog();
     setInterval(() => { if(!document.hidden) synchronize(); },60000);
   } catch(e) { status(`初期化できません: ${e.message}`,true); }
+}
+async function backfillCatalog() {
+  const known=new Set(Object.values(saved.catalog || {}).map(doc=>doc.track_doc_seq));
+  const missing=new Set(Object.keys(saved.visitedDocuments || {}).map(Number).filter(seq=>!known.has(seq)));
+  if(!missing.size) return;
+  catalogLoading=true; refreshCoverage();
+  try {
+    for(const shard of index.tracks.dev.shards.filter(s=>[...missing].some(seq=>seq>=s.start_track_doc_seq && seq<=s.end_track_doc_seq))) {
+      const payload=await json(shard.path);
+      for(const doc of payload.documents.filter(d=>missing.has(d.track_doc_seq))) {
+        doc.units=eligibleUnits(doc);
+        for(const unit of doc.units) unit.revision=await revision(unit);
+        saved.catalog ||= {};
+        saved.catalog[doc.doc_id]=coverageSummary(doc);
+      }
+      persist(); refreshCoverage();
+    }
+  } catch(e) { status(`以前の閲覧分を再集計できませんでした。再読み込みで再試行できます: ${e.message}`,true); }
+  finally { catalogLoading=false; refreshCoverage(); }
 }
 boot();

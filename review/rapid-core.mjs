@@ -44,10 +44,30 @@ export function framesFor(unit, width) {
   return frames;
 }
 
+export function frameDelay(frame, baseMs, rubyCharacterMs) {
+  const rubyCharacters = (frame?.unit.ruby_tokens || []).slice(frame?.start, frame?.end)
+    .flatMap(token=>token.nodes || [])
+    .filter(node=>node.type === "ruby")
+    .reduce((count,node)=>count + [...node.reading].length,0);
+  return baseMs + rubyCharacters * rubyCharacterMs;
+}
+
 export function isCovered(unit, coverage) {
   const entry = coverage[unit.unit_id];
+  const count = unit.tokenCount ?? unit.yomi_tokens.length;
+  const seen = new Set(entry?.seen || []);
   return entry?.revision === unit.revision &&
-    unit.yomi_tokens.every((_, i) => entry.seen.includes(i));
+    Array.from({length:count},(_,i)=>i).every(i=>seen.has(i));
+}
+
+export function coverageSummary(doc) {
+  return {doc_id:doc.doc_id, track_doc_seq:doc.track_doc_seq,
+    units:eligibleUnits(doc).map(unit=>({unit_id:unit.unit_id, revision:unit.revision,
+      tokenCount:unit.yomi_tokens.length}))};
+}
+
+export function completedDocumentCount(catalog, coverage) {
+  return Object.values(catalog).filter(doc=>doc.units.length && doc.units.every(unit=>isCovered(unit,coverage))).length;
 }
 
 export function markFrame(unit, frame, coverage) {
