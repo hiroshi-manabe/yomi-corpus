@@ -1,3 +1,13 @@
+export function eligibleUnits(doc) {
+  return (doc.units || []).filter(unit => !unit.skipped && !unit.excluded);
+}
+
+export function receiptMatches(doc, record) {
+  const units=eligibleUnits(doc), revisions=record.sentences || {};
+  return units.length > 0 && Object.keys(revisions).length === units.length &&
+    units.every(unit => revisions[unit.unit_id] === unit.revision);
+}
+
 export async function revision(unit) {
   const bytes = new TextEncoder().encode(JSON.stringify([unit.text, unit.yomi_tokens]));
   return [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))]

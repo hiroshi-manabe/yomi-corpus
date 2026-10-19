@@ -1,4 +1,5 @@
-import {revision, framesFor, isCovered, markFrame} from "./rapid-core.mjs";
+const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches} =
+  await import(`./rapid-core.mjs${new URL(import.meta.url).search}`);
 
 const $ = id => document.getElementById(id);
 const key = "yomi-corpus:rapid-review:v1";
@@ -131,12 +132,19 @@ async function load(partial = false) {
       : s.end_track_doc_seq >= from && s.start_track_doc_seq <= to)) {
       const payload = await json(shard.path);
       for (const doc of payload.documents.filter(d => wanted(d.track_doc_seq))) {
-        doc.units = doc.units.filter(u => !u.excluded && u.yomi_tokens?.length);
+        doc.units = eligibleUnits(doc);
         for (const unit of doc.units) unit.revision = await revision(unit);
         loaded.push(doc);
       }
     }
-    docs = loaded.sort((a,b) => a.track_doc_seq-b.track_doc_seq);
+    if(saved.draft?.documents.some(record => {
+      const doc=loaded.find(d=>d.doc_id === record.doc_id);
+      return doc && !receiptMatches(doc,record);
+    })) {
+      saved.draft=null;
+      alert("読みデータまたはスキップ・排除の状態が変わったため、未提出のチェック記録を作り直します。変更のない文の閲覧記録は保持します。");
+    }
+    docs = loaded.filter(doc=>doc.units.length).sort((a,b) => a.track_doc_seq-b.track_doc_seq);
     saved.range = [from,to]; persist(); frames=[]; cursor=0; rebuild(partial);
     status(`${docs.length}文書を読み込みました。非表示のタブでは再生・記録を停止します。`);
   } catch (e) { status(`読み込みに失敗しました: ${e.message}`,true); }

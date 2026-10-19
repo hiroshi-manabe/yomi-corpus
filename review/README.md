@@ -30,7 +30,9 @@ still regenerates the ignored staging directory.
 It packs existing tokens into frames without splitting ruby groups; sentence
 coverage is the union of displayed token positions, keyed by a SHA-256 revision
 of `[text, yomi_tokens]`. Hidden tabs pause playback. Speed is not a qualification
-criterion. Excluded tombstones are omitted; skipped sentences remain reviewable.
+criterion. Skip and Exclude sentences are omitted. Completion requires all and
+only the current eligible sentences; documents with none cannot earn a count.
+Disposition changes invalidate unsubmitted receipts whose eligible set changed.
 
 Coverage, settings, immutable submission drafts, and pending receipts are stored
 in IndexedDB, independently of the existing editor's localStorage quota. The
