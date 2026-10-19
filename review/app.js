@@ -18,6 +18,7 @@ const state = {
   unifiedDashboardPack: null,
   reviewPackCache: new Map(),
   archiveIndex: null,
+  rapidReviews: {},
   archiveCurrentTrack: "dev",
   archiveCurrentShard: null,
   archiveCurrentShardPath: "",
@@ -103,6 +104,7 @@ async function boot() {
   bindEvents();
   const manifest = await fetchJson(manifestUrl);
   state.manifest = manifest;
+  state.rapidReviews = (await fetchJson("./rapid-review-state.json").catch(() => ({}))).documents || {};
   await loadIssueAcknowledgments();
   const stageIds = Object.keys(manifest.stages || {});
   if (stageIds.length === 0) {
@@ -1389,6 +1391,7 @@ function renderCorpusMapTileGrid(docs) {
     tile.innerHTML = `
       <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
+      ${state.rapidReviews[doc.doc_id]?.count ? `<em class="rapid-review-count-badge" title="通読チェック回数">✓ ${Number(state.rapidReviews[doc.doc_id].count)}</em>` : ""}
       ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
       ${manualCorrectionCount ? `<em class="manual-correction-count-badge">${escapeHtml(manualCorrectionCount)}</em>` : ""}
       ${localCorrection ? `<em class="local-correction-badge ${correctionProcessing ? "processing" : escapeHtml(localCorrection.status)}">${correctionProcessing ? "処理中" : localCorrection.status === "submitted" ? "提出済" : "編集中"}</em>` : ""}

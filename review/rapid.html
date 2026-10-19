@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>通読チェック · yomi-corpus</title>
+<link rel="stylesheet" href="./rapid.css">
+<header><a href="./?stage=archive_browser&pack=archive_browser">← コーパスマップ</a><h1>通読チェック</h1><p>読むためだけの画面です。訂正はコーパスマップで行ってください。</p></header>
+<main>
+<section class="toolbar">
+<label>文書 <input id="from" type="number" min="1" value="1"></label>
+<span>—</span><label><span class="sr-only">終了文書</span><input id="to" type="number" min="1" value="10"></label>
+<button id="load">範囲を開く</button><button id="partial">未完了文書の残りを見る</button>
+</section>
+<p id="status" role="status">読み込み中…</p>
+<section class="stage" aria-label="通読表示">
+<p id="position"></p><div id="line"></div>
+<nav><button id="previous" aria-label="コマ戻し">◀</button><button id="play">再生</button><button id="next" aria-label="コマ送り">▶</button></nav>
+</section>
+<section class="settings">
+<label>切替間隔 <input id="speed" type="range" min="80" max="3000" step="20" value="700"><output></output></label>
+<label>幅（文字数）<input id="width" type="range" min="6" max="40" value="18"><output></output></label>
+<label>文字サイズ <input id="size" type="range" min="24" max="100" value="52"><output></output></label>
+<label>漢字の倍率 <input id="kanji" type="range" min="100" max="160" value="115"><output></output></label>
+<label>ルビの倍率 <input id="ruby" type="range" min="35" max="100" value="65"><output></output></label>
+<label><input id="gothic" type="checkbox" checked> 漢字をゴシックに</label>
+<label><input id="red" type="checkbox" checked> ルビを赤く</label>
+</section>
+<section class="receipts"><h2>チェック記録</h2>
+<p id="coverage"></p><p id="pending"></p>
+<label>確認待ちの記録 <select id="pending-select"></select></label><button id="resend">選んだ記録を再コピー</button>
+<button id="submit">チェック記録のJSONをコピーしてIssueを開く</button>
+<button id="download">提出用JSONをダウンロード</button>
+<button id="confirm" hidden>Issueを作成したので提出済みにする</button>
+<button id="cancel-draft" hidden>提出案を取り消す（閲覧記録は残す）</button>
+<p>表示したコマは速度にかかわらず記録します。全文を見た文書だけ提出できます。1回の提出につき各文書の回数は1回だけ増えます。記録はこのブラウザに保存されます。</p>
+</section>
+</main><script type="module" src="./rapid.js"></script>
+</html>

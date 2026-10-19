@@ -2334,3 +2334,12 @@ button:disabled {
 .excluded .reading-warning-panel {
   display: none;
 }
+/* Visual inspection counts are independent of correction counts. */
+.rapid-review-count-badge {
+  display: inline-block;
+  background: #e0eee5;
+  color: #186447;
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-size: 12px;
+}
