@@ -1384,6 +1384,7 @@ function renderCorpusMapTileGrid(docs) {
     const localCorrection = archiveCorrectionRecordForDoc(doc);
     const correctionProcessing = archiveCorrectionIsProcessing(doc, localCorrection);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
+    tile.dataset.archiveDocId = doc.doc_id;
     tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
     tile.classList.toggle("has-local-correction", localCorrection?.status === "draft");
     tile.classList.toggle("has-submitted-correction", localCorrection?.status === "submitted");
@@ -8935,6 +8936,26 @@ function startRuntimeStatusPolling() {
   pollRuntimeStatus();
 }
 
+async function pollArchiveCheckCounts(bucket) {
+  const payload = await fetchJson(`./rapid-review-state.json?poll=${bucket}`);
+  state.rapidReviews = payload.documents || {};
+  for (const tile of document.querySelectorAll("[data-archive-doc-id]")) {
+    const count = Number(state.rapidReviews[tile.dataset.archiveDocId]?.count || 0);
+    let badge = tile.querySelector(".rapid-review-count-badge");
+    if (!count) {
+      badge?.remove();
+      continue;
+    }
+    if (!badge) {
+      badge = document.createElement("em");
+      badge.className = "rapid-review-count-badge";
+      badge.title = "通読チェック回数";
+      tile.append(badge);
+    }
+    badge.textContent = `✓ ${count}`;
+  }
+}
+
 async function pollRuntimeStatus() {
   clearRuntimePollTimer();
   const path = state.manifest?.runtime_status?.path;
@@ -8955,6 +8976,15 @@ async function pollRuntimeStatus() {
     state.runtimePollFailures = 0;
     renderRuntimeStatus();
     const acknowledgmentsChanged = await pollIssueAcknowledgments();
+    if (state.currentStageId === "archive_browser") {
+      await pollArchiveCheckCounts(bucket);
+      if (acknowledgmentsChanged || (previousRevision > 0 && nextRevision > previousRevision)) {
+        el.serverUpdateMessage.textContent = "更新があります。検索データと表示位置を保持しています。必要なときに更新してください。";
+        el.serverUpdateBanner.classList.remove("hidden");
+      }
+      scheduleRuntimeStatusPoll();
+      return;
+    }
     if (acknowledgmentsChanged) {
       if (isTaskStarted()) {
         el.serverUpdateMessage.textContent = "Issueの受付状態が更新されました。ローカル作業は保存されています。";
