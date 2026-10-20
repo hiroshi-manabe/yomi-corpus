@@ -51,8 +51,11 @@ returns to the first frame without clearing viewing coverage. The
 global ready-to-submit count uses compact eligible-sentence summaries across all
 loaded ranges, not only the displayed range. Older browser coverage is backfilled
 from previously visited documents. Counts use the last loaded document revisions;
-the server revalidates them on submission. Submission still targets the displayed
-range. The
+the viewer reloads all ready documents before preparing a receipt, and the server
+revalidates them on submission. Submission includes ready documents across all
+ranges, not just the currently displayed range. Existing immutable drafts require
+explicit confirmation before replacement with a new submission ID; users who
+already created an Issue must mark it submitted first to avoid double counting. The
 partial-document action gathers unseen frames across visited
 documents. Submit complete documents as `rapid_review_receipt` JSON in an Issue
 (inline or attached). Mark the draft submitted only after creating the Issue.

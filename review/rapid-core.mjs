@@ -67,7 +67,12 @@ export function coverageSummary(doc) {
 }
 
 export function completedDocumentCount(catalog, coverage) {
-  return Object.values(catalog).filter(doc=>doc.units.length && doc.units.every(unit=>isCovered(unit,coverage))).length;
+  return completedDocuments(catalog,coverage).length;
+}
+
+export function completedDocuments(catalog, coverage) {
+  return Object.values(catalog).filter(doc=>doc.units.length && doc.units.every(unit=>isCovered(unit,coverage)))
+    .sort((a,b)=>a.track_doc_seq-b.track_doc_seq);
 }
 
 export function markFrame(unit, frame, coverage) {

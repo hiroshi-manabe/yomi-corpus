@@ -1,4 +1,4 @@
-const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches, playbackBookmark, restorePlaybackCursor, coverageSummary, completedDocumentCount, frameDelay} =
+const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches, playbackBookmark, restorePlaybackCursor, coverageSummary, completedDocumentCount, completedDocuments, frameDelay} =
   await import(`./rapid-core.mjs${new URL(import.meta.url).search}`);
 
 const $ = id => document.getElementById(id);
@@ -6,6 +6,7 @@ const key = "yomi-corpus:rapid-review:v1";
 let saved, index, server = {}, docs = [], frames = [], cursor = 0, timer = null, busy = false;
 let positionKey="", partialMode=false;
 let catalogLoading=false;
+let preparing=false;
 let database, dirty=false, writing=false, storageFailed=false, persistence=Promise.resolve();
 const defaults = {speed:700,rubyTime:0,width:18,size:52,kanji:115,ruby:65,gothic:true,red:true};
 function status(text, error = false) { if(storageFailed && !error) return; $("status").textContent = text; $("status").classList.toggle("error", error); }
@@ -65,7 +66,8 @@ function refreshCoverage() {
   $("resend").disabled = !saved.pending.length;
   $("confirm").hidden = !saved.draft;
   $("cancel-draft").hidden = !saved.draft;
-  $("submit").disabled = $("download").disabled = !saved.draft && !complete.length;
+  $("submit").disabled = $("download").disabled = preparing || catalogLoading ||
+    (!saved.draft && !completedDocumentCount(saved.catalog || {},saved.coverage));
 }
 function render() {
   const frame = frames[cursor];
@@ -184,17 +186,46 @@ function settings() {
 }
 async function prepare() {
   pause();
-  if (!saved.draft) saved.draft = {
-    submission_type:"rapid_review_receipt", schema_version:1, track_name:"dev",
-    submission_id:`rapid_review__${crypto.randomUUID()}`,
-    documents:readyDocs().map(doc => ({doc_id:doc.doc_id,track_doc_seq:doc.track_doc_seq,
-      sentences:Object.fromEntries(doc.units.map(u => [u.unit_id,u.revision]))})),
-  };
-  if (!saved.draft.documents.length) throw new Error("提出できる文書がありません。");
-  if (!persist()) throw new Error("提出データを保存できません。");
-  await persistence;
-  if(storageFailed) throw new Error("提出データを保存できません。");
-  refreshCoverage(); return JSON.stringify(saved.draft,null,2);
+  if(preparing || catalogLoading) throw new Error("文書の確認が終わるまでお待ちください。");
+  preparing=true; refreshCoverage();
+  try {
+    await backfillCatalog();
+    const ready=completedDocuments(saved.catalog || {},saved.coverage);
+    const draftIds=new Set(saved.draft?.documents.map(doc=>doc.doc_id) || []);
+    const extra=ready.filter(doc=>!draftIds.has(doc.doc_id));
+    let replace=false;
+    if(saved.draft && extra.length) {
+      replace=confirm(`保存済みの提出案に含まれない文書が${extra.length}件あります。全範囲の提出案を作り直しますか？\nまだIssueを作成していない場合だけOKを選んでください。作成済みならキャンセルし、先に「提出済みにする」を押してください。二重提出を防ぐためです。`);
+      if(!replace) throw new Error("保存済みの提出案を保持しました。作成済みのIssueを先に提出済みとして記録してください。");
+    }
+    if(!saved.draft || replace) {
+      if(!ready.length) throw new Error("提出できる文書がありません。");
+      status(`全範囲の${ready.length}文書を確認しています…`);
+      const currentIndex=await json("./archive/index.json"), shards=new Map(), documents=[];
+      let stale=false;
+      for(const summary of ready) {
+        const shard=currentIndex.tracks.dev.shards.find(s=>summary.track_doc_seq>=s.start_track_doc_seq && summary.track_doc_seq<=s.end_track_doc_seq);
+        if(!shard) { stale=true; delete saved.catalog[summary.doc_id]; continue; }
+        if(!shards.has(shard.path)) shards.set(shard.path,await json(shard.path));
+        const doc=shards.get(shard.path).documents.find(d=>d.doc_id === summary.doc_id && d.track_doc_seq === summary.track_doc_seq);
+        if(!doc) { stale=true; delete saved.catalog[summary.doc_id]; continue; }
+        doc.units=eligibleUnits(doc);
+        for(const unit of doc.units) unit.revision=await revision(unit);
+        saved.catalog[doc.doc_id]=coverageSummary(doc);
+        if(!doc.units.length || !doc.units.every(u=>isCovered(u,saved.coverage))) { stale=true; continue; }
+        documents.push({doc_id:doc.doc_id,track_doc_seq:doc.track_doc_seq,
+          sentences:Object.fromEntries(doc.units.map(u=>[u.unit_id,u.revision]))});
+      }
+      persist();
+      if(stale) throw new Error("対象文書の読みデータまたはスキップ状態が変わりました。提出可能数を更新しました。変更された文書を読み直し、残りの提出はもう一度操作してください。");
+      saved.draft={submission_type:"rapid_review_receipt",schema_version:1,track_name:"dev",
+        submission_id:`rapid_review__${crypto.randomUUID()}`,documents};
+    }
+    if (!persist()) throw new Error("提出データを保存できません。");
+    await persistence;
+    if(storageFailed) throw new Error("提出データを保存できません。");
+    return JSON.stringify(saved.draft,null,2);
+  } finally { preparing=false; refreshCoverage(); }
 }
 $("load").onclick = () => load();
 $("partial").onclick = () => load(true);
