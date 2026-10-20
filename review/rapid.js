@@ -1,4 +1,4 @@
-const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches, playbackBookmark, restorePlaybackCursor, coverageSummary, completedDocumentCount, completedDocuments, frameDelay} =
+const {revision, framesFor, isCovered, markFrame, eligibleUnits, receiptMatches, playbackBookmark, restorePlaybackCursor, coverageSummary, completedDocumentCount, completedDocuments, frameDelay, migrateCoverage, isFrameCovered} =
   await import(`./rapid-core.mjs${new URL(import.meta.url).search}`);
 
 const $ = id => document.getElementById(id);
@@ -116,11 +116,10 @@ function rebuild(partial = partialMode, bookmark = null) {
   pause();
   const old = frames[cursor];
   frames = docs.flatMap(doc => {
-    const partiallyViewed = doc.units.some(u => saved.coverage[u.unit_id]?.revision === u.revision);
+    const partiallyViewed = doc.units.some(u => Boolean(saved.coverage[u.unit_id]));
     if (partial && (!partiallyViewed || doc.units.every(u => isCovered(u,saved.coverage)))) return [];
     return doc.units.flatMap(unit => framesFor(unit, Number($("width").value))
-      .filter(f => !partial || saved.coverage[unit.unit_id]?.revision !== unit.revision ||
-        Array.from({length:f.end-f.start},(_,i) => i+f.start).some(i => !saved.coverage[unit.unit_id].seen.includes(i)))
+      .filter(f => !partial || !isFrameCovered(unit,f,saved.coverage))
       .map(f => ({...f,doc,unit})));
   });
   cursor = restorePlaybackCursor(frames, bookmark || playbackBookmark(old));
@@ -140,7 +139,7 @@ async function load(partial = false) {
       const payload = await json(shard.path);
       for (const doc of payload.documents.filter(d => wanted(d.track_doc_seq))) {
         doc.units = eligibleUnits(doc);
-        for (const unit of doc.units) unit.revision = await revision(unit);
+        for (const unit of doc.units) { unit.revision = await revision(unit); migrateCoverage(unit,saved.coverage); }
         saved.catalog ||= {};
         saved.catalog[doc.doc_id] = coverageSummary(doc);
         loaded.push(doc);
@@ -151,7 +150,7 @@ async function load(partial = false) {
       return doc && !receiptMatches(doc,record);
     })) {
       saved.draft=null;
-      alert("読みデータまたはスキップ・排除の状態が変わったため、未提出のチェック記録を作り直します。変更のない文の閲覧記録は保持します。");
+      alert("対象の文が増減したため、未提出のチェック記録を作り直します。閲覧済みの記録は保持します。");
     }
     docs = loaded.filter(doc=>doc.units.length).sort((a,b) => a.track_doc_seq-b.track_doc_seq);
     partialMode=partial;
@@ -210,15 +209,15 @@ async function prepare() {
         const doc=shards.get(shard.path).documents.find(d=>d.doc_id === summary.doc_id && d.track_doc_seq === summary.track_doc_seq);
         if(!doc) { stale=true; delete saved.catalog[summary.doc_id]; continue; }
         doc.units=eligibleUnits(doc);
-        for(const unit of doc.units) unit.revision=await revision(unit);
+        for(const unit of doc.units) { unit.revision=await revision(unit); migrateCoverage(unit,saved.coverage); }
         saved.catalog[doc.doc_id]=coverageSummary(doc);
         if(!doc.units.length || !doc.units.every(u=>isCovered(u,saved.coverage))) { stale=true; continue; }
         documents.push({doc_id:doc.doc_id,track_doc_seq:doc.track_doc_seq,
-          sentences:Object.fromEntries(doc.units.map(u=>[u.unit_id,u.revision]))});
+          sentences:Object.fromEntries(doc.units.map(u=>[u.unit_id,true]))});
       }
       persist();
-      if(stale) throw new Error("対象文書の読みデータまたはスキップ状態が変わりました。提出可能数を更新しました。変更された文書を読み直し、残りの提出はもう一度操作してください。");
-      saved.draft={submission_type:"rapid_review_receipt",schema_version:1,track_name:"dev",
+      if(stale) throw new Error("対象の文が増減しました。提出可能数を更新しました。未閲覧の文を確認し、残りの提出はもう一度操作してください。");
+      saved.draft={submission_type:"rapid_review_receipt",schema_version:2,track_name:"dev",
         submission_id:`rapid_review__${crypto.randomUUID()}`,documents};
     }
     if (!persist()) throw new Error("提出データを保存できません。");
@@ -267,9 +266,7 @@ $("confirm").onclick = () => {
   saved.draft=null; persist(); refreshCoverage(); status("提出済みとして保存しました。サーバーの確認後、通読回数に反映されます。");
 };
 function clearSubmittedCoverage(receipt) {
-  for(const doc of receipt.documents) for(const [id,rev] of Object.entries(doc.sentences)) {
-    if(saved.coverage[id]?.revision === rev) delete saved.coverage[id];
-  }
+  for(const doc of receipt.documents) for(const id of Object.keys(doc.sentences)) delete saved.coverage[id];
 }
 async function synchronize() {
   try {
@@ -297,6 +294,7 @@ $("cancel-draft").onclick = () => {
 async function boot() {
   try {
     saved = await openStorage() || {coverage:{},pending:[],settings:{}};
+    for(const doc of Object.values(saved.catalog || {})) for(const unit of doc.units) migrateCoverage(unit,saved.coverage);
     saved.settings = {...defaults,...saved.settings};
     for(const [name,value] of Object.entries(saved.settings)) if($(name)) {
       if($(name).type === "checkbox") $(name).checked=value; else $(name).value=value;
@@ -320,7 +318,7 @@ async function backfillCatalog() {
       const payload=await json(shard.path);
       for(const doc of payload.documents.filter(d=>missing.has(d.track_doc_seq))) {
         doc.units=eligibleUnits(doc);
-        for(const unit of doc.units) unit.revision=await revision(unit);
+        for(const unit of doc.units) { unit.revision=await revision(unit); migrateCoverage(unit,saved.coverage); }
         saved.catalog ||= {};
         saved.catalog[doc.doc_id]=coverageSummary(doc);
       }
