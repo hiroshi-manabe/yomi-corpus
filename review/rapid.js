@@ -7,6 +7,7 @@ let saved, index, server = {}, docs = [], frames = [], cursor = 0, timer = null,
 let positionKey="", partialMode=false;
 let catalogLoading=false;
 let preparing=false;
+let confirming=false, dialogSubmissionId=null;
 let database, dirty=false, writing=false, storageFailed=false, persistence=Promise.resolve();
 const defaults = {speed:700,rubyTime:0,width:18,size:52,kanji:115,ruby:65,gothic:true,red:true};
 function status(text, error = false) { if(storageFailed && !error) return; $("status").textContent = text; $("status").classList.toggle("error", error); }
@@ -56,11 +57,18 @@ function refreshCoverage() {
   const count = docs.reduce((n,d) => n + d.units.filter(u => isCovered(u,saved.coverage)).length, 0);
   $("coverage").textContent = `この範囲: ${count}文を確認 · 提出可能 ${complete.length}文書`;
   $("global-coverage").textContent = `全範囲の提出可能: ${completedDocumentCount(saved.catalog || {},saved.coverage)}文書${catalogLoading ? "（以前の閲覧分を再集計中）" : ""}`;
-  $("pending").textContent = `提出待ち・確認待ち: ${saved.pending.length}件${saved.pending.length ? "（確認されるまで記録を保持します）" : ""}`;
+  $("pending").textContent = `ローカル提出済み・サーバー確認待ち: ${saved.pending.length}件（適用が確認されるまで保持します）`;
+  $("draft-summary").hidden = !saved.draft;
+  $("draft-summary").textContent = saved.draft ? `未確認の提出案: ${receiptLabel(saved.draft)}。Issue作成済みの場合は提出状況を確認してください。` : "";
+  $("submission-history").replaceChildren(...(saved.history || []).map(receipt=>{
+    const li=document.createElement("li");
+    li.textContent=`適用済み · ${receiptLabel(receipt)} · ${receipt.submission_id}`;
+    return li;
+  }));
   const selected = $("pending-select").value;
   $("pending-select").replaceChildren(...saved.pending.map(s => {
     const option = document.createElement("option"); option.value=s.submission_id;
-    option.textContent=`文書 ${s.documents.map(d=>d.track_doc_seq).join(",")}`; return option;
+    option.textContent=`${receiptLabel(s)} · ${s.submission_id.slice(-8)}`; return option;
   }));
   if(saved.pending.some(s=>s.submission_id === selected)) $("pending-select").value=selected;
   $("resend").disabled = !saved.pending.length;
@@ -68,6 +76,17 @@ function refreshCoverage() {
   $("cancel-draft").hidden = !saved.draft;
   $("submit").disabled = $("download").disabled = preparing || catalogLoading ||
     (!saved.draft && !completedDocumentCount(saved.catalog || {},saved.coverage));
+}
+function receiptLabel(receipt) {
+  return `文書 ${receipt.documents.map(d=>d.track_doc_seq).join(",")}（${receipt.documents.length}文書）`;
+}
+function showSubmissionConfirmation() {
+  if(!saved.draft) return;
+  pause();
+  dialogSubmissionId=saved.draft.submission_id;
+  $("submission-dialog-summary").textContent=receiptLabel(saved.draft);
+  $("submission-dialog-error").textContent="";
+  if(!$("submission-dialog").open) $("submission-dialog").showModal();
 }
 function render() {
   const frame = frames[cursor];
@@ -234,6 +253,7 @@ $("next").onclick = () => { pause(); if (cursor<frames.length-1) cursor++; rende
 $("play").onclick = () => { if(timer !== null) pause(); else if(frames.length) { $("play").textContent="停止"; tick(); } };
 document.addEventListener("visibilitychange",pause);
 document.addEventListener("keydown",e => {
+  if($("submission-dialog").open) return;
   if (/INPUT|TEXTAREA|BUTTON/.test(e.target.tagName)) return;
   if (e.code === "Space") { e.preventDefault(); $("play").click(); }
   if (e.code === "ArrowRight") $("next").click();
@@ -252,18 +272,26 @@ $("submit").onclick = async () => {
     issue.searchParams.set("title",title.length > 180 ? "[通読チェック] 複数文書" : title);
     window.open(issue,"_blank","noopener");
     status("JSONをコピーしました。Issue本文に貼り付けて作成してください。大きい場合はJSONをダウンロードして添付してください。");
+    showSubmissionConfirmation();
   } catch(e) { status(e.message,true); }
 };
 $("download").onclick = async () => {
   try { const url = URL.createObjectURL(new Blob([await prepare()],{type:"application/json"}));
     const a=document.createElement("a"); a.href=url; a.download="rapid-review.json"; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+    showSubmissionConfirmation();
   } catch(e) { status(e.message,true); }
 };
-$("confirm").onclick = () => {
-  if (!saved.draft) return;
-  saved.pending.push(saved.draft);
+$("confirm").onclick = showSubmissionConfirmation;
+$("submission-not-yet").onclick = () => $("submission-dialog").close();
+$("submission-created").onclick = async () => {
+  if(confirming || !saved.draft || saved.draft.submission_id !== dialogSubmissionId) return;
+  confirming=true; $("submission-created").disabled=true;
+  if(!saved.pending.some(s=>s.submission_id === saved.draft.submission_id)) saved.pending.push(saved.draft);
   clearSubmittedCoverage(saved.draft);
-  saved.draft=null; persist(); refreshCoverage(); status("提出済みとして保存しました。サーバーの確認後、通読回数に反映されます。");
+  saved.draft=null; persist(); await persistence;
+  confirming=false; $("submission-created").disabled=false;
+  if(storageFailed) { $("submission-dialog-error").textContent="保存に失敗しました。この画面を閉じずに提出データを保管してください。"; return; }
+  $("submission-dialog").close(); refreshCoverage(); status("ローカル提出済みとして保存しました。サーバーの適用確認を待っています。");
 };
 function clearSubmittedCoverage(receipt) {
   for(const doc of receipt.documents) for(const id of Object.keys(doc.sentences)) delete saved.coverage[id];
@@ -272,9 +300,17 @@ async function synchronize() {
   try {
     server=await json("./rapid-review-state.json");
     const accepted=new Set(server.accepted_submission_ids || []);
+    saved.history ||= [];
+    for(const receipt of [...saved.pending,...(saved.draft ? [saved.draft] : [])]) {
+      if(accepted.has(receipt.submission_id) && !saved.history.some(s=>s.submission_id === receipt.submission_id)) {
+        saved.history.push({submission_id:receipt.submission_id,
+          documents:receipt.documents.map(({doc_id,track_doc_seq})=>({doc_id,track_doc_seq}))});
+      }
+    }
     saved.pending=saved.pending.filter(s=>!accepted.has(s.submission_id));
     if(saved.draft && accepted.has(saved.draft.submission_id)) {
       clearSubmittedCoverage(saved.draft); saved.draft=null;
+      $("submission-dialog").close();
     }
     persist(); refreshCoverage();
     if(server.errors?.length) status(`確認が必要な通読Issue: ${server.errors.map(e=>`#${e.issue_number}: ${e.error}`).join(" / ")}`,true);

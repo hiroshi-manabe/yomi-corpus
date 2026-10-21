@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>通読チェック · yomi-corpus</title>
-<link rel="stylesheet" href="./rapid.css?v=27a8071d9659">
+<link rel="stylesheet" href="./rapid.css?v=6cc183224289">
 <header><a href="./?stage=archive_browser&pack=archive_browser">← コーパスマップ</a><h1>通読チェック</h1><p>読むためだけの画面です。訂正はコーパスマップで行ってください。</p></header>
 <main>
 <section class="toolbar">
@@ -29,12 +29,24 @@
 <section class="receipts"><h2>チェック記録</h2>
 <p id="coverage"></p><p id="pending"></p>
 <p id="global-coverage" title="このブラウザに保存された閲覧記録と、各文書を最後に読み込んだ時点の対象文に基づく集計です。提出時にサーバーで再確認します。"></p>
-<label>確認待ちの記録 <select id="pending-select"></select></label><button id="resend">選んだ記録を再コピー</button>
+<label>サーバー確認待ち <select id="pending-select"></select></label><button id="resend">同じ提出IDで再コピー</button>
+<details><summary>適用済みの提出記録</summary><ul id="submission-history"></ul></details>
 <button id="submit">全範囲のチェック記録をコピーしてIssueを開く</button>
 <button id="download">全範囲の提出用JSONをダウンロード</button>
-<button id="confirm" hidden>Issueを作成したので提出済みにする</button>
+<button id="confirm" hidden>提出状況を確認する</button>
+<p id="draft-summary" hidden></p>
 <button id="cancel-draft" hidden>提出案を取り消す（閲覧記録は残す）</button>
 <p>スキップ・排除の文は対象外です。対象の全文を見た文書だけ提出できます。対象の文がない文書は省略します。表示したコマは速度にかかわらず記録します。1回の提出につき各文書の回数は1回だけ増えます。記録はこのブラウザに保存されます。</p>
 </section>
-</main><script type="module" src="./rapid.js?v=9ca556d3bd25"></script>
+</main>
+<dialog id="submission-dialog" aria-labelledby="submission-dialog-title">
+<h2 id="submission-dialog-title">Issueの作成を確認</h2>
+<p id="submission-dialog-summary"></p>
+<p>コピー・ダウンロードだけでは提出されません。GitHubでIssueを作成してから確認してください。</p>
+<p>確認すると、この提出分をサーバー確認待ちとして保存し、次の通読を別の回として記録します。</p>
+<button id="submission-created">Issueを作成した</button>
+<button id="submission-not-yet">まだ作成していない</button>
+<p id="submission-dialog-error" role="alert"></p>
+</dialog>
+<script type="module" src="./rapid.js?v=c650ab3e887d"></script>
 </html>

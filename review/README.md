@@ -72,5 +72,14 @@ receipts under `data/state/rapid_review/`, and closes accepted Issues. A separat
 green Corpus Map badge shows historical visual-review counts, not correction
 counts or a guarantee that the current revision has been checked.
 
+Copying or downloading a receipt opens a confirmation modal listing its documents.
+Choosing "not yet" keeps the immutable draft and coverage intact; confirming Issue
+creation durably moves the receipt to the server-confirmation queue and starts a
+new viewing cycle. The confirmation can be reopened after a reload. Pending
+receipts retain their submission IDs for retries. Once the published server state
+accepts an ID, its compact document summary moves to visible applied history
+instead of disappearing. This state means acceptance, not merely Issue discovery;
+the viewer does not claim server acknowledgment before it has evidence of it.
+
 Tests: `node --test tests/rapid_review.test.mjs` and
 `PYTHONPATH=src python -m unittest discover -s tests -p test_rapid_review.py`.
