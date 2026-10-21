@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state_revision": 815,
+  "state_revision": 816,
   "track_name": "dev",
-  "generated_at_epoch": 1792543848,
+  "generated_at_epoch": 1792543885,
   "records": [
     {
       "submission_id": "finalized_correction__client__dev_74__0df899720e8b4e838587b09e178edaee",
@@ -41,7 +41,7 @@
       ],
       "first_seen_epoch": 1792543744,
       "last_seen_epoch": 1792543744,
-      "conflict": false
+      "conflict": true
     },
     {
       "submission_id": "finalized_correction__client__dev_1004__861e9e72d88c469b91c304a020ff9424",
@@ -68,9 +68,24 @@
       "first_seen_epoch": 1792543848,
       "last_seen_epoch": 1792543848,
       "conflict": false
+    },
+    {
+      "submission_id": "finalized_correction__client__dev_75__23d4a38e099e4fb8918c191fca2770ed",
+      "review_stage": "finalized_correction",
+      "pack_id": "",
+      "issue_number": 821,
+      "comment_id": null,
+      "doc_ids": [
+        "ja_cc_level2_corrected_v1:0000000075"
+      ],
+      "first_seen_epoch": 1792543885,
+      "last_seen_epoch": 1792543885,
+      "conflict": true
     }
   ],
-  "conflicting_doc_ids": [],
+  "conflicting_doc_ids": [
+    "ja_cc_level2_corrected_v1:0000000075"
+  ],
   "receipt_history": [
     {
       "submission_id": "yomi_strong_repair_dev_batch_1023_v1__2026-09-07T01:12:35.712Z",
@@ -8899,6 +8914,18 @@
       ],
       "first_seen_epoch": 1792543848,
       "last_seen_epoch": 1792543848
+    },
+    {
+      "submission_id": "finalized_correction__client__dev_75__23d4a38e099e4fb8918c191fca2770ed",
+      "review_stage": "finalized_correction",
+      "pack_id": "",
+      "issue_number": 821,
+      "comment_id": null,
+      "doc_ids": [
+        "ja_cc_level2_corrected_v1:0000000075"
+      ],
+      "first_seen_epoch": 1792543885,
+      "last_seen_epoch": 1792543885
     }
   ]
 }
