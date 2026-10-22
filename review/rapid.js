@@ -273,16 +273,31 @@ for(const name of Object.keys(defaults)) $(name).oninput = () => {
   else if(timer !== null && ["speed","rubyTime"].includes(name)) { clearTimeout(timer); tick(); }
 };
 $("submit").onclick = async () => {
-  // Reserve the tab during the click's user activation, before any awaits.
-  const issueTab=window.open("about:blank","_blank");
-  if(issueTab) issueTab.opener=null;
   try {
-    const body = await prepare(); await navigator.clipboard.writeText(body);
-    if(issueTab && !issueTab.closed) issueTab.location.replace(submissionIssueUrl());
-    status("JSONをコピーしました。Issue本文に貼り付けて作成してください。大きい場合はJSONをダウンロードして添付してください。");
+    const body = await prepare();
     showSubmissionConfirmation();
-    if(!issueTab || issueTab.closed) $("submission-dialog-error").textContent="新しいタブを開けませんでした。上のリンクからIssueを作成してください。JSONはコピー済みです。";
-  } catch(e) { if(issueTab && !issueTab.closed) issueTab.close(); status(e.message,true); }
+    try {
+      await navigator.clipboard.writeText(body);
+      status("JSONをコピーしました。ダイアログのリンクからIssueを開いて貼り付けてください。");
+    } catch {
+      $("submission-dialog-error").textContent="自動コピーできませんでした。下のコピーまたはダウンロードを使ってください。提出案は保存されています。";
+    }
+  } catch(e) { status(e.message,true); }
+};
+$("submission-copy").onclick = async () => {
+  if(!saved.draft) return;
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(saved.draft,null,2));
+    $("submission-dialog-error").textContent="JSONをコピーしました。Issue本文に貼り付けてください。";
+  } catch {
+    $("submission-dialog-error").textContent="コピーできません。JSONをダウンロードしてIssueに添付してください。";
+  }
+};
+$("submission-download").onclick = () => {
+  if(!saved.draft) return;
+  const url=URL.createObjectURL(new Blob([JSON.stringify(saved.draft,null,2)],{type:"application/json"}));
+  const link=document.createElement("a"); link.href=url; link.download="rapid-review.json"; link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
 $("download").onclick = async () => {
   try { const url = URL.createObjectURL(new Blob([await prepare()],{type:"application/json"}));
