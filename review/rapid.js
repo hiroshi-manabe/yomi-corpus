@@ -86,7 +86,15 @@ function showSubmissionConfirmation() {
   dialogSubmissionId=saved.draft.submission_id;
   $("submission-dialog-summary").textContent=receiptLabel(saved.draft);
   $("submission-dialog-error").textContent="";
+  $("submission-issue-link").href=submissionIssueUrl();
+  $("submission-issue-link").hidden=false;
   if(!$("submission-dialog").open) $("submission-dialog").showModal();
+}
+function submissionIssueUrl() {
+  const title = `[通読チェック] 文書 ${saved.draft.documents.map(d=>d.track_doc_seq).join(",")}`;
+  const issue = new URL("https://github.com/hiroshi-manabe/yomi-corpus/issues/new");
+  issue.searchParams.set("title",title.length > 180 ? "[通読チェック] 複数文書" : title);
+  return issue.href;
 }
 function render() {
   const frame = frames[cursor];
@@ -265,15 +273,16 @@ for(const name of Object.keys(defaults)) $(name).oninput = () => {
   else if(timer !== null && ["speed","rubyTime"].includes(name)) { clearTimeout(timer); tick(); }
 };
 $("submit").onclick = async () => {
+  // Reserve the tab during the click's user activation, before any awaits.
+  const issueTab=window.open("about:blank","_blank");
+  if(issueTab) issueTab.opener=null;
   try {
     const body = await prepare(); await navigator.clipboard.writeText(body);
-    const title = `[通読チェック] 文書 ${saved.draft.documents.map(d=>d.track_doc_seq).join(",")}`;
-    const issue = new URL("https://github.com/hiroshi-manabe/yomi-corpus/issues/new");
-    issue.searchParams.set("title",title.length > 180 ? "[通読チェック] 複数文書" : title);
-    window.open(issue,"_blank","noopener");
+    if(issueTab && !issueTab.closed) issueTab.location.replace(submissionIssueUrl());
     status("JSONをコピーしました。Issue本文に貼り付けて作成してください。大きい場合はJSONをダウンロードして添付してください。");
     showSubmissionConfirmation();
-  } catch(e) { status(e.message,true); }
+    if(!issueTab || issueTab.closed) $("submission-dialog-error").textContent="新しいタブを開けませんでした。上のリンクからIssueを作成してください。JSONはコピー済みです。";
+  } catch(e) { if(issueTab && !issueTab.closed) issueTab.close(); status(e.message,true); }
 };
 $("download").onclick = async () => {
   try { const url = URL.createObjectURL(new Blob([await prepare()],{type:"application/json"}));
