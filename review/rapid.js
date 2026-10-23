@@ -98,6 +98,10 @@ function submissionIssueUrl() {
 }
 function render() {
   const frame = frames[cursor];
+  $("seek").max=String(Math.max(0,frames.length-1));
+  $("seek").value=String(cursor);
+  $("seek").disabled=frames.length<2;
+  updateSeekLabel(cursor);
   $("line").replaceChildren();
   $("play").disabled = !frame; $("previous").disabled = !frame || cursor === 0; $("next").disabled = !frame || cursor === frames.length-1;
   if (!frame) { $("position").textContent = "表示対象がありません"; refreshCoverage(); return; }
@@ -127,6 +131,12 @@ function render() {
   if(positionKey) saved.positions[positionKey] = playbackBookmark(frame);
   persist();
   refreshCoverage();
+}
+function updateSeekLabel(index) {
+  const frame=frames[index];
+  const label=frame ? `文書 ${frame.doc.track_doc_seq} · ${index+1}/${frames.length}` : "表示対象なし";
+  $("seek-position").textContent=label;
+  $("seek").setAttribute("aria-valuetext",label);
 }
 function fitLine() {
   const line=$("line");
@@ -254,6 +264,17 @@ async function prepare() {
   } finally { preparing=false; refreshCoverage(); }
 }
 $("load").onclick = () => load();
+$("seek").onpointerdown = pause;
+$("seek").oninput = () => {
+  pause();
+  updateSeekLabel(Number($("seek").value));
+};
+$("seek").onchange = () => {
+  pause();
+  if(!frames.length) return;
+  cursor=Math.max(0,Math.min(frames.length-1,Number($("seek").value)));
+  render();
+};
 $("partial").onclick = () => load(true);
 $("previous").onclick = () => { pause(); if (cursor>0) cursor--; render(); };
 $("restart").onclick = () => { pause(); cursor=0; render(); };
