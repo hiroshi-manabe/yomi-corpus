@@ -279,8 +279,12 @@ $("partial").onclick = () => load(true);
 $("previous").onclick = () => { pause(); if (cursor>0) cursor--; render(); };
 $("restart").onclick = () => { pause(); cursor=0; render(); };
 $("next").onclick = () => { pause(); if (cursor<frames.length-1) cursor++; render(); };
-$("play").onclick = () => { if(timer !== null) pause(); else if(frames.length) { $("play").textContent="停止"; tick(); } };
-document.addEventListener("visibilitychange",pause);
+$("play").onclick = () => { if(timer !== null) pause(); else if(frames.length) { render(); $("play").textContent="停止"; tick(); } };
+document.addEventListener("visibilitychange",() => {
+  pause();
+  // A range can finish loading while hidden; credit its frame once visible.
+  if(!document.hidden && saved && !$("submission-dialog").open) render();
+});
 document.addEventListener("keydown",e => {
   if($("submission-dialog").open) return;
   if (/INPUT|TEXTAREA|BUTTON/.test(e.target.tagName)) return;
