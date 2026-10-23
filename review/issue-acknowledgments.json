@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "state_revision": 861,
+  "state_revision": 862,
   "track_name": "dev",
-  "generated_at_epoch": 1792740091,
+  "generated_at_epoch": 1792740162,
   "records": [
     {
       "submission_id": "finalized_correction__client__dev_510__ce17924a608c4dea8d1565ac728d4c2c",
@@ -15,10 +15,38 @@
       ],
       "first_seen_epoch": 1792740091,
       "last_seen_epoch": 1792740091,
+      "conflict": true
+    },
+    {
+      "submission_id": "finalized_correction__client__dev_510__476cd25d3ad5480bb10ed46a8c6ff397",
+      "review_stage": "finalized_correction",
+      "pack_id": "",
+      "issue_number": 871,
+      "comment_id": null,
+      "doc_ids": [
+        "ja_cc_level2_corrected_v1:0000000510"
+      ],
+      "first_seen_epoch": 1792740162,
+      "last_seen_epoch": 1792740162,
+      "conflict": true
+    },
+    {
+      "submission_id": "finalized_correction__client__dev_563__b92aebde05814e07807448e7df3471b1",
+      "review_stage": "finalized_correction",
+      "pack_id": "",
+      "issue_number": 872,
+      "comment_id": null,
+      "doc_ids": [
+        "ja_cc_level2_corrected_v1:0000000563"
+      ],
+      "first_seen_epoch": 1792740162,
+      "last_seen_epoch": 1792740162,
       "conflict": false
     }
   ],
-  "conflicting_doc_ids": [],
+  "conflicting_doc_ids": [
+    "ja_cc_level2_corrected_v1:0000000510"
+  ],
   "receipt_history": [
     {
       "submission_id": "yomi_strong_repair_dev_batch_1023_v1__2026-09-07T01:12:35.712Z",
@@ -9267,6 +9295,30 @@
       ],
       "first_seen_epoch": 1792740091,
       "last_seen_epoch": 1792740091
+    },
+    {
+      "submission_id": "finalized_correction__client__dev_563__b92aebde05814e07807448e7df3471b1",
+      "review_stage": "finalized_correction",
+      "pack_id": "",
+      "issue_number": 872,
+      "comment_id": null,
+      "doc_ids": [
+        "ja_cc_level2_corrected_v1:0000000563"
+      ],
+      "first_seen_epoch": 1792740162,
+      "last_seen_epoch": 1792740162
+    },
+    {
+      "submission_id": "finalized_correction__client__dev_510__476cd25d3ad5480bb10ed46a8c6ff397",
+      "review_stage": "finalized_correction",
+      "pack_id": "",
+      "issue_number": 871,
+      "comment_id": null,
+      "doc_ids": [
+        "ja_cc_level2_corrected_v1:0000000510"
+      ],
+      "first_seen_epoch": 1792740162,
+      "last_seen_epoch": 1792740162
     }
   ]
 }
